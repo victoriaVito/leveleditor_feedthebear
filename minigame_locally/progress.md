@@ -1,0 +1,52 @@
+Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
+
+- Reviewing imported image-based levels one by one in the web toolkit.
+- Current batch under review: image29 to image34.
+- Goal: confirm each level loads, compare stored `moves` with editor `Auto Moves` recommendation, and save screenshots.
+
+- 2026-03-06: Loaded `image29` to `image34` in the web editor via Playwright.
+- `moves` validation:
+  - image29: stored 10, recommended 10
+  - image30: stored 8, recommended 8
+  - image31: stored 11, recommended 11
+  - image32: stored 11, recommended 11
+  - image33: stored 17, recommended 17
+  - image34: stored 19, recommended 19
+- Manager/editor validation:
+  - image29 OK
+  - image30 OK
+  - image31 OK
+  - image32 OK
+  - image33 INVALID (`solution_count outside target density range`)
+  - image34 INVALID (`solution_count outside target density range`)
+- Screenshots saved in `artifacts/level_screenshots/`.
+- 2026-03-06: Added editable progression proposal in `jsons/progression_assignments_2026-03-06.json`.
+- Reserved slot 1 for tutorial in each of `progressionA`, `progressionB`, and `progressionC`.
+- Added `progressionExtra` for overflow, ambiguous placement, and invalid/unsolved levels.
+- 2026-03-06: Added `jsons/tutorial_level.json` from the tutorial screenshot.
+- 2026-03-06: Materialized progression files:
+  - `jsons/progressionA_workshop.json`
+  - `jsons/progressionB_workshop.json`
+  - `jsons/progressionC_workshop.json`
+  - `jsons/progressionExtra_workshop.json`
+- Moved `image09_level_editor.json` out of the main A/B/C curves into `extra` as the least-fitting single-solution outlier.
+- Promoted `image03_level_editor.json` from overflow into `progressionC`.
+- 2026-03-06: Built `niveles_workshop/` with:
+  - `niveles_workshop/jsons/`
+  - `niveles_workshop/screenshots/`
+- Imported all `niveles_workshop/jsons/*.json` into the web `Level Manager`.
+- Level Manager summary after import:
+  - Files: 35
+  - Valid: 30
+  - Invalid: 5
+
+- 2026-03-07: Reworked Play Mode input for faster tracing.
+- Added pointer-based drag on the canvas, endpoint auto-detection, and touch-action disabling in `level_toolkit_web/app.js` + `level_toolkit_web/styles.css`.
+- Goal: make path drawing feel continuous instead of click-by-click.
+
+- 2026-03-07: Added a dedicated `Play Sessions` tab.
+- It can import created levels, add the current editor level, validate, approve/reject, export the queue, and generate learned procedural batches.
+- `Play Selected` sends the chosen level into the editor with `Play ON` so session review is separate from manual editing.
+- 2026-03-07: `Play Sessions` learned generation now retries for valid levels before queueing them.
+- 2026-03-07: `Play Sessions` now has its own playable canvas and play controls, without forcing a jump back to the editor.
+- 2026-03-07: Session review now auto-advances to the next queued level after validate/approve/reject.

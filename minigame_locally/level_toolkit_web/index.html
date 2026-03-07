@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feed the Bear - Web Toolkit</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Feed the Bear · Web Toolkit</h1>
+    <p>Generate, edit, play-test, validate, and manage level JSON in the browser.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar card">
+      <button class="nav-btn active" data-view="main">Main</button>
+      <button class="nav-btn" data-view="editor">Level Editor + Play</button>
+      <button class="nav-btn" data-view="sessions">Play Sessions</button>
+      <button class="nav-btn" data-view="manager">Level Manager</button>
+    </aside>
+
+    <section class="content">
+      <section id="view-main" class="view card active">
+        <h2>Main</h2>
+        <div class="grid-actions">
+          <button id="btn-generate-current">Generate Level to Editor</button>
+          <button id="btn-generate-progression">Generate Full Progression (1-10)</button>
+          <button id="btn-generate-procedural-batch">Create Procedural Levels (Batch)</button>
+          <button id="btn-download-progression-json">Download Progression JSON</button>
+          <button id="btn-download-progression-csv">Download Progression CSV</button>
+          <button id="btn-download-procedural-json">Download Procedural Batch JSON</button>
+          <button id="btn-download-procedural-csv">Download Procedural Batch CSV</button>
+        </div>
+
+        <h3>Workshop Progressions</h3>
+        <div class="grid-actions">
+          <button id="btn-download-workshop-tutorial">Download Tutorial JSON</button>
+          <button id="btn-download-workshop-a">Download Workshop A Bundle</button>
+          <button id="btn-download-workshop-b">Download Workshop B Bundle</button>
+          <button id="btn-download-workshop-c">Download Workshop C Bundle</button>
+          <button id="btn-download-workshop-extra">Download Workshop Extra Bundle</button>
+        </div>
+
+        <div class="inline-controls">
+          <label>Level
+            <input id="main-level-number" type="number" min="1" max="10" value="1" />
+          </label>
+          <label>Batch Start
+            <input id="main-batch-start" type="number" min="1" max="10" value="1" />
+          </label>
+          <label>Batch End
+            <input id="main-batch-end" type="number" min="1" max="10" value="10" />
+          </label>
+          <label>Batch Count
+            <input id="main-batch-count" type="number" min="1" max="100" value="20" />
+          </label>
+        </div>
+
+        <pre id="main-log" class="log"></pre>
+      </section>
+
+      <section id="view-editor" class="view card">
+        <h2>Level Editor + Play</h2>
+
+        <div class="toolbar">
+          <label>Level
+            <input id="ed-level" type="number" min="1" max="10" value="1" />
+          </label>
+          <label>Board
+            <select id="ed-board-size">
+              <option value="4">4</option>
+              <option value="5" selected>5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+          <label>Density
+            <select id="ed-density">
+              <option>HIGH</option>
+              <option>MEDIUM-HIGH</option>
+              <option selected>MEDIUM</option>
+              <option>MEDIUM-LOW</option>
+              <option>LOW</option>
+              <option>VERY-LOW</option>
+              <option>SINGLE</option>
+              <option>LOW-MEDIUM</option>
+            </select>
+          </label>
+          <label>Moves
+            <input id="ed-moves" type="number" min="0" value="0" />
+          </label>
+          <button id="ed-auto-moves">Auto Moves</button>
+        </div>
+
+        <div class="toolbar">
+          <label>Mode
+            <select id="ed-mode">
+              <option value="blocker">Blocker</option>
+              <option value="node">Node</option>
+              <option value="erase">Erase</option>
+            </select>
+          </label>
+          <label>Pair
+            <select id="ed-pair-id">
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+            </select>
+          </label>
+          <label>Endpoint
+            <select id="ed-endpoint">
+              <option value="start">Start</option>
+              <option value="end">End</option>
+            </select>
+          </label>
+          <button id="ed-validate">Validate</button>
+          <button id="ed-import">Import JSON</button>
+          <button id="ed-export">Export JSON</button>
+          <button id="ed-screenshot">Screenshot</button>
+          <button id="ed-reset">Reset</button>
+        </div>
+
+        <div class="toolbar">
+          <label>Play Pair
+            <select id="play-pair-id">
+              <option>A</option><option>B</option><option>C</option><option>D</option>
+            </select>
+          </label>
+          <button id="play-start">Play Mode ON</button>
+          <button id="play-reset">Reset Play</button>
+          <button id="play-export-session">Export Play Session</button>
+          <span id="play-status" class="tag">Play OFF</span>
+        </div>
+
+        <div class="toolbar">
+          <button id="ed-approve">Approve Level</button>
+          <button id="ed-reject">Reject Level</button>
+          <button id="ed-clear-learning">Clear Learning</button>
+          <span id="learning-status" class="tag">Learning: 0 approved / 0 rejected</span>
+        </div>
+
+        <canvas id="board-canvas" width="560" height="560"></canvas>
+        <input id="ed-import-input" type="file" accept="application/json" hidden />
+        <pre id="ed-log" class="log"></pre>
+      </section>
+
+      <section id="view-sessions" class="view card">
+        <h2>Play Sessions</h2>
+        <p class="section-copy">Review created levels, play them in the editor, validate them, and feed learning back into procedural generation.</p>
+
+        <div class="toolbar">
+          <button id="session-import">Import Session Levels</button>
+          <button id="session-add-current">Add Current Editor Level</button>
+          <button id="session-play-selected">Play Selected</button>
+          <button id="session-play-next">Play Next</button>
+          <button id="session-validate-selected">Validate Selected</button>
+          <button id="session-approve-selected">Approve Selected</button>
+          <button id="session-reject-selected">Reject Selected</button>
+          <button id="session-clear">Clear Queue</button>
+        </div>
+
+        <div class="inline-controls">
+          <label>Learned Start
+            <input id="session-batch-start" type="number" min="1" max="10" value="1" />
+          </label>
+          <label>Learned End
+            <input id="session-batch-end" type="number" min="1" max="10" value="10" />
+          </label>
+          <label>Learned Count
+            <input id="session-batch-count" type="number" min="1" max="50" value="12" />
+          </label>
+          <button id="session-generate-learned">Generate Learned Batch</button>
+          <button id="session-export-queue">Export Queue JSON</button>
+        </div>
+
+        <div class="toolbar">
+          <button id="session-play-toggle">Play Mode ON</button>
+          <button id="session-play-reset">Reset Session Play</button>
+          <button id="session-play-export">Export Session Play</button>
+          <span id="session-play-status" class="tag">Play OFF</span>
+        </div>
+
+        <canvas id="session-board-canvas" width="560" height="560"></canvas>
+
+        <table id="session-table">
+          <thead>
+            <tr>
+              <th>Source</th><th>File</th><th>Level</th><th>Board</th><th>Pairs</th><th>Moves</th><th>Solutions</th><th>Review</th><th>Validation</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <input id="session-import-input" type="file" accept="application/json" multiple hidden />
+        <pre id="session-log" class="log"></pre>
+      </section>
+
+      <section id="view-manager" class="view card">
+        <h2>Level Manager</h2>
+        <div class="toolbar">
+          <input id="mgr-import-input" type="file" accept="application/json" multiple />
+          <button id="mgr-clear">Clear</button>
+          <button id="mgr-export-csv">Export CSV</button>
+        </div>
+
+        <table id="mgr-table">
+          <thead>
+            <tr>
+              <th>File</th><th>Level</th><th>Board</th><th>Pairs</th><th>Blockers</th><th>Moves</th><th>Solutions</th><th>Density</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <pre id="mgr-log" class="log"></pre>
+      </section>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
