@@ -1,0 +1,76 @@
+{
+  "id": "10",
+  "name": "4_c_medium",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "purple",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 3,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 1
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ]
+}

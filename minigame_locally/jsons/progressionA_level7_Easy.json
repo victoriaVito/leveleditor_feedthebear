@@ -1,0 +1,76 @@
+{
+  "id": "007",
+  "name": "progressionA_level7_Easy",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 5,
+    "rows": 6
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "green",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 4,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 3
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "2",
+  "name": "1_b_easy",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 5
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": []
+}

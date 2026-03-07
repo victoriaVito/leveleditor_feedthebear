@@ -1,0 +1,64 @@
+{
+  "id": "005",
+  "name": "progressionA_level5_Medium",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 4
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 5,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 5,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 1
+    }
+  ]
+}

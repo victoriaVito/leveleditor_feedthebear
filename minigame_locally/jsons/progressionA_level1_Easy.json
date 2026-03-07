@@ -1,0 +1,48 @@
+{
+  "id": "100",
+  "name": "level1_a",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 5,
+    "rows": 4
+  },
+  "moves": 10,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 3
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": []
+}

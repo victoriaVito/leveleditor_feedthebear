@@ -1,0 +1,8 @@
+[project]
+name = "feed-the-bear-level-toolkit"
+version = "0.1.0"
+description = "Procedural generation, validation and editing toolkit for Feed the Bear levels"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

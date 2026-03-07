@@ -1,0 +1,11 @@
+*
+!.gitignore
+!minigame_locally/
+!minigame_locally/**
+
+minigame_locally/.DS_Store
+minigame_locally/**/.DS_Store
+minigame_locally/.sync_ping
+minigame_locally/node_modules/
+minigame_locally/level_toolkit_py/release/
+minigame_locally/level_toolkit_web/release/
