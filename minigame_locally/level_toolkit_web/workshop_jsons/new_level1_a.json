@@ -148,6 +148,11 @@
   },
   "meta": {
     "generation_attempts": 1,
-    "failed_checks": []
+    "failed_checks": [],
+    "source_name": "new_level1_a.json",
+    "cloned_from": "jsons/tutorial_level.json",
+    "cloned_from_progression": "progressionA_afterTewak",
+    "cloned_slot": 1,
+    "display_slot": 1
   }
 }

@@ -1,74 +1,89 @@
 {
-  "level": 1,
-  "board_size": 6,
+  "level": 7,
+  "board_size": 7,
   "grid": [
     [
-      "NODE_A1",
-      "EMPTY",
-      "BLOCKED",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "BLOCKED",
       "EMPTY",
       "EMPTY",
       "EMPTY",
+      "EMPTY",
+      "NODE_A2",
       "EMPTY",
       "EMPTY"
     ],
     [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "BLOCKED",
-      "EMPTY",
-      "NODE_A2"
-    ],
-    [
-      "NODE_B1",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "NODE_B2"
-    ],
-    [
-      "EMPTY",
       "NODE_C1",
       "EMPTY",
       "EMPTY",
       "EMPTY",
-      "NODE_C2"
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY"
+    ],
+    [
+      "NODE_C2",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
     ]
   ],
   "pairs": [
     {
       "id": "A",
       "start": [
-        0,
-        0
+        3,
+        2
       ],
       "end": [
-        2,
-        5
+        0,
+        4
       ],
       "color": "#0EA5E9"
     },
     {
       "id": "B",
       "start": [
-        3,
-        0
+        6,
+        3
       ],
       "end": [
         4,
@@ -79,48 +94,69 @@
     {
       "id": "C",
       "start": [
-        5,
-        1
+        1,
+        0
       ],
       "end": [
         5,
-        5
+        0
       ],
       "color": "#0891B2"
     }
   ],
   "blockers": [
     [
-      1,
-      0
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      0,
-      2
+      5,
+      1
     ]
   ],
-  "moves": 8,
-  "solution_count": 0,
-  "target_density": "HIGH",
+  "moves": 13,
+  "solution_count": 4,
+  "target_density": "LOW-MEDIUM",
+  "difficulty": "HARD",
   "golden_path": {
     "A": [
       [
-        0,
-        0
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
       ],
       [
         2,
-        5
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        4
       ]
     ],
     "B": [
       [
-        3,
-        0
+        6,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        5,
+        5
       ],
       [
         4,
@@ -129,17 +165,29 @@
     ],
     "C": [
       [
-        5,
-        1
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        0
       ],
       [
         5,
-        5
+        0
       ]
     ]
   },
   "validation": {
-    "solvable": false,
+    "solvable": true,
     "density_match": true,
     "early_mistake_detection": true,
     "no_isolated_pairs": true,
@@ -148,6 +196,8 @@
   },
   "meta": {
     "generation_attempts": 1,
-    "failed_checks": []
+    "failed_checks": [],
+    "generated_for_large_board_pack": true,
+    "not_supported_in_current_web_editor": true
   }
 }

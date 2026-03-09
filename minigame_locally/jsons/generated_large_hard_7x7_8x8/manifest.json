@@ -1,0 +1,82 @@
+[
+  {
+    "file": "hard_large_01_7x7.json",
+    "board": 7,
+    "pairs": 3,
+    "blockers": 1,
+    "solutions": 4,
+    "density": "LOW-MEDIUM"
+  },
+  {
+    "file": "hard_large_02_8x8.json",
+    "board": 8,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_03_7x7.json",
+    "board": 7,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_04_8x8.json",
+    "board": 8,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW-MEDIUM"
+  },
+  {
+    "file": "hard_large_05_7x7.json",
+    "board": 7,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_06_8x8.json",
+    "board": 8,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_07_7x7.json",
+    "board": 7,
+    "pairs": 3,
+    "blockers": 1,
+    "solutions": 4,
+    "density": "LOW-MEDIUM"
+  },
+  {
+    "file": "hard_large_08_8x8.json",
+    "board": 8,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_09_7x7.json",
+    "board": 7,
+    "pairs": 3,
+    "blockers": 9,
+    "solutions": 2,
+    "density": "LOW"
+  },
+  {
+    "file": "hard_large_10_8x8.json",
+    "board": 8,
+    "pairs": 3,
+    "blockers": 0,
+    "solutions": 0,
+    "density": "LOW"
+  }
+]

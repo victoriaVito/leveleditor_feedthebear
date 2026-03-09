@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:web": "node server.mjs",
     "test": "vitest run",
     "build": "tsc -p tsconfig.json",
     "test:watch": "vitest",
@@ -15,6 +16,7 @@
   "type": "module",
   "private": "true",
   "devDependencies": {
+    "playwright": "^1.58.2",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   }

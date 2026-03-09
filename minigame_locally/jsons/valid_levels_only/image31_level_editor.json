@@ -1,0 +1,34 @@
+{
+  "level": 3,
+  "board_size": 4,
+  "grid": [
+    ["NODE_A1", "EMPTY", "EMPTY", "NODE_B1"],
+    ["EMPTY", "EMPTY", "EMPTY", "EMPTY"],
+    ["EMPTY", "NODE_B2", "BLOCKED", "EMPTY"],
+    ["EMPTY", "EMPTY", "EMPTY", "NODE_A2"]
+  ],
+  "pairs": [
+    { "id": "A", "start": [0, 0], "end": [3, 3], "color": "#0EA5E9" },
+    { "id": "B", "start": [0, 3], "end": [2, 1], "color": "#0284C7" }
+  ],
+  "blockers": [[2, 2]],
+  "moves": 11,
+  "solution_count": 8,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [[0, 0], [3, 3]],
+    "B": [[0, 3], [2, 1]]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": []
+  }
+}

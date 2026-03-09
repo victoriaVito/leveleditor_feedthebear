@@ -38,6 +38,38 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
 - Level Manager summary after import:
   - Files: 35
   - Valid: 30
+- 2026-03-09: Synced `progressionA_workshop.json` into:
+  - `jsons/progressions_only/progressionA_workshop.json`
+  - `jsons/progressions_only/progressionA_bundle.json`
+  - `level_toolkit_web/workshop_progressions/progressionA_bundle.json`
+- 2026-03-09: Added URL bootstrap support in the web toolkit:
+  - `?reset_workspace=1` clears saved workspace state while keeping settings
+  - `?autoload_progression=progressionA|progressionB|progressionC|progressionExtra` loads a progression bundle into Level Manager
+  - `?view=manager` opens the manager directly after autoload
+- 2026-03-09: Opened the toolkit with:
+  - `http://127.0.0.1:8080/?reset_workspace=1&autoload_progression=progressionA&view=manager`
+  so the app starts with the updated Progression A instead of stale checkpoint data.
+- 2026-03-09: Added `progressionA_afterTewak` using the current approved Progression A slot order:
+  - `jsons/progressionA_afterTewak.json`
+  - `jsons/progressions_only/progressionA_afterTewak.json`
+  - `jsons/progressions_only/progressionA_afterTewak_bundle.json`
+  - `level_toolkit_web/workshop_progressions/progressionA_afterTewak_bundle.json`
+- 2026-03-09: Added query autoload support for `progressionA_afterTewak`.
+- 2026-03-09: Added minimal workspace preset with only `progressionA_afterTewak` levels:
+  - `level_toolkit_web/workshop_progressions/progressionA_afterTewak_workspace.json`
+  - URL: `?reset_workspace=1&autoload_workspace=progressionA_afterTewak&autoload_session_progression=progressionA_afterTewak&manager_tab=progressionA_afterTewak&view=manager`
+- 2026-03-09: Added editable `Level Name` field in `Level Editor`.
+  - The editor now carries the filename when opening a level from manager/session/import.
+  - `Save Changes` updates the linked manager/session item filename.
+  - Saves now overwrite the same managed project file when the name stays the same.
+  - Renaming the level changes the saved JSON/screenshot filename inside the project.
+- 2026-03-09: Added `progressionA_new_levels_a` to the toolkit:
+  - source config: `jsons/new_levels_a/progressionA_new_levels_a.json`
+  - progressions copy: `jsons/progressions_only/progressionA_new_levels_a.json`
+  - bundle: `jsons/progressions_only/progressionA_new_levels_a_bundle.json`
+  - web bundle: `level_toolkit_web/workshop_progressions/progressionA_new_levels_a_bundle.json`
+  - copied `new_level1_a.json` ... `new_level10_a.json` into `level_toolkit_web/workshop_jsons/`
+  - query autoload key: `autoload_progression=progressionA_new_levels_a`
   - Invalid: 5
 
 - 2026-03-07: Reworked Play Mode input for faster tracing.
@@ -50,3 +82,80 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
 - 2026-03-07: `Play Sessions` learned generation now retries for valid levels before queueing them.
 - 2026-03-07: `Play Sessions` now has its own playable canvas and play controls, without forcing a jump back to the editor.
 - 2026-03-07: Session review now auto-advances to the next queued level after validate/approve/reject.
+
+- 2026-03-07: Added correction-learning flow for rejected session levels.
+- `Edit Selected` sends a session item to the editor, `Save Fix To Session` stores the correction, records a learned delta, and uses it in future procedural scoring.
+- Added a preview mosaic in `Play Sessions` with per-card play/edit/approve/reject actions for batch review.
+
+- 2026-03-08: Rebuilt Level Manager as a visual progression planner.
+- Added 10 ordered slots, drag-and-drop reordering/swapping, a lower pool of available levels, and export of the arranged progression.
+
+- 2026-03-08: Added slot locking and visible level-path information to the visual Level Manager.
+- 2026-03-09: Hardened JSON imports across editor, sessions, and manager.
+- Added import normalization for:
+  - canonical level JSON (`board_size`, `pairs`, `blockers`)
+  - legacy level JSON (`gridSize`, `pairs[].a/b`, `blockers`)
+  - progression bundles with embedded levels
+  - progression configs that point to files exposed in `level_toolkit_web/workshop_jsons`
+- Legacy non-square levels are padded to the nearest supported square board size when imported into the editor/session flow.
+- Added explicit import errors for non-playable JSON instead of vague parse failures.
+- 2026-03-09: Reordered Level Manager to show:
+  - `Progression Order`
+  - `CSV Preview`
+  - `All Imported Levels`
+- `All Imported Levels` now shows every imported item, not only the unslotted pool.
+- Copied `jsons/from_downloads_fixed/*.json` into `level_toolkit_web/workshop_jsons/` so `progressionA_workshop.json` can be expanded correctly inside the browser.
+- Verified with Playwright:
+  - current level JSON imports into editor and can enter `Play ON`
+  - legacy `jsons/1_b_easy.json` imports into editor
+  - `jsons/progressionA_workshop.json` imports into Level Manager with 10 rows, 10 slot cards, and 0 parse errors
+- 2026-03-09: Reduced redundant UI buttons.
+- Removed duplicate or low-signal controls:
+  - procedural CSV downloads from the top playground
+  - editor `Play Pair` selector
+  - editor `Clear Learning`
+  - session toolbar duplicates for edit/play/approve/reject
+  - session `Play Mode ON` toggle in favor of card-driven play
+- Kept the meaningful actions and verified key flows still work in Playwright with no runtime errors.
+- 2026-03-09: Centralized responsibilities across Level Manager, Level Editor, and Play Sessions.
+- New split:
+  - Level Manager: order levels, assign difficulty, export, open an item for editing
+  - Level Editor + Play: edit, play, validate, export, and save changes back to the linked source
+  - Play Sessions: play, validate, approve/reject, and edit via the cards
+- Replaced editor density input with difficulty dropdown (`EASY` / `MEDIUM` / `HARD`).
+- Added manager difficulty dropdown for the selected item.
+- Added explicit save state in the editor:
+  - `Unsaved changes` tag when modifying a linked level
+  - `Save Changes` persists back to manager/session items
+  - standalone save writes the current level to localStorage draft and restores it on reload
+- `CSV Review` now shows:
+  - screenshot thumbnail
+  - difficulty
+  - whether the level has been changed
+- Verified with Playwright:
+  - saving from editor back to a manager item marks `Changed = Yes`
+  - saving from editor back to a session item marks the row as `FIXED`
+  - CSV review renders screenshots for imported manager rows
+- 2026-03-09: Added full workspace checkpoint persistence in localStorage.
+- Restored on reload:
+  - current editor level + difficulty + moves + link metadata
+  - imported Level Manager items, slot order, locks, and selected item
+  - Play Sessions queue and selection state
+  - generated progression/procedural batches
+- Verified with Playwright:
+  - imported manager levels survive reload
+  - imported session levels survive reload
+  - editor returns with the previously edited level and saved metadata
+- 2026-03-09: Reworked Level Manager into internal tabs.
+- Tabs now:
+  - `Progression A`
+  - `Progression B`
+  - `Progression C`
+  - `All Levels` (only levels not assigned to A/B/C)
+  - `CSV Review`
+- Progression bundle imports for A/B/C now populate their matching tabs.
+- Verified with Playwright:
+  - `progressionA_workshop.json` fills Progression A
+  - `progressionB_workshop.json` fills Progression B
+  - a standalone imported level remains visible in `All Levels`
+  - `CSV Review` is a separate tab and lists all imported rows

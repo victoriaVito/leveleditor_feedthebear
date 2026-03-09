@@ -1,0 +1,232 @@
+{
+  "name": "workshop_workspace",
+  "tutorial_level_file": "tutorial_level.json",
+  "all_level_files": [
+    "image01_level_editor.json",
+    "image02_level_editor.json",
+    "image03_level_editor.json",
+    "image04_level_editor.json",
+    "image05_level_editor.json",
+    "image06_level_editor.json",
+    "image07_level_editor.json",
+    "image08_level_editor.json",
+    "image09_level_editor.json",
+    "image10_level_editor.json",
+    "image11_level_editor.json",
+    "image12_level_editor.json",
+    "image13_level_editor.json",
+    "image14_level_editor.json",
+    "image15_level_editor.json",
+    "image16_level_editor.json",
+    "image17_level_editor.json",
+    "image18_level_editor.json",
+    "image19_level_editor.json",
+    "image20_level_editor.json",
+    "image21_level_editor.json",
+    "image22_level_editor.json",
+    "image23_level_editor.json",
+    "image24_level_editor.json",
+    "image25_level_editor.json",
+    "image26_level_editor.json",
+    "image27_level_editor.json",
+    "image28_level_editor.json",
+    "image29_level_editor.json",
+    "image30_level_editor.json",
+    "image31_level_editor.json",
+    "image32_level_editor.json",
+    "image33_level_editor.json",
+    "image34_level_editor.json",
+    "level_7_manager_ok.json",
+    "susanne_level_1_manager_ok.json",
+    "susanne_level_2_manager_ok.json",
+    "susanne_level_3_manager_ok.json",
+    "susanne_level_4_manager_ok.json",
+    "susanne_level_5_manager_ok.json"
+  ],
+  "progressions": {
+    "progressionA": [
+      {
+        "slot": 1,
+        "status": "reserved",
+        "label": "TUTORIAL"
+      },
+      {
+        "slot": 2,
+        "level_file": "jsons/from_images/image08_level_editor.json"
+      },
+      {
+        "slot": 3,
+        "level_file": "jsons/from_downloads_fixed/susanne_level_2_manager_ok.json"
+      },
+      {
+        "slot": 4,
+        "level_file": "jsons/from_downloads_fixed/susanne_level_3_manager_ok.json"
+      },
+      {
+        "slot": 5,
+        "level_file": "jsons/from_downloads_fixed/susanne_level_4_manager_ok.json"
+      },
+      {
+        "slot": 6,
+        "level_file": "jsons/from_images/image06_level_editor.json"
+      },
+      {
+        "slot": 7,
+        "level_file": "jsons/from_images/image27_level_editor.json"
+      },
+      {
+        "slot": 8,
+        "level_file": "jsons/from_downloads_fixed/susanne_level_5_manager_ok.json"
+      },
+      {
+        "slot": 9,
+        "level_file": "jsons/from_downloads_fixed/susanne_level_1_manager_ok.json"
+      },
+      {
+        "slot": 10,
+        "level_file": "jsons/from_images/image30_level_editor.json"
+      }
+    ],
+    "progressionB": [
+      {
+        "slot": 1,
+        "status": "reserved",
+        "label": "TUTORIAL"
+      },
+      {
+        "slot": 2,
+        "level_file": "jsons/from_images/image05_level_editor.json"
+      },
+      {
+        "slot": 3,
+        "level_file": "jsons/from_images/image28_level_editor.json"
+      },
+      {
+        "slot": 4,
+        "level_file": "jsons/from_images/image23_level_editor.json"
+      },
+      {
+        "slot": 5,
+        "level_file": "jsons/from_images/image07_level_editor.json"
+      },
+      {
+        "slot": 6,
+        "level_file": "jsons/from_images/image10_level_editor.json"
+      },
+      {
+        "slot": 7,
+        "level_file": "jsons/from_images/image26_level_editor.json"
+      },
+      {
+        "slot": 8,
+        "level_file": "jsons/from_images/image02_level_editor.json"
+      },
+      {
+        "slot": 9,
+        "level_file": "jsons/from_images/image25_level_editor.json"
+      },
+      {
+        "slot": 10,
+        "level_file": "jsons/from_images/image31_level_editor.json"
+      }
+    ],
+    "progressionC": [
+      {
+        "slot": 1,
+        "status": "reserved",
+        "label": "TUTORIAL"
+      },
+      {
+        "slot": 2,
+        "level_file": "jsons/from_images/image01_level_editor.json"
+      },
+      {
+        "slot": 3,
+        "level_file": "jsons/from_images/image12_level_editor.json"
+      },
+      {
+        "slot": 4,
+        "level_file": "jsons/from_images/image22_level_editor.json"
+      },
+      {
+        "slot": 5,
+        "level_file": "jsons/from_images/image24_level_editor.json"
+      },
+      {
+        "slot": 6,
+        "level_file": "jsons/from_images/image29_level_editor.json"
+      },
+      {
+        "slot": 7,
+        "level_file": "jsons/from_images/image19_level_editor.json"
+      },
+      {
+        "slot": 8,
+        "level_file": "jsons/from_images/image16_level_editor.json"
+      },
+      {
+        "slot": 9,
+        "level_file": "jsons/from_images/image14_level_editor.json"
+      },
+      {
+        "slot": 10,
+        "level_file": "jsons/from_images/image03_level_editor.json"
+      }
+    ],
+    "progressionExtra": [
+      {
+        "level_file": "jsons/from_images/image09_level_editor.json",
+        "reason": "valid but single-solution outlier; felt less aligned with the main A/B/C curves"
+      },
+      {
+        "level_file": "jsons/from_images/image20_level_editor.json",
+        "reason": "valid but sits between medium and hard"
+      },
+      {
+        "level_file": "jsons/from_downloads_fixed/level_7_manager_ok.json",
+        "reason": "valid but sits between medium and hard"
+      },
+      {
+        "level_file": "jsons/from_images/image32_level_editor.json",
+        "reason": "valid but sits between medium and hard"
+      },
+      {
+        "level_file": "jsons/from_images/image17_level_editor.json",
+        "reason": "valid but overflow after filling A/B/C"
+      },
+      {
+        "level_file": "jsons/from_images/image11_level_editor.json",
+        "reason": "valid but overflow after filling A/B/C"
+      },
+      {
+        "level_file": "jsons/from_images/image18_level_editor.json",
+        "reason": "valid but very hard; kept separate for manual placement"
+      },
+      {
+        "level_file": "jsons/from_images/image04_level_editor.json",
+        "reason": "valid but very hard; kept separate for manual placement"
+      },
+      {
+        "level_file": "jsons/from_images/image15_level_editor.json",
+        "reason": "valid but very hard; kept separate for manual placement"
+      },
+      {
+        "level_file": "jsons/from_images/image21_level_editor.json",
+        "reason": "unsolvable in current form"
+      },
+      {
+        "level_file": "jsons/from_images/image13_level_editor.json",
+        "reason": "unsolvable in current form"
+      },
+      {
+        "level_file": "jsons/from_images/image33_level_editor.json",
+        "reason": "unsolvable in current form"
+      },
+      {
+        "level_file": "jsons/from_images/image34_level_editor.json",
+        "reason": "unsolvable in current form or partially occluded source"
+      }
+    ]
+  },
+  "default_session_progression": "progressionA"
+}

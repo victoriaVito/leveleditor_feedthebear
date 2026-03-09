@@ -14,45 +14,60 @@
 
   <main class="layout">
     <aside class="sidebar card">
-      <button class="nav-btn active" data-view="main">Main</button>
+      <button class="nav-btn active" data-view="main">Procedural</button>
       <button class="nav-btn" data-view="editor">Level Editor + Play</button>
       <button class="nav-btn" data-view="sessions">Play Sessions</button>
       <button class="nav-btn" data-view="manager">Level Manager</button>
+      <button class="nav-btn" data-view="settings">Settings</button>
     </aside>
 
     <section class="content">
       <section id="view-main" class="view card active">
-        <h2>Main</h2>
-        <div class="grid-actions">
-          <button id="btn-generate-current">Generate Level to Editor</button>
-          <button id="btn-generate-progression">Generate Full Progression (1-10)</button>
-          <button id="btn-generate-procedural-batch">Create Procedural Levels (Batch)</button>
-          <button id="btn-download-progression-json">Download Progression JSON</button>
-          <button id="btn-download-progression-csv">Download Progression CSV</button>
-          <button id="btn-download-procedural-json">Download Procedural Batch JSON</button>
-          <button id="btn-download-procedural-csv">Download Procedural Batch CSV</button>
+        <h2>Procedural Playground</h2>
+        <p class="section-copy">Use this area to generate one level, build a full episode curve, or export workshop packs without going into the editor first.</p>
+
+        <div class="playground-block">
+          <h3>Episode Builder</h3>
+          <p class="section-copy">Generate a full 10-level episode in memory and export it for review.</p>
+          <div class="grid-actions">
+            <button id="btn-generate-progression">Generate Episode 1-10</button>
+            <button id="btn-download-progression-json">Download Episode JSON</button>
+          </div>
         </div>
 
-        <h3>Workshop Progressions</h3>
-        <div class="grid-actions">
-          <button id="btn-download-workshop-tutorial">Download Tutorial JSON</button>
-          <button id="btn-download-workshop-a">Download Workshop A Bundle</button>
-          <button id="btn-download-workshop-b">Download Workshop B Bundle</button>
-          <button id="btn-download-workshop-c">Download Workshop C Bundle</button>
-          <button id="btn-download-workshop-extra">Download Workshop Extra Bundle</button>
+        <div class="playground-block">
+          <h3>Level Generator</h3>
+          <p class="section-copy">Create a single level for the editor or a whole procedural batch using the range below.</p>
+          <div class="grid-actions">
+            <button id="btn-generate-current">Generate One Level to Editor</button>
+            <button id="btn-generate-procedural-batch">Generate Procedural Batch</button>
+            <button id="btn-download-procedural-json">Download Batch JSON</button>
+          </div>
+        </div>
+
+        <div class="playground-block">
+          <h3>Workshop Extras</h3>
+          <p class="section-copy">Download the tutorial and the workshop progressions you already prepared.</p>
+          <div class="grid-actions">
+            <button id="btn-download-workshop-tutorial">Download Tutorial JSON</button>
+            <button id="btn-download-workshop-a">Download Workshop A Bundle</button>
+            <button id="btn-download-workshop-b">Download Workshop B Bundle</button>
+            <button id="btn-download-workshop-c">Download Workshop C Bundle</button>
+            <button id="btn-download-workshop-extra">Download Workshop Extra Bundle</button>
+          </div>
         </div>
 
         <div class="inline-controls">
-          <label>Level
+          <label>Single Level
             <input id="main-level-number" type="number" min="1" max="10" value="1" />
           </label>
-          <label>Batch Start
+          <label>Batch Start Level
             <input id="main-batch-start" type="number" min="1" max="10" value="1" />
           </label>
-          <label>Batch End
+          <label>Batch End Level
             <input id="main-batch-end" type="number" min="1" max="10" value="10" />
           </label>
-          <label>Batch Count
+          <label>Batch Size
             <input id="main-batch-count" type="number" min="1" max="100" value="20" />
           </label>
         </div>
@@ -67,23 +82,20 @@
           <label>Level
             <input id="ed-level" type="number" min="1" max="10" value="1" />
           </label>
-          <label>Board
-            <select id="ed-board-size">
-              <option value="4">4</option>
-              <option value="5" selected>5</option>
-              <option value="6">6</option>
-            </select>
+          <label>Level Name
+            <input id="ed-name" type="text" value="level_1.json" />
           </label>
-          <label>Density
-            <select id="ed-density">
-              <option>HIGH</option>
-              <option>MEDIUM-HIGH</option>
+          <label>Board Width
+            <input id="ed-board-width" type="number" min="4" max="8" value="5" />
+          </label>
+          <label>Board Height
+            <input id="ed-board-height" type="number" min="4" max="8" value="5" />
+          </label>
+          <label>Difficulty
+            <select id="ed-difficulty">
+              <option>EASY</option>
               <option selected>MEDIUM</option>
-              <option>MEDIUM-LOW</option>
-              <option>LOW</option>
-              <option>VERY-LOW</option>
-              <option>SINGLE</option>
-              <option>LOW-MEDIUM</option>
+              <option>HARD</option>
             </select>
           </label>
           <label>Moves
@@ -111,6 +123,7 @@
               <option value="end">End</option>
             </select>
           </label>
+          <button id="ed-save">Save Changes</button>
           <button id="ed-validate">Validate</button>
           <button id="ed-import">Import JSON</button>
           <button id="ed-export">Export JSON</button>
@@ -119,11 +132,6 @@
         </div>
 
         <div class="toolbar">
-          <label>Play Pair
-            <select id="play-pair-id">
-              <option>A</option><option>B</option><option>C</option><option>D</option>
-            </select>
-          </label>
           <button id="play-start">Play Mode ON</button>
           <button id="play-reset">Reset Play</button>
           <button id="play-export-session">Export Play Session</button>
@@ -131,10 +139,12 @@
         </div>
 
         <div class="toolbar">
-          <button id="ed-approve">Approve Level</button>
-          <button id="ed-reject">Reject Level</button>
-          <button id="ed-clear-learning">Clear Learning</button>
+          <span id="editor-save-status" class="tag">Saved</span>
           <span id="learning-status" class="tag">Learning: 0 approved / 0 rejected</span>
+        </div>
+
+        <div class="toolbar">
+          <span id="editor-session-link" class="tag">Standalone level</span>
         </div>
 
         <canvas id="board-canvas" width="560" height="560"></canvas>
@@ -144,16 +154,17 @@
 
       <section id="view-sessions" class="view card">
         <h2>Play Sessions</h2>
-        <p class="section-copy">Review created levels, play them in the editor, validate them, and feed learning back into procedural generation.</p>
+        <p class="section-copy">Review created levels, use the cards below to play or edit, then validate them and feed learning back into procedural generation.</p>
 
         <div class="toolbar">
           <button id="session-import">Import Session Levels</button>
           <button id="session-add-current">Add Current Editor Level</button>
-          <button id="session-play-selected">Play Selected</button>
+          <label>Progression
+            <select id="session-progression-select"></select>
+          </label>
+          <button id="session-load-progression">Load Progression</button>
           <button id="session-play-next">Play Next</button>
           <button id="session-validate-selected">Validate Selected</button>
-          <button id="session-approve-selected">Approve Selected</button>
-          <button id="session-reject-selected">Reject Selected</button>
           <button id="session-clear">Clear Queue</button>
         </div>
 
@@ -172,13 +183,14 @@
         </div>
 
         <div class="toolbar">
-          <button id="session-play-toggle">Play Mode ON</button>
           <button id="session-play-reset">Reset Session Play</button>
           <button id="session-play-export">Export Session Play</button>
           <span id="session-play-status" class="tag">Play OFF</span>
         </div>
 
         <canvas id="session-board-canvas" width="560" height="560"></canvas>
+
+        <div id="session-preview-grid" class="preview-grid"></div>
 
         <table id="session-table">
           <thead>
@@ -195,21 +207,73 @@
 
       <section id="view-manager" class="view card">
         <h2>Level Manager</h2>
+        <p class="section-copy">Build a 10-level progression visually. Drag levels to reorder them, swap occupied slots, or pull replacements from the pool below.</p>
         <div class="toolbar">
           <input id="mgr-import-input" type="file" accept="application/json" multiple />
+          <button id="mgr-add-progression">New Progression</button>
+          <button id="mgr-rename-progression">Rename Progression</button>
+          <button id="mgr-duplicate-progression">Duplicate Progression</button>
+          <button id="mgr-autofill">Auto-fill Empty Slots</button>
+          <button id="mgr-generate-from-refs">Generate From References</button>
           <button id="mgr-clear">Clear</button>
           <button id="mgr-export-csv">Export CSV</button>
+          <button id="mgr-export-progression-json">Export Progression JSON</button>
         </div>
+        <pre id="mgr-paths" class="log"></pre>
 
-        <table id="mgr-table">
-          <thead>
-            <tr>
-              <th>File</th><th>Level</th><th>Board</th><th>Pairs</th><th>Blockers</th><th>Moves</th><th>Solutions</th><th>Density</th><th>Status</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <pre id="mgr-log" class="log"></pre>
+        <div id="mgr-tabs" class="manager-tabs"></div>
+
+        <section id="mgr-progression-panel">
+          <h3 id="mgr-progress-title">Progression Order</h3>
+          <div class="manager-insights">
+            <section class="manager-insight-card">
+              <h4>Difficulty Curve</h4>
+              <div id="mgr-difficulty-curve" class="difficulty-curve"></div>
+              <pre id="mgr-curve-summary" class="log"></pre>
+            </section>
+            <section class="manager-insight-card">
+              <h4>Selected Diff</h4>
+              <pre id="mgr-diff-panel" class="log">Select a level or press Diff on a card.</pre>
+            </section>
+          </div>
+          <div id="mgr-slot-grid" class="manager-slot-grid"></div>
+          <h3>Available For Progressions</h3>
+          <div id="mgr-pool-grid" class="manager-pool-grid"></div>
+        </section>
+
+        <section id="mgr-all-levels-panel" hidden>
+          <h3>All Levels</h3>
+          <p class="section-copy">Levels that are not currently placed in any progression.</p>
+          <div id="mgr-unassigned-grid" class="manager-pool-grid"></div>
+        </section>
+
+        <section id="mgr-csv-panel" hidden>
+          <h3>CSV Review</h3>
+          <table id="mgr-table">
+            <thead>
+              <tr>
+                <th>Screenshot</th><th>File</th><th>Path</th><th>Saved Path</th><th>Level</th><th>Board</th><th>Pairs</th><th>Blockers</th><th>Moves</th><th>Solutions</th><th>Difficulty</th><th>Status</th><th>Changed</th><th>Notes</th><th>Placement</th><th>Error</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <pre id="mgr-log" class="log"></pre>
+        </section>
+      </section>
+
+      <section id="view-settings" class="view card">
+        <h2>Settings</h2>
+        <p class="section-copy">Choose where the toolkit saves JSON, CSV, and screenshots inside the project.</p>
+        <div class="toolbar">
+          <label>Project Save Path
+            <input id="settings-export-dir" type="text" />
+          </label>
+          <button id="settings-save">Save Settings</button>
+        </div>
+        <div class="toolbar">
+          <span id="settings-status" class="tag">Project save mode enabled</span>
+        </div>
+        <pre id="settings-log" class="log"></pre>
       </section>
     </section>
   </main>
