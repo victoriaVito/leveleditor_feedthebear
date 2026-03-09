@@ -20,15 +20,15 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - image33 INVALID (`solution_count outside target density range`)
   - image34 INVALID (`solution_count outside target density range`)
 - Screenshots saved in `artifacts/level_screenshots/`.
-- 2026-03-06: Added editable progression proposal in `jsons/progression_assignments_2026-03-06.json`.
+- 2026-03-06: Added editable progression proposal in `levels/progressions/progression_assignments_2026-03-06.json`.
 - Reserved slot 1 for tutorial in each of `progressionA`, `progressionB`, and `progressionC`.
 - Added `progressionExtra` for overflow, ambiguous placement, and invalid/unsolved levels.
-- 2026-03-06: Added `jsons/tutorial_level.json` from the tutorial screenshot.
+- 2026-03-06: Added `levels/standalone/tutorial_level.json` from the tutorial screenshot.
 - 2026-03-06: Materialized progression files:
-  - `jsons/progressionA_workshop.json`
-  - `jsons/progressionB_workshop.json`
-  - `jsons/progressionC_workshop.json`
-  - `jsons/progressionExtra_workshop.json`
+  - `levels/progressions/progressionA_workshop.json`
+  - `levels/progressions/progressionB_workshop.json`
+  - `levels/progressions/progressionC_workshop.json`
+  - `levels/progressions/progressionExtra_workshop.json`
 - Moved `image09_level_editor.json` out of the main A/B/C curves into `extra` as the least-fitting single-solution outlier.
 - Promoted `image03_level_editor.json` from overflow into `progressionC`.
 - 2026-03-06: Built `niveles_workshop/` with:
@@ -39,8 +39,8 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - Files: 35
   - Valid: 30
 - 2026-03-09: Synced `progressionA_workshop.json` into:
-  - `jsons/progressions_only/progressionA_workshop.json`
-  - `jsons/progressions_only/progressionA_bundle.json`
+  - `levels/progressions/progressions_only/progressionA_workshop.json`
+  - `levels/progressions/progressions_only/progressionA_bundle.json`
   - `level_toolkit_web/workshop_progressions/progressionA_bundle.json`
 - 2026-03-09: Added URL bootstrap support in the web toolkit:
   - `?reset_workspace=1` clears saved workspace state while keeping settings
@@ -50,9 +50,9 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - `http://127.0.0.1:8080/?reset_workspace=1&autoload_progression=progressionA&view=manager`
   so the app starts with the updated Progression A instead of stale checkpoint data.
 - 2026-03-09: Added `progressionA_afterTewak` using the current approved Progression A slot order:
-  - `jsons/progressionA_afterTewak.json`
-  - `jsons/progressions_only/progressionA_afterTewak.json`
-  - `jsons/progressions_only/progressionA_afterTewak_bundle.json`
+  - `levels/progressions/progressionA_afterTewak.json`
+  - `levels/progressions/progressions_only/progressionA_afterTewak.json`
+  - `levels/progressions/progressions_only/progressionA_afterTewak_bundle.json`
   - `level_toolkit_web/workshop_progressions/progressionA_afterTewak_bundle.json`
 - 2026-03-09: Added query autoload support for `progressionA_afterTewak`.
 - 2026-03-09: Added minimal workspace preset with only `progressionA_afterTewak` levels:
@@ -64,9 +64,9 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - Saves now overwrite the same managed project file when the name stays the same.
   - Renaming the level changes the saved JSON/screenshot filename inside the project.
 - 2026-03-09: Added `progressionA_new_levels_a` to the toolkit:
-  - source config: `jsons/new_levels_a/progressionA_new_levels_a.json`
-  - progressions copy: `jsons/progressions_only/progressionA_new_levels_a.json`
-  - bundle: `jsons/progressions_only/progressionA_new_levels_a_bundle.json`
+  - source config: `levels/progressions/progressionA_new_levels_a.json`
+  - progressions copy: `levels/progressions/progressions_only/progressionA_new_levels_a.json`
+  - bundle: `levels/progressions/progressions_only/progressionA_new_levels_a_bundle.json`
   - web bundle: `level_toolkit_web/workshop_progressions/progressionA_new_levels_a_bundle.json`
   - copied `new_level1_a.json` ... `new_level10_a.json` into `level_toolkit_web/workshop_jsons/`
   - query autoload key: `autoload_progression=progressionA_new_levels_a`
@@ -104,11 +104,11 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - `CSV Preview`
   - `All Imported Levels`
 - `All Imported Levels` now shows every imported item, not only the unslotted pool.
-- Copied `jsons/from_downloads_fixed/*.json` into `level_toolkit_web/workshop_jsons/` so `progressionA_workshop.json` can be expanded correctly inside the browser.
+- Copied `levels/standalone/from_downloads_fixed/*.json` into `level_toolkit_web/workshop_jsons/` so `progressionA_workshop.json` can be expanded correctly inside the browser.
 - Verified with Playwright:
   - current level JSON imports into editor and can enter `Play ON`
-  - legacy `jsons/1_b_easy.json` imports into editor
-  - `jsons/progressionA_workshop.json` imports into Level Manager with 10 rows, 10 slot cards, and 0 parse errors
+  - legacy `levels/standalone/1_b_easy.json` imports into editor
+  - `levels/progressions/progressionA_workshop.json` imports into Level Manager with 10 rows, 10 slot cards, and 0 parse errors
 - 2026-03-09: Reduced redundant UI buttons.
 - Removed duplicate or low-signal controls:
   - procedural CSV downloads from the top playground

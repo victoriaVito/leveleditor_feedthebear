@@ -30,7 +30,7 @@ const difficultyToDensity = {
 
 const pairColors = ["#0EA5E9", "#0284C7", "#0891B2", "#0369A1"];
 const playPalette = ["#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6", "#14B8A6", "#F97316"];
-const DEFAULT_PROJECT_SAVE_DIR = "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/toolkit_exports";
+const DEFAULT_PROJECT_SAVE_DIR = "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/toolkit_exports";
 const defaultManagerProgressions = [
   { key: "progressionA", label: "Progression A" },
   { key: "progressionB", label: "Progression B" },
@@ -2669,11 +2669,11 @@ function initSettings() {
       "Level folders",
       state.settings.exportDir,
       "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/progressions_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/discarded_levels_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/valid_levels_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/from_images",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/from_downloads_fixed",
+      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions/progressions_only",
+      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only",
+      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only",
+      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images",
+      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed",
       "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/niveles_workshop/jsons"
     ].join("\n"));
   });
@@ -3278,11 +3278,11 @@ function initManager() {
     "Level folders",
     state.settings.exportDir,
     "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/progressions_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/discarded_levels_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/valid_levels_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/from_images",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons/from_downloads_fixed",
+    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions/progressions_only",
+    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only",
+    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only",
+    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images",
+    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed",
     "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/niveles_workshop/jsons"
   ].join("\n"));
 

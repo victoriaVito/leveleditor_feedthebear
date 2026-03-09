@@ -1,4 +1,4 @@
 node_modules/
 output/
-jsons/toolkit_exports/
+levels/standalone/toolkit_exports/
 .DS_Store
