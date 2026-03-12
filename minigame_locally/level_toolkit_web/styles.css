@@ -63,6 +63,36 @@ body {
 }
 
 .content { min-width: 0; }
+.startup-banner {
+  margin-bottom: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #f8fbff;
+  box-shadow: 0 8px 20px rgba(3, 105, 161, 0.06);
+}
+
+.startup-banner.warning {
+  border-color: #f59e0b;
+  background: #fff7e8;
+  color: #8a5a00;
+}
+
+.startup-banner.ok {
+  border-color: #22c55e;
+  background: #eefbf3;
+  color: #166534;
+}
+
+.startup-banner strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.startup-banner code {
+  font-size: 12px;
+}
+
 .view { display: none; padding: 14px; }
 .view.active { display: block; }
 .view h2 { margin-top: 0; }

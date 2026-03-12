@@ -63,6 +63,9 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - `Save Changes` updates the linked manager/session item filename.
   - Saves now overwrite the same managed project file when the name stays the same.
   - Renaming the level changes the saved JSON/screenshot filename inside the project.
+- 2026-03-12: Added `PROCEDURAL_GENERATION_LOGIC.md`.
+  - This document deconstructs the current procedural level generator in English.
+  - It explains design intention, visual design implications, solver-backed blocker shaping, and the current limits of the generator.
 - 2026-03-09: Added `progressionA_new_levels_a` to the toolkit:
   - source config: `levels/progressions/progressionA_new_levels_a.json`
   - progressions copy: `levels/progressions/progressions_only/progressionA_new_levels_a.json`
@@ -256,8 +259,35 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - classify levels, progressions, and playtests
   - choose duplicate winners by normalized content plus newest mtime
   - rewrite the canonical source folders
-  - archive legacy folders and pre-cleanup root JSON files under `archive/catalog_cleanup_20260312/`
-  - resync `level_toolkit_web/workshop_jsons/` and `level_toolkit_web/workshop_progressions/`
+- archive legacy folders and pre-cleanup root JSON files under `archive/catalog_cleanup_20260312/`
+- resync `level_toolkit_web/workshop_jsons/` and `level_toolkit_web/workshop_progressions/`
+2026-03-12: Replaced Apps Script as the preferred Google Sheets sync path with a direct Google Sheets API integration.
+- Added [google_sheets_api.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/google_sheets_api.mjs) to handle:
+  - OAuth client loading
+  - token persistence
+  - browser auth URL generation
+  - callback code exchange
+  - token refresh
+  - direct tab upserts into Google Sheets
+- Extended [server.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/server.mjs) with:
+  - `/api/google-sheets-auth-url`
+  - `/api/google-sheets-status`
+  - `/api/google-sheets-disconnect`
+  - `/api/google-sheets-auth-callback`
+  - `googleSyncMethod = sheets_api` support inside `/api/sync-levels-workbook`
+- Extended Settings in the web UI with:
+  - `Google Sync Method`
+  - `OAuth Client JSON Path`
+  - `OAuth Token Path`
+  - `Connect Google Sheets API`
+  - `Check Google Sheets API`
+  - `Disconnect Google Sheets API`
+- Kept Apps Script as a legacy fallback mode only.
+2026-03-12: Added a unified playtest dataset log for ML and analytics.
+- Play sessions still save as individual JSON files in [playtest](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest).
+- The toolkit now also appends every saved session to:
+  - `playtest/playtest_events.jsonl`
+- The JSONL record includes session metadata, board metadata, difficulty, validation state, path lengths, and the embedded session payload.
 - Canonical level files now use `lvl_XXX_<slug>.json`
 - Added `levels/catalog_index.json` and `levels/catalog_index.csv`
 - Current canonical counts after cleanup:
@@ -273,3 +303,204 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
 - Added new local skill:
   - `~/.codex/skills/level-catalog-savepoints/SKILL.md`
   - purpose: canonical catalogs, duplicate cleanup, save-point recovery, and progression materialization
+## 2026-03-12 - spreadsheet sync and feedback workbook
+
+- Added a spreadsheet repair and sync pipeline for the level catalog:
+  - `scripts/sync_levels_spreadsheet.py`
+- Added workbook mirror:
+  - `output/spreadsheet/Levels_feed_the_bear_linked.xlsx`
+- Fixed the legacy workbook mismatch where `Progression B slot 10` pointed to `progressionA_level10_hard.json`.
+- Added spreadsheet tabs:
+  - `levels after feedback`
+  - `extras`
+  - `level manager db`
+  - `level manager items`
+- Added local server endpoint:
+  - `/api/sync-levels-workbook`
+- Added manager and settings actions to sync the workbook mirror.
+- Added Google Apps Script scaffold:
+  - `google_sheets_sync/`
+- Added one-way Google Sheets push support through the local server endpoint and optional Apps Script web app URL in Settings.
+- Added `Extras` as a persistent Level Manager bucket, separate from `All Levels`.
+- Added local `clasp` workflow helper scripts for linking, pushing, and deploying the Apps Script sync project.
+- Materialized manager-owned level files into canonical `levels/` before writing workbook rows, so spreadsheet export no longer depends on browser-only names.
+- Updated structured spreadsheet export so `Extras` also appears explicitly in `level manager items`.
+- Removed the temporary root `.clasp.json` test file and ignored future local `clasp` project files.
+
+## 2026-03-12 - workshop preset resolution fix
+
+- Fixed the runtime level resolver in `level_toolkit_web/app.js` so workshop references try:
+  - `levels/`
+  - `level_toolkit_web/workshop_jsons/`
+  - `level_toolkit_web/workshop_jsons_game_unique/`
+- Extended `server.mjs` to serve canonical repo folders over HTTP:
+  - `/levels/`
+  - `/progressions/`
+  - `/playtest/`
+  - `/bundles/`
+- Repopulated missing historical workshop filenames in root `levels/` from the archived catalog so the old `A/B/C` preset names resolve again.
+- Resynchronized `level_toolkit_web/workshop_progressions/workshop_workspace.json` with `progressions/workshop_workspace.json`.
+- Verified in browser that `Progression A` now resolves to the expected workshop names again instead of the accidental `lvl_*` aliases.
+
+## 2026-03-12 - startup integrity logging
+
+- Added a startup integrity audit in `level_toolkit_web/app.js`.
+- The audit checks known workspace presets and every referenced level path before normal work continues.
+- Added a top-of-page warning banner in `level_toolkit_web/index.html` and `level_toolkit_web/styles.css`.
+- The audit writes persistent reports to:
+  - `reports/toolkit_startup_integrity.json`
+  - `reports/toolkit_startup_integrity.md`
+- Missing preset or level references are now surfaced at boot instead of only showing up later as broken progression loads.
+
+## 2026-03-12 - after feedback progression set
+
+- Reconstructed the screenshot-based `A/B/C` set as:
+  - `progressions/progressionA_after_feedback.json`
+  - `progressions/progressionB_after_feedback.json`
+  - `progressions/progressionC_after_feedback.json`
+- Materialized the screenshot-visible filenames into root `levels/` so the set no longer depends on archive-only copies.
+- Added friendly aliases for the progression C late slots:
+  - `levels/progression_level8_Medium.json`
+  - `levels/progression_level9_Hard.json`
+  - `levels/progression_level10_Hard.json`
+- Switched the active `workshop` alias and `workshop_workspace.json` to the after-feedback set.
+- Updated the progression bundle builder so mixed canonical/legacy JSON levels export correctly.
+
+## 2026-03-12 - ABC design learnings note
+
+- Added [DESIGN_LEARNINGS_FROM_ABC.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/DESIGN_LEARNINGS_FROM_ABC.md).
+- The note emphasizes:
+  - design intention
+  - visual design
+  - layout readability
+  - blocker placement
+  - path interference
+- It is meant as a compact reference for future progression work and procedural design decisions.
+
+## 2026-03-12 - Confluence level design page cleanup
+
+- Cleaned the Confluence page `Feed the bear - level design` in the `Level manager` / `Levels` / `Extras` / `Procedular` area.
+- Replaced the broken lower navigation/macros with a cleaner heading structure so the page TOC is easier to follow.
+- Added a centered top callout:
+  - `-> level design suggestion <--`
+- Rewrote the `Level manager` section to explain the toolkit workflow in clearer English.
+- Rewrote `The tool - level editor tool` with a more explicit editor/playtest explanation.
+- Rebuilt `Levels` as three progression boxes using uploaded contact sheets for:
+  - progression A
+  - progression B
+  - progression C
+- Added/used Confluence-ready contact sheets stored locally in:
+  - `output/confluence/progression_a_contact_sheet.png`
+  - `output/confluence/progression_b_contact_sheet.png`
+  - `output/confluence/progression_c_contact_sheet.png`
+
+## 2026-03-12 - Confluence heading hierarchy pass
+
+- Re-read the published `Feed the bear - level design` page and adjusted heading levels conservatively instead of deleting earlier content blocks.
+- Reduced TOC noise by:
+  - limiting the TOC macro to top-level sections
+  - demoting detailed `Level design` craft headings from `H1` to `H3`
+  - demoting procedural sub-sections from `H4` to `H3`
+  - converting noisy micro-headings like `Name: Hungry Bear` into normal paragraph labels
+- Re-added the top callout box so the page still opens with:
+  - `-> level design suggestion <--`
+- Published the updated page after checking that the TOC now shows a shorter section list.
+
+## 2026-03-12 - Confluence technical documentation pass
+
+- Captured fresh toolkit screenshots from the real local app for documentation:
+  - `output/confluence/level_manager_overview.png`
+  - `output/confluence/level_editor_overview.png`
+- Uploaded both screenshots as Confluence page attachments.
+- Extended the page without deleting the earlier design notes.
+- Expanded `Level manager` with a technical explanation focused on:
+  - editorial sequencing
+  - slot identity
+  - progression intent
+  - visual and data alignment
+- Expanded `The tool - level editor tool` with a technical explanation focused on:
+  - authorship
+  - solvability
+  - blocker placement
+  - path interference
+  - move tuning
+- Added a new section:
+  - `Designer workflow with vibe coding`
+- Added a per-tool summary of:
+  - what each tool taught us
+  - main mistakes
+  - improvements derived from those mistakes
+- Kept the page hierarchy presentation-friendly by:
+  - preserving the earlier content
+  - keeping the new material grouped into top-level sections
+  - leaving the TOC readable instead of expanding every micro-subsection
+
+## 2026-03-12 - Confluence hierarchy and structure pass
+
+- Revisited the published `Feed the bear - level design` page after the technical documentation pass.
+- Reordered the inserted editor-related content so the `Level editor` explanation and screenshot stay together before the new designer-workflow section.
+- Kept the original earlier page text intact and continued to build on top of it instead of replacing it.
+- Confirmed the visible top-level TOC is now compact and presentation-friendly, with the main entries:
+  - `Mini-game 1`
+  - `Feed the bear - game objective`
+  - `Mechanics`
+  - `Level design`
+  - `Balancing strategy - in terms of game design`
+  - `Balancing strategy - in terms of level design`
+  - `Level manager`
+  - `The tool - level editor tool`
+  - `Designer workflow with vibe coding`
+  - `Extras`
+  - `Procedular`
+- Defined the recommended editorial structure for the page as:
+  - game context
+  - mechanics
+  - level design principles
+  - balancing
+  - toolchain (`Level manager`, `Level editor`, `Designer workflow`, `Procedular`)
+  - extras / supporting material
+
+## 2026-03-12 - Toolkit improvement plan
+
+- Added [TOOLKIT_IMPROVEMENT_PLAN.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/TOOLKIT_IMPROVEMENT_PLAN.md).
+- The plan covers:
+  - faster large-catalog rendering and less hidden-view work
+  - clearer progression versioning and save-point recovery
+  - tighter visual comparison flows between candidate levels
+  - a cleaner data contract between toolkit state, exports, and spreadsheet sync
+- Expanded the plan into a more detailed implementation roadmap with:
+  - design principles
+  - best-approach rationale for each area
+  - implementation phases
+  - risks
+  - success criteria
+  - recommended delivery order
+  - milestone breakdown
+  - immediate next technical changes worth shipping first
+
+## 2026-03-12 - Spreadsheet switched to after-feedback progressions
+
+- Updated [scripts/sync_levels_spreadsheet.py](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_levels_spreadsheet.py) so the workbook generator now uses:
+  - [progressions/progressionA_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionA_after_feedback.json)
+  - [progressions/progressionB_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionB_after_feedback.json)
+  - [progressions/progressionC_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionC_after_feedback.json)
+  instead of the older recovered-from-screenshots files.
+- Regenerated:
+  - [output/spreadsheet/Levels_feed_the_bear_linked.xlsx](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/output/spreadsheet/Levels_feed_the_bear_linked.xlsx)
+  - [output/spreadsheet/Levels_feed_the_bear_linked_payload.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/output/spreadsheet/Levels_feed_the_bear_linked_payload.json)
+- Verified that `levels after feedback` and fallback `level manager db` now reflect the `A/B/C after feedback` file set (`p_2_a.json`, `p_2_b.json`, `p_2_c.json`, etc.).
+
+## 2026-03-12 - Dedicated Level Manager output path
+
+- Added a separate `Level Manager Output Path` in `Settings`.
+- The toolkit now distinguishes between:
+  - canonical project save root
+  - editorial manager output root
+- `Level Manager` exports now write to the dedicated manager output path:
+  - manager CSV
+  - progression CSV
+  - progression curve PNG
+  - progression layout PNG
+  - progression ZIP
+- The intent is to allow the manager outputs to target a synced editorial folder without mixing those artifacts into the canonical level and progression save flow.
+- The plan also proposes an implementation order so the next work can be prioritized pragmatically.

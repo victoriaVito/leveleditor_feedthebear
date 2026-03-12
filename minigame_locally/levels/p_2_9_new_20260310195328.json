@@ -1,0 +1,216 @@
+{
+  "level": 4,
+  "board_size": 8,
+  "board_width": 8,
+  "board_height": 8,
+  "grid": [
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "NODE_D1"
+    ],
+    [
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_B1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2",
+      "NODE_D2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        2,
+        3
+      ],
+      "end": [
+        0,
+        6
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        7,
+        1
+      ],
+      "end": [
+        7,
+        6
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        0
+      ],
+      "end": [
+        5,
+        4
+      ],
+      "color": "#0891B2"
+    },
+    {
+      "id": "D",
+      "start": [
+        0,
+        7
+      ],
+      "end": [
+        7,
+        7
+      ],
+      "color": "#0369A1"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      4
+    ],
+    [
+      5,
+      0
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      0,
+      0
+    ]
+  ],
+  "moves": 5,
+  "solution_count": 0,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "B": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        6
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        7
+      ],
+      [
+        7,
+        7
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "p_2_9.json"
+  }
+}

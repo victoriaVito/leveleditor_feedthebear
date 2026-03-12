@@ -21,6 +21,7 @@ This file focuses on the tool itself:
 It is not the main product vision document. For broader design thinking, see:
 
 - [LEVEL_TOOLKIT_PRODUCT_NOTES.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/LEVEL_TOOLKIT_PRODUCT_NOTES.md)
+- [PROCEDURAL_GENERATION_LOGIC.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/PROCEDURAL_GENERATION_LOGIC.md)
 
 ## Current Views
 
@@ -73,12 +74,20 @@ Used for:
 - assigning `EASY`, `MEDIUM`, or `HARD` per slot
 - exporting progression CSV and images
 - downloading a zipped progression package
+- syncing structured manager data into the linked spreadsheet workbook
+- managing an explicit `Extras` editorial bucket
 
 ### Settings
 
 Used for:
 
 - configuring the project save path used by the toolkit
+- configuring the linked spreadsheet workbook path
+- storing the Google Spreadsheet ID used by the remote spreadsheet target
+- choosing the Google sync mode
+- configuring the local Google OAuth client JSON path
+- configuring the local Google OAuth token path
+- enabling or disabling automatic spreadsheet DB sync
 
 ## Current Board Support
 
@@ -163,6 +172,7 @@ The main progression curation flow supports:
 - dragging from the unassigned pool
 - difficulty labels per slot
 - progression export
+- sending levels to `Extras`
 
 It also supports a faster assignment flow:
 
@@ -197,6 +207,62 @@ Typical save outputs:
 - `progressions/exports/`
 - `playtest/`
 - `bundles/`
+
+Playtest also writes a unified append-only dataset:
+
+- [playtest/playtest_events.jsonl](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest/playtest_events.jsonl)
+
+This file is intended for future ML and analytics work while the individual JSON session files remain available for manual inspection.
+
+## Current Workspace Resolution
+
+Historical workshop presets now resolve level references in this order:
+
+1. canonical repo storage in `levels/`
+2. legacy runtime mirror in `level_toolkit_web/workshop_jsons/`
+3. fallback mirror in `level_toolkit_web/workshop_jsons_game_unique/`
+
+The local server also exposes these canonical folders directly:
+
+- `/levels/`
+- `/progressions/`
+- `/playtest/`
+- `/bundles/`
+
+This fixes the workshop preset issue where `Progression A/B/C` could load canonicalized `lvl_*` aliases instead of the original workshop files expected by the presets.
+
+Authoritative workspace preset:
+
+- [progressions/workshop_workspace.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/workshop_workspace.json)
+
+Web runtime copy that must stay aligned:
+
+- [level_toolkit_web/workshop_progressions/workshop_workspace.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/level_toolkit_web/workshop_progressions/workshop_workspace.json)
+
+Current active workshop progression set:
+
+- [progressions/progressionA_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionA_after_feedback.json)
+- [progressions/progressionB_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionB_after_feedback.json)
+- [progressions/progressionC_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionC_after_feedback.json)
+
+The active `workshop` alias now points to the after-feedback set for both the repo copy and the web runtime copy.
+
+## Current Startup Integrity Audit
+
+The toolkit now runs a startup integrity audit when the page boots.
+
+It checks:
+
+- known workspace presets under `level_toolkit_web/workshop_progressions/`
+- every referenced tutorial and level file
+- canonical resolution against `levels/` first
+
+Outputs:
+
+- [reports/toolkit_startup_integrity.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/reports/toolkit_startup_integrity.json)
+- [reports/toolkit_startup_integrity.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/reports/toolkit_startup_integrity.md)
+
+If required paths are missing, the app shows a warning banner at the top before normal work continues.
 
 ## Current Progression Export
 
@@ -251,6 +317,14 @@ Persistence currently uses:
 - project files for explicit saves and exports
 - manager metadata logs for tracking manager state changes
 - manager progression materialization into canonical repo files under `progressions/` and `levels/`
+- a workbook mirror for spreadsheet-style review and database tabs
+
+The toolkit now separates:
+
+- canonical project save root
+- `Level Manager` output root
+
+This means user-facing manager exports such as CSV, PNG, and ZIP can be redirected into a synced editorial folder without changing the canonical level and progression storage.
 
 When the Level Manager changes now:
 
@@ -269,6 +343,87 @@ The manager currently includes performance guards for large catalogs:
 - no duplicate rendering of the same card in hidden sections
 - lazy preview caching in card views
 - lighter workspace autosave that no longer serializes the editor through full validation on every manager refresh
+- spreadsheet sync moved to a separate debounced path instead of blocking every manager mutation directly
+
+## Current Spreadsheet Workflow
+
+The toolkit now maintains a spreadsheet-oriented mirror for manager data:
+
+- [output/spreadsheet/Levels_feed_the_bear_linked.xlsx](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/output/spreadsheet/Levels_feed_the_bear_linked.xlsx)
+
+The workbook now includes:
+
+- `Sheet1`
+  - corrected legacy progression rows
+- `progression all`
+  - corrected legacy code/image rollup
+- `levels after feedback`
+  - same legacy-style structure, but populated with the recovered post-feedback A/B/C levels
+- `extras`
+  - the current extra levels outside the recovered main progressions
+- `level manager db`
+  - slot-based structured data
+- `level manager items`
+  - item-based structured data
+
+The workbook generator now uses the active post-feedback progression set as its fallback progression source:
+
+- [progressions/progressionA_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionA_after_feedback.json)
+- [progressions/progressionB_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionB_after_feedback.json)
+- [progressions/progressionC_after_feedback.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions/progressionC_after_feedback.json)
+
+This replaces the older `recovered_from_screenshots` fallback for spreadsheet generation, so `levels after feedback` and the fallback manager database stay aligned with the current reviewed A/B/C set.
+
+The toolkit can now:
+
+- sync the workbook manually from `Level Manager`
+- sync it from `Settings`
+- auto-sync it after manager changes when enabled
+- push the same payload one-way into Google Sheets through `Google Sheets API`
+- keep `Apps Script` as a legacy fallback mode
+- materialize manager-owned levels into the canonical `levels/` folder before spreadsheet export
+- write `Extras` into both the dedicated `extras` tab and the structured `level manager items` tab
+
+Preferred live sync implementation:
+
+- [google_sheets_api.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/google_sheets_api.mjs)
+- local OAuth client JSON:
+  - `/.local/google_oauth_client.json`
+- local OAuth token:
+  - `/.local/google_sheets_token.json`
+- local callback:
+  - `http://127.0.0.1:8080/api/google-sheets-auth-callback`
+
+## Current Improvement Direction
+
+The current improvement direction is formalized in:
+
+- [TOOLKIT_IMPROVEMENT_PLAN.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/TOOLKIT_IMPROVEMENT_PLAN.md)
+
+The recommended order is:
+
+1. Clean up the data contract and identity model
+2. Add explicit progression versioning and save-point recovery
+3. Harden performance for large catalogs and hidden-view work
+4. Add a stronger visual comparison workspace for candidate levels
+
+The immediate implementation priorities are:
+
+- stable `level_id`, `progression_id`, and `slot_id`
+- split autosave into lightweight state and heavy materialization
+- progression save-point folders under `progressions/versions/`
+- startup validation for missing or stale derived assets
+- side-by-side compare mode in `Level Manager`
+
+Legacy Apps Script scaffold:
+
+- [google_sheets_sync/Code.gs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/google_sheets_sync/Code.gs)
+- helper scripts:
+  - [scripts/link_google_sheets_sync.sh](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/link_google_sheets_sync.sh)
+- [scripts/push_google_sheets_sync.sh](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/push_google_sheets_sync.sh)
+- [scripts/deploy_google_sheets_sync.sh](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/deploy_google_sheets_sync.sh)
+
+`.clasp.json`, `/.local/google_oauth_client.json`, and `/.local/google_sheets_token.json` are local-only and must not be committed.
 
 These changes reduce the UI freeze when many level files exist.
 
@@ -328,3 +483,46 @@ Folders that should be treated as derived, archival, or historical rather than p
 - add pagination or virtualization for `All Levels`
 - reduce the remaining dependency on historical folders inside the runtime UI
 - keep this document updated whenever a new workflow or save/export path changes
+
+## Confluence / Design Page Status
+
+- The Confluence page `Feed the bear - level design` has an updated lower documentation block covering:
+  - `Level manager`
+  - `The tool - level editor tool`
+  - `Levels`
+  - `Extras`
+  - `Procedular`
+- The page now includes a centered top callout:
+  - `-> level design suggestion <--`
+- The `Levels` section uses three progression contact sheets generated from the current A/B/C screenshot sets:
+  - `output/confluence/progression_a_contact_sheet.png`
+  - `output/confluence/progression_b_contact_sheet.png`
+  - `output/confluence/progression_c_contact_sheet.png`
+- The page hierarchy was then refined to keep more of the earlier content while making the page more presentation-friendly:
+  - the top callout `-> level design suggestion <--` remains visible
+  - detailed design-framework headings were demoted so the TOC stays readable
+  - micro-labels such as `Name: Hungry Bear` are now normal paragraph labels instead of heading entries
+- The page has now been extended with a more technical designer-facing documentation layer:
+  - a fresh `Level Manager` screenshot
+  - a fresh `Level Editor` screenshot
+  - technical notes for the manager and editor
+  - a `Designer workflow with vibe coding` section
+  - a per-tool summary of learnings, mistakes, and resulting improvements
+- Confluence attachments used for this pass:
+  - `level_manager_overview.png`
+  - `level_editor_overview.png`
+- The page hierarchy was adjusted again so the editor explanation reads as a coherent block before the designer-workflow section.
+- The intended Confluence information architecture is now:
+  - product context
+  - mechanics
+  - level design principles
+  - balancing
+  - tools and workflow
+  - extras
+- A dedicated improvement plan now exists at:
+  - [TOOLKIT_IMPROVEMENT_PLAN.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/TOOLKIT_IMPROVEMENT_PLAN.md)
+- That plan is the current reference for:
+  - performance work
+  - progression recovery and versioning
+  - visual level comparison flows
+  - contract cleanup between toolkit data and spreadsheet reporting

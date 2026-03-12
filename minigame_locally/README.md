@@ -184,6 +184,12 @@ This is the main curation flow.
 Purpose:
 
 - choose the project save path used by the toolkit
+- choose the workbook path used for the linked spreadsheet mirror
+- store the Google Spreadsheet ID used by the remote sync target
+- choose the remote sync mode: `Workbook Only`, `Google Sheets API`, or legacy `Apps Script`
+- store the Google OAuth client JSON path used by the Sheets API flow
+- store the Google OAuth token path used by the Sheets API flow
+- enable or disable automatic spreadsheet database sync
 
 ## Saving model
 
@@ -204,6 +210,7 @@ Typical outputs:
 - `progressions/exports/`
 - `playtest/`
 - `bundles/`
+- `output/spreadsheet/`
 
 This is the default content-production save flow.
 
@@ -244,7 +251,112 @@ The toolkit now uses a stricter save-point strategy:
 - manager state snapshots and metadata logs are written into `progressions/manager_state/`
 - play sessions are written into `playtest/`
 
+## Playtest dataset
+
+Playtest data is now saved in two forms:
+
+- individual JSON session files in [playtest](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest)
+- one append-only text dataset for ML and analytics:
+  - [playtest/playtest_events.jsonl](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest/playtest_events.jsonl)
+
+`JSONL` is used instead of one giant JSON blob because it is append-friendly, streamable, and easier to process in ML pipelines.
+
+Each line includes:
+
+- save timestamp
+- origin
+- save reason
+- saved path
+- solved state
+- level name and number
+- board size
+- pairs
+- blockers
+- moves
+- difficulty
+- decal
+- validation status
+- history length
+- per-pair path lengths
+- full embedded session payload
+
 This reduces the risk of losing browser-only progression layouts.
+
+## Spreadsheet mirror and database sync
+
+The project now includes a spreadsheet-oriented export pipeline for the Level Manager.
+
+Workbook mirror:
+
+- [output/spreadsheet/Levels_feed_the_bear_linked.xlsx](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/output/spreadsheet/Levels_feed_the_bear_linked.xlsx)
+
+Script used to build or refresh it:
+
+- [scripts/sync_levels_spreadsheet.py](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_levels_spreadsheet.py)
+
+The workbook currently contains:
+
+- `Sheet1`
+  - corrected legacy progression tracking
+- `progression all`
+  - corrected legacy code/image rollup
+- `levels after feedback`
+  - the old tab structure populated with the recovered post-feedback levels
+- `extras`
+  - levels that are not placed in the recovered A/B/C progressions
+- `level manager db`
+  - slot-oriented structured data for progression storage
+- `level manager items`
+  - item-oriented structured data for the full manager catalog
+
+`Extras` behavior:
+
+- `All Levels`
+  - global pool of levels not currently placed in a main progression
+- `Extras`
+  - explicit editorial bucket for levels intentionally kept outside the main curves
+
+Google sync behavior:
+
+- workbook mirror is always updated locally
+- the preferred remote path is `Google Sheets API`
+- if `Google Sheets API` is enabled and connected, the same payload is pushed one-way to Google Sheets from the local server
+- `Apps Script` remains available only as a legacy fallback mode
+- Google Sheets is not treated as the editing authority
+- manager-owned levels are materialized into the canonical `levels/` folder before workbook rows are rebuilt
+- `Extras` is written both to the dedicated `extras` tab and to `level manager items` with `progression_key = extras`
+
+Google Sheets API files:
+
+- OAuth client JSON default path:
+  - [/.local/google_oauth_client.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/.local/google_oauth_client.json)
+- OAuth token default path:
+  - [/.local/google_sheets_token.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/.local/google_sheets_token.json)
+- API implementation:
+  - [google_sheets_api.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/google_sheets_api.mjs)
+
+OAuth callback used by the local server:
+
+- `http://127.0.0.1:8080/api/google-sheets-auth-callback`
+
+Legacy Apps Script scaffold:
+
+- [google_sheets_sync](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/google_sheets_sync)
+
+This scaffold is kept only as a fallback path for environments where Google Sheets API credentials are not available.
+
+Recommended production flow:
+
+1. place a Google OAuth desktop client JSON at `.local/google_oauth_client.json`
+2. set `Google Sync Method = Google Sheets API`
+3. click `Connect Google Sheets API`
+4. complete OAuth in the browser
+5. use `Sync Workbook Now` or manager autosync
+
+Important:
+
+- `.clasp.json` is generated locally by the helper workflow and must not be committed with personal or placeholder script IDs
+- `.local/google_oauth_client.json` and `.local/google_sheets_token.json` are local-only secrets and must not be committed
 
 ### 2. Save to GitHub
 

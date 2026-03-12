@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start:web": "node server.mjs",
+    "sync:spreadsheet": "python3 scripts/sync_levels_spreadsheet.py --output output/spreadsheet/Levels_feed_the_bear_linked.xlsx --snapshot progressions/manager_state/level_manager_state.json",
+    "gas:push": "bash scripts/push_google_sheets_sync.sh",
+    "gas:deploy": "bash scripts/deploy_google_sheets_sync.sh",
     "test": "vitest run",
     "build": "tsc -p tsconfig.json",
     "test:watch": "vitest",

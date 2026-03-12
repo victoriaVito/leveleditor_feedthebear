@@ -1,6 +1,6 @@
 {
-  "name": "progressionC_workshop",
-  "tutorial_level_file": "levels/lvl_109_tutorial_level.json",
+  "name": "progressionC",
+  "tutorial_level_file": "levels/p_tutorial.json",
   "slots": [
     {
       "slot": 1,
@@ -9,39 +9,39 @@
     },
     {
       "slot": 2,
-      "level_file": "levels/lvl_085_play_session_level_1_validate_8_level.json"
+      "level_file": "levels/p_2_c.json"
     },
     {
       "slot": 3,
-      "level_file": "levels/lvl_021_image12_level_editor.json"
+      "level_file": "levels/p_3_c.json"
     },
     {
       "slot": 4,
-      "level_file": "levels/lvl_031_image22_level_editor.json"
+      "level_file": "levels/p_4_c_new_20260311075908.json"
     },
     {
       "slot": 5,
-      "level_file": "levels/lvl_033_image24_level_editor.json"
+      "level_file": "levels/progression_c_slot_5.json"
     },
     {
       "slot": 6,
-      "level_file": "levels/lvl_038_image29_level_editor.json"
+      "level_file": "levels/progression_c_slot_6.json"
     },
     {
       "slot": 7,
-      "level_file": "levels/lvl_028_image19_level_editor.json"
+      "level_file": "levels/progression_c_slot_7.json"
     },
     {
       "slot": 8,
-      "level_file": "levels/lvl_025_image16_level_editor.json"
+      "level_file": "levels/progression_level8_Medium.json"
     },
     {
       "slot": 9,
-      "level_file": "levels/lvl_023_image14_level_editor.json"
+      "level_file": "levels/progression_level9_Hard.json"
     },
     {
       "slot": 10,
-      "level_file": "levels/lvl_013_image03_level_editor.json"
+      "level_file": "levels/progression_level10_Hard.json"
     }
   ]
 }

@@ -1,0 +1,30 @@
+{
+  "generatedAt": "2026-03-12T18:10:48.127Z",
+  "checkedPresets": [
+    {
+      "key": "workshop",
+      "path": "./workshop_progressions/workshop_workspace.json"
+    },
+    {
+      "key": "allUniqueLevels",
+      "path": "./workshop_progressions/allUniqueLevels_workspace.json"
+    },
+    {
+      "key": "gameUniqueLevels",
+      "path": "./workshop_progressions/gameUniqueLevels_workspace.json"
+    },
+    {
+      "key": "progressionA_afterTewak",
+      "path": "./workshop_progressions/progressionA_afterTewak_workspace.json"
+    },
+    {
+      "key": "progressionImportedClean",
+      "path": "./workshop_progressions/progressionImportedClean_workspace.json"
+    }
+  ],
+  "checkedLevelRefs": 105,
+  "missingCount": 0,
+  "missing": [],
+  "reportPath": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/reports/toolkit_startup_integrity.md",
+  "jsonPath": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/reports/toolkit_startup_integrity.json"
+}

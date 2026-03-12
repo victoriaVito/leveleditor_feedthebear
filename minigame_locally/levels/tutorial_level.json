@@ -1,6 +1,8 @@
 {
   "level": 1,
   "board_size": 6,
+  "board_width": 6,
+  "board_height": 6,
   "grid": [
     [
       "NODE_A1",
@@ -106,6 +108,7 @@
   "moves": 8,
   "solution_count": 0,
   "target_density": "HIGH",
+  "difficulty": "EASY",
   "golden_path": {
     "A": [
       [
@@ -140,7 +143,7 @@
   },
   "validation": {
     "solvable": false,
-    "density_match": true,
+    "density_match": false,
     "early_mistake_detection": true,
     "no_isolated_pairs": true,
     "no_late_dead_ends": true,
@@ -149,31 +152,19 @@
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
-    "source_name": "new_level1_a.json",
-    "cloned_from": "levels/standalone/tutorial_level.json",
-    "cloned_from_progression": "progressionA_afterTewak",
-    "cloned_slot": 1,
-    "display_slot": 1,
-    "canonical_id": "lvl_056",
-    "canonical_file": "lvl_056_new_level1_a.json",
-    "canonical_slug": "new_level1_a",
-    "canonicalized_at": "2026-03-12T09:14:58.429Z",
+    "manual_difficulty": "EASY",
+    "source_name": "tutorial_level.json",
+    "canonical_id": "lvl_109",
+    "canonical_file": "lvl_109_tutorial_level.json",
+    "canonical_slug": "tutorial_level",
+    "canonicalized_at": "2026-03-12T09:14:58.438Z",
     "previous_files": [
-      "level_toolkit_web/workshop_jsons/new_level1_a.json",
-      "level_toolkit_web/workshop_jsons_game_unique/new_level1_a.json",
-      "level_toolkit_web/workshop_progressions/tutorial_level.json",
-      "levels/new_level1_a.json",
-      "levels/play_session_level_1_validate_3_level.json",
-      "levels/play_session_level_1_validate_9_level.json",
-      "levels/standalone/new_level1_a.json",
-      "levels/standalone/play_session_level_1_manual_level.json",
-      "levels/standalone/play_session_level_1_validate_1_level.json",
-      "levels/standalone/play_session_level_1_validate_2_level.json",
-      "levels/standalone/play_session_level_1_validate_3_level.json",
-      "levels/standalone/play_session_level_1_validate_9_level.json",
-      "levels/standalone/tutorial_level.json",
-      "niveles_workshop/jsons/tutorial_level.json",
-      "tutorial_level.json"
+      "bundles/progression_a/jsons/tutorial_level.json",
+      "bundles/progression_b/jsons/tutorial_level.json",
+      "bundles/progression_c/jsons/tutorial_level.json",
+      "level_toolkit_web/workshop_jsons/tutorial_level.json",
+      "levels/standalone/tutorial_level copia.json",
+      "levels/tutorial_level.json"
     ]
   }
 }

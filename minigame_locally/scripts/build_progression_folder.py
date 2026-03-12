@@ -24,8 +24,80 @@ def slugify(name: str) -> str:
     return value.lower().replace(" ", "_")
 
 
+def normalize_progression_key(name: str) -> str:
+    value = str(name or "").strip()
+    value = re.sub(r"^progression([A-Z])$", lambda m: f"progression_{m.group(1).lower()}", value)
+    value = re.sub(r"^progression([a-z])$", lambda m: f"progression_{m.group(1)}", value)
+    return slugify(value)
+
+
 def read_json(path: Path):
     return json.loads(path.read_text())
+
+
+def normalize_level(level: dict, fallback_name: str = "level.json") -> dict:
+    if isinstance(level.get("pairs"), list) and level.get("pairs") and "id" in level["pairs"][0]:
+        return level
+
+    if "gridSize" not in level or not isinstance(level.get("pairs"), list):
+        return level
+
+    color_by_type = {
+        "red": "#0EA5E9",
+        "blue": "#10B981",
+        "green": "#F59E0B",
+        "yellow": "#EC4899",
+        "pink": "#8B5CF6",
+        "purple": "#14B8A6",
+        "orange": "#F97316",
+    }
+    pair_ids = ["A", "B", "C", "D", "E"]
+    grid_size = level.get("gridSize") or 0
+    if isinstance(grid_size, dict):
+        width = int(grid_size.get("cols") or grid_size.get("width") or 0)
+        height = int(grid_size.get("rows") or grid_size.get("height") or 0)
+        size = max(width, height)
+    else:
+        size = int(grid_size or 0)
+        width = size
+        height = size
+    blockers = []
+    for entry in level.get("blockers", []):
+        if isinstance(entry, dict) and "x" in entry and "y" in entry:
+            blockers.append([int(entry["y"]), int(entry["x"])])
+        elif isinstance(entry, (list, tuple)) and len(entry) >= 2:
+            blockers.append([int(entry[0]), int(entry[1])])
+
+    pairs = []
+    for index, pair in enumerate(level.get("pairs", [])):
+        a = pair.get("a") or {}
+        b = pair.get("b") or {}
+        pair_type = str(pair.get("type") or "").lower()
+        pairs.append(
+            {
+                "id": pair_ids[index] if index < len(pair_ids) else f"P{index + 1}",
+                "start": [int(a.get("y", 0)), int(a.get("x", 0))],
+                "end": [int(b.get("y", 0)), int(b.get("x", 0))],
+                "color": color_by_type.get(pair_type, "#0EA5E9"),
+            }
+        )
+
+    return {
+        "level": int(level.get("id") or 1),
+        "board_size": size,
+        "board_width": width,
+        "board_height": height,
+        "pairs": pairs,
+        "blockers": blockers,
+        "moves": int(level.get("moves") or 0),
+        "solution_count": int(level.get("solution_count") or 0),
+        "difficulty": str(level.get("difficultyTier") or level.get("difficulty") or "").upper(),
+        "validation": level.get("validation") or {},
+        "meta": {
+            **(level.get("meta") or {}),
+            "source_name": str(level.get("name") or fallback_name),
+        },
+    }
 
 
 def resolve_level_path(level_ref: str) -> Path:
@@ -50,8 +122,8 @@ def resolve_level_path(level_ref: str) -> Path:
 
 
 def board_dims(level):
-    width = int(level.get("board_width") or level.get("board_size") or 0)
-    height = int(level.get("board_height") or level.get("board_size") or 0)
+    width = int(level.get("board_width") or level.get("board_size") or level.get("gridSize") or 0)
+    height = int(level.get("board_height") or level.get("board_size") or level.get("gridSize") or 0)
     return width, height
 
 
@@ -80,7 +152,7 @@ def copy_or_render_level_screenshot(level_path: Path, out_path: Path):
         shutil.copy2(screenshot_source, out_path)
         return
 
-    level = read_json(level_path)
+    level = normalize_level(read_json(level_path), level_path.name)
     width, height = board_dims(level)
     cell = 64
     margin = 24
@@ -90,7 +162,7 @@ def copy_or_render_level_screenshot(level_path: Path, out_path: Path):
     pair_colors = ["#1d9bf0", "#18a957", "#f59e0b", "#ef5da8", "#8b5cf6"]
     pair_map = {}
     for index, pair in enumerate(level.get("pairs", [])):
-        pair_map[pair["id"]] = pair_colors[index % len(pair_colors)]
+        pair_map[pair.get("id", f"P{index + 1}")] = pair.get("color") or pair_colors[index % len(pair_colors)]
 
     blockers = {tuple(item) for item in level.get("blockers", [])}
     for row in range(height):
@@ -105,12 +177,15 @@ def copy_or_render_level_screenshot(level_path: Path, out_path: Path):
             draw.rectangle([x0, y0, x1, y1], fill=fill, outline="#cbd5e1", width=2)
 
     for pair in level.get("pairs", []):
-        color = pair_map.get(pair["id"], "#1d9bf0")
-        for point in [pair["start"], pair["end"]]:
+        pair_id = pair.get("id", "A")
+        color = pair_map.get(pair_id, "#1d9bf0")
+        for point in [pair.get("start"), pair.get("end")]:
+            if not point:
+                continue
             row, col = point
             x0 = margin + col * cell
             y0 = margin + row * cell
-            if pair["id"] == "A":
+            if pair_id == "A":
                 draw.rectangle([x0 + 10, y0 + 10, x0 + cell - 10, y0 + cell - 10], fill=color, outline=None)
             else:
                 draw.ellipse([x0 + 10, y0 + 10, x0 + cell - 10, y0 + cell - 10], fill=color, outline=None)
@@ -209,7 +284,7 @@ def build(progression_filename: str):
     progression = read_json(progression_path)
     key = progression_path.stem.replace("_workshop", "")
     label = key.replace("progression", "Progression ").replace("_", " ")
-    folder_name = slugify(key)
+    folder_name = normalize_progression_key(key)
     bundle_dir = BUNDLES_DIR / folder_name
     json_dir = bundle_dir / "jsons"
     screenshots_dir = bundle_dir / "screenshots"
@@ -224,7 +299,7 @@ def build(progression_filename: str):
     for slot in progression["slots"]:
         slot_no = int(slot["slot"])
         level_path = tutorial_path if slot_no == 1 else resolve_level_path(slot["level_file"])
-        level = read_json(level_path)
+        level = normalize_level(read_json(level_path), level_path.name)
         target_level_path = json_dir / level_path.name
         shutil.copy2(level_path, target_level_path)
         target_shot_path = screenshots_dir / f"{level_path.stem}.png"

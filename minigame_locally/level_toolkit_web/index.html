@@ -22,6 +22,11 @@
     </aside>
 
     <section class="content">
+      <section id="startup-integrity-banner" class="startup-banner" hidden>
+        <strong id="startup-integrity-title">Startup integrity</strong>
+        <div id="startup-integrity-body"></div>
+      </section>
+
       <section id="view-main" class="view card active">
         <h2>Procedural Playground</h2>
         <p class="section-copy">Use this area to generate one level, build a full episode curve, or export workshop packs without going into the editor first.</p>
@@ -245,6 +250,7 @@
           <button id="mgr-export-curve-png">Export Curve PNG</button>
           <button id="mgr-export-progression-png">Export Progression PNG</button>
           <button id="mgr-export-progression-json">Download Progression ZIP</button>
+          <button id="mgr-sync-spreadsheet">Sync Spreadsheet DB</button>
         </div>
         <section class="manager-filter-bar">
           <label>Name
@@ -324,8 +330,8 @@
         </section>
 
         <section id="mgr-all-levels-panel" hidden>
-          <h3>All Levels</h3>
-          <p class="section-copy">Levels that are not currently placed in any progression.</p>
+          <h3 id="mgr-list-title">All Levels</h3>
+          <p id="mgr-list-copy" class="section-copy">Levels that are not currently placed in any progression.</p>
           <div class="toolbar">
             <button id="mgr-page-prev" type="button">Prev Page</button>
             <span id="mgr-page-status" class="tag">Page 1 / 1</span>
@@ -354,6 +360,34 @@
         <div class="toolbar">
           <label>Project Save Path
             <input id="settings-export-dir" type="text" />
+          </label>
+          <label>Level Manager Output Path
+            <input id="settings-manager-output-dir" type="text" />
+          </label>
+          <label>Workbook Path
+            <input id="settings-workbook-path" type="text" />
+          </label>
+          <label>Google Sheet ID
+            <input id="settings-spreadsheet-id" type="text" />
+          </label>
+          <label>Google Sync Method
+            <select id="settings-google-sync-method">
+              <option value="workbook_only">Workbook Only</option>
+              <option value="sheets_api">Google Sheets API</option>
+              <option value="apps_script">Apps Script</option>
+            </select>
+          </label>
+          <label>OAuth Client JSON Path
+            <input id="settings-google-client-path" type="text" />
+          </label>
+          <label>OAuth Token Path
+            <input id="settings-google-token-path" type="text" />
+          </label>
+          <label>Apps Script URL (Legacy Fallback)
+            <input id="settings-sheet-webapp-url" type="text" />
+          </label>
+          <label>Auto Sync Sheet DB
+            <input id="settings-auto-sync-sheet" type="checkbox" />
           </label>
           <label>Performance
             <select id="settings-performance-profile">
@@ -436,6 +470,10 @@
             <input id="settings-pair-e" type="color" />
           </label>
           <button id="settings-save">Save Settings</button>
+          <button id="settings-sync-sheet">Sync Workbook Now</button>
+          <button id="settings-connect-sheet-api">Connect Google Sheets API</button>
+          <button id="settings-check-sheet-api">Check Google Sheets API</button>
+          <button id="settings-disconnect-sheet-api">Disconnect Google Sheets API</button>
           <button id="settings-clear-cache">Clear Page Cache</button>
         </div>
         <div class="toolbar">

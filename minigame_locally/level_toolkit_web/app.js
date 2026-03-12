@@ -48,6 +48,12 @@ const PERFORMANCE_PRESETS = {
 const playPalette = ["#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6", "#14B8A6", "#F97316"];
 const PROJECT_ROOT = "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally";
 const DEFAULT_PROJECT_SAVE_DIR = PROJECT_ROOT;
+const DEFAULT_MANAGER_OUTPUT_DIR = `${PROJECT_ROOT}/bundles`;
+const DEFAULT_SPREADSHEET_WORKBOOK_PATH = `${PROJECT_ROOT}/output/spreadsheet/Levels_feed_the_bear_linked.xlsx`;
+const DEFAULT_GOOGLE_SPREADSHEET_ID = "1MIHkR4uePd7y8nSu1YGwiN2AGpvj-u8bRqzY-OXo86c";
+const DEFAULT_GOOGLE_SYNC_METHOD = "workbook_only";
+const DEFAULT_GOOGLE_CLIENT_PATH = `${PROJECT_ROOT}/.local/google_oauth_client.json`;
+const DEFAULT_GOOGLE_TOKEN_PATH = `${PROJECT_ROOT}/.local/google_sheets_token.json`;
 const PROJECT_ROOT_NAME = basename(PROJECT_ROOT);
 const TUTORIAL_LEVEL_BASENAME = "tutorial_level.json";
 const defaultManagerProgressions = [
@@ -116,6 +122,7 @@ const state = {
     items: [],
     itemIndex: new Map(),
     slotIndexByItemId: new Map(),
+    extraIds: [],
     progressions: createDefaultManagerProgressions(),
     progressionOrder: defaultManagerProgressions.map(({ key }) => key),
     activeTab: "progressionA",
@@ -150,6 +157,14 @@ const state = {
   },
   settings: {
     exportDir: DEFAULT_PROJECT_SAVE_DIR,
+    managerOutputDir: DEFAULT_MANAGER_OUTPUT_DIR,
+    spreadsheetWorkbookPath: DEFAULT_SPREADSHEET_WORKBOOK_PATH,
+    spreadsheetId: DEFAULT_GOOGLE_SPREADSHEET_ID,
+    googleSyncMethod: DEFAULT_GOOGLE_SYNC_METHOD,
+    googleClientPath: DEFAULT_GOOGLE_CLIENT_PATH,
+    googleTokenPath: DEFAULT_GOOGLE_TOKEN_PATH,
+    spreadsheetWebAppUrl: "",
+    autoSyncSheetDb: true,
     fontFamily: DEFAULT_FONT_FAMILY,
     uiTheme: { ...DEFAULT_UI_THEME },
     pairColors: [...pairColors],
@@ -201,6 +216,14 @@ function displayProjectPath(path) {
     return `${PROJECT_ROOT_NAME}${value.slice(PROJECT_ROOT.length)}`;
   }
   return value;
+}
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 function resolveProjectPath(path) {
   const value = String(path || "").trim();
@@ -549,6 +572,7 @@ function getManagerProgression(tab = state.manager.activeTab) {
 
 function getManagerProgressionLabel(tab) {
   if (tab === "allLevels") return "All Levels";
+  if (tab === "extras") return "Extras";
   if (tab === "csvReview") return "CSV Review";
   return getManagerProgression(tab)?.label || tab;
 }
@@ -564,6 +588,29 @@ function getAllAssignedManagerIds() {
 function getManagerUnassignedItems() {
   const assigned = getAllAssignedManagerIds();
   return state.manager.items.filter((item) => !assigned.has(item.id));
+}
+
+function getManagerExtraIds() {
+  return new Set(Array.isArray(state.manager.extraIds) ? state.manager.extraIds : []);
+}
+
+function isManagerExtraItem(itemId) {
+  return getManagerExtraIds().has(itemId);
+}
+
+function getManagerExtraItems() {
+  const extraIds = getManagerExtraIds();
+  return state.manager.items.filter((item) => extraIds.has(item.id));
+}
+
+function addManagerItemToExtras(itemId) {
+  const next = new Set(getManagerExtraIds());
+  next.add(itemId);
+  state.manager.extraIds = [...next];
+}
+
+function removeManagerItemFromExtras(itemId) {
+  state.manager.extraIds = (state.manager.extraIds || []).filter((id) => id !== itemId);
 }
 
 function managerItemBoardLabel(item) {
@@ -737,9 +784,26 @@ function toPlayableLevel(data, fallbackName = "imported_level") {
 
 async function fetchWorkshopLevelByFilename(filename) {
   const ref = basename(filename);
-  const response = await fetch(`./workshop_jsons/${ref}`);
-  if (!response.ok) throw new Error(`Could not resolve referenced level ${ref} in workshop_jsons.`);
-  return toPlayableLevel(parseImportedJson(await response.text()), ref);
+  const candidateUrls = [
+    `./levels/${ref}`,
+    `./workshop_jsons/${ref}`,
+    `./workshop_jsons_game_unique/${ref}`
+  ];
+  for (const url of candidateUrls) {
+    const response = await fetch(url);
+    if (!response.ok) continue;
+    return toPlayableLevel(parseImportedJson(await response.text()), ref);
+  }
+  throw new Error(`Could not resolve referenced level ${ref} in levels, workshop_jsons, or workshop_jsons_game_unique.`);
+}
+
+function workshopLevelCandidateUrls(filename) {
+  const ref = basename(filename);
+  return [
+    `./levels/${ref}`,
+    `./workshop_jsons/${ref}`,
+    `./workshop_jsons_game_unique/${ref}`
+  ];
 }
 
 function isTutorialSlotIndex(slotIndex) {
@@ -883,12 +947,24 @@ const uiTooltips = {
   "mgr-export-curve-png": "Save a PNG image of the active progression difficulty curve.",
   "mgr-export-progression-png": "Save a PNG image of the active progression cards and slot order.",
   "mgr-export-progression-json": "Save the active progression as a ZIP with level JSONs, level screenshots, progression screenshots, and the progression CSV.",
+  "mgr-sync-spreadsheet": "Sync the current manager state into the linked spreadsheet workbook and database tabs.",
   "mgr-tabs": "Switch between progression tabs, unassigned levels, and CSV review.",
   "mgr-slot-grid": "Top progression area with 10 ordered slots. Drag levels here to arrange them.",
   "mgr-pool-grid": "Pool of unassigned levels that can be dragged into the active progression.",
   "mgr-unassigned-grid": "Levels that are not currently placed in any progression.",
   "mgr-progress-title": "Current progression tab and its ordered 10 slots.",
   "settings-export-dir": "Folder inside your project where the toolkit saves JSON, CSV, and screenshot files.",
+  "settings-workbook-path": "Workbook file used as the linked spreadsheet mirror for level-manager data.",
+  "settings-spreadsheet-id": "Google Sheets document ID used by the Apps Script sync scaffold.",
+  "settings-google-sync-method": "Choose whether the toolkit only updates the local workbook mirror, syncs through Google Sheets API, or uses the Apps Script bridge.",
+  "settings-google-client-path": "Path to the Google OAuth client JSON used for direct Google Sheets API access.",
+  "settings-google-token-path": "Path where the toolkit stores the Google Sheets OAuth token.",
+  "settings-sheet-webapp-url": "Published Apps Script web app URL used for one-way sync into Google Sheets.",
+  "settings-auto-sync-sheet": "Automatically refresh the linked spreadsheet workbook after manager changes.",
+  "settings-sync-sheet": "Run a workbook sync now using the current manager state.",
+  "settings-connect-sheet-api": "Open the Google OAuth flow and connect this toolkit to the Google Sheets API.",
+  "settings-check-sheet-api": "Check the current Google Sheets API authentication status.",
+  "settings-disconnect-sheet-api": "Delete the saved Google Sheets API token for this toolkit.",
   "settings-performance-profile": "Choose how aggressively the toolkit should trade visual previews for faster loading.",
   "settings-font-family": "Choose the main UI font used across the toolkit.",
   "settings-color-bg": "Choose the overall page background color.",
@@ -1288,6 +1364,16 @@ function loadSettings() {
     state.settings.exportDir = savedExportDir.includes("/levels/standalone/toolkit_exports")
       ? DEFAULT_PROJECT_SAVE_DIR
       : savedExportDir;
+    state.settings.managerOutputDir = resolveProjectPath(String(parsed.managerOutputDir || DEFAULT_MANAGER_OUTPUT_DIR));
+    state.settings.spreadsheetWorkbookPath = String(parsed.spreadsheetWorkbookPath || DEFAULT_SPREADSHEET_WORKBOOK_PATH);
+    state.settings.spreadsheetId = String(parsed.spreadsheetId || DEFAULT_GOOGLE_SPREADSHEET_ID);
+    state.settings.googleSyncMethod = ["workbook_only", "apps_script", "sheets_api"].includes(String(parsed.googleSyncMethod || ""))
+      ? String(parsed.googleSyncMethod)
+      : DEFAULT_GOOGLE_SYNC_METHOD;
+    state.settings.googleClientPath = String(parsed.googleClientPath || DEFAULT_GOOGLE_CLIENT_PATH);
+    state.settings.googleTokenPath = String(parsed.googleTokenPath || DEFAULT_GOOGLE_TOKEN_PATH);
+    state.settings.spreadsheetWebAppUrl = String(parsed.spreadsheetWebAppUrl || "");
+    state.settings.autoSyncSheetDb = parsed.autoSyncSheetDb !== false;
     state.settings.fontFamily = String(parsed.fontFamily || DEFAULT_FONT_FAMILY);
     state.settings.uiTheme = { ...DEFAULT_UI_THEME, ...(parsed.uiTheme || {}) };
     state.settings.pairColors = Array.isArray(parsed.pairColors) ? PAIR_IDS.map((_, index) => parsed.pairColors[index] || pairColors[index]) : [...pairColors];
@@ -1300,6 +1386,14 @@ function loadSettings() {
       : "medium";
   } catch (_err) {
     state.settings.exportDir = DEFAULT_PROJECT_SAVE_DIR;
+    state.settings.managerOutputDir = DEFAULT_MANAGER_OUTPUT_DIR;
+    state.settings.spreadsheetWorkbookPath = DEFAULT_SPREADSHEET_WORKBOOK_PATH;
+    state.settings.spreadsheetId = DEFAULT_GOOGLE_SPREADSHEET_ID;
+    state.settings.googleSyncMethod = DEFAULT_GOOGLE_SYNC_METHOD;
+    state.settings.googleClientPath = DEFAULT_GOOGLE_CLIENT_PATH;
+    state.settings.googleTokenPath = DEFAULT_GOOGLE_TOKEN_PATH;
+    state.settings.spreadsheetWebAppUrl = "";
+    state.settings.autoSyncSheetDb = true;
     state.settings.fontFamily = DEFAULT_FONT_FAMILY;
     state.settings.uiTheme = { ...DEFAULT_UI_THEME };
     state.settings.pairColors = [...pairColors];
@@ -1315,6 +1409,10 @@ function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
   const input = document.getElementById("settings-export-dir");
   if (input) input.value = displayProjectPath(state.settings.exportDir);
+  const managerOutputInput = document.getElementById("settings-manager-output-dir");
+  if (managerOutputInput) managerOutputInput.value = displayProjectPath(state.settings.managerOutputDir);
+  const workbookInput = document.getElementById("settings-workbook-path");
+  if (workbookInput) workbookInput.value = displayProjectPath(state.settings.spreadsheetWorkbookPath);
 }
 
 function applySettingsToUi() {
@@ -1443,6 +1541,7 @@ function persistWorkspaceState() {
           slotDifficulty: [...getManagerProgression(key).slotDifficulty]
         }])),
         progressionOrder: [...state.manager.progressionOrder],
+        extraIds: [...(state.manager.extraIds || [])],
         activeTab: state.manager.activeTab,
         selectedId: state.manager.selectedId,
         pendingRefTarget: state.manager.pendingRefTarget ? { ...state.manager.pendingRefTarget } : null,
@@ -1525,10 +1624,11 @@ function restoreWorkspaceState() {
     }
     const fallbackActiveTab = state.manager.progressionOrder[0] || "allLevels";
     state.manager.activeTab = parsed.manager?.activeTab || fallbackActiveTab;
-    if (!isManagerProgressionTab(state.manager.activeTab) && !["allLevels", "csvReview"].includes(state.manager.activeTab)) {
+    if (!isManagerProgressionTab(state.manager.activeTab) && !["allLevels", "extras", "csvReview"].includes(state.manager.activeTab)) {
       state.manager.activeTab = fallbackActiveTab;
     }
     state.manager.selectedId = parsed.manager?.selectedId ?? null;
+    state.manager.extraIds = Array.isArray(parsed.manager?.extraIds) ? parsed.manager.extraIds : [];
     state.manager.pendingRefTarget = parsed.manager?.pendingRefTarget || null;
     state.manager.allLevelsPage = Math.max(1, Number(parsed.manager?.allLevelsPage || 1));
     state.manager.referenceIds = Array.isArray(parsed.manager?.referenceIds) ? parsed.manager.referenceIds : [];
@@ -1588,6 +1688,21 @@ async function saveProjectFile(relativePath, content, mime = "application/json")
   return response.json();
 }
 
+async function saveManagerOutputFile(relativePath, content, mime = "application/json") {
+  const response = await fetch("/api/save-file", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      content,
+      mime,
+      baseDir: state.settings.managerOutputDir || state.settings.exportDir
+    })
+  });
+  if (!response.ok) throw new Error(`Manager output save failed (${response.status})`);
+  return response.json();
+}
+
 async function saveRepoFile(relativePath, content, mime = "application/json") {
   const response = await fetch("/api/save-file", {
     method: "POST",
@@ -1614,6 +1729,20 @@ async function saveProjectDataUrl(relativePath, dataUrl) {
     })
   });
   if (!response.ok) throw new Error(`Project save failed (${response.status})`);
+  return response.json();
+}
+
+async function saveManagerOutputDataUrl(relativePath, dataUrl) {
+  const response = await fetch("/api/save-data-url", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      dataUrl,
+      baseDir: state.settings.managerOutputDir || state.settings.exportDir
+    })
+  });
+  if (!response.ok) throw new Error(`Manager output save failed (${response.status})`);
   return response.json();
 }
 
@@ -1660,6 +1789,133 @@ async function createProjectZip(relativePath, archiveName, entries) {
   return response.json();
 }
 
+async function createManagerOutputZip(relativePath, archiveName, entries) {
+  const response = await fetch("/api/create-zip", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      archiveName,
+      entries,
+      baseDir: state.settings.managerOutputDir || state.settings.exportDir
+    })
+  });
+  if (!response.ok) throw new Error(`Manager output zip failed (${response.status})`);
+  return response.json();
+}
+
+function splitAbsolutePath(pathValue) {
+  const resolved = resolveProjectPath(pathValue || DEFAULT_PROJECT_SAVE_DIR);
+  const lastSlash = resolved.lastIndexOf("/");
+  if (lastSlash <= 0) return { baseDir: PROJECT_ROOT, relativePath: "output/spreadsheet/Levels_feed_the_bear_linked.xlsx" };
+  return {
+    baseDir: resolved.slice(0, lastSlash),
+    relativePath: resolved.slice(lastSlash + 1)
+  };
+}
+
+function managerSpreadsheetSyncPayload(reason = "manual") {
+  const snapshot = buildManagerMetadataSnapshot(reason);
+  return snapshot;
+}
+
+let spreadsheetSyncTimer = null;
+let lastSpreadsheetSyncSignature = "";
+let spreadsheetSyncInFlight = false;
+
+async function syncLevelsWorkbook(reason = "manual") {
+  const snapshot = managerSpreadsheetSyncPayload(reason);
+  const signature = JSON.stringify({
+    progressions: snapshot.progressions,
+    items: snapshot.items
+  });
+  if (reason !== "manual" && signature === lastSpreadsheetSyncSignature) {
+    return { ok: true, path: state.settings.spreadsheetWorkbookPath, skipped: true };
+  }
+  if (spreadsheetSyncInFlight) {
+    return { ok: true, path: state.settings.spreadsheetWorkbookPath, skipped: true };
+  }
+  spreadsheetSyncInFlight = true;
+  try {
+    const target = splitAbsolutePath(state.settings.spreadsheetWorkbookPath);
+    const response = await fetch("/api/sync-levels-workbook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        baseDir: target.baseDir,
+        relativePath: target.relativePath,
+        templatePath: "/Users/victoria.serrano/Downloads/Levels - feed the bear (1).xlsx",
+        snapshot,
+        spreadsheetId: state.settings.spreadsheetId,
+        googleSyncMethod: state.settings.googleSyncMethod,
+        googleCredentialsPath: state.settings.googleClientPath,
+        googleTokenPath: state.settings.googleTokenPath,
+        googleWebAppUrl: state.settings.spreadsheetWebAppUrl || ""
+      })
+    });
+    if (!response.ok) throw new Error(`Spreadsheet sync failed (${response.status})`);
+    const result = await response.json();
+    lastSpreadsheetSyncSignature = signature;
+    return result;
+  } finally {
+    spreadsheetSyncInFlight = false;
+  }
+}
+
+async function fetchGoogleSheetsApiStatus() {
+  const response = await fetch("/api/google-sheets-status", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      credentialsPath: state.settings.googleClientPath,
+      tokenPath: state.settings.googleTokenPath
+    })
+  });
+  if (!response.ok) throw new Error(`Google Sheets API status failed (${response.status})`);
+  return response.json();
+}
+
+async function refreshGoogleSheetsApiStatus(logTarget = "settings-log") {
+  const statusTag = document.getElementById("settings-status");
+  try {
+    const result = await fetchGoogleSheetsApiStatus();
+    const status = result.status || {};
+    if (statusTag) {
+      statusTag.textContent = status.connected
+        ? "Google Sheets API connected"
+        : status.credentialsConfigured
+          ? "Google Sheets API ready for auth"
+          : "Google Sheets API not configured";
+    }
+    log(logTarget, [
+      "Google Sheets API status",
+      `Credentials: ${status.credentialsConfigured ? "OK" : "Missing"}`,
+      `Token: ${status.tokenConfigured ? "OK" : "Missing"}`,
+      `Connected: ${status.connected ? "Yes" : "No"}`,
+      status.credentialsPath ? `Client JSON: ${displayProjectPath(status.credentialsPath)}` : "",
+      status.tokenPath ? `Token file: ${displayProjectPath(status.tokenPath)}` : "",
+      status.error ? `Error: ${status.error}` : ""
+    ].filter(Boolean).join("\n"));
+  } catch (err) {
+    if (statusTag) statusTag.textContent = "Google Sheets API check failed";
+    log(logTarget, `Google Sheets API status failed: ${formatParseError(err)}`);
+  }
+}
+
+function scheduleSpreadsheetSync(reason = "autosave") {
+  if (!state.settings.autoSyncSheetDb || isRestoringWorkspaceState || isBootstrappingWorkspaceState) return;
+  clearTimeout(spreadsheetSyncTimer);
+  spreadsheetSyncTimer = setTimeout(() => {
+    syncLevelsWorkbook(reason).then((result) => {
+      if (result && !result.skipped) {
+        log("mgr-log", `Spreadsheet DB synced to ${displayProjectPath(result.path)}${result.pushed ? " and pushed to Google Sheets" : ""}`);
+      }
+    }).catch((err) => {
+      log("mgr-log", `Spreadsheet DB sync error: ${formatParseError(err)}`);
+    });
+  }, 2500);
+}
+
 async function saveLevelArtifactsToProject(level, preferredName) {
   const stem = slugifyFilePart(preferredName || `level_${level.level}`);
   const jsonResult = await saveProjectFile(`levels/${stem}.json`, JSON.stringify(level, null, 2));
@@ -1667,12 +1923,52 @@ async function saveLevelArtifactsToProject(level, preferredName) {
   return { jsonPath: jsonResult.path, screenshotPath: screenshotResult.path };
 }
 
-async function saveSolvedSession(reason = "manual") {
+function buildPlaytestDatasetRecord(session, origin = "editor") {
+  const level = session.level || {};
+  const boardWidth = Number(level.board_width || level.board_size || 0);
+  const boardHeight = Number(level.board_height || level.board_size || 0);
+  const pairs = Array.isArray(level.pairs) ? level.pairs.length : 0;
+  const blockers = Array.isArray(level.blockers) ? level.blockers.length : 0;
+  return {
+    saved_at: new Date().toISOString(),
+    origin,
+    save_reason: session.save_reason || "manual",
+    saved_path: session.saved_path || "",
+    solved: !!session.solved,
+    level_name: level.name || "",
+    level_number: Number(level.level || 0),
+    board_width: boardWidth,
+    board_height: boardHeight,
+    board: boardWidth && boardHeight ? `${boardWidth}x${boardHeight}` : "",
+    pairs,
+    blockers,
+    moves: Number(level.moves || 0),
+    difficulty: deriveDifficulty(level),
+    decal: !!level.decal,
+    validation_status: validateLevel(level).valid ? "OK" : "INVALID",
+    history_length: Array.isArray(session.history) ? session.history.length : 0,
+    path_lengths: Array.isArray(level.pairs)
+      ? Object.fromEntries(level.pairs.map((pair) => [pair.id, Array.isArray(session.paths?.[pair.id]) ? session.paths[pair.id].length : 0]))
+      : {},
+    level_file: level._filename || "",
+    level_saved_path: level.saved_path || "",
+    session
+  };
+}
+
+async function appendPlaytestDatasetRecord(session, origin = "editor") {
+  const record = buildPlaytestDatasetRecord(session, origin);
+  await appendProjectFile("playtest/playtest_events.jsonl", `${JSON.stringify(record)}\n`);
+  return record;
+}
+
+async function saveSolvedSession(reason = "manual", origin = "editor") {
   const session = serializePlaySession(true);
   session.save_reason = reason;
   localStorage.setItem(PLAY_SESSION_KEY, JSON.stringify(session));
   localStorage.setItem(PLAY_SESSION_EXPORT_DIR_KEY, new Date().toISOString());
   session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}_${reason}.json`, JSON.stringify(session, null, 2))).path;
+  await appendPlaytestDatasetRecord(session, origin);
   return session;
 }
 
@@ -1742,12 +2038,10 @@ function progressionConfigFileName(key) {
 }
 
 async function materializeManagerProgressionsToRepo() {
-  const assignedIds = Array.from(getAllAssignedManagerIds());
+  const materializableItems = state.manager.items.filter((item) => item?.level);
   const materializedItems = new Map();
-  for (const itemId of assignedIds) {
-    const item = getManagerItemById(itemId);
-    if (!item) continue;
-    materializedItems.set(itemId, await materializeManagerItemToRepo(item));
+  for (const item of materializableItems) {
+    materializedItems.set(item.id, await materializeManagerItemToRepo(item));
   }
 
   const summary = {};
@@ -1775,6 +2069,24 @@ async function materializeManagerProgressionsToRepo() {
     }
     summary[key] = config;
   }
+  summary.extras = getManagerExtraItems().map((item) => ({
+    item_id: item.id,
+    file: item.file,
+    level_file: materializedItems.get(item.id)?.jsonRelativePath || projectRelativePath(item.savedPath || ""),
+    difficulty: levelDifficulty(item.level),
+    status: item.status,
+    changed: !!item.changed
+  }));
+  summary.all_levels = getManagerUnassignedItems()
+    .filter((item) => !isManagerExtraItem(item.id))
+    .map((item) => ({
+      item_id: item.id,
+      file: item.file,
+      level_file: materializedItems.get(item.id)?.jsonRelativePath || projectRelativePath(item.savedPath || ""),
+      difficulty: levelDifficulty(item.level),
+      status: item.status,
+      changed: !!item.changed
+    }));
   await saveRepoFile("progressions/manager_progressions_live.json", JSON.stringify(summary, null, 2));
 }
 
@@ -2490,7 +2802,7 @@ async function exportActiveProgressionZip(key = state.manager.activeTab) {
     });
   });
 
-  return createProjectZip(`bundles/${stem}.zip`, `${stem}.zip`, entries);
+  return createManagerOutputZip(`${stem}.zip`, `${stem}.zip`, entries);
 }
 
 function refreshItemArtifacts(item) {
@@ -2895,17 +3207,23 @@ function updateManagerTable() {
   const allLevelsPanel = document.getElementById("mgr-all-levels-panel");
   const csvPanel = document.getElementById("mgr-csv-panel");
   const progressTitle = document.getElementById("mgr-progress-title");
+  const listTitle = document.getElementById("mgr-list-title");
+  const listCopy = document.getElementById("mgr-list-copy");
   renderManagerTabs();
   updateSessionProgressionSelect();
   if (slotPanel) slotPanel.hidden = !isManagerProgressionTab(state.manager.activeTab);
-  if (allLevelsPanel) allLevelsPanel.hidden = state.manager.activeTab !== "allLevels";
+  if (allLevelsPanel) allLevelsPanel.hidden = !["allLevels", "extras"].includes(state.manager.activeTab);
   if (csvPanel) csvPanel.hidden = state.manager.activeTab !== "csvReview";
   if (progressTitle && isManagerProgressionTab(state.manager.activeTab)) progressTitle.textContent = `${getManagerProgressionLabel(state.manager.activeTab)} Order`;
+  if (listTitle) listTitle.textContent = state.manager.activeTab === "extras" ? "Extras" : "All Levels";
+  if (listCopy) listCopy.textContent = state.manager.activeTab === "extras"
+    ? "Editorial bucket for levels intentionally kept outside the main curves."
+    : "Levels that are not currently placed in any progression.";
   tbody.innerHTML = "";
   syncManagerFilterControls();
 
   const filteredItems = getFilteredManagerItems();
-  if (state.manager.activeTab !== "allLevels") state.manager.allLevelsPage = 1;
+  if (!["allLevels", "extras"].includes(state.manager.activeTab)) state.manager.allLevelsPage = 1;
   if (state.manager.activeTab === "csvReview") {
     filteredItems.forEach((item) => {
       const row = {
@@ -3112,14 +3430,24 @@ function makeManagerCard(item, compact = false) {
   actions.appendChild(refBtn);
 
   const poolBtn = document.createElement("button");
-  poolBtn.textContent = "To Pool";
-  poolBtn.title = "Move this level out of the top 10 and back into the pool.";
-  poolBtn.disabled = locked;
-  poolBtn.addEventListener("click", (ev) => {
-    ev.stopPropagation();
-    moveManagerItemToPool(item.id);
-    updateManagerTable();
-  });
+  if (isManagerExtraItem(item.id)) {
+    poolBtn.textContent = "Remove Extra";
+    poolBtn.title = "Remove this level from the Extras bucket and return it to the general pool.";
+    poolBtn.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      removeManagerItemFromExtras(item.id);
+      updateManagerTable();
+    });
+  } else {
+    poolBtn.textContent = "To Extras";
+    poolBtn.title = "Move this level out of the main progression flow and into Extras.";
+    poolBtn.disabled = locked;
+    poolBtn.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      moveManagerItemToExtras(item.id);
+      updateManagerTable();
+    });
+  }
   actions.appendChild(poolBtn);
 
   card.appendChild(actions);
@@ -3287,10 +3615,15 @@ function updateManagerPlanner() {
     });
   }
 
-  const poolItems = getFilteredManagerItems(getManagerUnassignedItems());
+  const basePoolItems = state.manager.activeTab === "extras"
+    ? getManagerExtraItems()
+    : getManagerUnassignedItems().filter((item) => !isManagerExtraItem(item.id));
+  const poolItems = getFilteredManagerItems(basePoolItems);
   const progressionNames = getManagerProgressionKeys().map((key) => getManagerProgressionLabel(key)).join(", ");
   const poolTitle = state.manager.activeTab === "allLevels"
     ? `Levels that are not currently placed in ${progressionNames}.`
+    : state.manager.activeTab === "extras"
+    ? "Levels intentionally placed into Extras instead of the main progression curves."
     : `Levels not assigned to any progression. Drag them into ${getManagerProgressionLabel(state.manager.activeTab)}.`;
   poolGrid.title = poolTitle;
   poolGrid.ondragover = (ev) => ev.preventDefault();
@@ -3303,8 +3636,8 @@ function updateManagerPlanner() {
     updateManagerTable();
   };
 
-  const targetGrid = state.manager.activeTab === "allLevels" ? unassignedGrid : poolGrid;
-  const pagedPoolItems = state.manager.activeTab === "allLevels"
+  const targetGrid = ["allLevels", "extras"].includes(state.manager.activeTab) ? unassignedGrid : poolGrid;
+  const pagedPoolItems = ["allLevels", "extras"].includes(state.manager.activeTab)
     ? (() => {
       const totalPages = Math.max(1, Math.ceil(Math.max(poolItems.length, 1) / state.manager.allLevelsPageSize));
       state.manager.allLevelsPage = Math.min(totalPages, Math.max(1, state.manager.allLevelsPage));
@@ -3430,7 +3763,7 @@ function renderManagerTabs() {
   const tabs = document.getElementById("mgr-tabs");
   if (!tabs) return;
   tabs.innerHTML = "";
-  [...getManagerProgressionKeys(), "allLevels", "csvReview"].forEach((tab) => {
+  [...getManagerProgressionKeys(), "allLevels", "extras", "csvReview"].forEach((tab) => {
     const btn = document.createElement("button");
     btn.className = "manager-tab-btn";
     if (tab === state.manager.activeTab) btn.classList.add("active");
@@ -3443,6 +3776,34 @@ function renderManagerTabs() {
     });
     tabs.appendChild(btn);
   });
+}
+
+function setStartupIntegrityBanner(result) {
+  const root = document.getElementById("startup-integrity-banner");
+  const title = document.getElementById("startup-integrity-title");
+  const body = document.getElementById("startup-integrity-body");
+  if (!root || !title || !body) return;
+  if (!result) {
+    root.hidden = true;
+    root.classList.remove("warning", "ok");
+    body.innerHTML = "";
+    return;
+  }
+  root.hidden = false;
+  root.classList.remove("warning", "ok");
+  root.classList.add(result.missingCount > 0 ? "warning" : "ok");
+  title.textContent = result.missingCount > 0 ? "Startup integrity warning" : "Startup integrity OK";
+  if (result.missingCount > 0) {
+    const preview = result.missing.slice(0, 8).map((entry) =>
+      `<li><code>${escapeHtml(entry.path)}</code> <span>(${escapeHtml(entry.reason)})</span></li>`
+    ).join("");
+    body.innerHTML = `
+      <div>${result.missingCount} required path(s) are missing from the current toolkit runtime. The full audit was saved to <code>${escapeHtml(displayProjectPath(result.reportPath || "reports/toolkit_startup_integrity.md"))}</code>.</div>
+      <ul>${preview}</ul>
+    `;
+  } else {
+    body.innerHTML = `<div>All checked presets and referenced level files resolved correctly. Audit saved to <code>${escapeHtml(displayProjectPath(result.reportPath || "reports/toolkit_startup_integrity.md"))}</code>.</div>`;
+  }
 }
 
 function updateSessionProgressionSelect() {
@@ -3724,6 +4085,7 @@ function applyManagerImport(expanded) {
 }
 
 function managerPlacementLabel(itemId) {
+  if (isManagerExtraItem(itemId)) return "Extras";
   for (const key of getManagerProgressionKeys()) {
     const slotIndex = getManagerProgression(key).slots.findIndex((id) => id === itemId);
     if (slotIndex >= 0) return `${getManagerProgressionLabel(key)} · Slot ${slotIndex + 1}`;
@@ -3788,10 +4150,12 @@ function buildManagerMetadataSnapshot(reason = "autosave") {
       total_items: state.manager.items.length,
       assigned_items: getAllAssignedManagerIds().size,
       unassigned_items: getManagerUnassignedItems().length,
+      extra_items: getManagerExtraItems().length,
       valid_items: state.manager.items.filter((item) => item.status === "OK").length,
       invalid_items: state.manager.items.filter((item) => item.status === "INVALID").length,
       parse_error_items: state.manager.items.filter((item) => item.status === "PARSE_ERROR").length
     },
+    extra_item_ids: [...(state.manager.extraIds || [])],
     progression_order: [...getManagerProgressionKeys()],
     progressions,
     items
@@ -3806,6 +4170,7 @@ async function flushManagerMetadataSnapshot(reason = "autosave") {
     selected_id: snapshot.selected_id,
     filters: snapshot.filters,
     counts: snapshot.counts,
+    extra_item_ids: snapshot.extra_item_ids,
     progressions: snapshot.progressions,
     items: snapshot.items
   });
@@ -3822,6 +4187,7 @@ async function flushManagerMetadataSnapshot(reason = "autosave") {
     progression_order: snapshot.progression_order,
     filters: snapshot.filters
   })}\n`);
+  scheduleSpreadsheetSync(reason);
 }
 
 function scheduleManagerMetadataSnapshot(reason = "autosave") {
@@ -3847,6 +4213,7 @@ function assignManagerItemToNextSlot(itemId, tab = state.manager.activeTab) {
   const progression = getManagerProgression(tab);
   const freeIndex = progression.slots.findIndex((slot, index) => index !== 0 && slot == null && !progression.lockedSlots[index]);
   if (freeIndex >= 0) {
+    removeManagerItemFromExtras(itemId);
     progression.slots[freeIndex] = itemId;
     const item = getManagerItemById(itemId);
     if (!progression.slotDifficulty[freeIndex]) progression.slotDifficulty[freeIndex] = item ? levelDifficulty(item.level) : "";
@@ -3871,6 +4238,7 @@ function moveManagerItemToSlot(itemId, slotIndex, tab = state.manager.activeTab)
 
   if (currentSlot && currentSlot.tab === tab && currentSlot.index === slotIndex) return;
 
+  removeManagerItemFromExtras(itemId);
   if (currentSlot) getManagerProgression(currentSlot.tab).slots[currentSlot.index] = displacedId ?? null;
   target.slots[slotIndex] = itemId;
   const movedItem = getManagerItemById(itemId);
@@ -3889,6 +4257,11 @@ function moveManagerItemToPool(itemId) {
   if (currentSlot && isTutorialSlotIndex(currentSlot.index)) return;
   if (currentSlot && getManagerProgression(currentSlot.tab).lockedSlots[currentSlot.index]) return;
   if (currentSlot) getManagerProgression(currentSlot.tab).slots[currentSlot.index] = null;
+}
+
+function moveManagerItemToExtras(itemId) {
+  moveManagerItemToPool(itemId);
+  addManagerItemToExtras(itemId);
 }
 
 function clearManagerSlot(slotIndex, tab = state.manager.activeTab) {
@@ -4157,6 +4530,10 @@ function initNavigation() {
 function initSettings() {
   const input = document.getElementById("settings-export-dir");
   if (input) input.value = displayProjectPath(state.settings.exportDir);
+  const managerOutputInput = document.getElementById("settings-manager-output-dir");
+  if (managerOutputInput) managerOutputInput.value = displayProjectPath(state.settings.managerOutputDir);
+  const workbookInput = document.getElementById("settings-workbook-path");
+  if (workbookInput) workbookInput.value = displayProjectPath(state.settings.spreadsheetWorkbookPath);
   const setValue = (id, value) => {
     const el = document.getElementById(id);
     if (el) el.value = String(value);
@@ -4174,13 +4551,28 @@ function initSettings() {
   setValue("settings-default-width", state.settings.defaultBoardWidth);
   setValue("settings-default-height", state.settings.defaultBoardHeight);
   setValue("settings-default-difficulty", state.settings.defaultDifficulty);
+  setValue("settings-spreadsheet-id", state.settings.spreadsheetId);
+  setValue("settings-google-sync-method", state.settings.googleSyncMethod);
+  setValue("settings-google-client-path", displayProjectPath(state.settings.googleClientPath));
+  setValue("settings-google-token-path", displayProjectPath(state.settings.googleTokenPath));
+  setValue("settings-sheet-webapp-url", state.settings.spreadsheetWebAppUrl || "");
   setValue("settings-pair-a", state.settings.pairColors[0]);
   setValue("settings-pair-b", state.settings.pairColors[1]);
   setValue("settings-pair-c", state.settings.pairColors[2]);
   setValue("settings-pair-d", state.settings.pairColors[3]);
   setValue("settings-pair-e", state.settings.pairColors[4]);
+  const autoSyncCheckbox = document.getElementById("settings-auto-sync-sheet");
+  if (autoSyncCheckbox) autoSyncCheckbox.checked = !!state.settings.autoSyncSheetDb;
   document.getElementById("settings-save").addEventListener("click", () => {
     state.settings.exportDir = resolveProjectPath(document.getElementById("settings-export-dir").value || DEFAULT_PROJECT_SAVE_DIR);
+    state.settings.managerOutputDir = resolveProjectPath(document.getElementById("settings-manager-output-dir").value || DEFAULT_MANAGER_OUTPUT_DIR);
+    state.settings.spreadsheetWorkbookPath = resolveProjectPath(document.getElementById("settings-workbook-path").value || DEFAULT_SPREADSHEET_WORKBOOK_PATH);
+    state.settings.spreadsheetId = String(document.getElementById("settings-spreadsheet-id").value || DEFAULT_GOOGLE_SPREADSHEET_ID).trim();
+    state.settings.googleSyncMethod = String(document.getElementById("settings-google-sync-method").value || DEFAULT_GOOGLE_SYNC_METHOD);
+    state.settings.googleClientPath = resolveProjectPath(document.getElementById("settings-google-client-path").value || DEFAULT_GOOGLE_CLIENT_PATH);
+    state.settings.googleTokenPath = resolveProjectPath(document.getElementById("settings-google-token-path").value || DEFAULT_GOOGLE_TOKEN_PATH);
+    state.settings.spreadsheetWebAppUrl = String(document.getElementById("settings-sheet-webapp-url").value || "").trim();
+    state.settings.autoSyncSheetDb = !!document.getElementById("settings-auto-sync-sheet").checked;
     state.settings.performanceProfile = String(document.getElementById("settings-performance-profile").value || "medium").toLowerCase();
     state.settings.fontFamily = String(document.getElementById("settings-font-family").value || DEFAULT_FONT_FAMILY);
     state.settings.uiTheme = {
@@ -4208,7 +4600,7 @@ function initSettings() {
     saveSettings();
     syncEditorInputs();
     refreshVisibleView();
-    log("settings-log", `Settings updated.\nSave path: ${displayProjectPath(state.settings.exportDir)}\nPerformance: ${state.settings.performanceProfile}\nActive pairs: ${state.settings.maxPairs}\nDefault board: ${state.settings.defaultBoardWidth}x${state.settings.defaultBoardHeight}\nDefault difficulty: ${state.settings.defaultDifficulty}`);
+    log("settings-log", `Settings updated.\nSave path: ${displayProjectPath(state.settings.exportDir)}\nLevel Manager output: ${displayProjectPath(state.settings.managerOutputDir)}\nWorkbook: ${displayProjectPath(state.settings.spreadsheetWorkbookPath)}\nSpreadsheet ID: ${state.settings.spreadsheetId}\nGoogle sync method: ${state.settings.googleSyncMethod}\nGoogle OAuth client: ${displayProjectPath(state.settings.googleClientPath)}\nGoogle OAuth token: ${displayProjectPath(state.settings.googleTokenPath)}\nApps Script URL: ${state.settings.spreadsheetWebAppUrl || "(not set)"}\nAuto sync sheet DB: ${state.settings.autoSyncSheetDb ? "ON" : "OFF"}\nPerformance: ${state.settings.performanceProfile}\nActive pairs: ${state.settings.maxPairs}\nDefault board: ${state.settings.defaultBoardWidth}x${state.settings.defaultBoardHeight}\nDefault difficulty: ${state.settings.defaultDifficulty}`);
     log("mgr-paths", [
       "Level folders",
       `${PROJECT_ROOT_NAME}/levels`,
@@ -4218,11 +4610,67 @@ function initSettings() {
       "Project save root",
       displayProjectPath(state.settings.exportDir),
       "",
+      "Level Manager output root",
+      displayProjectPath(state.settings.managerOutputDir),
+      "",
+      "Workbook mirror",
+      displayProjectPath(state.settings.spreadsheetWorkbookPath),
+      "",
+      "Google Sheets API",
+      `Method: ${state.settings.googleSyncMethod}`,
+      displayProjectPath(state.settings.googleClientPath),
+      displayProjectPath(state.settings.googleTokenPath),
+      "",
       "Archive and runtime mirrors",
       `${PROJECT_ROOT_NAME}/archive`,
       `${PROJECT_ROOT_NAME}/level_toolkit_web/workshop_jsons`,
       `${PROJECT_ROOT_NAME}/bundles`
     ].join("\n"));
+    refreshGoogleSheetsApiStatus("settings-log");
+  });
+  document.getElementById("settings-sync-sheet").addEventListener("click", async () => {
+    try {
+      const saved = await syncLevelsWorkbook("manual_settings_sync");
+      log("settings-log", `Workbook sync completed: ${displayProjectPath(saved.path)}${saved.pushed ? ` and pushed via ${saved.pushMode || "remote sync"}` : ""}${saved.pushError ? `\nRemote sync warning: ${saved.pushError}` : ""}`);
+    } catch (err) {
+      log("settings-log", `Workbook sync failed: ${formatParseError(err)}`);
+    }
+  });
+  document.getElementById("settings-connect-sheet-api").addEventListener("click", async () => {
+    try {
+      const response = await fetch("/api/google-sheets-auth-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          credentialsPath: state.settings.googleClientPath,
+          tokenPath: state.settings.googleTokenPath,
+          baseUrl: window.location.origin
+        })
+      });
+      if (!response.ok) throw new Error(`Google auth start failed (${response.status})`);
+      const data = await response.json();
+      window.open(data.authUrl, "_blank", "noopener,noreferrer");
+      log("settings-log", "Opened Google OAuth flow for Google Sheets API.");
+    } catch (err) {
+      log("settings-log", `Google Sheets API connect failed: ${formatParseError(err)}`);
+    }
+  });
+  document.getElementById("settings-check-sheet-api").addEventListener("click", async () => {
+    await refreshGoogleSheetsApiStatus("settings-log");
+  });
+  document.getElementById("settings-disconnect-sheet-api").addEventListener("click", async () => {
+    try {
+      const response = await fetch("/api/google-sheets-disconnect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tokenPath: state.settings.googleTokenPath })
+      });
+      if (!response.ok) throw new Error(`Google Sheets API disconnect failed (${response.status})`);
+      await refreshGoogleSheetsApiStatus("settings-log");
+      log("settings-log", "Removed the saved Google Sheets API token.");
+    } catch (err) {
+      log("settings-log", `Google Sheets API disconnect failed: ${formatParseError(err)}`);
+    }
   });
   document.getElementById("settings-clear-cache").addEventListener("click", async () => {
     clearSavedWorkspaceState({ keepSettings: false });
@@ -4237,6 +4685,7 @@ function initSettings() {
     log("settings-log", "Toolkit page cache cleared. Reloading...");
     window.location.href = `${window.location.pathname}?cache_cleared=1&v=${Date.now()}`;
   });
+  refreshGoogleSheetsApiStatus("settings-log");
 }
 
 function initMain() {
@@ -4543,9 +4992,10 @@ function initEditor() {
 
   document.getElementById("play-export-session").addEventListener("click", async () => {
     const solvedNow = getPlayStatus() === "Solved";
-    const session = solvedNow ? await saveSolvedSession("manual") : serializePlaySession(false);
+    const session = solvedNow ? await saveSolvedSession("manual", "editor") : serializePlaySession(false);
     if (!solvedNow) {
       session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}.json`, JSON.stringify(session, null, 2))).path;
+      await appendPlaytestDatasetRecord(session, "editor");
     }
     log("ed-log", `Saved play session for level ${session.level.level} to ${displayProjectPath(session.saved_path)}.`);
   });
@@ -4824,6 +5274,114 @@ async function autoloadManagerFromQuery() {
   }
 }
 
+async function fetchJsonIfAvailable(url) {
+  const response = await fetch(url);
+  if (!response.ok) return null;
+  return parseImportedJson(await response.text());
+}
+
+async function resolveExistingWorkshopLevelUrl(filename) {
+  for (const url of workshopLevelCandidateUrls(filename)) {
+    try {
+      const response = await fetch(url);
+      if (response.ok) return url;
+    } catch (_err) {
+      // try next source
+    }
+  }
+  return null;
+}
+
+function startupIntegrityMarkdown(result) {
+  const lines = [
+    "# Toolkit Startup Integrity Report",
+    "",
+    `Generated: ${new Date().toISOString()}`,
+    "",
+    `Checked presets: ${result.checkedPresets.length}`,
+    `Checked level references: ${result.checkedLevelRefs}`,
+    `Missing references: ${result.missingCount}`,
+    ""
+  ];
+  if (result.checkedPresets.length) {
+    lines.push("## Presets", "");
+    result.checkedPresets.forEach((preset) => lines.push(`- ${preset.key}: ${preset.path}`));
+    lines.push("");
+  }
+  if (result.missing.length) {
+    lines.push("## Missing", "");
+    result.missing.forEach((entry) => lines.push(`- ${entry.path} (${entry.reason})`));
+    lines.push("");
+  } else {
+    lines.push("## Result", "", "- No missing preset or level references found.", "");
+  }
+  return lines.join("\n");
+}
+
+async function runStartupIntegrityAudit() {
+  const presetDefs = [
+    { key: "workshop", url: "./workshop_progressions/workshop_workspace.json" },
+    { key: "allUniqueLevels", url: "./workshop_progressions/allUniqueLevels_workspace.json" },
+    { key: "gameUniqueLevels", url: "./workshop_progressions/gameUniqueLevels_workspace.json" },
+    { key: "progressionA_afterTewak", url: "./workshop_progressions/progressionA_afterTewak_workspace.json" },
+    { key: "progressionImportedClean", url: "./workshop_progressions/progressionImportedClean_workspace.json" }
+  ];
+  const result = {
+    generatedAt: new Date().toISOString(),
+    checkedPresets: [],
+    checkedLevelRefs: 0,
+    missingCount: 0,
+    missing: [],
+    reportPath: `${PROJECT_ROOT}/reports/toolkit_startup_integrity.md`,
+    jsonPath: `${PROJECT_ROOT}/reports/toolkit_startup_integrity.json`
+  };
+  const seenLevelRefs = new Set();
+  try {
+    for (const preset of presetDefs) {
+      const data = await fetchJsonIfAvailable(preset.url);
+      if (!data) {
+        result.missing.push({ path: preset.url, reason: "preset_missing" });
+        continue;
+      }
+      result.checkedPresets.push({ key: preset.key, path: preset.url });
+      const refs = new Set();
+      if (data.tutorial_level_file) refs.add(data.tutorial_level_file);
+      (data.all_level_files || []).forEach((fileName) => refs.add(fileName));
+      Object.values(data.progressions || {}).forEach((entries) => {
+        (entries || []).forEach((entry) => {
+          if (entry?.level_file) refs.add(entry.level_file);
+        });
+      });
+      for (const ref of refs) {
+        const base = basename(ref);
+        if (seenLevelRefs.has(base)) continue;
+        seenLevelRefs.add(base);
+        result.checkedLevelRefs += 1;
+        const resolvedUrl = await resolveExistingWorkshopLevelUrl(base);
+        if (!resolvedUrl) result.missing.push({ path: base, reason: "level_reference_missing" });
+      }
+    }
+    result.missingCount = result.missing.length;
+    await saveRepoFile("reports/toolkit_startup_integrity.json", JSON.stringify(result, null, 2));
+    await saveRepoFile("reports/toolkit_startup_integrity.md", startupIntegrityMarkdown(result), "text/markdown");
+    setStartupIntegrityBanner(result);
+    if (result.missingCount > 0) {
+      log("mgr-log", `Startup integrity warning: ${result.missingCount} missing path(s). See ${displayProjectPath(result.reportPath)}.`);
+      log("settings-log", `Startup integrity warning: ${result.missingCount} missing path(s).`);
+    } else {
+      log("settings-log", `Startup integrity OK. Audit saved to ${displayProjectPath(result.reportPath)}.`);
+    }
+  } catch (err) {
+    const failure = `Startup integrity audit failed: ${formatParseError(err)}`;
+    setStartupIntegrityBanner({
+      missingCount: 1,
+      missing: [{ path: "startup_audit", reason: failure }],
+      reportPath: "reports/toolkit_startup_integrity.md"
+    });
+    log("settings-log", failure);
+  }
+}
+
 async function autoloadWorkspaceFromQuery() {
   const params = new URLSearchParams(window.location.search);
   const preset = params.get("autoload_workspace");
@@ -5025,6 +5583,7 @@ function initManager() {
     state.manager.items = [];
     state.manager.itemIndex = new Map();
     state.manager.slotIndexByItemId = new Map();
+    state.manager.extraIds = [];
     state.manager.progressions = createDefaultManagerProgressions();
     state.manager.progressionOrder = defaultManagerProgressions.map(({ key }) => key);
     state.manager.activeTab = state.manager.progressionOrder[0];
@@ -5056,7 +5615,7 @@ function initManager() {
     }));
     const headers = Object.keys(rows[0] || { file: "", path: "", saved_path: "", level: "", board_width: "", board_height: "", pairs_count: "", blockers_count: "", moves: "", solution_count: "", difficulty: "", status: "", changed: "", notes: "", placement: "" });
     const csv = [headers.join(",")].concat(rows.map((r) => headers.map((h) => r[h]).join(","))).join("\n");
-    const saved = await saveProjectFile("progressions/manager_state/manager_levels.csv", csv, "text/csv");
+    const saved = await saveManagerOutputFile("manager/manager_levels.csv", csv, "text/csv");
     log("mgr-log", `Saved manager CSV to ${displayProjectPath(saved.path)}`);
   });
 
@@ -5068,7 +5627,7 @@ function initManager() {
     const key = state.manager.activeTab;
     const stem = progressionExportFileStem(key);
     const csv = toCsvFromRows(activeProgressionRows(key));
-    const saved = await saveProjectFile(`progressions/exports/${stem}_progression.csv`, csv, "text/csv");
+    const saved = await saveManagerOutputFile(`${stem}/${stem}_progression.csv`, csv, "text/csv");
     log("mgr-log", `Saved progression CSV to ${displayProjectPath(saved.path)}`);
   });
 
@@ -5079,7 +5638,7 @@ function initManager() {
     }
     const key = state.manager.activeTab;
     const stem = progressionExportFileStem(key);
-    const saved = await saveProjectDataUrl(`screenshots/${stem}_difficulty_curve.png`, makeProgressionCurveDataUrl(key));
+    const saved = await saveManagerOutputDataUrl(`${stem}/${stem}_difficulty_curve.png`, makeProgressionCurveDataUrl(key));
     log("mgr-log", `Saved difficulty curve PNG to ${displayProjectPath(saved.path)}`);
   });
 
@@ -5090,7 +5649,7 @@ function initManager() {
     }
     const key = state.manager.activeTab;
     const stem = progressionExportFileStem(key);
-    const saved = await saveProjectDataUrl(`screenshots/${stem}_progression_layout.png`, makeProgressionBoardDataUrl(key));
+    const saved = await saveManagerOutputDataUrl(`${stem}/${stem}_progression_layout.png`, makeProgressionBoardDataUrl(key));
     log("mgr-log", `Saved progression PNG to ${displayProjectPath(saved.path)}`);
   });
 
@@ -5101,6 +5660,15 @@ function initManager() {
     }
     const saved = await exportActiveProgressionZip(state.manager.activeTab);
     log("mgr-log", `Saved progression ZIP to ${displayProjectPath(saved.path)}`);
+  });
+
+  document.getElementById("mgr-sync-spreadsheet").addEventListener("click", async () => {
+    try {
+      const saved = await syncLevelsWorkbook("manual_manager_sync");
+      log("mgr-log", `Spreadsheet DB synced to ${displayProjectPath(saved.path)}${saved.pushed ? " and pushed to Google Sheets" : ""}`);
+    } catch (err) {
+      log("mgr-log", `Spreadsheet DB sync failed: ${formatParseError(err)}`);
+    }
   });
 
   updateManagerTable();
@@ -5202,9 +5770,10 @@ function initSessions() {
 
   document.getElementById("session-play-export").addEventListener("click", async () => {
     const solvedNow = getPlayStatus() === "Solved";
-    const session = solvedNow ? await saveSolvedSession("session_manual") : serializePlaySession(false);
+    const session = solvedNow ? await saveSolvedSession("session_manual", "play_sessions") : serializePlaySession(false);
     if (!solvedNow) {
       session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}_session.json`, JSON.stringify(session, null, 2))).path;
+      await appendPlaytestDatasetRecord(session, "play_sessions");
     }
     log("session-log", `Saved session play for level ${session.level.level} to ${displayProjectPath(session.saved_path)}.`);
   });
@@ -5229,7 +5798,8 @@ async function bootstrap() {
   log("ed-log", "Editor ready.");
   log("session-log", "No session levels loaded.");
   log("mgr-log", "No files loaded.");
-  log("settings-log", `Project save path:\n${displayProjectPath(state.settings.exportDir)}`);
+  log("settings-log", `Project save path:\n${displayProjectPath(state.settings.exportDir)}\n\nLevel Manager output path:\n${displayProjectPath(state.settings.managerOutputDir)}`);
+  runStartupIntegrityAudit();
   const restoredWorkspace = restoreWorkspaceState();
   if (!restoredWorkspace) restoreEditorDraft();
   if (!restoredWorkspace) applySettingsToEditorDefaults();
