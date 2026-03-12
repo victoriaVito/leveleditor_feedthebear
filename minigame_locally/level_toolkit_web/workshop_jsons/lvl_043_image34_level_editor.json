@@ -1,0 +1,162 @@
+{
+  "level": 6,
+  "board_size": 5,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1",
+      "BLOCKED",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "EMPTY"
+    ],
+    [
+      "NODE_A1",
+      "NODE_C1",
+      "BLOCKED",
+      "BLOCKED",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        4,
+        0
+      ],
+      "end": [
+        0,
+        3
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        2,
+        2
+      ],
+      "end": [
+        4,
+        4
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        4,
+        1
+      ],
+      "end": [
+        3,
+        3
+      ],
+      "color": "#0891B2"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      4
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "moves": 19,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "C": [
+      [
+        4,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [
+      "unsolvable_layout",
+      "partially_occluded_source_image"
+    ],
+    "canonical_id": "lvl_043",
+    "canonical_file": "lvl_043_image34_level_editor.json",
+    "canonical_slug": "image34_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.427Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image34_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image34_level_editor.json",
+      "levels/image34_level_editor.json",
+      "levels/standalone/image34_level_editor.json",
+      "niveles_workshop/jsons/image34_level_editor.json"
+    ]
+  }
+}

@@ -1,13 +1,17 @@
 import http from "node:http";
-import { readFile, writeFile, mkdir, stat } from "node:fs/promises";
+import { readFile, writeFile, mkdir, stat, appendFile, mkdtemp, rm } from "node:fs/promises";
+import { execFile } from "node:child_process";
 import path from "node:path";
+import os from "node:os";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = __dirname;
 const WEB_DIR = path.join(ROOT_DIR, "level_toolkit_web");
 const PORT = Number(process.env.PORT || 8080);
+const execFileAsync = promisify(execFile);
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -81,6 +85,48 @@ const server = http.createServer(async (req, res) => {
       await writeFile(targetPath, Buffer.from(match[2], "base64"));
       return send(res, 200, JSON.stringify({ ok: true, path: targetPath }), "application/json; charset=utf-8");
     } catch (err) {
+      return send(res, 500, JSON.stringify({ ok: false, error: err.message }), "application/json; charset=utf-8");
+    }
+  }
+
+  if (req.method === "POST" && req.url === "/api/append-file") {
+    try {
+      const payload = JSON.parse(await readBody(req));
+      const targetPath = resolveOutputPath(payload.baseDir || ROOT_DIR, payload.relativePath || "append.log");
+      await mkdir(path.dirname(targetPath), { recursive: true });
+      await appendFile(targetPath, payload.content || "", "utf8");
+      return send(res, 200, JSON.stringify({ ok: true, path: targetPath }), "application/json; charset=utf-8");
+    } catch (err) {
+      return send(res, 500, JSON.stringify({ ok: false, error: err.message }), "application/json; charset=utf-8");
+    }
+  }
+
+  if (req.method === "POST" && req.url === "/api/create-zip") {
+    let tempDir = null;
+    try {
+      const payload = JSON.parse(await readBody(req));
+      const archiveName = String(payload.archiveName || "bundle.zip").replace(/[^a-zA-Z0-9._-]+/g, "_");
+      const targetPath = resolveOutputPath(payload.baseDir || ROOT_DIR, payload.relativePath || `bundles/${archiveName}`);
+      tempDir = await mkdtemp(path.join(os.tmpdir(), "ftb-zip-"));
+      for (const entry of payload.entries || []) {
+        const relativePath = String(entry.relativePath || "").replace(/^\/+/, "");
+        if (!relativePath) continue;
+        const outPath = path.join(tempDir, relativePath);
+        await mkdir(path.dirname(outPath), { recursive: true });
+        if (entry.dataUrl) {
+          const match = String(entry.dataUrl).match(/^data:(.+);base64,(.+)$/);
+          if (!match) throw new Error(`Invalid data URL for ${relativePath}`);
+          await writeFile(outPath, Buffer.from(match[2], "base64"));
+        } else {
+          await writeFile(outPath, entry.content || "", "utf8");
+        }
+      }
+      await mkdir(path.dirname(targetPath), { recursive: true });
+      await execFileAsync("zip", ["-rq", targetPath, "."], { cwd: tempDir });
+      await rm(tempDir, { recursive: true, force: true });
+      return send(res, 200, JSON.stringify({ ok: true, path: targetPath }), "application/json; charset=utf-8");
+    } catch (err) {
+      if (tempDir) await rm(tempDir, { recursive: true, force: true }).catch(() => {});
       return send(res, 500, JSON.stringify({ ok: false, error: err.message }), "application/json; charset=utf-8");
     }
   }

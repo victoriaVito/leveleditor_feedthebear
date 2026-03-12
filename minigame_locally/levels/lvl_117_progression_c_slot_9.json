@@ -1,0 +1,89 @@
+{
+  "id": "029",
+  "name": "progressionC_level9_Hard",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 2,
+  "gridSize": {
+    "cols": 6,
+    "rows": 5
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 2
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 4,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 4
+    }
+  ],
+  "meta": {
+    "canonical_id": "lvl_117",
+    "canonical_file": "lvl_117_progression_c_slot_9.json",
+    "canonical_slug": "progression_c_slot_9",
+    "canonicalized_at": "2026-03-12T09:22:45.475Z",
+    "previous_files": [
+      "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level9_Hard.json"
+    ]
+  }
+}

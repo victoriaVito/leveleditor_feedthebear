@@ -1,0 +1,1937 @@
+{
+  "created_at": "2026-03-12T09:14:58.519Z",
+  "total_levels": 109,
+  "levels": [
+    {
+      "canonical_id": "lvl_001",
+      "canonical_file": "lvl_001_hard_10_2.json",
+      "source_file": "levels/hard_10_2.json",
+      "aliases": [
+        "levels/hard_10_2.json",
+        "levels/standalone/hard_10_2.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "HARD",
+      "hash": "e11c31ecbd9e836e53876cd7393a162ab259ac49"
+    },
+    {
+      "canonical_id": "lvl_002",
+      "canonical_file": "lvl_002_hard_large_01_7x7.json",
+      "source_file": "levels/hard_large_01_7x7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_01_7x7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_01_7x7.json",
+        "levels/hard_large_01_7x7.json",
+        "levels/standalone/hard_large_01_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 14,
+      "difficulty": "HARD",
+      "hash": "88962e3e13ce71df46f774c63403d20a02801aeb"
+    },
+    {
+      "canonical_id": "lvl_003",
+      "canonical_file": "lvl_003_hard_large_02_8x8.json",
+      "source_file": "levels/hard_large_02_8x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_02_8x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_02_8x8.json",
+        "levels/hard_large_02_8x8.json",
+        "levels/standalone/hard_large_02_8x8.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 12,
+      "difficulty": "HARD",
+      "hash": "1e5200a18e4861579841f4d633e6805e6c77aa31"
+    },
+    {
+      "canonical_id": "lvl_004",
+      "canonical_file": "lvl_004_hard_large_03_7x7.json",
+      "source_file": "levels/hard_large_03_7x7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_03_7x7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_03_7x7.json",
+        "levels/hard_large_03_7x7.json",
+        "levels/standalone/hard_large_03_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "HARD",
+      "hash": "2985e1657a9de8fd173f55fbe90c2307530287a0"
+    },
+    {
+      "canonical_id": "lvl_005",
+      "canonical_file": "lvl_005_hard_large_04_8x8.json",
+      "source_file": "levels/hard_large_04_8x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_04_8x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_04_8x8.json",
+        "levels/hard_large_04_8x8.json",
+        "levels/standalone/hard_large_04_8x8.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 20,
+      "difficulty": "HARD",
+      "hash": "91b7de2b7b180a2a539fa7e543f0155c73ffef78"
+    },
+    {
+      "canonical_id": "lvl_006",
+      "canonical_file": "lvl_006_hard_large_05_7x7.json",
+      "source_file": "levels/hard_large_05_7x7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_05_7x7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_05_7x7.json",
+        "levels/hard_large_05_7x7.json",
+        "levels/standalone/hard_large_05_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 14,
+      "difficulty": "HARD",
+      "hash": "1b25c83e23a7ff09ac8dd8b40f1a0fba3e1a0c71"
+    },
+    {
+      "canonical_id": "lvl_007",
+      "canonical_file": "lvl_007_hard_large_06_8x8.json",
+      "source_file": "levels/hard_large_06_8x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_06_8x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_06_8x8.json",
+        "levels/hard_large_06_8x8.json",
+        "levels/standalone/hard_large_06_8x8.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 23,
+      "difficulty": "HARD",
+      "hash": "58fef46df3812ea0bcfb49b34696ccbc2bbe205f"
+    },
+    {
+      "canonical_id": "lvl_008",
+      "canonical_file": "lvl_008_hard_large_07_7x7.json",
+      "source_file": "levels/hard_large_07_7x7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_07_7x7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_07_7x7.json",
+        "levels/hard_large_07_7x7.json",
+        "levels/standalone/hard_large_07_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "HARD",
+      "hash": "e0d5a44d4dc18dc0d1552da0bd2313ab65335812"
+    },
+    {
+      "canonical_id": "lvl_009",
+      "canonical_file": "lvl_009_hard_large_08_8x8.json",
+      "source_file": "levels/hard_large_08_8x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_08_8x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_08_8x8.json",
+        "levels/hard_large_08_8x8.json",
+        "levels/standalone/hard_large_08_8x8.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 19,
+      "difficulty": "HARD",
+      "hash": "e7bd97f6a5fc6a1a3c570a99e45a7e8c9b9ecb7e"
+    },
+    {
+      "canonical_id": "lvl_010",
+      "canonical_file": "lvl_010_hard_large_09_7x7.json",
+      "source_file": "levels/hard_large_09_7x7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_09_7x7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_09_7x7.json",
+        "levels/hard_large_09_7x7.json",
+        "levels/standalone/hard_large_09_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "HARD",
+      "hash": "c2df9dfc1e0f7deae466b96d9c6796ac5536354e"
+    },
+    {
+      "canonical_id": "lvl_011",
+      "canonical_file": "lvl_011_hard_large_10_8x8.json",
+      "source_file": "levels/hard_large_10_8x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/hard_large_10_8x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/hard_large_10_8x8.json",
+        "levels/hard_large_10_8x8.json",
+        "levels/standalone/hard_large_10_8x8.json"
+      ],
+      "board": "8x8",
+      "pairs": 3,
+      "moves": 17,
+      "difficulty": "HARD",
+      "hash": "4843fe14a3dd184192ca7f566907a8db05c4f067"
+    },
+    {
+      "canonical_id": "lvl_012",
+      "canonical_file": "lvl_012_image02_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image02_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image02_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image02_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image02_level_editor.json",
+        "levels/image02_level_editor.json",
+        "levels/standalone/image02_level_editor.json",
+        "niveles_workshop/jsons/image02_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "ae2b1f6d0fc16a15494c4bf5727b10cd98a8b942"
+    },
+    {
+      "canonical_id": "lvl_013",
+      "canonical_file": "lvl_013_image03_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image03_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image03_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image03_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image03_level_editor.json",
+        "levels/image03_level_editor.json",
+        "levels/standalone/image03_level_editor.json",
+        "niveles_workshop/jsons/image03_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 16,
+      "difficulty": "",
+      "hash": "c807d869a1e9c2b0c9f273cd8b902e439e59f12b"
+    },
+    {
+      "canonical_id": "lvl_014",
+      "canonical_file": "lvl_014_image04_level_editor.json",
+      "source_file": "levels/image04_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image04_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image04_level_editor.json",
+        "levels/image04_level_editor.json",
+        "levels/standalone/image04_level_editor.json",
+        "niveles_workshop/jsons/image04_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 18,
+      "difficulty": "",
+      "hash": "97be88061196e9411359dbcef27f47d31fa2f33b"
+    },
+    {
+      "canonical_id": "lvl_015",
+      "canonical_file": "lvl_015_image05_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image05_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image05_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image05_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image05_level_editor.json",
+        "levels/image05_level_editor.json",
+        "levels/standalone/image05_level_editor.json",
+        "niveles_workshop/jsons/image05_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "6e1b2cb133efc19c12f9ef6359ca678010623571"
+    },
+    {
+      "canonical_id": "lvl_016",
+      "canonical_file": "lvl_016_image07_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image07_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image07_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image07_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image07_level_editor.json",
+        "levels/image07_level_editor.json",
+        "levels/standalone/image07_level_editor.json",
+        "niveles_workshop/jsons/image07_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "38f0cc315347d9e2e399f2fccb49ac493b94e064"
+    },
+    {
+      "canonical_id": "lvl_017",
+      "canonical_file": "lvl_017_image08_level_editor.json",
+      "source_file": "levels/image08_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image08_level_editor.json",
+        "level_toolkit_web/workshop_jsons/new_level2_a.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image08_level_editor.json",
+        "levels/image08_level_editor.json",
+        "levels/new_level2_a.json",
+        "levels/standalone/image08_level_editor.json",
+        "niveles_workshop/jsons/image08_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 4,
+      "difficulty": "",
+      "hash": "693a77ea928ad8bdccd408e8d63cb260ca9a6973"
+    },
+    {
+      "canonical_id": "lvl_018",
+      "canonical_file": "lvl_018_image09_level_editor.json",
+      "source_file": "levels/image09_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image09_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image09_level_editor.json",
+        "levels/image09_level_editor.json",
+        "levels/standalone/image09_level_editor.json",
+        "niveles_workshop/jsons/image09_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "f82e5fc3cba0a6260c75b512c5e1aa24de011d16"
+    },
+    {
+      "canonical_id": "lvl_019",
+      "canonical_file": "lvl_019_image10_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image10_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image10_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image10_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image10_level_editor.json",
+        "levels/image10_level_editor.json",
+        "levels/standalone/image10_level_editor.json",
+        "niveles_workshop/jsons/image10_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "82f1898f025fc35db2338607fbe41aee80cb04d2"
+    },
+    {
+      "canonical_id": "lvl_020",
+      "canonical_file": "lvl_020_image11_level_editor.json",
+      "source_file": "levels/image11_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image11_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image11_level_editor.json",
+        "levels/image11_level_editor.json",
+        "levels/standalone/image11_level_editor.json",
+        "niveles_workshop/jsons/image11_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 14,
+      "difficulty": "",
+      "hash": "06345984b53400299369673f5c7307b2374aa534"
+    },
+    {
+      "canonical_id": "lvl_021",
+      "canonical_file": "lvl_021_image12_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image12_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image12_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image12_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image12_level_editor.json",
+        "levels/image12_level_editor.json",
+        "levels/standalone/image12_level_editor.json",
+        "niveles_workshop/jsons/image12_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "a8ca0e689ca2e40c15ad8df142b855af5e261306"
+    },
+    {
+      "canonical_id": "lvl_022",
+      "canonical_file": "lvl_022_image13_level_editor.json",
+      "source_file": "levels/image13_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image13_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image13_level_editor.json",
+        "levels/image13_level_editor.json",
+        "levels/standalone/image13_level_editor.json",
+        "niveles_workshop/jsons/image13_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "",
+      "hash": "9aacc03fbfd111751e44cbeab474edbd121142b9"
+    },
+    {
+      "canonical_id": "lvl_023",
+      "canonical_file": "lvl_023_image14_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image14_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image14_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image14_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image14_level_editor.json",
+        "levels/image14_level_editor.json",
+        "levels/standalone/image14_level_editor.json",
+        "niveles_workshop/jsons/image14_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "",
+      "hash": "81a5e9b0949ed8cd031a3ca6430b48f276dedd3c"
+    },
+    {
+      "canonical_id": "lvl_024",
+      "canonical_file": "lvl_024_image15_level_editor.json",
+      "source_file": "levels/image15_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image15_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image15_level_editor.json",
+        "levels/image15_level_editor.json",
+        "levels/standalone/image15_level_editor.json",
+        "niveles_workshop/jsons/image15_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 19,
+      "difficulty": "",
+      "hash": "49314b9269c7ec6fb0ce55067f92bd5f6b50ac9a"
+    },
+    {
+      "canonical_id": "lvl_025",
+      "canonical_file": "lvl_025_image16_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image16_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image16_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image16_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image16_level_editor.json",
+        "levels/image16_level_editor.json",
+        "levels/standalone/image16_level_editor.json",
+        "niveles_workshop/jsons/image16_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 12,
+      "difficulty": "",
+      "hash": "000cbad897ae97fe5744e28c6cd17494a9536c53"
+    },
+    {
+      "canonical_id": "lvl_026",
+      "canonical_file": "lvl_026_image17_level_editor.json",
+      "source_file": "levels/image17_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image17_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image17_level_editor.json",
+        "levels/image17_level_editor.json",
+        "levels/standalone/image17_level_editor.json",
+        "niveles_workshop/jsons/image17_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 16,
+      "difficulty": "",
+      "hash": "bb25a743b640a45a85fd6a5f2be2de1e6e6cd944"
+    },
+    {
+      "canonical_id": "lvl_027",
+      "canonical_file": "lvl_027_image18_level_editor.json",
+      "source_file": "levels/image18_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image18_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image18_level_editor.json",
+        "levels/image18_level_editor.json",
+        "levels/standalone/image18_level_editor.json",
+        "niveles_workshop/jsons/image18_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 15,
+      "difficulty": "",
+      "hash": "4955b517949acf849311bc43095bcf98ad784978"
+    },
+    {
+      "canonical_id": "lvl_028",
+      "canonical_file": "lvl_028_image19_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image19_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image19_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image19_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image19_level_editor.json",
+        "levels/image19_level_editor.json",
+        "levels/standalone/image19_level_editor.json",
+        "niveles_workshop/jsons/image19_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 15,
+      "difficulty": "",
+      "hash": "2be7fe141a42e052a13668110fc615822894822f"
+    },
+    {
+      "canonical_id": "lvl_029",
+      "canonical_file": "lvl_029_image20_level_editor.json",
+      "source_file": "levels/image20_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image20_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image20_level_editor.json",
+        "levels/image20_level_editor.json",
+        "levels/standalone/image20_level_editor.json",
+        "niveles_workshop/jsons/image20_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 13,
+      "difficulty": "",
+      "hash": "d2ae24316e7c81e33dc9b3dee226822d75842ada"
+    },
+    {
+      "canonical_id": "lvl_030",
+      "canonical_file": "lvl_030_image21_level_editor.json",
+      "source_file": "levels/image21_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image21_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image21_level_editor.json",
+        "levels/image21_level_editor.json",
+        "levels/standalone/image21_level_editor.json",
+        "niveles_workshop/jsons/image21_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "49edaed971c2c1a38457944c4f1e9b61a48b0c33"
+    },
+    {
+      "canonical_id": "lvl_031",
+      "canonical_file": "lvl_031_image22_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image22_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image22_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image22_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image22_level_editor.json",
+        "levels/image22_level_editor.json",
+        "levels/standalone/image22_level_editor.json",
+        "niveles_workshop/jsons/image22_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "152c4e87f724ef90b1d63f2e4334a4d70cfacc9f"
+    },
+    {
+      "canonical_id": "lvl_032",
+      "canonical_file": "lvl_032_image23_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image23_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image23_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image23_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image23_level_editor.json",
+        "levels/image23_level_editor.json",
+        "levels/standalone/image23_level_editor.json",
+        "niveles_workshop/jsons/image23_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "624feaeb710382e51df19120e18aa00b4907dc1e"
+    },
+    {
+      "canonical_id": "lvl_033",
+      "canonical_file": "lvl_033_image24_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image24_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image24_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image24_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image24_level_editor.json",
+        "levels/image24_level_editor.json",
+        "levels/standalone/image24_level_editor.json",
+        "niveles_workshop/jsons/image24_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "33f1d1629e3a1fa2c178cae0a1d3b200a5d3bf69"
+    },
+    {
+      "canonical_id": "lvl_034",
+      "canonical_file": "lvl_034_image25_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image25_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image25_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image25_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image25_level_editor.json",
+        "levels/image25_level_editor.json",
+        "levels/standalone/image25_level_editor.json",
+        "niveles_workshop/jsons/image25_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 11,
+      "difficulty": "",
+      "hash": "2cc0842c4289917c33ff4a07c592440a011b4cab"
+    },
+    {
+      "canonical_id": "lvl_035",
+      "canonical_file": "lvl_035_image26_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image26_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image26_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image26_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image26_level_editor.json",
+        "levels/image26_level_editor.json",
+        "levels/standalone/image26_level_editor.json",
+        "niveles_workshop/jsons/image26_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "a219032be552791e93705eb99a49f55b29b6ddf8"
+    },
+    {
+      "canonical_id": "lvl_036",
+      "canonical_file": "lvl_036_image27_level_editor.json",
+      "source_file": "levels/image27_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image27_level_editor.json",
+        "level_toolkit_web/workshop_jsons/new_level7_a.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image27_level_editor.json",
+        "levels/image27_level_editor.json",
+        "levels/new_level7_a.json",
+        "levels/standalone/image27_level_editor.json",
+        "niveles_workshop/jsons/image27_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "8f9ec06313e9458ed50e8f12f5ef3290381628da"
+    },
+    {
+      "canonical_id": "lvl_037",
+      "canonical_file": "lvl_037_image28_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image28_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image28_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image28_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image28_level_editor.json",
+        "levels/image28_level_editor.json",
+        "levels/standalone/image28_level_editor.json",
+        "niveles_workshop/jsons/image28_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "553fe4aaded515c6f7ddbfa703d905c064eaad3b"
+    },
+    {
+      "canonical_id": "lvl_038",
+      "canonical_file": "lvl_038_image29_level_editor.json",
+      "source_file": "bundles/progression_c/jsons/image29_level_editor.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image29_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image29_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image29_level_editor.json",
+        "levels/image29_level_editor.json",
+        "levels/standalone/image29_level_editor.json",
+        "niveles_workshop/jsons/image29_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "a96a181b5adc72bf2cd4d7aa9b6540ef24cd25f3"
+    },
+    {
+      "canonical_id": "lvl_039",
+      "canonical_file": "lvl_039_image30_level_editor.json",
+      "source_file": "levels/image30_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image30_level_editor.json",
+        "level_toolkit_web/workshop_jsons/new_level10_a.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image30_level_editor.json",
+        "levels/image30_level_editor.json",
+        "levels/new_level10_a.json",
+        "levels/standalone/image30_level_editor.json",
+        "niveles_workshop/jsons/image30_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "04fb7130801a74bfdfd2b2f0be6e69ed5115ddcd"
+    },
+    {
+      "canonical_id": "lvl_040",
+      "canonical_file": "lvl_040_image31_level_editor.json",
+      "source_file": "bundles/progression_b/jsons/image31_level_editor.json",
+      "aliases": [
+        "bundles/progression_b/jsons/image31_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image31_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image31_level_editor.json",
+        "levels/image31_level_editor.json",
+        "levels/standalone/image31_level_editor.json",
+        "niveles_workshop/jsons/image31_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 11,
+      "difficulty": "",
+      "hash": "d5e510dd627c2f51a97dd2e283251711c5f78104"
+    },
+    {
+      "canonical_id": "lvl_041",
+      "canonical_file": "lvl_041_image32_level_editor.json",
+      "source_file": "levels/image32_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image32_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image32_level_editor.json",
+        "levels/image32_level_editor.json",
+        "levels/standalone/image32_level_editor.json",
+        "niveles_workshop/jsons/image32_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 11,
+      "difficulty": "",
+      "hash": "ec5f2175a194a2831e8aa8507407587a5b9f2ec3"
+    },
+    {
+      "canonical_id": "lvl_042",
+      "canonical_file": "lvl_042_image33_level_editor.json",
+      "source_file": "levels/image33_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image33_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image33_level_editor.json",
+        "levels/image33_level_editor.json",
+        "levels/standalone/image33_level_editor.json",
+        "niveles_workshop/jsons/image33_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 17,
+      "difficulty": "",
+      "hash": "b3115132c18266e45959afaddd6f58bd9cc89d3b"
+    },
+    {
+      "canonical_id": "lvl_043",
+      "canonical_file": "lvl_043_image34_level_editor.json",
+      "source_file": "levels/image34_level_editor.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image34_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image34_level_editor.json",
+        "levels/image34_level_editor.json",
+        "levels/standalone/image34_level_editor.json",
+        "niveles_workshop/jsons/image34_level_editor.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 19,
+      "difficulty": "",
+      "hash": "920a1484074fe00044641f09d2d99af030c0a0aa"
+    },
+    {
+      "canonical_id": "lvl_044",
+      "canonical_file": "lvl_044_level_01.json",
+      "source_file": "levels/level_01.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_01.json",
+        "level_toolkit_py/out/progression_bundle/level_01.json",
+        "levels/level_01.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "7210b2f646fbb41ef56040e82c729a3b7a2571ec"
+    },
+    {
+      "canonical_id": "lvl_045",
+      "canonical_file": "lvl_045_level_02.json",
+      "source_file": "levels/level_02.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_02.json",
+        "level_toolkit_py/out/progression_bundle/level_02.json",
+        "levels/level_02.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "620da74b18a040bbf940081e812a01c1f65dc7f4"
+    },
+    {
+      "canonical_id": "lvl_046",
+      "canonical_file": "lvl_046_level_03.json",
+      "source_file": "levels/level_03.json",
+      "aliases": [
+        "level_toolkit_py/out/level3.json",
+        "level_toolkit_py/out/progression/level_03.json",
+        "level_toolkit_py/out/progression_bundle/level_03.json",
+        "levels/level_03.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "eaa6aa2ba098dd69f7762f89cd22c79e7bc6e907"
+    },
+    {
+      "canonical_id": "lvl_047",
+      "canonical_file": "lvl_047_level_04.json",
+      "source_file": "levels/level_04.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_04.json",
+        "level_toolkit_py/out/progression_bundle/level_04.json",
+        "levels/level_04.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "12f08506f3030c78278003a5ed859c99ca0a8491"
+    },
+    {
+      "canonical_id": "lvl_048",
+      "canonical_file": "lvl_048_level_05.json",
+      "source_file": "levels/level_05.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_05.json",
+        "level_toolkit_py/out/progression_bundle/level_05.json",
+        "levels/level_05.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "f9d81f162a4f853a5ec94ab5a0b691db3e9e388b"
+    },
+    {
+      "canonical_id": "lvl_049",
+      "canonical_file": "lvl_049_level_06.json",
+      "source_file": "levels/level_06.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_06.json",
+        "level_toolkit_py/out/progression_bundle/level_06.json",
+        "levels/level_06.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "e647a6f14c78a7b721ece2e21312574482c16be6"
+    },
+    {
+      "canonical_id": "lvl_050",
+      "canonical_file": "lvl_050_level_07.json",
+      "source_file": "levels/level_07.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_07.json",
+        "level_toolkit_py/out/progression_bundle/level_07.json",
+        "levels/level_07.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "03e63cf34f8086bfdda0e9f2551a286ea1d90b83"
+    },
+    {
+      "canonical_id": "lvl_051",
+      "canonical_file": "lvl_051_level_08.json",
+      "source_file": "levels/level_08.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_08.json",
+        "level_toolkit_py/out/progression_bundle/level_08.json",
+        "levels/level_08.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "1d01702c9405c4ef4ac480bb848f969bda31bf65"
+    },
+    {
+      "canonical_id": "lvl_052",
+      "canonical_file": "lvl_052_level_09.json",
+      "source_file": "levels/level_09.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_09.json",
+        "level_toolkit_py/out/progression_bundle/level_09.json",
+        "levels/level_09.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "7002bfaa24e250d8eede6baf6f92fee88c3a2e27"
+    },
+    {
+      "canonical_id": "lvl_053",
+      "canonical_file": "lvl_053_level_1.json",
+      "source_file": "levels/level_1.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/level_1.json",
+        "level_toolkit_web/workshop_jsons_game_unique/level_1.json",
+        "levels/level_1.json",
+        "levels/standalone/level_1.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 4,
+      "difficulty": "",
+      "hash": "1fb97e3391aadc19156f4287469f7e92165dfd30"
+    },
+    {
+      "canonical_id": "lvl_054",
+      "canonical_file": "lvl_054_level_10.json",
+      "source_file": "levels/level_10.json",
+      "aliases": [
+        "level_toolkit_py/out/progression/level_10.json",
+        "level_toolkit_py/out/progression_bundle/level_10.json",
+        "levels/level_10.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 0,
+      "difficulty": "",
+      "hash": "8e21a9099ec5d4ce31c8e67d8e7f3747fa099122"
+    },
+    {
+      "canonical_id": "lvl_055",
+      "canonical_file": "lvl_055_level3_with_moves.json",
+      "source_file": "levels/level3_with_moves.json",
+      "aliases": [
+        "level_toolkit_py/out/level3_with_moves.json",
+        "levels/level3_with_moves.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "e64de5fec5f3d50269d33bbc2e4b2ffeb6cc4759"
+    },
+    {
+      "canonical_id": "lvl_056",
+      "canonical_file": "lvl_056_new_level1_a.json",
+      "source_file": "levels/new_level1_a.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/new_level1_a.json",
+        "level_toolkit_web/workshop_jsons_game_unique/new_level1_a.json",
+        "level_toolkit_web/workshop_progressions/tutorial_level.json",
+        "levels/new_level1_a.json",
+        "levels/play_session_level_1_validate_3_level.json",
+        "levels/play_session_level_1_validate_9_level.json",
+        "levels/standalone/new_level1_a.json",
+        "levels/standalone/play_session_level_1_manual_level.json",
+        "levels/standalone/play_session_level_1_validate_1_level.json",
+        "levels/standalone/play_session_level_1_validate_2_level.json",
+        "levels/standalone/play_session_level_1_validate_3_level.json",
+        "levels/standalone/play_session_level_1_validate_9_level.json",
+        "levels/standalone/tutorial_level.json",
+        "niveles_workshop/jsons/tutorial_level.json",
+        "tutorial_level.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "511440b496dda1ffc65a2955803637bac855037b"
+    },
+    {
+      "canonical_id": "lvl_057",
+      "canonical_file": "lvl_057_new_level3_a.json",
+      "source_file": "levels/new_level3_a.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/new_level3_a.json",
+        "level_toolkit_web/workshop_jsons/susanne_level_2_manager_ok.json",
+        "level_toolkit_web/workshop_jsons_game_unique/susanne_level_2_manager_ok.json",
+        "levels/new_level3_a.json",
+        "levels/standalone/susanne_level_2_manager_ok.json",
+        "levels/susanne_level_2_manager_ok.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 5,
+      "difficulty": "",
+      "hash": "eba02332747dcbf3954e23a473d8c1b55df7da18"
+    },
+    {
+      "canonical_id": "lvl_058",
+      "canonical_file": "lvl_058_new_level6_a.json",
+      "source_file": "levels/new_level6_a.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/image06_level_editor.json",
+        "level_toolkit_web/workshop_jsons/new_level6_a.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image06_level_editor.json",
+        "levels/new_level6_a.json",
+        "levels/standalone/image06_level_editor.json",
+        "niveles_workshop/jsons/image06_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "2cc9838b516f5778350e79ff32712a0015811ffb"
+    },
+    {
+      "canonical_id": "lvl_059",
+      "canonical_file": "lvl_059_new_level8_a.json",
+      "source_file": "levels/new_level8_a.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/new_level8_a.json",
+        "level_toolkit_web/workshop_jsons/susanne_level_5_manager_ok.json",
+        "level_toolkit_web/workshop_jsons_game_unique/susanne_level_5_manager_ok.json",
+        "levels/new_level8_a.json",
+        "levels/standalone/susanne_level_5_manager_ok.json",
+        "levels/susanne_level_5_manager_ok.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "7a09b66dc0c3c4469b4ef871823e5b327b2d7817"
+    },
+    {
+      "canonical_id": "lvl_060",
+      "canonical_file": "lvl_060_p_10_a.json",
+      "source_file": "levels/p_10_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_10_a.json",
+        "levels/p_10_a.json",
+        "levels/standalone/p_10_a.json"
+      ],
+      "board": "6x7",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "HARD",
+      "hash": "98113b0299e68bc466a816279706216a5b53e3ec"
+    },
+    {
+      "canonical_id": "lvl_061",
+      "canonical_file": "lvl_061_p_2_2.json",
+      "source_file": "levels/p_2_2.json",
+      "aliases": [
+        "levels/p_2_2.json",
+        "levels/p_2_3.json",
+        "levels/standalone/p_2_2.json",
+        "levels/standalone/p_2_3.json",
+        "levels/standalone/p_2_3_new_20260310163652.json"
+      ],
+      "board": "5x5",
+      "pairs": 2,
+      "moves": 5,
+      "difficulty": "EASY",
+      "hash": "7046fcd4613e6b13f5c45d72e61fcd450505156e"
+    },
+    {
+      "canonical_id": "lvl_062",
+      "canonical_file": "lvl_062_p_2_4.json",
+      "source_file": "levels/p_2_4_new_20260310165931.json",
+      "aliases": [
+        "levels/p_2_4.json",
+        "levels/p_2_4_new_20260310165931.json",
+        "levels/standalone/p_2_4.json",
+        "levels/standalone/p_2_4_new_20260310165931.json"
+      ],
+      "board": "7x7",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "MEDIUM",
+      "hash": "0ac18f30d6c96747dd1811257b61cb25fce43bf4"
+    },
+    {
+      "canonical_id": "lvl_063",
+      "canonical_file": "lvl_063_p_2_5.json",
+      "source_file": "levels/p_2_5_new_20260310170335.json",
+      "aliases": [
+        "levels/p_2_5.json",
+        "levels/p_2_5_new_20260310170335.json",
+        "levels/standalone/p_2_5.json",
+        "levels/standalone/p_2_5_new_20260310170335.json"
+      ],
+      "board": "7x7",
+      "pairs": 4,
+      "moves": 5,
+      "difficulty": "HARD",
+      "hash": "d5a35f0439cea62e0fad4f55f2e992a3eb91fc2e"
+    },
+    {
+      "canonical_id": "lvl_064",
+      "canonical_file": "lvl_064_p_2_6.json",
+      "source_file": "levels/p_2_6_new_20260310170645.json",
+      "aliases": [
+        "levels/p_2_6.json",
+        "levels/p_2_6_new_20260310170645.json",
+        "levels/standalone/p_2_6.json",
+        "levels/standalone/p_2_6_new_20260310170645.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 5,
+      "difficulty": "EASY",
+      "hash": "7f767424b6fea9c0c9016baf06e5d34307b4bd9f"
+    },
+    {
+      "canonical_id": "lvl_065",
+      "canonical_file": "lvl_065_p_2_9.json",
+      "source_file": "levels/p_2_9.json",
+      "aliases": [
+        "levels/p_2_9.json",
+        "levels/p_2_9_new_20260310195328.json",
+        "levels/standalone/p_2_9.json",
+        "levels/standalone/p_2_9_new_20260310195328.json"
+      ],
+      "board": "8x8",
+      "pairs": 4,
+      "moves": 5,
+      "difficulty": "MEDIUM",
+      "hash": "18068af0001350b083c2223d6be361a85907b1d3"
+    },
+    {
+      "canonical_id": "lvl_066",
+      "canonical_file": "lvl_066_p_2_a.json",
+      "source_file": "levels/p_2_a_1.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_2_a.json",
+        "levels/p_2_a.json",
+        "levels/p_2_a_1.json",
+        "levels/standalone/p_2_a.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 5,
+      "difficulty": "EASY",
+      "hash": "0fca03074380f4b38d135d85ddb6b91fa27b925e"
+    },
+    {
+      "canonical_id": "lvl_067",
+      "canonical_file": "lvl_067_p_2_b.json",
+      "source_file": "levels/p_2_b.json",
+      "aliases": [
+        "levels/p_2_b.json",
+        "levels/p_2_c.json",
+        "levels/standalone/p_2_b.json",
+        "levels/standalone/p_2_c.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "MEDIUM",
+      "hash": "cf447d765d8060d61bbefbb4a50f83a5d151205d"
+    },
+    {
+      "canonical_id": "lvl_068",
+      "canonical_file": "lvl_068_p_3_a.json",
+      "source_file": "levels/p_3_a_1.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_3_a.json",
+        "levels/p_3_a.json",
+        "levels/p_3_a_1.json",
+        "levels/standalone/p_3_a.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 5,
+      "difficulty": "MEDIUM",
+      "hash": "b80c0715d38d3a56c2d77d50d7d81ee35747f509"
+    },
+    {
+      "canonical_id": "lvl_069",
+      "canonical_file": "lvl_069_p_3_b.json",
+      "source_file": "levels/p_3_b.json",
+      "aliases": [
+        "levels/p_3_b.json",
+        "levels/standalone/p_3_b.json"
+      ],
+      "board": "6x6",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "EASY",
+      "hash": "947b673a95d71614c4958497e5a8c5b7fa76fcaa"
+    },
+    {
+      "canonical_id": "lvl_070",
+      "canonical_file": "lvl_070_p_3_c.json",
+      "source_file": "levels/p_3_c.json",
+      "aliases": [
+        "levels/p_3_c.json",
+        "levels/standalone/p_3_c.json"
+      ],
+      "board": "6x5",
+      "pairs": 3,
+      "moves": 5,
+      "difficulty": "MEDIUM",
+      "hash": "84497ac8f9914f0bdb77221361551eec80455888"
+    },
+    {
+      "canonical_id": "lvl_071",
+      "canonical_file": "lvl_071_p_4_a.json",
+      "source_file": "levels/p_4_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_4_a.json",
+        "levels/p_4_a.json",
+        "levels/standalone/p_4_a.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "MEDIUM",
+      "hash": "a4a7a36c9f59ea69e05526f51f0e37c08df6d389"
+    },
+    {
+      "canonical_id": "lvl_072",
+      "canonical_file": "lvl_072_p_4_c.json",
+      "source_file": "levels/p_4_c_new_20260311075908.json",
+      "aliases": [
+        "levels/p_4_c_new_20260311075908.json",
+        "levels/standalone/p_4_c.json",
+        "levels/standalone/p_4_c_new_20260311075908.json"
+      ],
+      "board": "7x7",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "EASY",
+      "hash": "113667cdbaf207e7a57364093011cd21afef59e5"
+    },
+    {
+      "canonical_id": "lvl_073",
+      "canonical_file": "lvl_073_p_5_a.json",
+      "source_file": "levels/p_5_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_5_a.json",
+        "levels/p_5_a.json",
+        "levels/standalone/p_5_a.json"
+      ],
+      "board": "6x6",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "HARD",
+      "hash": "0dacb3d0fd5c51b674f9abb599a4050e050855fb"
+    },
+    {
+      "canonical_id": "lvl_074",
+      "canonical_file": "lvl_074_p_6_a.json",
+      "source_file": "levels/p_6_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_6_a.json",
+        "levels/p_6_a.json",
+        "levels/standalone/p_6_a.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 5,
+      "difficulty": "EASY",
+      "hash": "d98b0c92074f742b15eb9bb89d8594cff3f40f5f"
+    },
+    {
+      "canonical_id": "lvl_075",
+      "canonical_file": "lvl_075_p_7_a.json",
+      "source_file": "levels/p_7_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_7_a.json",
+        "levels/p_7_a.json",
+        "levels/standalone/p_7_a.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "MEDIUM",
+      "hash": "3631edeb220303d711765a9134ed940e719f116f"
+    },
+    {
+      "canonical_id": "lvl_076",
+      "canonical_file": "lvl_076_p_8_a.json",
+      "source_file": "levels/p_8_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_8_a.json",
+        "levels/p_8_a.json",
+        "levels/standalone/p_8_a.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 4,
+      "difficulty": "EASY",
+      "hash": "e03e0df80e722d244be3633c676fb65e0446d43a"
+    },
+    {
+      "canonical_id": "lvl_077",
+      "canonical_file": "lvl_077_p_9_3.json",
+      "source_file": "levels/p_9_3.json",
+      "aliases": [
+        "levels/p_9_3.json",
+        "levels/standalone/p_9_3.json"
+      ],
+      "board": "8x8",
+      "pairs": 4,
+      "moves": 7,
+      "difficulty": "HARD",
+      "hash": "b522039ed48e389e1cdca4723b75d8cf19b79e12"
+    },
+    {
+      "canonical_id": "lvl_078",
+      "canonical_file": "lvl_078_p_9_a.json",
+      "source_file": "levels/p_9_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_9_a.json",
+        "levels/p_9_a.json",
+        "levels/standalone/p_9_a.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 9,
+      "difficulty": "MEDIUM",
+      "hash": "e85471c87f411eb5c6eebdf51ba35c7d2886c402"
+    },
+    {
+      "canonical_id": "lvl_079",
+      "canonical_file": "lvl_079_p_medium_2_a.json",
+      "source_file": "levels/p_medium_2_a.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_medium_2_a.json",
+        "levels/p_medium_2_a.json",
+        "levels/standalone/p_medium_2_a.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 4,
+      "difficulty": "MEDIUM",
+      "hash": "0b296118225751991641cfb019179280c8776fe1"
+    },
+    {
+      "canonical_id": "lvl_080",
+      "canonical_file": "lvl_080_p_tutorial.json",
+      "source_file": "levels/p_tutorial.json",
+      "aliases": [
+        "bundles/progression_a/jsons/p_tutorial.json",
+        "levels/p_tutorial.json",
+        "levels/standalone/p_tutorial.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 8,
+      "difficulty": "EASY",
+      "hash": "0285aa405d4f7ed21a0036368049ad26c29c0e57"
+    },
+    {
+      "canonical_id": "lvl_081",
+      "canonical_file": "lvl_081_play_session_level_1_validate_10_level.json",
+      "source_file": "levels/play_session_level_1_validate_10_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_1_manual_1_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_manual_1_level.json",
+        "levels/play_session_level_1_validate_10_level.json",
+        "levels/standalone/play_session_level_1_manual_1_level.json",
+        "levels/standalone/play_session_level_1_validate_10_level.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 10,
+      "difficulty": "EASY",
+      "hash": "322fdc109680402d3ddda752d5b040ad6ecaaa3e"
+    },
+    {
+      "canonical_id": "lvl_082",
+      "canonical_file": "lvl_082_play_session_level_1_validate_4_level.json",
+      "source_file": "levels/play_session_level_1_validate_4_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/new_level9_a.json",
+        "level_toolkit_web/workshop_jsons/susanne_level_1_manager_ok.json",
+        "level_toolkit_web/workshop_jsons_game_unique/susanne_level_1_manager_ok.json",
+        "levels/new_level9_a.json",
+        "levels/play_session_level_1_validate_4_level.json",
+        "levels/standalone/play_session_level_1_validate_4_level.json",
+        "levels/standalone/susanne_level_1_manager_ok.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "bc14cd8972ed679c5b1f1c125a8c73ba95537fd3"
+    },
+    {
+      "canonical_id": "lvl_083",
+      "canonical_file": "lvl_083_play_session_level_1_validate_5_level.json",
+      "source_file": "levels/play_session_level_1_validate_5_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_1_validate_5_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_validate_5_level.json",
+        "levels/play_session_level_1_validate_5_level.json",
+        "levels/standalone/play_session_level_1_validate_5_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 5,
+      "difficulty": "",
+      "hash": "b7c1b1981a12fa8bc9493bc478697c3aec44acb5"
+    },
+    {
+      "canonical_id": "lvl_084",
+      "canonical_file": "lvl_084_play_session_level_1_validate_7_level.json",
+      "source_file": "levels/play_session_level_1_validate_7_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_1_validate_7_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_validate_7_level.json",
+        "levels/play_session_level_1_validate_7_level.json",
+        "levels/standalone/play_session_level_1_validate_7_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "fa26f8d8e3b3d39e5249157a411903197690e2e2"
+    },
+    {
+      "canonical_id": "lvl_085",
+      "canonical_file": "lvl_085_play_session_level_1_validate_8_level.json",
+      "source_file": "levels/play_session_level_1_validate_8_level.json",
+      "aliases": [
+        "bundles/progression_c/jsons/image01_level_editor.json",
+        "level_toolkit_web/workshop_jsons/image01_level_editor.json",
+        "level_toolkit_web/workshop_jsons_game_unique/image01_level_editor.json",
+        "levels/play_session_level_1_validate_8_level.json",
+        "levels/standalone/image01_level_editor.json",
+        "levels/standalone/play_session_level_1_validate_6_level.json",
+        "levels/standalone/play_session_level_1_validate_8_level.json",
+        "niveles_workshop/jsons/image01_level_editor.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "f2dccd9e228f449eb7d3244c0987dff0b49d5df1"
+    },
+    {
+      "canonical_id": "lvl_086",
+      "canonical_file": "lvl_086_play_session_level_2_validate_level.json",
+      "source_file": "levels/play_session_level_2_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_2_validate_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_2_validate_level.json",
+        "levels/play_session_level_2_validate_level.json",
+        "levels/standalone/play_session_level_2_validate_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "",
+      "hash": "d222f0cd41220bbdf4b3e8ff9ab8898fca3a3039"
+    },
+    {
+      "canonical_id": "lvl_087",
+      "canonical_file": "lvl_087_play_session_level_3_validate_level.json",
+      "source_file": "levels/play_session_level_3_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_3_validate_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_3_validate_level.json",
+        "levels/play_session_level_3_validate_level.json",
+        "levels/standalone/play_session_level_3_validate_level.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "4926593b1693b8eb2623c4c51b84272cae3fb715"
+    },
+    {
+      "canonical_id": "lvl_088",
+      "canonical_file": "lvl_088_play_session_level_4_validate_level.json",
+      "source_file": "levels/play_session_level_4_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_4_validate_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_4_validate_level.json",
+        "levels/play_session_level_4_validate_level.json",
+        "levels/standalone/play_session_level_4_validate_level.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "74032a6f1a1ec56b8445abeff5f1a3bd9070da39"
+    },
+    {
+      "canonical_id": "lvl_089",
+      "canonical_file": "lvl_089_play_session_level_5_validate_2_level.json",
+      "source_file": "levels/play_session_level_5_validate_2_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_5_validate_2_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_5_validate_2_level.json",
+        "levels/play_session_level_5_validate_2_level.json",
+        "levels/standalone/play_session_level_5_validate_2_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 4,
+      "difficulty": "",
+      "hash": "a45dd5e8aa90ed69c1e6a08543255c605e8fa953"
+    },
+    {
+      "canonical_id": "lvl_090",
+      "canonical_file": "lvl_090_play_session_level_5_validate_level.json",
+      "source_file": "levels/play_session_level_5_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_5_manual_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_5_manual_level.json",
+        "levels/play_session_level_5_validate_level.json",
+        "levels/standalone/play_session_level_5_manual_level.json",
+        "levels/standalone/play_session_level_5_validate_1_level.json",
+        "levels/standalone/play_session_level_5_validate_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 5,
+      "difficulty": "",
+      "hash": "701550ccdfc0e6aa19b50b289870056cf3bc422e"
+    },
+    {
+      "canonical_id": "lvl_091",
+      "canonical_file": "lvl_091_play_session_level_6_validate_1_level.json",
+      "source_file": "levels/play_session_level_6_validate_1_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_6_validate_1_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_6_validate_1_level.json",
+        "levels/play_session_level_6_validate_1_level.json",
+        "levels/standalone/play_session_level_6_validate_1_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 4,
+      "difficulty": "HARD",
+      "hash": "817ccf8c5332a3332bda326ea2b71a0f68844b64"
+    },
+    {
+      "canonical_id": "lvl_092",
+      "canonical_file": "lvl_092_play_session_level_6_validate_level.json",
+      "source_file": "levels/play_session_level_6_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_6_validate_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_6_validate_level.json",
+        "levels/play_session_level_6_validate_level.json",
+        "levels/standalone/play_session_level_6_validate_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 6,
+      "difficulty": "",
+      "hash": "eca18ba0b107ab9d0b0fe2a8b075e024289ace68"
+    },
+    {
+      "canonical_id": "lvl_093",
+      "canonical_file": "lvl_093_play_session_level_7_validate_level.json",
+      "source_file": "levels/play_session_level_7_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/level_7_manager_ok.json",
+        "level_toolkit_web/workshop_jsons_game_unique/level_7_manager_ok.json",
+        "levels/play_session_level_7_validate_level.json",
+        "levels/standalone/level_7_manager_ok.json",
+        "levels/standalone/play_session_level_7_validate_level.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 9,
+      "difficulty": "",
+      "hash": "743d01ec2d03c817eb9eb05a7254965d0f2eb15a"
+    },
+    {
+      "canonical_id": "lvl_094",
+      "canonical_file": "lvl_094_play_session_level_8_validate_level.json",
+      "source_file": "levels/play_session_level_8_validate_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_8_validate_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_8_validate_level.json",
+        "levels/play_session_level_8_validate_level.json",
+        "levels/standalone/play_session_level_8_validate_level.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 4,
+      "difficulty": "MEDIUM",
+      "hash": "23e78c8c2cc0b0f0b1949eb10f22e28df5ce6c81"
+    },
+    {
+      "canonical_id": "lvl_095",
+      "canonical_file": "lvl_095_play_session_level_9_manual_level.json",
+      "source_file": "levels/play_session_level_9_manual_level.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/play_session_level_9_manual_level.json",
+        "level_toolkit_web/workshop_jsons_game_unique/play_session_level_9_manual_level.json",
+        "levels/play_session_level_9_manual_level.json",
+        "levels/standalone/play_session_level_9_manual_level.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "MEDIUM",
+      "hash": "20a4e4f189ee2ab54220ed5e971b6f7e5f71ee5c"
+    },
+    {
+      "canonical_id": "lvl_096",
+      "canonical_file": "lvl_096_progression_levels_slot_1.json",
+      "source_file": "levels/progression_levels_slot_1.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_1.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_1.json",
+        "levels/progression_levels_slot_1.json",
+        "levels/standalone/progression_levels_slot_1.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "de453436a8f12248706e573c6fcf8311a9a7f85a"
+    },
+    {
+      "canonical_id": "lvl_097",
+      "canonical_file": "lvl_097_progression_levels_slot_10.json",
+      "source_file": "levels/progression_levels_slot_10.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_10.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_10.json",
+        "levels/progression_levels_slot_10.json",
+        "levels/standalone/progression_levels_slot_10.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "54cb90d1c00f6a161ac1088b875a334d09a19b51"
+    },
+    {
+      "canonical_id": "lvl_098",
+      "canonical_file": "lvl_098_progression_levels_slot_2.json",
+      "source_file": "levels/progression_levels_slot_2.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_2.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_2.json",
+        "levels/progression_levels_slot_2.json",
+        "levels/standalone/progression_levels_slot_2.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "3ebe6798acf38f9515d4dfd375f9b94de301a8b6"
+    },
+    {
+      "canonical_id": "lvl_099",
+      "canonical_file": "lvl_099_progression_levels_slot_3.json",
+      "source_file": "levels/progression_levels_slot_3.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_3.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_3.json",
+        "levels/progression_levels_slot_3.json",
+        "levels/standalone/progression_levels_slot_3.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "174b6a6e1568f1f222bb3e626dbcf3a6585282d2"
+    },
+    {
+      "canonical_id": "lvl_100",
+      "canonical_file": "lvl_100_progression_levels_slot_4.json",
+      "source_file": "levels/progression_levels_slot_4.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_4.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_4.json",
+        "levels/progression_levels_slot_4.json",
+        "levels/standalone/progression_levels_slot_4.json"
+      ],
+      "board": "4x4",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "",
+      "hash": "94ee45060f9843eafbf87fb4a3dd6babcf5d154e"
+    },
+    {
+      "canonical_id": "lvl_101",
+      "canonical_file": "lvl_101_progression_levels_slot_5.json",
+      "source_file": "levels/progression_levels_slot_5.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_5.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_5.json",
+        "levels/progression_levels_slot_5.json",
+        "levels/standalone/progression_levels_slot_5.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "",
+      "hash": "f22c1183f1d522d50b659ccf6112c28650e419fd"
+    },
+    {
+      "canonical_id": "lvl_102",
+      "canonical_file": "lvl_102_progression_levels_slot_6.json",
+      "source_file": "levels/progression_levels_slot_6.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_6.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_6.json",
+        "levels/progression_levels_slot_6.json",
+        "levels/standalone/progression_levels_slot_6.json"
+      ],
+      "board": "5x5",
+      "pairs": 3,
+      "moves": 7,
+      "difficulty": "",
+      "hash": "e77869854dd0c0a6305f66b7a69177db5743e71f"
+    },
+    {
+      "canonical_id": "lvl_103",
+      "canonical_file": "lvl_103_progression_levels_slot_7.json",
+      "source_file": "levels/progression_levels_slot_7.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_7.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_7.json",
+        "levels/progression_levels_slot_7.json",
+        "levels/standalone/progression_levels_slot_7.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 10,
+      "difficulty": "",
+      "hash": "c6310986ac5019b015057af8b84ade11171438db"
+    },
+    {
+      "canonical_id": "lvl_104",
+      "canonical_file": "lvl_104_progression_levels_slot_8.json",
+      "source_file": "levels/progression_levels_slot_8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_8.json",
+        "levels/progression_levels_slot_8.json",
+        "levels/standalone/progression_levels_slot_8.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "9045b5172af15b9c298714136d99ffacc8778ef1"
+    },
+    {
+      "canonical_id": "lvl_105",
+      "canonical_file": "lvl_105_progression_levels_slot_9.json",
+      "source_file": "levels/progression_levels_slot_9.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/progression_levels_slot_9.json",
+        "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_9.json",
+        "levels/progression_levels_slot_9.json",
+        "levels/standalone/progression_levels_slot_9.json"
+      ],
+      "board": "5x5",
+      "pairs": 4,
+      "moves": 8,
+      "difficulty": "",
+      "hash": "4ac694826cd31186851a8db2a9c7590aa71ffab2"
+    },
+    {
+      "canonical_id": "lvl_106",
+      "canonical_file": "lvl_106_rect_test_7x8.json",
+      "source_file": "levels/rect_test_7x8.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/rect_test_7x8.json",
+        "level_toolkit_web/workshop_jsons_game_unique/rect_test_7x8.json",
+        "levels/rect_test_7x8.json",
+        "levels/standalone/rect_test_7x8.json"
+      ],
+      "board": "7x8",
+      "pairs": 2,
+      "moves": 12,
+      "difficulty": "HARD",
+      "hash": "119115bb4fabe50789617f98e908c708f710c022"
+    },
+    {
+      "canonical_id": "lvl_107",
+      "canonical_file": "lvl_107_susanne_level_4_manager_ok.json",
+      "source_file": "levels/susanne_level_4_manager_ok.json",
+      "aliases": [
+        "level_toolkit_web/workshop_jsons/new_level4_a.json",
+        "level_toolkit_web/workshop_jsons/new_level5_a.json",
+        "level_toolkit_web/workshop_jsons/susanne_level_3_manager_ok.json",
+        "level_toolkit_web/workshop_jsons/susanne_level_4_manager_ok.json",
+        "level_toolkit_web/workshop_jsons_game_unique/susanne_level_3_manager_ok.json",
+        "levels/new_level4_a.json",
+        "levels/new_level5_a.json",
+        "levels/standalone/susanne_level_3_manager_ok.json",
+        "levels/standalone/susanne_level_4_manager_ok.json",
+        "levels/susanne_level_4_manager_ok.json"
+      ],
+      "board": "4x4",
+      "pairs": 2,
+      "moves": 5,
+      "difficulty": "",
+      "hash": "b74b53b7922c787111232c7f353e39939bb8a4d6"
+    },
+    {
+      "canonical_id": "lvl_108",
+      "canonical_file": "lvl_108_tune_large_01_7x7.json",
+      "source_file": "levels/tune_large_01_7x7.json",
+      "aliases": [
+        "levels/standalone/tune_large_01_7x7.json",
+        "levels/tune_large_01_7x7.json"
+      ],
+      "board": "7x7",
+      "pairs": 3,
+      "moves": 6,
+      "difficulty": "MEDIUM",
+      "hash": "e2b97b92e1ec7cf0b034e1aa23014e21300a0ccd"
+    },
+    {
+      "canonical_id": "lvl_109",
+      "canonical_file": "lvl_109_tutorial_level.json",
+      "source_file": "bundles/progression_b/jsons/tutorial_level.json",
+      "aliases": [
+        "bundles/progression_a/jsons/tutorial_level.json",
+        "bundles/progression_b/jsons/tutorial_level.json",
+        "bundles/progression_c/jsons/tutorial_level.json",
+        "level_toolkit_web/workshop_jsons/tutorial_level.json",
+        "levels/standalone/tutorial_level copia.json",
+        "levels/tutorial_level.json"
+      ],
+      "board": "6x6",
+      "pairs": 3,
+      "moves": 8,
+      "difficulty": "EASY",
+      "hash": "84dd95a978c8a42b563431a47961802929fb75f8"
+    },
+    {
+      "canonical_id": "lvl_110",
+      "canonical_file": "lvl_110_progression_b_slot_7.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level7_Easy.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level7_Easy.json",
+        "levels/progression_b_slot_7.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 2,
+      "moves": 6,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_111",
+      "canonical_file": "lvl_111_progression_b_slot_8.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level6_hard.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level6_hard.json",
+        "levels/progression_b_slot_8.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_112",
+      "canonical_file": "lvl_112_progression_b_slot_10.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level9_hard.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level9_hard.json",
+        "levels/progression_b_slot_10.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 5,
+      "moves": 7,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_113",
+      "canonical_file": "lvl_113_progression_c_slot_5.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level5_Medium.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level5_Medium.json",
+        "levels/progression_c_slot_5.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 3,
+      "moves": 8,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_114",
+      "canonical_file": "lvl_114_progression_c_slot_6.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level6_Hard.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level6_Hard.json",
+        "levels/progression_c_slot_6.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 5,
+      "moves": 9,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_115",
+      "canonical_file": "lvl_115_progression_c_slot_7.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level7_Easy.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level7_Easy.json",
+        "levels/progression_c_slot_7.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 4,
+      "moves": 6,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_116",
+      "canonical_file": "lvl_116_progression_c_slot_8.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level8_Medium.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level8_Medium.json",
+        "levels/progression_c_slot_8.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 4,
+      "moves": 8,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_117",
+      "canonical_file": "lvl_117_progression_c_slot_9.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level9_Hard.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level9_Hard.json",
+        "levels/progression_c_slot_9.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 4,
+      "moves": 8,
+      "difficulty": "",
+      "hash": ""
+    },
+    {
+      "canonical_id": "lvl_118",
+      "canonical_file": "lvl_118_progression_c_slot_10.json",
+      "source_file": "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level10_Hard.json",
+      "aliases": [
+        "archive/catalog_cleanup_20260312/levels__standalone/progressionC_level10_Hard.json",
+        "levels/progression_c_slot_10.json"
+      ],
+      "board": "NaNxNaN",
+      "pairs": 4,
+      "moves": 9,
+      "difficulty": "",
+      "hash": ""
+    }
+  ]
+}

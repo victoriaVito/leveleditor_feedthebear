@@ -159,3 +159,117 @@ Original prompt: vete 1 por uno , valid alos moves, y saca screenshoot
   - `progressionB_workshop.json` fills Progression B
   - a standalone imported level remains visible in `All Levels`
   - `CSV Review` is a separate tab and lists all imported rows
+- 2026-03-10: Restyled `Play Sessions` cards to match the review-template mock more closely.
+- Changes:
+  - preview cards now use a fixed 5-column desktop grid, stronger header/meta hierarchy, and a framed board preview
+  - action buttons render in a compact grid matching the card mock
+  - session table text columns are left-aligned for `Source` and `File`
+  - the session play board moved into a hidden panel and no longer opens automatically when loading a progression
+  - approving/rejecting a non-active card now advances selection without forcing the board open
+- Verified with Playwright CLI:
+  - `?autoload_workspace=workshop&autoload_session_progression=progressionA&view=sessions` renders 10 cards
+  - `#session-play-panel` stays hidden until `Play` is pressed
+  - screenshot saved to `artifacts/session_templates_after.png`
+- 2026-03-10: Added Level Manager filters for search and category-based narrowing.
+- New filters:
+  - name search
+  - dimensions
+  - difficulty
+  - status
+  - level number
+  - pairs count
+  - blockers count
+  - placement
+  - changed yes/no
+- Behavior:
+  - filters apply to the manager pool, `All Levels`, and `CSV Review`
+  - filter values persist in workspace state and reset with `Reset Filters`
+- Verified with Playwright CLI:
+  - filter controls render in `Level Manager`
+  - name filtering updates the visible manager cards
+  - dimension filtering updates `CSV Review`
+  - screenshot saved to `artifacts/manager_filters.png`
+- 2026-03-10: Added continuous Level Manager metadata persistence.
+- New behavior:
+  - debounced autosave of the manager state snapshot to `manager/level_manager_state.json`
+  - append-only metadata log to `manager/level_manager_metadata.log.jsonl`
+  - metadata includes active tab, selected item, filters, counts, progression slot content, and item summaries
+- Added `/api/append-file` in `server.mjs` to support append-only logs from the toolkit.
+- Goal: make Level Manager changes recoverable and auditable without relying only on localStorage.
+- 2026-03-10: Reworked progression export in Level Manager.
+- `Download Progression ZIP` now creates a zipped folder named after the active progression.
+- ZIP contents:
+  - progression CSV
+  - progression difficulty curve PNG
+  - progression layout PNG
+  - `jsons/` with each level JSON in the progression
+  - `screenshots/` with one preview PNG per level
+- Added `/api/create-zip` in `server.mjs` so progression bundles are saved inside the project instead of downloading loose files.
+2026-03-11: Fixed 5th pair support in Level Editor. loadLevelToEditor() now rebuilds pairs using PAIR_IDS, added explicit pair color badge, and restarted the toolkit server for verification.
+2026-03-11: Updated editor pair palette to 5 clearly distinct colors: A blue, B green, C orange, D pink, E purple.
+2026-03-11: Added Debug Mark mode to Level Editor. Debug cell marks are visual-only, reset on load/reset, and do not serialize into saved JSON. Added difficulty-based card backgrounds in Level Manager.
+2026-03-11: Expanded Settings with theme colors, font, pair colors A-E, active pair count, default board/difficulty, performance profile (low/medium/high), and a clear-cache action. Performance profile now disables several preview surfaces to speed up heavy catalogs.
+2026-03-11: Reduced hidden-view work by making restore/bootstrap refresh only the visible view, delayed preview recreation from saved workspace state, created reports/toolkit_file_retention_log.md, and cleaned recoverable temporary artifacts under levels/standalone/toolkit_exports.
+2026-03-11: Reworked level validation to focus on solvability instead of density bands. Added `Decal` checkbox to Level Editor; when enabled, validation now requires at least one solution that covers every free cell. Updated level serialization, editor state restore, CSV export fields, and LEVEL_TOOLKIT_LIVE_STATUS.md accordingly.
+2026-03-11: Performance audit pass on the toolkit. Main hotspots found in manager/session flows: persistWorkspaceState() serializes levelFromEditor() on many UI updates, updateManagerTable() triggers several full downstream renders on each change, manager/session tables rebuild whole DOM trees repeatedly, preview generation still creates many canvas -> dataURL conversions, and getManagerItemById()/findManagerSlotIndex() remain linear lookups inside render-heavy paths. Recommended next step: decouple autosave from solver, add item/slot indexes, and virtualize or paginate All Levels.
+2026-03-11: Added a new local skill at ~/.codex/skills/web-toolkit-performance/SKILL.md for future performance passes. Also added a manager UX shortcut: empty progression slots can now enter a waiting `Ref` state, and a level from `All Levels` can be assigned directly into that slot via the card ref button.
+2026-03-11: Implemented the first heavy performance block. Workspace autosave now stores a lightweight editor snapshot instead of recomputing through levelFromEditor(), manager items and slot placement now have in-memory indexes, preview generation is lazier, and All Levels now uses pagination controls instead of trying to render the full catalog at once.
+2026-03-11: Enforced a hard tutorial-slot rule across the toolkit. Every progression now preloads `tutorial_level.json` into slot 1, slot 1 cannot be cleared or replaced from Level Manager, and the editor refuses to overwrite slot 1 with a non-tutorial level.
+2026-03-11: Reorganized the repository into canonical content folders at the project root:
+  - `levels/` for standalone playable levels
+  - `progressions/` for progression configs, bundles, and workspace presets
+  - `playtest/` for play session wrapper files
+- Added `scripts/reorganize_level_assets.mjs` to scan all JSON files, classify them, dedupe them by normalized content, and keep the newest file by filesystem modification time.
+- Current canonical catalog summary from `reports/catalog_reorg_report.json`:
+  - levels kept: 121
+  - progressions kept: 19
+  - playtest files kept: 26
+  - level duplicates removed from the canonical set: 229
+  - progression duplicates removed from the canonical set: 8
+- Historical folders such as `levels/standalone/`, `level_toolkit_web/workshop_jsons/`, and `niveles_workshop/` remain on disk for traceability, but the canonical source of truth is now the root-level `levels/`, `progressions/`, and `playtest/` folders.
+2026-03-12: Added progression bundle folders for B and C to mirror the existing `bundles/progression_a/` structure.
+- New folders:
+  - `bundles/progression_b/`
+  - `bundles/progression_c/`
+- Each folder now contains:
+  - `jsons/`
+  - `screenshots/`
+  - progression CSV
+  - difficulty curve PNG
+  - progression layout PNG
+- Matching ZIPs were also generated:
+  - `bundles/progression_b.zip`
+  - `bundles/progression_c.zip`
+- Added reusable builder script:
+  - `scripts/build_progression_folder.py`
+2026-03-12: Investigated why screenshot-based A/B/C progression layouts were not preserved.
+- Root cause:
+  - the cards shown in the screenshots were real UI state, but several slot labels such as `progression_b_slot_7.json` or `progression_c_slot_5.json` were transient browser-session names, not canonical repo files
+  - the manager had been saving a technical state snapshot, but not materializing active progression configs and assigned levels into canonical repo files on every manager change
+- Fix:
+  - Level Manager autosave now materializes assigned levels into `levels/`
+  - Level Manager autosave now materializes progression configs into `progressions/`
+  - this makes A/B/C layouts survive resets and browser-only session loss
+2026-03-12: Completed a full catalog cleanup and naming pass.
+- Added `scripts/canonicalize_catalog.mjs` to:
+  - scan every JSON candidate in the repo
+  - classify levels, progressions, and playtests
+  - choose duplicate winners by normalized content plus newest mtime
+  - rewrite the canonical source folders
+  - archive legacy folders and pre-cleanup root JSON files under `archive/catalog_cleanup_20260312/`
+  - resync `level_toolkit_web/workshop_jsons/` and `level_toolkit_web/workshop_progressions/`
+- Canonical level files now use `lvl_XXX_<slug>.json`
+- Added `levels/catalog_index.json` and `levels/catalog_index.csv`
+- Current canonical counts after cleanup:
+  - levels: 118
+  - progressions: 38
+  - playtests: 23
+- Added 9 extra canonical levels (`lvl_110` to `lvl_118`) to preserve the previously inferred screenshot-only slots from recovered B/C progressions as real repo files.
+- Updated toolkit save paths:
+  - manager state/logs now save into `progressions/manager_state/`
+  - progression CSV exports now save into `progressions/exports/`
+  - play session files now save into `playtest/`
+  - default project save root is now the project root instead of `levels/standalone/toolkit_exports`
+- Added new local skill:
+  - `~/.codex/skills/level-catalog-savepoints/SKILL.md`
+  - purpose: canonical catalogs, duplicate cleanup, save-point recovery, and progression materialization

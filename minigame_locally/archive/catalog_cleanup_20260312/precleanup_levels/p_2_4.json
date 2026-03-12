@@ -1,0 +1,195 @@
+{
+  "level": 4,
+  "board_size": 7,
+  "board_width": 7,
+  "board_height": 7,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "NODE_B1",
+      "NODE_A2",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_D2",
+      "NODE_C1",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "NODE_D1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        0,
+        4
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        4,
+        5
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        5
+      ],
+      "end": [
+        4,
+        2
+      ],
+      "color": "#0891B2"
+    },
+    {
+      "id": "D",
+      "start": [
+        2,
+        3
+      ],
+      "end": [
+        1,
+        4
+      ],
+      "color": "#0369A1"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      2
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "moves": 6,
+  "solution_count": 0,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        5
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "D": [
+      [
+        2,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "p_2_4.json"
+  }
+}

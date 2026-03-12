@@ -1,0 +1,87 @@
+file,path,saved_path,level,board_width,board_height,pairs_count,blockers_count,moves,solution_count,difficulty,status,changed,notes,placement
+hard_large_01_7x7.json,Workshop level · hard_large_01_7x7.json,,1,7,7,3,1,14,4,HARD,OK,No,,Unassigned
+hard_large_02_8x8.json,Workshop level · hard_large_02_8x8.json,,2,8,8,3,0,12,0,HARD,INVALID,No,,Unassigned
+hard_large_03_7x7.json,Workshop level · hard_large_03_7x7.json,,3,7,7,3,0,13,0,HARD,INVALID,No,,Unassigned
+hard_large_04_8x8.json,Workshop level · hard_large_04_8x8.json,,4,8,8,3,0,20,0,HARD,INVALID,No,,Unassigned
+hard_large_05_7x7.json,Workshop level · hard_large_05_7x7.json,,5,7,7,3,0,14,0,HARD,INVALID,No,,Unassigned
+hard_large_06_8x8.json,Workshop level · hard_large_06_8x8.json,,6,8,8,3,0,23,0,HARD,INVALID,No,,Unassigned
+hard_large_07_7x7.json,Workshop level · hard_large_07_7x7.json,,7,7,7,3,1,13,4,HARD,OK,No,,Unassigned
+hard_large_08_8x8.json,Workshop level · hard_large_08_8x8.json,,8,8,8,3,0,19,0,HARD,INVALID,No,,Unassigned
+hard_large_09_7x7.json,Workshop level · hard_large_09_7x7.json,,9,7,7,3,9,13,2,HARD,OK,No,,Unassigned
+hard_large_10_8x8.json,Workshop level · hard_large_10_8x8.json,,10,8,8,3,0,17,0,HARD,INVALID,No,,Unassigned
+image01_level_editor.json,Workshop level · image01_level_editor.json,,1,4,4,3,2,9,20,EASY,OK,No,,Unassigned
+image02_level_editor.json,Workshop level · image02_level_editor.json,,2,4,4,3,0,10,20,EASY,OK,No,,Unassigned
+image03_level_editor.json,Workshop level · image03_level_editor.json,,3,5,5,3,3,16,20,EASY,OK,No,,Unassigned
+image04_level_editor.json,Workshop level · image04_level_editor.json,,4,5,5,3,5,18,2,HARD,OK,No,,Unassigned
+image05_level_editor.json,Workshop level · image05_level_editor.json,,5,4,4,2,1,9,20,EASY,OK,No,,Unassigned
+image06_level_editor.json,Workshop level · image06_level_editor.json,,6,4,4,2,0,8,20,EASY,OK,No,,Unassigned
+image07_level_editor.json,Workshop level · image07_level_editor.json,,7,4,4,2,1,9,16,EASY,OK,No,,Unassigned
+image08_level_editor.json,Workshop level · image08_level_editor.json,,8,4,4,2,0,4,20,EASY,OK,No,,Unassigned
+image09_level_editor.json,Workshop level · image09_level_editor.json,,9,4,4,2,2,10,1,HARD,OK,No,,Unassigned
+image10_level_editor.json,Workshop level · image10_level_editor.json,,10,4,4,2,1,8,14,EASY,OK,No,,Unassigned
+image11_level_editor.json,Workshop level · image11_level_editor.json,,1,5,5,3,3,14,14,EASY,OK,No,,Unassigned
+image12_level_editor.json,Workshop level · image12_level_editor.json,,2,5,5,3,0,10,20,EASY,OK,No,,Unassigned
+image13_level_editor.json,Workshop level · image13_level_editor.json,,3,5,5,3,3,13,0,EASY,INVALID,No,,Unassigned
+image14_level_editor.json,Workshop level · image14_level_editor.json,,4,5,5,3,3,13,20,EASY,OK,No,,Unassigned
+image15_level_editor.json,Workshop level · image15_level_editor.json,,5,5,5,4,3,19,4,MEDIUM,OK,No,,Unassigned
+image16_level_editor.json,Workshop level · image16_level_editor.json,,6,5,5,3,3,12,20,EASY,OK,No,,Unassigned
+image17_level_editor.json,Workshop level · image17_level_editor.json,,7,5,5,3,3,16,16,EASY,OK,No,,Unassigned
+image18_level_editor.json,Workshop level · image18_level_editor.json,,8,5,5,4,3,15,9,EASY,OK,No,,Unassigned
+image19_level_editor.json,Workshop level · image19_level_editor.json,,1,5,5,3,1,15,20,EASY,OK,No,,Unassigned
+image20_level_editor.json,Workshop level · image20_level_editor.json,,2,4,4,3,1,13,6,EASY,OK,No,,Unassigned
+image21_level_editor.json,Workshop level · image21_level_editor.json,,3,5,5,3,2,10,0,EASY,INVALID,No,,Unassigned
+image22_level_editor.json,Workshop level · image22_level_editor.json,,4,4,4,2,2,10,5,EASY,OK,No,,Unassigned
+image23_level_editor.json,Workshop level · image23_level_editor.json,,5,4,4,2,2,10,20,EASY,OK,No,,Unassigned
+image24_level_editor.json,Workshop level · image24_level_editor.json,,6,5,5,3,2,10,20,EASY,OK,No,,Unassigned
+image25_level_editor.json,Workshop level · image25_level_editor.json,,7,4,4,3,0,11,20,EASY,OK,No,,Unassigned
+image26_level_editor.json,Workshop level · image26_level_editor.json,,8,4,4,2,3,9,20,EASY,OK,No,,Unassigned
+image27_level_editor.json,Workshop level · image27_level_editor.json,,9,4,4,2,0,8,20,EASY,OK,No,,Unassigned
+image28_level_editor.json,Workshop level · image28_level_editor.json,,10,4,4,2,1,9,20,EASY,OK,No,,Unassigned
+image29_level_editor.json,Workshop level · image29_level_editor.json,,1,4,4,3,1,10,12,EASY,OK,No,,Unassigned
+image30_level_editor.json,Workshop level · image30_level_editor.json,,2,4,4,2,1,8,20,EASY,OK,No,,Unassigned
+image31_level_editor.json,Workshop level · image31_level_editor.json,,3,4,4,2,1,11,8,EASY,OK,No,,Unassigned
+image32_level_editor.json,Workshop level · image32_level_editor.json,,4,4,4,3,2,11,5,EASY,OK,No,,Unassigned
+image33_level_editor.json,Workshop level · image33_level_editor.json,,5,5,5,4,0,17,0,EASY,INVALID,No,,Unassigned
+image34_level_editor.json,Workshop level · image34_level_editor.json,,6,5,5,3,5,19,0,EASY,INVALID,No,,Unassigned
+level_1.json,Workshop level · level_1.json,,1,4,4,2,0,4,20,EASY,OK,No,,Unassigned
+level_7_manager_ok.json,Workshop level · level_7_manager_ok.json,,7,4,4,3,2,9,4,EASY,OK,No,,Unassigned
+new_level1_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/new_level1_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/new_level1_a.json,1,6,6,3,3,8,0,EASY,INVALID,Yes,,Unassigned
+play_session_level_1_manual_1_level.json,Workshop level · play_session_level_1_manual_1_level.json,,1,5,5,3,0,10,20,EASY,OK,No,,Unassigned
+play_session_level_1_validate_5_level.json,Workshop level · play_session_level_1_validate_5_level.json,,1,4,4,2,0,5,20,EASY,OK,No,,Unassigned
+play_session_level_1_validate_7_level.json,Workshop level · play_session_level_1_validate_7_level.json,,1,4,4,3,2,7,20,EASY,OK,No,,Unassigned
+play_session_level_2_validate_level.json,Workshop level · play_session_level_2_validate_level.json,,2,4,4,3,0,6,20,EASY,OK,No,,Unassigned
+play_session_level_3_validate_level.json,Workshop level · play_session_level_3_validate_level.json,,3,5,5,3,3,7,20,EASY,OK,No,,Unassigned
+play_session_level_4_validate_level.json,Workshop level · play_session_level_4_validate_level.json,,4,5,5,3,5,7,2,HARD,OK,No,,Unassigned
+play_session_level_5_manual_level.json,Workshop level · play_session_level_5_manual_level.json,,5,4,4,2,0,5,20,EASY,OK,No,,Unassigned
+play_session_level_5_validate_2_level.json,Workshop level · play_session_level_5_validate_2_level.json,,5,4,4,2,1,4,20,EASY,OK,No,,Unassigned
+play_session_level_6_validate_1_level.json,Workshop level · play_session_level_6_validate_1_level.json,,6,4,4,3,0,4,20,HARD,INVALID,No,,Unassigned
+play_session_level_6_validate_level.json,Workshop level · play_session_level_6_validate_level.json,,6,4,4,2,0,6,20,EASY,OK,No,,Unassigned
+play_session_level_8_validate_level.json,Workshop level · play_session_level_8_validate_level.json,,8,5,5,3,0,4,20,MEDIUM,INVALID,No,,Unassigned
+play_session_level_9_manual_level.json,Workshop level · play_session_level_9_manual_level.json,,9,6,6,3,6,6,0,MEDIUM,INVALID,No,,Unassigned
+progression_levels_slot_1.json,Workshop level · progression_levels_slot_1.json,,1,4,4,2,0,7,20,EASY,OK,No,,Unassigned
+progression_levels_slot_10.json,Workshop level · progression_levels_slot_10.json,,10,5,5,3,0,7,20,HARD,INVALID,No,,Unassigned
+progression_levels_slot_2.json,Workshop level · progression_levels_slot_2.json,,2,4,4,2,0,7,20,EASY,OK,No,,Unassigned
+progression_levels_slot_3.json,Workshop level · progression_levels_slot_3.json,,3,4,4,3,1,7,17,EASY,INVALID,No,,Unassigned
+progression_levels_slot_4.json,Workshop level · progression_levels_slot_4.json,,4,4,4,3,2,6,8,MEDIUM,INVALID,No,,Unassigned
+progression_levels_slot_5.json,Workshop level · progression_levels_slot_5.json,,5,5,5,3,0,6,20,MEDIUM,INVALID,No,,Unassigned
+progression_levels_slot_6.json,Workshop level · progression_levels_slot_6.json,,6,5,5,3,0,7,20,MEDIUM,INVALID,No,,Unassigned
+progression_levels_slot_7.json,Workshop level · progression_levels_slot_7.json,,7,5,5,4,1,10,5,HARD,INVALID,No,,Unassigned
+progression_levels_slot_8.json,Workshop level · progression_levels_slot_8.json,,8,5,5,4,0,8,20,HARD,INVALID,No,,Unassigned
+progression_levels_slot_9.json,Workshop level · progression_levels_slot_9.json,,9,5,5,4,0,8,20,HARD,INVALID,No,,Unassigned
+rect_test_7x8.json,Workshop level · rect_test_7x8.json,,1,7,8,2,2,12,2,HARD,OK,No,,Unassigned
+susanne_level_1_manager_ok.json,Workshop level · susanne_level_1_manager_ok.json,,1,4,4,2,0,9,20,EASY,OK,No,,Unassigned
+susanne_level_2_manager_ok.json,Workshop level · susanne_level_2_manager_ok.json,,2,4,4,2,0,5,20,EASY,OK,No,,Unassigned
+susanne_level_3_manager_ok.json,Workshop level · susanne_level_3_manager_ok.json,,2,4,4,2,0,5,20,EASY,OK,No,,Unassigned
+susanne_level_5_manager_ok.json,Workshop level · susanne_level_5_manager_ok.json,,5,4,4,2,0,8,20,EASY,OK,No,,Unassigned
+p_tutorial.json,Imported via browser picker · p_tutorial.json,,1,6,6,3,3,20,0,EASY,INVALID,No,,Progression A · Slot 1
+p_2_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_2_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_2_a.json,2,5,5,3,0,4,20,MEDIUM,INVALID,Yes,,Progression A · Slot 2
+p_3_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_3_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_3_a.json,3,4,4,3,1,5,2,EASY,INVALID,Yes,,Progression A · Slot 3
+p_4_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_4_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_4_a.json,4,4,4,3,3,5,6,MEDIUM,INVALID,Yes,,Progression A · Slot 4
+p_5_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_5_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_5_a.json,5,6,6,4,5,5,14,HARD,INVALID,Yes,,Progression A · Slot 5
+p_6_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_6_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_6_a.json,6,4,4,3,0,8,20,EASY,OK,Yes,,Progression A · Slot 6
+p_7_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_7_a.json,minigame_locally/levels/standalone/toolkit_exports/levels/p_7_a.json,7,6,6,3,6,7,0,MEDIUM,INVALID,Yes,,Progression A · Slot 7
+p_8_a.json,Imported via browser picker · p_8_a.json,,8,4,4,2,2,4,2,EASY,INVALID,No,,Progression A · Slot 8
+p_9_a.json,Imported via browser picker · p_9_a.json,,9,5,5,4,2,9,20,MEDIUM,OK,Yes,,Progression A · Slot 9
+p_10_a.json,Imported via browser picker · p_10_a.json,,10,6,7,4,7,8,6,HARD,OK,Yes,,Progression A · Slot 10
+p_medium_2_a.json,Imported via browser picker · p_medium_2_a.json,,2,5,5,3,0,4,20,MEDIUM,INVALID,No,,Unassigned
+p_tutorial.json,Imported via browser picker · p_tutorial.json,,1,6,6,3,3,20,0,EASY,INVALID,No,,Unassigned

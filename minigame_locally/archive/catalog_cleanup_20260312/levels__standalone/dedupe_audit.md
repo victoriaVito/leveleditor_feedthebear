@@ -1,0 +1,274 @@
+# Level Deduplication Audit
+
+- Scanned playable levels: 137
+- Removed exact duplicates: 63
+- Remaining unique levels in Level Manager: 74
+
+## Exact duplicate groups
+- Keep `levels/standalone/from_images/image13_level_editor.json`
+  - Remove `levels/standalone/discarded_levels_only/image13_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image21_level_editor.json`
+  - Remove `levels/standalone/discarded_levels_only/image21_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image33_level_editor.json`
+  - Remove `levels/standalone/discarded_levels_only/image33_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image34_level_editor.json`
+  - Remove `levels/standalone/discarded_levels_only/image34_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_downloads_fixed/level_7_manager_ok.json`
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_7_validate_level.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/valid_levels_only/level_7_manager_ok.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json`
+  - Remove `levels/standalone/new_levels_a/new_level9_a.json`
+    - level: 1 -> 9
+    - meta.cloned_from: None -> 'levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 9
+    - meta.display_slot: None -> 9
+    - meta.source_name: None -> 'new_level9_a.json'
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_4_level.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/valid_levels_only/susanne_level_1_manager_ok.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json`
+  - Remove `levels/standalone/new_levels_a/new_level3_a.json`
+    - level: 2 -> 3
+    - meta.cloned_from: None -> 'levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 3
+    - meta.display_slot: None -> 3
+    - meta.source_name: None -> 'new_level3_a.json'
+  - Remove `levels/standalone/valid_levels_only/susanne_level_2_manager_ok.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json`
+  - Remove `levels/standalone/from_downloads_fixed/susanne_level_4_manager_ok.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/new_levels_a/new_level4_a.json`
+    - level: 2 -> 4
+    - meta.cloned_from: None -> 'levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 4
+    - meta.display_slot: None -> 4
+    - meta.source_name: None -> 'new_level4_a.json'
+  - Remove `levels/standalone/new_levels_a/new_level5_a.json`
+    - level: 2 -> 5
+    - meta.cloned_from: None -> 'levels/standalone/from_downloads_fixed/susanne_level_4_manager_ok.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 5
+    - meta.display_slot: None -> 5
+    - meta.source_name: None -> 'new_level5_a.json'
+  - Remove `levels/standalone/valid_levels_only/susanne_level_3_manager_ok.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/valid_levels_only/susanne_level_4_manager_ok.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json`
+  - Remove `levels/standalone/new_levels_a/new_level8_a.json`
+    - level: 5 -> 8
+    - meta.cloned_from: None -> 'levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 8
+    - meta.display_slot: None -> 8
+    - meta.source_name: None -> 'new_level8_a.json'
+  - Remove `levels/standalone/valid_levels_only/susanne_level_5_manager_ok.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image01_level_editor.json`
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_6_level.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_8_level.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/valid_levels_only/image01_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image02_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image02_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image03_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image03_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image04_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image04_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image05_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image05_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image06_level_editor.json`
+  - Remove `levels/standalone/new_levels_a/new_level6_a.json`
+    - meta.cloned_from: None -> 'levels/standalone/from_images/image06_level_editor.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 6
+    - meta.display_slot: None -> 6
+    - meta.source_name: None -> 'new_level6_a.json'
+  - Remove `levels/standalone/valid_levels_only/image06_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image07_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image07_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image08_level_editor.json`
+  - Remove `levels/standalone/new_levels_a/new_level2_a.json`
+    - level: 8 -> 2
+    - meta.cloned_from: None -> 'levels/standalone/from_images/image08_level_editor.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 2
+    - meta.display_slot: None -> 2
+    - meta.source_name: None -> 'new_level2_a.json'
+  - Remove `levels/standalone/valid_levels_only/image08_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image09_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image09_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image10_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image10_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image11_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image11_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image12_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image12_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image14_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image14_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image15_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image15_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image16_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image16_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image17_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image17_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image18_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image18_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image19_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image19_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image20_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image20_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image22_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image22_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image23_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image23_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image24_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image24_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image25_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image25_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image26_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image26_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image27_level_editor.json`
+  - Remove `levels/standalone/new_levels_a/new_level7_a.json`
+    - level: 9 -> 7
+    - meta.cloned_from: None -> 'levels/standalone/from_images/image27_level_editor.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 7
+    - meta.display_slot: None -> 7
+    - meta.source_name: None -> 'new_level7_a.json'
+  - Remove `levels/standalone/valid_levels_only/image27_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image28_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image28_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image29_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image29_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image30_level_editor.json`
+  - Remove `levels/standalone/new_levels_a/new_level10_a.json`
+    - level: 2 -> 10
+    - meta.cloned_from: None -> 'levels/standalone/from_images/image30_level_editor.json'
+    - meta.cloned_from_progression: None -> 'progressionA_afterTewak'
+    - meta.cloned_slot: None -> 10
+    - meta.display_slot: None -> 10
+    - meta.source_name: None -> 'new_level10_a.json'
+  - Remove `levels/standalone/valid_levels_only/image30_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image31_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image31_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/from_images/image32_level_editor.json`
+  - Remove `levels/standalone/valid_levels_only/image32_level_editor.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_manual_1_level.json`
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_10_level.json`
+    - No JSON differences outside path/name
+- Keep `levels/standalone/new_levels_a/new_level1_a.json`
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_manual_level.json`
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.source_name: 'new_level1_a.json' -> None
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_1_level.json`
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.source_name: 'new_level1_a.json' -> None
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_2_level.json`
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.source_name: 'new_level1_a.json' -> None
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_3_level.json`
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.source_name: 'new_level1_a.json' -> None
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_9_level.json`
+    - difficulty: None -> 'EASY'
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.manual_difficulty: None -> 'EASY'
+    - meta.source_name: 'new_level1_a.json' -> None
+    - validation.density_match: True -> False
+  - Remove `levels/standalone/tutorial_level.json`
+    - meta.cloned_from: 'levels/standalone/tutorial_level.json' -> None
+    - meta.cloned_from_progression: 'progressionA_afterTewak' -> None
+    - meta.cloned_slot: 1 -> None
+    - meta.display_slot: 1 -> None
+    - meta.source_name: 'new_level1_a.json' -> None
+- Keep `levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_manual_level.json`
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_level.json`
+    - No JSON differences outside path/name
+  - Remove `levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_1_level.json`
+    - No JSON differences outside path/name
+
+## Same layout, different version groups
+- Base `levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/level_1.json`
+    - moves: 9 -> 4
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_5_level.json`
+    - moves: 9 -> 5
+- Base `levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_manual_level.json`
+    - moves: 8 -> 5
+- Base `levels/standalone/from_images/image01_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_7_level.json`
+    - moves: 9 -> 7
+- Base `levels/standalone/from_images/image02_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_2_validate_level.json`
+    - moves: 10 -> 6
+- Base `levels/standalone/from_images/image03_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_3_validate_level.json`
+    - moves: 16 -> 7
+- Base `levels/standalone/from_images/image04_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_4_validate_level.json`
+    - moves: 18 -> 7
+- Base `levels/standalone/from_images/image05_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_2_level.json`
+    - moves: 9 -> 4
+- Base `levels/standalone/from_images/image06_level_editor.json`
+  - Variant `levels/standalone/imported_from_downloads_clean/levels/play_session_level_6_validate_level.json`
+    - moves: 8 -> 6

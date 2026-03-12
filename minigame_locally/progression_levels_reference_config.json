@@ -1,0 +1,55 @@
+{
+  "name": "imported_progression_levels_clean",
+  "slots": [
+    {
+      "slot": 1,
+      "level_file": "progression_levels_slot_1.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 2,
+      "level_file": "progression_levels_slot_2.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 3,
+      "level_file": "progression_levels_slot_3.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 4,
+      "level_file": "progression_levels_slot_4.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 5,
+      "level_file": "progression_levels_slot_5.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 6,
+      "level_file": "progression_levels_slot_6.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 7,
+      "level_file": "progression_levels_slot_7.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 8,
+      "level_file": "progression_levels_slot_8.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 9,
+      "level_file": "progression_levels_slot_9.json",
+      "difficulty": "MEDIUM"
+    },
+    {
+      "slot": 10,
+      "level_file": "progression_levels_slot_10.json",
+      "difficulty": "MEDIUM"
+    }
+  ]
+}

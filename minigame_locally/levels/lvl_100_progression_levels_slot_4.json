@@ -1,0 +1,147 @@
+{
+  "level": 4,
+  "board_size": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B1",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "NODE_C2",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_A1"
+    ],
+    [
+      "EMPTY",
+      "NODE_A2",
+      "NODE_C1",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        2,
+        3
+      ],
+      "end": [
+        3,
+        1
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        1,
+        0
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        3,
+        2
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "color": "#0891B2"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      1
+    ],
+    [
+      0,
+      2
+    ]
+  ],
+  "moves": 6,
+  "solution_count": 8,
+  "target_density": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        3,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_100",
+    "canonical_file": "lvl_100_progression_levels_slot_4.json",
+    "canonical_slug": "progression_levels_slot_4",
+    "canonicalized_at": "2026-03-12T09:14:58.436Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_4.json",
+      "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_4.json",
+      "levels/progression_levels_slot_4.json",
+      "levels/standalone/progression_levels_slot_4.json"
+    ]
+  }
+}

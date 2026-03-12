@@ -1,0 +1,290 @@
+[
+  {
+    "source": "level_1.json",
+    "type": "level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/level_1.json",
+    "extracted_level": "level_1.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_manual (1).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_manual (1).json",
+    "extracted_level": "play_session_level_1_manual_1_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_manual.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_manual.json",
+    "extracted_level": "play_session_level_1_manual_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_1_validate (1).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (1).json",
+    "extracted_level": "play_session_level_1_validate_1_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_1_validate (10).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (10).json",
+    "extracted_level": "play_session_level_1_validate_10_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (2).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (2).json",
+    "extracted_level": "play_session_level_1_validate_2_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_1_validate (3).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (3).json",
+    "extracted_level": "play_session_level_1_validate_3_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_1_validate (4).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (4).json",
+    "extracted_level": "play_session_level_1_validate_4_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (5).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (5).json",
+    "extracted_level": "play_session_level_1_validate_5_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (6).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (6).json",
+    "extracted_level": "play_session_level_1_validate_6_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (7).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (7).json",
+    "extracted_level": "play_session_level_1_validate_7_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (8).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (8).json",
+    "extracted_level": "play_session_level_1_validate_8_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_1_validate (9).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_1_validate (9).json",
+    "extracted_level": "play_session_level_1_validate_9_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_2_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_2_validate.json",
+    "extracted_level": "play_session_level_2_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_3_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_3_validate.json",
+    "extracted_level": "play_session_level_3_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_4_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_4_validate.json",
+    "extracted_level": "play_session_level_4_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_5_manual.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_5_manual.json",
+    "extracted_level": "play_session_level_5_manual_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_5_validate (1).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_5_validate (1).json",
+    "extracted_level": "play_session_level_5_validate_1_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_5_validate (2).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_5_validate (2).json",
+    "extracted_level": "play_session_level_5_validate_2_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_5_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_5_validate.json",
+    "extracted_level": "play_session_level_5_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_6_validate (1).json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_6_validate (1).json",
+    "extracted_level": "play_session_level_6_validate_1_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_6_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_6_validate.json",
+    "extracted_level": "play_session_level_6_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_7_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_7_validate.json",
+    "extracted_level": "play_session_level_7_validate_level.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "play_session_level_8_validate.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_8_validate.json",
+    "extracted_level": "play_session_level_8_validate_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "play_session_level_9_manual.json",
+    "type": "play_session",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/play_sessions/play_session_level_9_manual.json",
+    "extracted_level": "play_session_level_9_manual_level.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "progression_levels.json::slot_1",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_1.json",
+    "extracted_level": "progression_levels_slot_1.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json::slot_2",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_2.json",
+    "extracted_level": "progression_levels_slot_2.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json::slot_3",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_3.json",
+    "extracted_level": "progression_levels_slot_3.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json::slot_4",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_4.json",
+    "extracted_level": "progression_levels_slot_4.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "progression_levels.json::slot_5",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_5.json",
+    "extracted_level": "progression_levels_slot_5.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "progression_levels.json::slot_6",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_6.json",
+    "extracted_level": "progression_levels_slot_6.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json::slot_7",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_7.json",
+    "extracted_level": "progression_levels_slot_7.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "progression_levels.json::slot_8",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_8.json",
+    "extracted_level": "progression_levels_slot_8.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json::slot_9",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_9.json",
+    "extracted_level": "progression_levels_slot_9.json",
+    "status": "INVALID",
+    "notes": "solution_count outside target density range"
+  },
+  {
+    "source": "progression_levels.json::slot_10",
+    "type": "progression_level",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_10.json",
+    "extracted_level": "progression_levels_slot_10.json",
+    "status": "OK",
+    "notes": ""
+  },
+  {
+    "source": "progression_levels.json",
+    "type": "progression_list",
+    "saved_as": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions/imported_from_downloads_clean/progression_levels_embedded_bundle.json",
+    "extracted_level": "progression_levels_embedded_bundle.json",
+    "status": "MIXED",
+    "notes": "Embedded bundle + reference config created"
+  }
+]

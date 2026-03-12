@@ -1,0 +1,931 @@
+{
+  "created_at": "2026-03-11T21:04:07.945Z",
+  "source_scanned": 450,
+  "classified": 403,
+  "kept": {
+    "levels": 121,
+    "progressions": 19,
+    "playtest": 26
+  },
+  "removed_duplicates": {
+    "levels": 229,
+    "progressions": 8,
+    "playtest": 0
+  },
+  "kept_files": {
+    "levels": [
+      {
+        "source": "bundles/progression_a/jsons/p_10_a.json",
+        "output": "levels/p_10_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_2_a.json",
+        "output": "levels/p_2_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_3_a.json",
+        "output": "levels/p_3_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_4_a.json",
+        "output": "levels/p_4_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_5_a.json",
+        "output": "levels/p_5_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_6_a.json",
+        "output": "levels/p_6_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_7_a.json",
+        "output": "levels/p_7_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_8_a.json",
+        "output": "levels/p_8_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_9_a.json",
+        "output": "levels/p_9_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_medium_2_a.json",
+        "output": "levels/p_medium_2_a.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/p_tutorial.json",
+        "output": "levels/p_tutorial.json"
+      },
+      {
+        "source": "bundles/progression_a/jsons/tutorial_level.json",
+        "output": "levels/tutorial_level.json"
+      },
+      {
+        "source": "level_toolkit_py/out/level3_with_moves.json",
+        "output": "levels/level3_with_moves.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_01.json",
+        "output": "levels/level_01.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_02.json",
+        "output": "levels/level_02.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_03.json",
+        "output": "levels/level_03.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_04.json",
+        "output": "levels/level_04.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_05.json",
+        "output": "levels/level_05.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_06.json",
+        "output": "levels/level_06.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_07.json",
+        "output": "levels/level_07.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_08.json",
+        "output": "levels/level_08.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_09.json",
+        "output": "levels/level_09.json"
+      },
+      {
+        "source": "level_toolkit_py/out/progression_bundle/level_10.json",
+        "output": "levels/level_10.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_01_7x7.json",
+        "output": "levels/hard_large_01_7x7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_02_8x8.json",
+        "output": "levels/hard_large_02_8x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_03_7x7.json",
+        "output": "levels/hard_large_03_7x7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_04_8x8.json",
+        "output": "levels/hard_large_04_8x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_05_7x7.json",
+        "output": "levels/hard_large_05_7x7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_06_8x8.json",
+        "output": "levels/hard_large_06_8x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_07_7x7.json",
+        "output": "levels/hard_large_07_7x7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_08_8x8.json",
+        "output": "levels/hard_large_08_8x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_09_7x7.json",
+        "output": "levels/hard_large_09_7x7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/hard_large_10_8x8.json",
+        "output": "levels/hard_large_10_8x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/level_1.json",
+        "output": "levels/level_1.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_validate_5_level.json",
+        "output": "levels/play_session_level_1_validate_5_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_validate_7_level.json",
+        "output": "levels/play_session_level_1_validate_7_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_2_validate_level.json",
+        "output": "levels/play_session_level_2_validate_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_3_validate_level.json",
+        "output": "levels/play_session_level_3_validate_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_4_validate_level.json",
+        "output": "levels/play_session_level_4_validate_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_5_validate_2_level.json",
+        "output": "levels/play_session_level_5_validate_2_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_6_validate_1_level.json",
+        "output": "levels/play_session_level_6_validate_1_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_6_validate_level.json",
+        "output": "levels/play_session_level_6_validate_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_8_validate_level.json",
+        "output": "levels/play_session_level_8_validate_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/play_session_level_9_manual_level.json",
+        "output": "levels/play_session_level_9_manual_level.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_1.json",
+        "output": "levels/progression_levels_slot_1.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_10.json",
+        "output": "levels/progression_levels_slot_10.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_2.json",
+        "output": "levels/progression_levels_slot_2.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_3.json",
+        "output": "levels/progression_levels_slot_3.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_4.json",
+        "output": "levels/progression_levels_slot_4.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_5.json",
+        "output": "levels/progression_levels_slot_5.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_6.json",
+        "output": "levels/progression_levels_slot_6.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_7.json",
+        "output": "levels/progression_levels_slot_7.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_8.json",
+        "output": "levels/progression_levels_slot_8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_9.json",
+        "output": "levels/progression_levels_slot_9.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/rect_test_7x8.json",
+        "output": "levels/rect_test_7x8.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/susanne_level_2_manager_ok.json",
+        "output": "levels/susanne_level_2_manager_ok.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons_game_unique/susanne_level_5_manager_ok.json",
+        "output": "levels/susanne_level_5_manager_ok.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level10_a.json",
+        "output": "levels/new_level10_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level2_a.json",
+        "output": "levels/new_level2_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level3_a.json",
+        "output": "levels/new_level3_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level4_a.json",
+        "output": "levels/new_level4_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level5_a.json",
+        "output": "levels/new_level5_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level6_a.json",
+        "output": "levels/new_level6_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level7_a.json",
+        "output": "levels/new_level7_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level8_a.json",
+        "output": "levels/new_level8_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/new_level9_a.json",
+        "output": "levels/new_level9_a.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_jsons/susanne_level_4_manager_ok.json",
+        "output": "levels/susanne_level_4_manager_ok.json"
+      },
+      {
+        "source": "levels/standalone/hard_10_2.json",
+        "output": "levels/hard_10_2.json"
+      },
+      {
+        "source": "levels/standalone/p_2_3.json",
+        "output": "levels/p_2_3.json"
+      },
+      {
+        "source": "levels/standalone/p_2_4.json",
+        "output": "levels/p_2_4.json"
+      },
+      {
+        "source": "levels/standalone/p_2_5.json",
+        "output": "levels/p_2_5.json"
+      },
+      {
+        "source": "levels/standalone/p_2_6.json",
+        "output": "levels/p_2_6.json"
+      },
+      {
+        "source": "levels/standalone/p_2_9_new_20260310195328.json",
+        "output": "levels/p_2_9_new_20260310195328.json"
+      },
+      {
+        "source": "levels/standalone/p_2_9.json",
+        "output": "levels/p_2_9.json"
+      },
+      {
+        "source": "levels/standalone/p_2_a.json",
+        "output": "levels/p_2_a_1.json"
+      },
+      {
+        "source": "levels/standalone/p_2_c.json",
+        "output": "levels/p_2_c.json"
+      },
+      {
+        "source": "levels/standalone/p_3_a.json",
+        "output": "levels/p_3_a_1.json"
+      },
+      {
+        "source": "levels/standalone/p_3_b.json",
+        "output": "levels/p_3_b.json"
+      },
+      {
+        "source": "levels/standalone/p_3_c.json",
+        "output": "levels/p_3_c.json"
+      },
+      {
+        "source": "levels/standalone/p_4_c_new_20260311075908.json",
+        "output": "levels/p_4_c_new_20260311075908.json"
+      },
+      {
+        "source": "levels/standalone/p_9_3.json",
+        "output": "levels/p_9_3.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate_10_level.json",
+        "output": "levels/play_session_level_1_validate_10_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate_3_level.json",
+        "output": "levels/play_session_level_1_validate_3_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate_4_level.json",
+        "output": "levels/play_session_level_1_validate_4_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate_8_level.json",
+        "output": "levels/play_session_level_1_validate_8_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate_9_level.json",
+        "output": "levels/play_session_level_1_validate_9_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5_validate_level.json",
+        "output": "levels/play_session_level_5_validate_level.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_7_validate_level.json",
+        "output": "levels/play_session_level_7_validate_level.json"
+      },
+      {
+        "source": "levels/standalone/tune_large_01_7x7.json",
+        "output": "levels/tune_large_01_7x7.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image02_level_editor.json",
+        "output": "levels/image02_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image03_level_editor.json",
+        "output": "levels/image03_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image04_level_editor.json",
+        "output": "levels/image04_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image05_level_editor.json",
+        "output": "levels/image05_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image07_level_editor.json",
+        "output": "levels/image07_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image08_level_editor.json",
+        "output": "levels/image08_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image09_level_editor.json",
+        "output": "levels/image09_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image10_level_editor.json",
+        "output": "levels/image10_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image11_level_editor.json",
+        "output": "levels/image11_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image12_level_editor.json",
+        "output": "levels/image12_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image13_level_editor.json",
+        "output": "levels/image13_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image14_level_editor.json",
+        "output": "levels/image14_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image15_level_editor.json",
+        "output": "levels/image15_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image16_level_editor.json",
+        "output": "levels/image16_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image17_level_editor.json",
+        "output": "levels/image17_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image18_level_editor.json",
+        "output": "levels/image18_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image19_level_editor.json",
+        "output": "levels/image19_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image20_level_editor.json",
+        "output": "levels/image20_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image21_level_editor.json",
+        "output": "levels/image21_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image22_level_editor.json",
+        "output": "levels/image22_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image23_level_editor.json",
+        "output": "levels/image23_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image24_level_editor.json",
+        "output": "levels/image24_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image25_level_editor.json",
+        "output": "levels/image25_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image26_level_editor.json",
+        "output": "levels/image26_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image27_level_editor.json",
+        "output": "levels/image27_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image28_level_editor.json",
+        "output": "levels/image28_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image29_level_editor.json",
+        "output": "levels/image29_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image30_level_editor.json",
+        "output": "levels/image30_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image31_level_editor.json",
+        "output": "levels/image31_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image32_level_editor.json",
+        "output": "levels/image32_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image33_level_editor.json",
+        "output": "levels/image33_level_editor.json"
+      },
+      {
+        "source": "niveles_workshop/jsons/image34_level_editor.json",
+        "output": "levels/image34_level_editor.json"
+      }
+    ],
+    "progressions": [
+      {
+        "source": "bundles/progressionExtra_bundle.json",
+        "output": "progressions/progressionExtra_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/allUniqueLevels_workspace.json",
+        "output": "progressions/allUniqueLevels_workspace.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/gameUniqueLevels_workspace.json",
+        "output": "progressions/gameUniqueLevels_workspace.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionA_afterTewak_bundle.json",
+        "output": "progressions/progressionA_afterTewak_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionA_afterTewak_workspace.json",
+        "output": "progressions/progressionA_afterTewak_workspace.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionA_bundle.json",
+        "output": "progressions/progressionA_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionA_new_levels_a_bundle.json",
+        "output": "progressions/progressionA_new_levels_a_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionB_bundle.json",
+        "output": "progressions/progressionB_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionC_bundle.json",
+        "output": "progressions/progressionC_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionImportedClean_bundle.json",
+        "output": "progressions/progressionImportedClean_bundle.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/progressionImportedClean_workspace.json",
+        "output": "progressions/progressionImportedClean_workspace.json"
+      },
+      {
+        "source": "level_toolkit_web/workshop_progressions/workshop_workspace.json",
+        "output": "progressions/workshop_workspace.json"
+      },
+      {
+        "source": "progression_levels_reference_config.json",
+        "output": "progressions/progression_levels_reference_config.json"
+      },
+      {
+        "source": "progressionA_afterTewak.json",
+        "output": "progressions/progressionA_afterTewak.json"
+      },
+      {
+        "source": "progressionA_new_levels_a.json",
+        "output": "progressions/progressionA_new_levels_a.json"
+      },
+      {
+        "source": "progressionA_workshop.json",
+        "output": "progressions/progressionA_workshop.json"
+      },
+      {
+        "source": "progressionB_workshop.json",
+        "output": "progressions/progressionB_workshop.json"
+      },
+      {
+        "source": "progressionC_workshop.json",
+        "output": "progressions/progressionC_workshop.json"
+      },
+      {
+        "source": "progressionExtra_workshop.json",
+        "output": "progressions/progressionExtra_workshop.json"
+      }
+    ],
+    "playtest": [
+      {
+        "source": "levels/standalone/play_session_level_1_manual (1).json",
+        "output": "playtest/play_session_level_1_manual (1).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_manual.json",
+        "output": "playtest/play_session_level_1_manual.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (1).json",
+        "output": "playtest/play_session_level_1_validate (1).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (10).json",
+        "output": "playtest/play_session_level_1_validate (10).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (2).json",
+        "output": "playtest/play_session_level_1_validate (2).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (3).json",
+        "output": "playtest/play_session_level_1_validate (3).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (4).json",
+        "output": "playtest/play_session_level_1_validate (4).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (5).json",
+        "output": "playtest/play_session_level_1_validate (5).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (6).json",
+        "output": "playtest/play_session_level_1_validate (6).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (7).json",
+        "output": "playtest/play_session_level_1_validate (7).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (8).json",
+        "output": "playtest/play_session_level_1_validate (8).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate (9).json",
+        "output": "playtest/play_session_level_1_validate (9).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_1_validate.json",
+        "output": "playtest/play_session_level_1_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_2_validate.json",
+        "output": "playtest/play_session_level_2_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_3_validate.json",
+        "output": "playtest/play_session_level_3_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_4_validate.json",
+        "output": "playtest/play_session_level_4_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5_manual.json",
+        "output": "playtest/play_session_level_5_manual.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5_validate (1).json",
+        "output": "playtest/play_session_level_5_validate (1).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5_validate (2).json",
+        "output": "playtest/play_session_level_5_validate (2).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5_validate.json",
+        "output": "playtest/play_session_level_5_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_5.json",
+        "output": "playtest/play_session_level_5.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_6_validate (1).json",
+        "output": "playtest/play_session_level_6_validate (1).json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_6_validate.json",
+        "output": "playtest/play_session_level_6_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_7_validate.json",
+        "output": "playtest/play_session_level_7_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_8_validate.json",
+        "output": "playtest/play_session_level_8_validate.json"
+      },
+      {
+        "source": "levels/standalone/play_session_level_9_manual.json",
+        "output": "playtest/play_session_level_9_manual.json"
+      }
+    ]
+  },
+  "removed_files": {
+    "levels": [
+      "levels/standalone/p_10_a.json",
+      "levels/standalone/p_4_a.json",
+      "levels/standalone/p_5_a.json",
+      "levels/standalone/p_6_a.json",
+      "levels/standalone/p_7_a.json",
+      "levels/standalone/p_8_a.json",
+      "levels/standalone/p_9_a.json",
+      "levels/standalone/p_medium_2_a.json",
+      "levels/standalone/p_tutorial.json",
+      "level_toolkit_web/workshop_jsons/tutorial_level.json",
+      "levels/standalone/tutorial_level copia.json",
+      "level_toolkit_py/out/level3.json",
+      "level_toolkit_py/out/progression/level_03.json",
+      "level_toolkit_py/out/progression/level_01.json",
+      "level_toolkit_py/out/progression/level_02.json",
+      "level_toolkit_py/out/progression/level_04.json",
+      "level_toolkit_py/out/progression/level_05.json",
+      "level_toolkit_py/out/progression/level_06.json",
+      "level_toolkit_py/out/progression/level_07.json",
+      "level_toolkit_py/out/progression/level_08.json",
+      "level_toolkit_py/out/progression/level_09.json",
+      "level_toolkit_py/out/progression/level_10.json",
+      "level_toolkit_web/workshop_jsons/hard_large_01_7x7.json",
+      "levels/standalone/hard_large_01_7x7.json",
+      "level_toolkit_web/workshop_jsons/hard_large_02_8x8.json",
+      "levels/standalone/hard_large_02_8x8.json",
+      "level_toolkit_web/workshop_jsons/hard_large_03_7x7.json",
+      "levels/standalone/hard_large_03_7x7.json",
+      "level_toolkit_web/workshop_jsons/hard_large_04_8x8.json",
+      "levels/standalone/hard_large_04_8x8.json",
+      "level_toolkit_web/workshop_jsons/hard_large_05_7x7.json",
+      "levels/standalone/hard_large_05_7x7.json",
+      "level_toolkit_web/workshop_jsons/hard_large_06_8x8.json",
+      "levels/standalone/hard_large_06_8x8.json",
+      "level_toolkit_web/workshop_jsons/hard_large_07_7x7.json",
+      "levels/standalone/hard_large_07_7x7.json",
+      "level_toolkit_web/workshop_jsons/hard_large_08_8x8.json",
+      "levels/standalone/hard_large_08_8x8.json",
+      "level_toolkit_web/workshop_jsons/hard_large_09_7x7.json",
+      "levels/standalone/hard_large_09_7x7.json",
+      "level_toolkit_web/workshop_jsons/hard_large_10_8x8.json",
+      "levels/standalone/hard_large_10_8x8.json",
+      "level_toolkit_web/workshop_jsons/image01_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image01_level_editor.json",
+      "levels/standalone/image01_level_editor.json",
+      "levels/standalone/play_session_level_1_validate_6_level.json",
+      "niveles_workshop/jsons/image01_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image02_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image02_level_editor.json",
+      "levels/standalone/image02_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image03_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image03_level_editor.json",
+      "levels/standalone/image03_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image04_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image04_level_editor.json",
+      "levels/standalone/image04_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image05_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image05_level_editor.json",
+      "levels/standalone/image05_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image06_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image06_level_editor.json",
+      "levels/standalone/image06_level_editor.json",
+      "niveles_workshop/jsons/image06_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image07_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image07_level_editor.json",
+      "levels/standalone/image07_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image08_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image08_level_editor.json",
+      "levels/standalone/image08_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image09_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image09_level_editor.json",
+      "levels/standalone/image09_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image10_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image10_level_editor.json",
+      "levels/standalone/image10_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image11_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image11_level_editor.json",
+      "levels/standalone/image11_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image12_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image12_level_editor.json",
+      "levels/standalone/image12_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image13_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image13_level_editor.json",
+      "levels/standalone/image13_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image14_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image14_level_editor.json",
+      "levels/standalone/image14_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image15_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image15_level_editor.json",
+      "levels/standalone/image15_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image16_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image16_level_editor.json",
+      "levels/standalone/image16_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image17_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image17_level_editor.json",
+      "levels/standalone/image17_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image18_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image18_level_editor.json",
+      "levels/standalone/image18_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image19_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image19_level_editor.json",
+      "levels/standalone/image19_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image20_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image20_level_editor.json",
+      "levels/standalone/image20_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image21_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image21_level_editor.json",
+      "levels/standalone/image21_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image22_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image22_level_editor.json",
+      "levels/standalone/image22_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image23_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image23_level_editor.json",
+      "levels/standalone/image23_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image24_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image24_level_editor.json",
+      "levels/standalone/image24_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image25_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image25_level_editor.json",
+      "levels/standalone/image25_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image26_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image26_level_editor.json",
+      "levels/standalone/image26_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image27_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image27_level_editor.json",
+      "levels/standalone/image27_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image28_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image28_level_editor.json",
+      "levels/standalone/image28_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image29_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image29_level_editor.json",
+      "levels/standalone/image29_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image30_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image30_level_editor.json",
+      "levels/standalone/image30_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image31_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image31_level_editor.json",
+      "levels/standalone/image31_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image32_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image32_level_editor.json",
+      "levels/standalone/image32_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image33_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image33_level_editor.json",
+      "levels/standalone/image33_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image34_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image34_level_editor.json",
+      "levels/standalone/image34_level_editor.json",
+      "level_toolkit_web/workshop_jsons/level_1.json",
+      "levels/standalone/level_1.json",
+      "level_toolkit_web/workshop_jsons/level_7_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/level_7_manager_ok.json",
+      "levels/standalone/level_7_manager_ok.json",
+      "level_toolkit_web/workshop_jsons/new_level1_a.json",
+      "level_toolkit_web/workshop_jsons_game_unique/new_level1_a.json",
+      "level_toolkit_web/workshop_progressions/tutorial_level.json",
+      "levels/standalone/new_level1_a.json",
+      "levels/standalone/play_session_level_1_manual_level.json",
+      "levels/standalone/play_session_level_1_validate_1_level.json",
+      "levels/standalone/play_session_level_1_validate_2_level.json",
+      "levels/standalone/tutorial_level.json",
+      "niveles_workshop/jsons/tutorial_level.json",
+      "tutorial_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_1_manual_1_level.json",
+      "level_toolkit_web/workshop_jsons_game_unique/play_session_level_1_manual_1_level.json",
+      "levels/standalone/play_session_level_1_manual_1_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_1_validate_5_level.json",
+      "levels/standalone/play_session_level_1_validate_5_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_1_validate_7_level.json",
+      "levels/standalone/play_session_level_1_validate_7_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_2_validate_level.json",
+      "levels/standalone/play_session_level_2_validate_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_3_validate_level.json",
+      "levels/standalone/play_session_level_3_validate_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_4_validate_level.json",
+      "levels/standalone/play_session_level_4_validate_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_5_manual_level.json",
+      "level_toolkit_web/workshop_jsons_game_unique/play_session_level_5_manual_level.json",
+      "levels/standalone/play_session_level_5_manual_level.json",
+      "levels/standalone/play_session_level_5_validate_1_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_5_validate_2_level.json",
+      "levels/standalone/play_session_level_5_validate_2_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_6_validate_1_level.json",
+      "levels/standalone/play_session_level_6_validate_1_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_6_validate_level.json",
+      "levels/standalone/play_session_level_6_validate_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_8_validate_level.json",
+      "levels/standalone/play_session_level_8_validate_level.json",
+      "level_toolkit_web/workshop_jsons/play_session_level_9_manual_level.json",
+      "levels/standalone/play_session_level_9_manual_level.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_1.json",
+      "levels/standalone/progression_levels_slot_1.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_10.json",
+      "levels/standalone/progression_levels_slot_10.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_2.json",
+      "levels/standalone/progression_levels_slot_2.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_3.json",
+      "levels/standalone/progression_levels_slot_3.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_4.json",
+      "levels/standalone/progression_levels_slot_4.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_5.json",
+      "levels/standalone/progression_levels_slot_5.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_6.json",
+      "levels/standalone/progression_levels_slot_6.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_7.json",
+      "levels/standalone/progression_levels_slot_7.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_8.json",
+      "levels/standalone/progression_levels_slot_8.json",
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_9.json",
+      "levels/standalone/progression_levels_slot_9.json",
+      "level_toolkit_web/workshop_jsons/rect_test_7x8.json",
+      "levels/standalone/rect_test_7x8.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_1_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/susanne_level_1_manager_ok.json",
+      "levels/standalone/susanne_level_1_manager_ok.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_2_manager_ok.json",
+      "levels/standalone/susanne_level_2_manager_ok.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_3_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/susanne_level_3_manager_ok.json",
+      "levels/standalone/susanne_level_3_manager_ok.json",
+      "levels/standalone/susanne_level_4_manager_ok.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_5_manager_ok.json",
+      "levels/standalone/susanne_level_5_manager_ok.json",
+      "levels/standalone/p_2_2.json",
+      "levels/standalone/p_2_3_new_20260310163652.json",
+      "levels/standalone/p_2_4_new_20260310165931.json",
+      "levels/standalone/p_2_5_new_20260310170335.json",
+      "levels/standalone/p_2_6_new_20260310170645.json",
+      "levels/standalone/p_2_b.json",
+      "levels/standalone/p_4_c.json"
+    ],
+    "progressions": [
+      "level_toolkit_web/workshop_progressions/progressionExtra_bundle.json",
+      "progressionExtra_bundle.json",
+      "progressionA_afterTewak_bundle.json",
+      "progressionA_bundle.json",
+      "progressionA_new_levels_a_bundle.json",
+      "progressionB_bundle.json",
+      "progressionC_bundle.json",
+      "progression_levels_embedded_bundle.json"
+    ],
+    "playtest": []
+  }
+}

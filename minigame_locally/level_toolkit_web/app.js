@@ -28,9 +28,28 @@ const difficultyToDensity = {
   HARD: ["LOW", "VERY-LOW", "SINGLE", "LOW-MEDIUM"]
 };
 
-const pairColors = ["#0EA5E9", "#0284C7", "#0891B2", "#0369A1"];
+const PAIR_IDS = ["A", "B", "C", "D", "E"];
+const pairColors = ["#0EA5E9", "#10B981", "#F59E0B", "#EC4899", "#8B5CF6"];
+const DEFAULT_UI_THEME = {
+  bg: "#f3f7fb",
+  surface: "#ffffff",
+  text: "#0b1b2a",
+  muted: "#5a748e",
+  accent: "#0ea5e9",
+  accent2: "#0369a1",
+  border: "#d8e5f0"
+};
+const DEFAULT_FONT_FAMILY = "\"Segoe UI\", system-ui, sans-serif";
+const PERFORMANCE_PRESETS = {
+  low: { managerCardPreviews: false, csvScreenshots: false, sessionPreviews: false, editorStripPreviews: false, renderChunkSize: 6 },
+  medium: { managerCardPreviews: true, csvScreenshots: false, sessionPreviews: true, editorStripPreviews: true, renderChunkSize: 10 },
+  high: { managerCardPreviews: true, csvScreenshots: true, sessionPreviews: true, editorStripPreviews: true, renderChunkSize: 14 }
+};
 const playPalette = ["#EF4444", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6", "#14B8A6", "#F97316"];
-const DEFAULT_PROJECT_SAVE_DIR = "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/toolkit_exports";
+const PROJECT_ROOT = "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally";
+const DEFAULT_PROJECT_SAVE_DIR = PROJECT_ROOT;
+const PROJECT_ROOT_NAME = basename(PROJECT_ROOT);
+const TUTORIAL_LEVEL_BASENAME = "tutorial_level.json";
 const defaultManagerProgressions = [
   { key: "progressionA", label: "Progression A" },
   { key: "progressionB", label: "Progression B" },
@@ -50,6 +69,20 @@ function createDefaultManagerProgressions() {
   return Object.fromEntries(defaultManagerProgressions.map(({ key, label }) => [key, createManagerProgression(label)]));
 }
 
+function createDefaultManagerFilters() {
+  return {
+    name: "",
+    board: "",
+    difficulty: "",
+    status: "",
+    level: "",
+    pairs: "",
+    blockers: "",
+    placement: "",
+    changed: ""
+  };
+}
+
 function createDefaultEditorState() {
   return {
     level: 1,
@@ -59,13 +92,16 @@ function createDefaultEditorState() {
     targetDensity: "MEDIUM",
     difficulty: "MEDIUM",
     moves: 0,
+    decal: false,
+    solutionCount: 0,
+    validationSolvable: false,
+    validationDensityMatch: false,
+    validationDecalPass: null,
     blockers: new Set(),
-    pairs: {
-      A: { start: null, end: null },
-      B: { start: null, end: null },
-      C: { start: null, end: null },
-      D: { start: null, end: null }
-    },
+    debugMarks: new Set(),
+    pairs: Object.fromEntries(PAIR_IDS.map((id) => [id, { start: null, end: null }])),
+    progressionKey: "progressionA",
+    progressionSlot: 1,
     link: { sourceType: "standalone", sourceId: null, label: "Standalone level" },
     dirty: false,
     lastSavedAt: null
@@ -78,13 +114,27 @@ const state = {
   proceduralBatch: [],
   manager: {
     items: [],
+    itemIndex: new Map(),
+    slotIndexByItemId: new Map(),
     progressions: createDefaultManagerProgressions(),
     progressionOrder: defaultManagerProgressions.map(({ key }) => key),
     activeTab: "progressionA",
     selectedId: null,
+    pendingRefTarget: null,
+    allLevelsPage: 1,
+    allLevelsPageSize: 24,
     draggingId: null,
     referenceIds: [],
-    nextId: 1
+    nextId: 1,
+    filters: createDefaultManagerFilters(),
+    renderToken: 0,
+    loading: {
+      active: false,
+      label: "",
+      current: 0,
+      total: 0
+    },
+    tutorialLevelTemplate: null
   },
   sessions: {
     queue: [],
@@ -99,11 +149,19 @@ const state = {
     corrections: []
   },
   settings: {
-    exportDir: DEFAULT_PROJECT_SAVE_DIR
+    exportDir: DEFAULT_PROJECT_SAVE_DIR,
+    fontFamily: DEFAULT_FONT_FAMILY,
+    uiTheme: { ...DEFAULT_UI_THEME },
+    pairColors: [...pairColors],
+    maxPairs: 5,
+    defaultBoardWidth: 5,
+    defaultBoardHeight: 5,
+    defaultDifficulty: "MEDIUM",
+    performanceProfile: "medium"
   },
   play: {
     on: false,
-    selectedPair: "A",
+    selectedPair: PAIR_IDS[0],
     paths: {},
     occupied: new Map(),
     history: [],
@@ -122,6 +180,10 @@ const WORKSPACE_STATE_KEY = "ftb_workspace_state_v1";
 const SETTINGS_KEY = "ftb_settings_v1";
 let isRestoringWorkspaceState = false;
 let isBootstrappingWorkspaceState = true;
+let managerMetadataSaveTimer = null;
+let lastManagerMetadataSignature = "";
+const managerItemMaterializeSignatures = new Map();
+const progressionMaterializeSignatures = new Map();
 
 function coordKey(r, c) { return `${r},${c}`; }
 function parseKey(k) { return k.split(",").map(Number); }
@@ -131,6 +193,24 @@ function parseImportedJson(text) {
 }
 function basename(path) {
   return String(path || "").split("/").filter(Boolean).pop() || String(path || "");
+}
+function displayProjectPath(path) {
+  const value = String(path || "").trim();
+  if (!value) return "";
+  if (value.startsWith(PROJECT_ROOT)) {
+    return `${PROJECT_ROOT_NAME}${value.slice(PROJECT_ROOT.length)}`;
+  }
+  return value;
+}
+function resolveProjectPath(path) {
+  const value = String(path || "").trim();
+  if (!value) return DEFAULT_PROJECT_SAVE_DIR;
+  if (value.startsWith("/")) return value;
+  if (value === PROJECT_ROOT_NAME) return PROJECT_ROOT;
+  if (value.startsWith(`${PROJECT_ROOT_NAME}/`)) {
+    return `${PROJECT_ROOT}/${value.slice(PROJECT_ROOT_NAME.length + 1)}`;
+  }
+  return `${PROJECT_ROOT}/${value.replace(/^\/+/, "")}`;
 }
 function slugifyFilePart(value) {
   return String(value || "untitled")
@@ -143,6 +223,13 @@ function normalizeLevelFileName(value, levelNumber = 1) {
   const trimmed = String(value || "").trim();
   if (!trimmed) return `level_${levelNumber}.json`;
   return trimmed.toLowerCase().endsWith(".json") ? trimmed : `${trimmed}.json`;
+}
+function activePairIds() {
+  return PAIR_IDS.slice(0, Math.max(1, Math.min(PAIR_IDS.length, Number(state.settings.maxPairs || PAIR_IDS.length))));
+}
+function performanceSettings() {
+  const profile = String(state.settings.performanceProfile || "medium").toLowerCase();
+  return PERFORMANCE_PRESETS[profile] || PERFORMANCE_PRESETS.medium;
 }
 function levelWidth(level) {
   return Number(level?.board_width || level?.board_size || level?.grid?.[0]?.length || 0);
@@ -184,7 +271,7 @@ function isCorner(width, height, r, c) {
 
 function activePairsFromEditor() {
   const out = [];
-  ["A", "B", "C", "D"].forEach((id, i) => {
+  activePairIds().forEach((id, i) => {
     const p = state.editor.pairs[id];
     if (p.start && p.end) out.push({ id, start: p.start, end: p.end, color: pairColors[i] });
   });
@@ -195,7 +282,7 @@ function activeColorMap() {
   if (state.play.on && state.play.colorMap && Object.keys(state.play.colorMap).length > 0) {
     return state.play.colorMap;
   }
-  return Object.fromEntries(["A", "B", "C", "D"].map((id, i) => [id, pairColors[i]]));
+  return Object.fromEntries(activePairIds().map((id, i) => [id, pairColors[i]]));
 }
 
 function shuffledPalette() {
@@ -258,6 +345,12 @@ function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
     }
   }
 
+  function enumeratePairPaths(start, end, occ, localCap = 200) {
+    const paths = [];
+    pathDfs(start, end, occ, [start], paths, localCap);
+    return paths;
+  }
+
   function dfs(idx, occ) {
     if (idx === pairs.length) return 1;
     const hash = `${idx}|${Array.from(occ).sort().join(";")}`;
@@ -268,9 +361,7 @@ function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
     const endK = coordKey(p.end[0], p.end[1]);
     const localOcc = new Set(occ);
     localOcc.add(startK);
-
-    const paths = [];
-    pathDfs(p.start, p.end, localOcc, [p.start], paths, 200);
+    const paths = enumeratePairPaths(p.start, p.end, localOcc, 200);
 
     let total = 0;
     for (const path of paths) {
@@ -287,6 +378,68 @@ function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
     }
     memo.set(hash, total);
     return total;
+  }
+
+  return dfs(0, blockedSet);
+}
+
+function hasFullCoverSolution(boardWidth, boardHeight, pairs, blockers) {
+  const blockedSet = new Set(blockers.map(([r, c]) => coordKey(r, c)));
+  const totalFreeCells = (boardWidth * boardHeight) - blockedSet.size;
+  const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  const memo = new Map();
+
+  function pathDfs(cur, end, occ, path, out, localCap) {
+    if (cur[0] === end[0] && cur[1] === end[1]) {
+      out.push([...path]);
+      return;
+    }
+    if (out.length >= localCap) return;
+
+    for (const [dr, dc] of dirs) {
+      const nr = cur[0] + dr;
+      const nc = cur[1] + dc;
+      if (nr < 0 || nc < 0 || nr >= boardHeight || nc >= boardWidth) continue;
+      const k = coordKey(nr, nc);
+      const isEnd = nr === end[0] && nc === end[1];
+      if (!isEnd && occ.has(k)) continue;
+      const nextOcc = new Set(occ);
+      if (!isEnd) nextOcc.add(k);
+      path.push([nr, nc]);
+      pathDfs([nr, nc], end, nextOcc, path, out, localCap);
+      path.pop();
+      if (out.length >= localCap) return;
+    }
+  }
+
+  function enumeratePairPaths(start, end, occ, localCap = 200) {
+    const paths = [];
+    pathDfs(start, end, occ, [start], paths, localCap);
+    return paths;
+  }
+
+  function dfs(idx, occ) {
+    if (idx === pairs.length) return occ.size === totalFreeCells;
+    const hash = `${idx}|${Array.from(occ).sort().join(";")}`;
+    if (memo.has(hash)) return memo.get(hash);
+
+    const p = pairs[idx];
+    const startK = coordKey(p.start[0], p.start[1]);
+    const localOcc = new Set(occ);
+    localOcc.add(startK);
+    const paths = enumeratePairPaths(p.start, p.end, localOcc, 200);
+
+    for (const path of paths) {
+      const nextOcc = new Set(occ);
+      path.forEach(([r, c]) => nextOcc.add(coordKey(r, c)));
+      if (dfs(idx + 1, nextOcc)) {
+        memo.set(hash, true);
+        return true;
+      }
+    }
+
+    memo.set(hash, false);
+    return false;
   }
 
   return dfs(0, blockedSet);
@@ -370,6 +523,22 @@ function levelDifficulty(level) {
   return level?.difficulty || level?.meta?.manual_difficulty || densityToDifficulty(level?.target_density);
 }
 
+function shouldRenderManagerCardPreview() {
+  return !!performanceSettings().managerCardPreviews;
+}
+
+function shouldRenderCsvScreenshots() {
+  return !!performanceSettings().csvScreenshots;
+}
+
+function shouldRenderSessionPreviews() {
+  return !!performanceSettings().sessionPreviews;
+}
+
+function shouldRenderEditorStripPreviews() {
+  return !!performanceSettings().editorStripPreviews;
+}
+
 function isManagerProgressionTab(tab) {
   return state.manager.progressionOrder.includes(tab);
 }
@@ -397,6 +566,74 @@ function getManagerUnassignedItems() {
   return state.manager.items.filter((item) => !assigned.has(item.id));
 }
 
+function managerItemBoardLabel(item) {
+  return `${levelWidth(item.level) || "-"}x${levelHeight(item.level) || "-"}`;
+}
+
+function managerItemPlacement(item) {
+  return managerPlacementLabel(item.id);
+}
+
+function matchesManagerFilters(item) {
+  const filters = state.manager.filters || createDefaultManagerFilters();
+  const searchNeedle = filters.name.trim().toLowerCase();
+  if (searchNeedle) {
+    const haystack = [item.file, item.sourcePath, item.savedPath, item.notes].join(" ").toLowerCase();
+    if (!haystack.includes(searchNeedle)) return false;
+  }
+  if (filters.board && managerItemBoardLabel(item) !== filters.board) return false;
+  if (filters.difficulty && levelDifficulty(item.level) !== filters.difficulty) return false;
+  if (filters.status && String(item.status || "") !== filters.status) return false;
+  if (filters.level && String(item.level?.level ?? "") !== filters.level) return false;
+  if (filters.pairs && String((item.level?.pairs || []).length) !== filters.pairs) return false;
+  if (filters.blockers && String((item.level?.blockers || []).length) !== filters.blockers) return false;
+  if (filters.placement && managerItemPlacement(item) !== filters.placement) return false;
+  if (filters.changed) {
+    const changedLabel = item.changed ? "Yes" : "No";
+    if (changedLabel !== filters.changed) return false;
+  }
+  return true;
+}
+
+function getFilteredManagerItems(items = state.manager.items) {
+  return items.filter((item) => matchesManagerFilters(item));
+}
+
+function setSelectOptions(selectId, values, currentValue = "") {
+  const select = document.getElementById(selectId);
+  if (!select) return;
+  const previous = currentValue || select.value || "";
+  select.innerHTML = "";
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = "All";
+  select.appendChild(defaultOption);
+  values.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    select.appendChild(option);
+  });
+  select.value = values.includes(previous) ? previous : "";
+}
+
+function syncManagerFilterControls() {
+  const filters = state.manager.filters || createDefaultManagerFilters();
+  const items = state.manager.items;
+  const unique = (values) => Array.from(new Set(values.filter((value) => value != null && value !== ""))).sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true, sensitivity: "base" }));
+  const nameInput = document.getElementById("mgr-filter-name");
+  const changedSelect = document.getElementById("mgr-filter-changed");
+  if (nameInput) nameInput.value = filters.name || "";
+  if (changedSelect) changedSelect.value = filters.changed || "";
+  setSelectOptions("mgr-filter-board", unique(items.map((item) => managerItemBoardLabel(item))), filters.board);
+  setSelectOptions("mgr-filter-difficulty", unique(items.map((item) => levelDifficulty(item.level))), filters.difficulty);
+  setSelectOptions("mgr-filter-status", unique(items.map((item) => String(item.status || ""))), filters.status);
+  setSelectOptions("mgr-filter-level", unique(items.map((item) => String(item.level?.level ?? ""))), filters.level);
+  setSelectOptions("mgr-filter-pairs", unique(items.map((item) => String((item.level?.pairs || []).length))), filters.pairs);
+  setSelectOptions("mgr-filter-blockers", unique(items.map((item) => String((item.level?.blockers || []).length))), filters.blockers);
+  setSelectOptions("mgr-filter-placement", unique(items.map((item) => managerItemPlacement(item))), filters.placement);
+}
+
 function inferManagerProgressionKey(fileName = "", objectName = "") {
   const source = `${fileName} ${objectName}`.toLowerCase();
   if (source.includes("progressiona")) return "progressionA";
@@ -420,8 +657,8 @@ function normalizeLegacyLevel(data, fallbackName = "legacy_level") {
     throw new Error(`Unsupported legacy grid ${cols}x${rows}. Current editor supports rectangular boards from 4x4 up to 8x8.`);
   }
 
-  const pairIds = ["A", "B", "C", "D"];
-  const pairs = (data.pairs || []).slice(0, 4).map((pair, index) => {
+  const pairIds = PAIR_IDS;
+  const pairs = (data.pairs || []).slice(0, PAIR_IDS.length).map((pair, index) => {
     const start = pair?.a ? [Number(pair.a.y), Number(pair.a.x)] : null;
     const end = pair?.b ? [Number(pair.b.y), Number(pair.b.x)] : null;
     if (!start || !end) throw new Error(`Legacy pair ${index + 1} is missing a or b endpoint.`);
@@ -438,6 +675,8 @@ function normalizeLegacyLevel(data, fallbackName = "legacy_level") {
   const levelNumber = fallbackLevel >= 1 && fallbackLevel <= 10 ? fallbackLevel : 1;
   const solutionCount = countSolutions(boardWidth, boardHeight, pairs, blockers, 20);
   const targetDensity = inferDensityLabel(solutionCount);
+  const decal = !!data?.decal;
+  const decalPass = decal ? hasFullCoverSolution(boardWidth, boardHeight, pairs, blockers) : null;
 
   return {
     level: levelNumber,
@@ -447,6 +686,7 @@ function normalizeLegacyLevel(data, fallbackName = "legacy_level") {
     grid: makeGrid(boardWidth, boardHeight, pairs, blockers),
     pairs,
     blockers,
+    decal,
     moves: Number(data.moves || 0),
     solution_count: solutionCount,
     target_density: targetDensity,
@@ -455,6 +695,8 @@ function normalizeLegacyLevel(data, fallbackName = "legacy_level") {
     validation: {
       solvable: solutionCount >= 1,
       density_match: densityMatch(targetDensity, solutionCount),
+      decal_required: decal,
+      decal_pass: decalPass,
       early_mistake_detection: true,
       no_isolated_pairs: true,
       no_late_dead_ends: true,
@@ -500,6 +742,69 @@ async function fetchWorkshopLevelByFilename(filename) {
   return toPlayableLevel(parseImportedJson(await response.text()), ref);
 }
 
+function isTutorialSlotIndex(slotIndex) {
+  return Number(slotIndex) === 0;
+}
+
+function isTutorialManagerItem(item) {
+  if (!item?.level) return false;
+  const file = basename(item.file || "");
+  const sourcePath = basename(item.sourcePath || "");
+  const savedPath = basename(item.savedPath || "");
+  return file === TUTORIAL_LEVEL_BASENAME
+    || sourcePath === TUTORIAL_LEVEL_BASENAME
+    || savedPath === TUTORIAL_LEVEL_BASENAME
+    || item.notes === "Tutorial slot"
+    || item.level?.meta?.type === "tutorial"
+    || item.level?.meta?.source_name === TUTORIAL_LEVEL_BASENAME;
+}
+
+async function getTutorialLevelTemplate() {
+  if (!state.manager.tutorialLevelTemplate) {
+    state.manager.tutorialLevelTemplate = await fetchWorkshopLevelByFilename(TUTORIAL_LEVEL_BASENAME);
+  }
+  return cloneLevel(state.manager.tutorialLevelTemplate);
+}
+
+async function createTutorialManagerItemForProgression(key) {
+  const tutorialLevel = await getTutorialLevelTemplate();
+  const progressionLabel = getManagerProgressionLabel(key);
+  const item = summarizeManagerItem(tutorialLevel, TUTORIAL_LEVEL_BASENAME, `Tutorial slot · ${progressionLabel}`);
+  item.notes = "Tutorial slot";
+  item.level.meta = {
+    ...(item.level.meta || {}),
+    type: "tutorial",
+    source_name: TUTORIAL_LEVEL_BASENAME
+  };
+  return item;
+}
+
+async function ensureTutorialInProgressionSlot(key) {
+  if (!isManagerProgressionTab(key)) return;
+  const progression = getManagerProgression(key);
+  if (!progression) return;
+  const existingId = progression.slots[0];
+  const existingItem = existingId != null ? getManagerItemById(existingId) : null;
+  if (isTutorialManagerItem(existingItem)) {
+    progression.lockedSlots[0] = true;
+    if (!progression.slotDifficulty[0]) progression.slotDifficulty[0] = levelDifficulty(existingItem.level);
+    return;
+  }
+
+  const tutorialItem = await createTutorialManagerItemForProgression(key);
+  state.manager.items.push(tutorialItem);
+  progression.slots[0] = tutorialItem.id;
+  progression.lockedSlots[0] = true;
+  progression.slotDifficulty[0] = levelDifficulty(tutorialItem.level);
+}
+
+async function ensureTutorialInAllProgressions() {
+  const keys = getManagerProgressionKeys();
+  for (const key of keys) {
+    await ensureTutorialInProgressionSlot(key);
+  }
+}
+
 function ensureManagerProgression(key, label) {
   if (!state.manager.progressions[key]) {
     state.manager.progressions[key] = createManagerProgression(label);
@@ -528,13 +833,19 @@ const uiTooltips = {
   "ed-name": "Set or rename the JSON filename used when saving this level into the project.",
   "ed-board-width": "Choose the board width for the current level.",
   "ed-board-height": "Choose the board height for the current level.",
+  "ed-progression-select": "Choose which progression you are building while staying inside the editor.",
+  "ed-progression-slot": "Choose which slot of the selected progression the current editor level should go into.",
+  "ed-save-to-progression": "Save or replace the selected progression slot with the current editor level.",
+  "ed-save-new-level": "Save the current slot, then jump to the next slot with a clean editor so you can keep building the progression.",
   "ed-difficulty": "Choose whether the current level should be treated as easy, medium, or hard.",
   "ed-moves": "Set the move count stored in the JSON.",
+  "ed-decal": "Require at least one valid solution that covers every free cell of the board.",
   "ed-auto-moves": "Fill the moves field with the recommended move count.",
-  "ed-mode": "Switch between blocker placement, node placement, and erase mode.",
+  "ed-mode": "Switch between blocker placement, node placement, debug marking, and erase mode.",
   "ed-pair-id": "Choose which pair letter you are placing in node mode.",
   "ed-endpoint": "Choose whether you are placing the first or second endpoint.",
   "ed-save": "Save the current editor changes back to the linked manager or session item.",
+  "ed-save-as-new": "Save the current editor level as a brand new level without overwriting the linked source.",
   "ed-validate": "Validate the current editor level against the toolkit rules.",
   "ed-import": "Import one JSON level into the editor.",
   "ed-export": "Export the current editor level as JSON.",
@@ -568,14 +879,36 @@ const uiTooltips = {
   "mgr-generate-from-refs": "Generate new candidate levels based on the levels marked as references.",
   "mgr-clear": "Clear all manager levels, slots, and locks.",
   "mgr-export-csv": "Export the manager list as CSV.",
-  "mgr-export-progression-json": "Export all progression tabs plus the unassigned levels as JSON.",
+  "mgr-export-progression-csv": "Export the active progression as CSV, including slot and level data.",
+  "mgr-export-curve-png": "Save a PNG image of the active progression difficulty curve.",
+  "mgr-export-progression-png": "Save a PNG image of the active progression cards and slot order.",
+  "mgr-export-progression-json": "Save the active progression as a ZIP with level JSONs, level screenshots, progression screenshots, and the progression CSV.",
   "mgr-tabs": "Switch between progression tabs, unassigned levels, and CSV review.",
   "mgr-slot-grid": "Top progression area with 10 ordered slots. Drag levels here to arrange them.",
   "mgr-pool-grid": "Pool of unassigned levels that can be dragged into the active progression.",
   "mgr-unassigned-grid": "Levels that are not currently placed in any progression.",
   "mgr-progress-title": "Current progression tab and its ordered 10 slots.",
   "settings-export-dir": "Folder inside your project where the toolkit saves JSON, CSV, and screenshot files.",
-  "settings-save": "Save the current project export path."
+  "settings-performance-profile": "Choose how aggressively the toolkit should trade visual previews for faster loading.",
+  "settings-font-family": "Choose the main UI font used across the toolkit.",
+  "settings-color-bg": "Choose the overall page background color.",
+  "settings-color-surface": "Choose the card and panel background color.",
+  "settings-color-text": "Choose the main text color.",
+  "settings-color-muted": "Choose the secondary text color.",
+  "settings-color-accent": "Choose the main accent color used by active controls.",
+  "settings-color-accent2": "Choose the darker accent color used by headings and tags.",
+  "settings-color-border": "Choose the border color used by cards and inputs.",
+  "settings-max-pairs": "Set how many pair letters are active in the editor.",
+  "settings-default-width": "Set the default board width for new editor levels.",
+  "settings-default-height": "Set the default board height for new editor levels.",
+  "settings-default-difficulty": "Set the default difficulty for new editor levels.",
+  "settings-pair-a": "Choose the editor color for pair A.",
+  "settings-pair-b": "Choose the editor color for pair B.",
+  "settings-pair-c": "Choose the editor color for pair C.",
+  "settings-pair-d": "Choose the editor color for pair D.",
+  "settings-pair-e": "Choose the editor color for pair E.",
+  "settings-save": "Save the current toolkit settings.",
+  "settings-clear-cache": "Clear workspace cache and saved page state, then reload the toolkit."
 };
 
 function applyStaticTooltips() {
@@ -790,6 +1123,7 @@ function generateLevelRaw(levelNumber, seedOffset = 0) {
     grid: makeGrid(boardWidth, boardHeight, pairs, blockers),
     pairs,
     blockers,
+    decal: false,
     moves,
     solution_count: solutionCount,
     target_density: cfg.density,
@@ -798,6 +1132,8 @@ function generateLevelRaw(levelNumber, seedOffset = 0) {
     validation: {
       solvable: solutionCount >= 1,
       density_match: densityMatch(cfg.density, solutionCount),
+      decal_required: false,
+      decal_pass: null,
       early_mistake_detection: true,
       no_isolated_pairs: true,
       no_late_dead_ends: true,
@@ -879,7 +1215,7 @@ function validateLevel(level) {
   if (!(width >= 4 && width <= 8 && height >= 4 && height <= 8)) errors.push("board width/height must be 4..8");
 
   const pairs = level.pairs || [];
-  if (pairs.length < 2 || pairs.length > 4) errors.push("pairs count must be 2..4");
+  if (pairs.length < 2 || pairs.length > 5) errors.push("pairs count must be 2..5");
 
   const used = new Set();
   for (const p of pairs) {
@@ -896,11 +1232,32 @@ function validateLevel(level) {
     if (used.has(coordKey(b[0], b[1]))) errors.push(`blocker overlaps node ${b}`);
   }
 
-  const [lo, hi] = densityRanges[level.target_density] || [1, 20];
-  if (level.solution_count < lo || level.solution_count > hi) errors.push("solution_count outside target density range");
   if (level.moves != null && level.moves < 0) errors.push("moves must be >= 0");
+  const decalRequired = !!level.decal;
+  if (errors.length > 0) {
+    return {
+      valid: false,
+      errors,
+      solutionCount: 0,
+      solvable: false,
+      decalRequired,
+      decalPass: null
+    };
+  }
+  const actualSolutionCount = countSolutions(width, height, pairs, level.blockers || [], 20);
+  const solvable = actualSolutionCount >= 1;
+  if (!solvable) errors.push("level is impossible with the current layout");
+  const decalPass = decalRequired ? hasFullCoverSolution(width, height, pairs, level.blockers || []) : null;
+  if (decalRequired && !decalPass) errors.push("decal requires a full-board solution that covers every free cell");
 
-  return { valid: errors.length === 0, errors };
+  return {
+    valid: errors.length === 0,
+    errors,
+    solutionCount: actualSolutionCount,
+    solvable,
+    decalRequired,
+    decalPass
+  };
 }
 
 function saveLearning() {
@@ -927,16 +1284,58 @@ function loadSettings() {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (!raw) return;
     const parsed = JSON.parse(raw);
-    state.settings.exportDir = String(parsed.exportDir || DEFAULT_PROJECT_SAVE_DIR);
+    const savedExportDir = String(parsed.exportDir || DEFAULT_PROJECT_SAVE_DIR);
+    state.settings.exportDir = savedExportDir.includes("/levels/standalone/toolkit_exports")
+      ? DEFAULT_PROJECT_SAVE_DIR
+      : savedExportDir;
+    state.settings.fontFamily = String(parsed.fontFamily || DEFAULT_FONT_FAMILY);
+    state.settings.uiTheme = { ...DEFAULT_UI_THEME, ...(parsed.uiTheme || {}) };
+    state.settings.pairColors = Array.isArray(parsed.pairColors) ? PAIR_IDS.map((_, index) => parsed.pairColors[index] || pairColors[index]) : [...pairColors];
+    state.settings.maxPairs = Math.max(1, Math.min(PAIR_IDS.length, Number(parsed.maxPairs || 5)));
+    state.settings.defaultBoardWidth = Math.max(4, Math.min(8, Number(parsed.defaultBoardWidth || 5)));
+    state.settings.defaultBoardHeight = Math.max(4, Math.min(8, Number(parsed.defaultBoardHeight || 5)));
+    state.settings.defaultDifficulty = ["EASY", "MEDIUM", "HARD"].includes(parsed.defaultDifficulty) ? parsed.defaultDifficulty : "MEDIUM";
+    state.settings.performanceProfile = ["low", "medium", "high"].includes(String(parsed.performanceProfile || "").toLowerCase())
+      ? String(parsed.performanceProfile).toLowerCase()
+      : "medium";
   } catch (_err) {
     state.settings.exportDir = DEFAULT_PROJECT_SAVE_DIR;
+    state.settings.fontFamily = DEFAULT_FONT_FAMILY;
+    state.settings.uiTheme = { ...DEFAULT_UI_THEME };
+    state.settings.pairColors = [...pairColors];
+    state.settings.maxPairs = 5;
+    state.settings.defaultBoardWidth = 5;
+    state.settings.defaultBoardHeight = 5;
+    state.settings.defaultDifficulty = "MEDIUM";
+    state.settings.performanceProfile = "medium";
   }
 }
 
 function saveSettings() {
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
   const input = document.getElementById("settings-export-dir");
-  if (input) input.value = state.settings.exportDir;
+  if (input) input.value = displayProjectPath(state.settings.exportDir);
+}
+
+function applySettingsToUi() {
+  document.documentElement.style.setProperty("--bg", state.settings.uiTheme.bg);
+  document.documentElement.style.setProperty("--surface", state.settings.uiTheme.surface);
+  document.documentElement.style.setProperty("--text", state.settings.uiTheme.text);
+  document.documentElement.style.setProperty("--muted", state.settings.uiTheme.muted);
+  document.documentElement.style.setProperty("--accent", state.settings.uiTheme.accent);
+  document.documentElement.style.setProperty("--accent-2", state.settings.uiTheme.accent2);
+  document.documentElement.style.setProperty("--border", state.settings.uiTheme.border);
+  document.body.style.fontFamily = state.settings.fontFamily;
+  state.settings.pairColors.forEach((color, index) => {
+    pairColors[index] = color;
+  });
+}
+
+function applySettingsToEditorDefaults() {
+  state.editor.boardWidth = Math.max(4, Math.min(8, Number(state.settings.defaultBoardWidth || 5)));
+  state.editor.boardHeight = Math.max(4, Math.min(8, Number(state.settings.defaultBoardHeight || 5)));
+  state.editor.difficulty = ["EASY", "MEDIUM", "HARD"].includes(state.settings.defaultDifficulty) ? state.settings.defaultDifficulty : "MEDIUM";
+  if (!activePairIds().includes(state.play.selectedPair)) state.play.selectedPair = activePairIds()[0];
 }
 
 function restoreEditorDraft() {
@@ -986,13 +1385,51 @@ function serializeSessionItem(item) {
   };
 }
 
+function buildEditorSnapshotLevel() {
+  const levelNumber = Number(document.getElementById("ed-level")?.value || state.editor.level || 1);
+  const difficulty = document.getElementById("ed-difficulty")?.value || state.editor.difficulty || "MEDIUM";
+  const fileName = normalizeLevelFileName(document.getElementById("ed-name")?.value || state.editor.fileName, levelNumber);
+  const movesRaw = String(document.getElementById("ed-moves")?.value ?? state.editor.moves ?? "").trim();
+  const moves = movesRaw === "" ? Number(state.editor.moves || 0) : Number(movesRaw);
+  const pairs = activePairsFromEditor();
+  const blockers = Array.from(state.editor.blockers).map(parseKey);
+  return {
+    level: levelNumber,
+    board_size: state.editor.boardWidth === state.editor.boardHeight ? state.editor.boardWidth : undefined,
+    board_width: state.editor.boardWidth,
+    board_height: state.editor.boardHeight,
+    grid: makeGrid(state.editor.boardWidth, state.editor.boardHeight, pairs, blockers),
+    pairs,
+    blockers,
+    decal: !!state.editor.decal,
+    moves: Number.isFinite(moves) ? moves : 0,
+    solution_count: Number(state.editor.solutionCount || 0),
+    target_density: state.editor.targetDensity || difficultyToTargetDensity(difficulty, Number(state.editor.solutionCount || 0)),
+    difficulty,
+    golden_path: Object.fromEntries(pairs.map((p) => [p.id, [p.start, p.end]])),
+    validation: {
+      solvable: !!state.editor.validationSolvable,
+      density_match: !!state.editor.validationDensityMatch,
+      decal_required: !!state.editor.decal,
+      decal_pass: state.editor.validationDecalPass ?? null,
+      early_mistake_detection: true,
+      no_isolated_pairs: true,
+      no_late_dead_ends: true,
+      curve_integrity: true
+    },
+    meta: { generation_attempts: 1, failed_checks: [], manual_difficulty: difficulty, source_name: fileName }
+  };
+}
+
 function persistWorkspaceState() {
   if (isRestoringWorkspaceState || isBootstrappingWorkspaceState) return;
   try {
     const payload = {
       editor: {
-        level: levelFromEditor(),
+        level: buildEditorSnapshotLevel(),
         fileName: state.editor.fileName,
+        progressionKey: state.editor.progressionKey,
+        progressionSlot: state.editor.progressionSlot,
         link: { ...(state.editor.link || { sourceType: "standalone", sourceId: null, label: "Standalone level" }) },
         dirty: !!state.editor.dirty,
         lastSavedAt: state.editor.lastSavedAt || null
@@ -1008,8 +1445,11 @@ function persistWorkspaceState() {
         progressionOrder: [...state.manager.progressionOrder],
         activeTab: state.manager.activeTab,
         selectedId: state.manager.selectedId,
+        pendingRefTarget: state.manager.pendingRefTarget ? { ...state.manager.pendingRefTarget } : null,
+        allLevelsPage: state.manager.allLevelsPage,
         referenceIds: [...state.manager.referenceIds],
-        nextId: state.manager.nextId
+        nextId: state.manager.nextId,
+        filters: { ...(state.manager.filters || createDefaultManagerFilters()) }
       },
       sessions: {
         queue: state.sessions.queue.map(serializeSessionItem),
@@ -1039,6 +1479,8 @@ function restoreWorkspaceState() {
       loadLevelToEditor(toPlayableLevel(parsed.editor.level, "workspace_editor_level"), {
         fileName: parsed.editor.fileName || parsed.editor.level?.meta?.source_name || "workspace_editor_level.json"
       });
+      state.editor.progressionKey = parsed.editor.progressionKey || state.editor.progressionKey;
+      state.editor.progressionSlot = Number(parsed.editor.progressionSlot || state.editor.progressionSlot || 1);
       state.editor.link = parsed.editor.link || { sourceType: "standalone", sourceId: null, label: "Standalone level" };
       state.editor.dirty = !!parsed.editor.dirty;
       state.editor.lastSavedAt = parsed.editor.lastSavedAt || null;
@@ -1052,7 +1494,7 @@ function restoreWorkspaceState() {
       savedPath: item.savedPath || "",
       screenshotPath: item.screenshotPath || "",
       originalLevel: item.originalLevel ? cloneLevel(item.originalLevel) : (item.level ? cloneLevel(item.level) : null),
-      previewDataUrl: item.level ? createLevelPreviewDataUrl(item.level) : null
+      previewDataUrl: item.previewDataUrl || null
     }));
     if (parsed.manager?.progressions) {
       const parsedOrder = Array.isArray(parsed.manager?.progressionOrder) && parsed.manager.progressionOrder.length
@@ -1087,13 +1529,16 @@ function restoreWorkspaceState() {
       state.manager.activeTab = fallbackActiveTab;
     }
     state.manager.selectedId = parsed.manager?.selectedId ?? null;
+    state.manager.pendingRefTarget = parsed.manager?.pendingRefTarget || null;
+    state.manager.allLevelsPage = Math.max(1, Number(parsed.manager?.allLevelsPage || 1));
     state.manager.referenceIds = Array.isArray(parsed.manager?.referenceIds) ? parsed.manager.referenceIds : [];
     state.manager.nextId = Number(parsed.manager?.nextId || (state.manager.items.length + 1));
+    state.manager.filters = { ...createDefaultManagerFilters(), ...(parsed.manager?.filters || {}) };
 
     state.sessions.queue = (parsed.sessions?.queue || []).map((item) => ({
       ...item,
       changed: !!item.changed,
-      previewDataUrl: item.level ? createLevelPreviewDataUrl(item.level) : null
+      previewDataUrl: item.previewDataUrl || null
     }));
     state.sessions.selectedId = parsed.sessions?.selectedId ?? null;
     state.sessions.activeId = parsed.sessions?.activeId ?? null;
@@ -1103,8 +1548,7 @@ function restoreWorkspaceState() {
     state.progression = (parsed.progression || []).map((level) => cloneLevel(level));
     state.proceduralBatch = (parsed.proceduralBatch || []).map((level) => cloneLevel(level));
 
-    updateSessionTable();
-    updateManagerTable();
+    refreshVisibleView();
     isRestoringWorkspaceState = false;
     return true;
   } catch (_err) {
@@ -1144,6 +1588,21 @@ async function saveProjectFile(relativePath, content, mime = "application/json")
   return response.json();
 }
 
+async function saveRepoFile(relativePath, content, mime = "application/json") {
+  const response = await fetch("/api/save-file", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      content,
+      mime,
+      baseDir: "."
+    })
+  });
+  if (!response.ok) throw new Error(`Repo save failed (${response.status})`);
+  return response.json();
+}
+
 async function saveProjectDataUrl(relativePath, dataUrl) {
   const response = await fetch("/api/save-data-url", {
     method: "POST",
@@ -1155,6 +1614,49 @@ async function saveProjectDataUrl(relativePath, dataUrl) {
     })
   });
   if (!response.ok) throw new Error(`Project save failed (${response.status})`);
+  return response.json();
+}
+
+async function saveRepoDataUrl(relativePath, dataUrl) {
+  const response = await fetch("/api/save-data-url", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      dataUrl,
+      baseDir: "."
+    })
+  });
+  if (!response.ok) throw new Error(`Repo save failed (${response.status})`);
+  return response.json();
+}
+
+async function appendProjectFile(relativePath, content) {
+  const response = await fetch("/api/append-file", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      content,
+      baseDir: state.settings.exportDir
+    })
+  });
+  if (!response.ok) throw new Error(`Project append failed (${response.status})`);
+  return response.json();
+}
+
+async function createProjectZip(relativePath, archiveName, entries) {
+  const response = await fetch("/api/create-zip", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      relativePath,
+      archiveName,
+      entries,
+      baseDir: state.settings.exportDir
+    })
+  });
+  if (!response.ok) throw new Error(`Project zip failed (${response.status})`);
   return response.json();
 }
 
@@ -1170,7 +1672,7 @@ async function saveSolvedSession(reason = "manual") {
   session.save_reason = reason;
   localStorage.setItem(PLAY_SESSION_KEY, JSON.stringify(session));
   localStorage.setItem(PLAY_SESSION_EXPORT_DIR_KEY, new Date().toISOString());
-  session.saved_path = (await saveProjectFile(`play_sessions/play_session_level_${session.level.level}_${reason}.json`, JSON.stringify(session, null, 2))).path;
+  session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}_${reason}.json`, JSON.stringify(session, null, 2))).path;
   return session;
 }
 
@@ -1184,6 +1686,96 @@ function recordLearningDecision(level, decision, context = "manual") {
   });
   saveLearning();
   updateLearningStatus();
+}
+
+function projectRelativePath(pathValue) {
+  const absolute = resolveProjectPath(pathValue || "");
+  if (absolute.startsWith(`${PROJECT_ROOT}/`)) return absolute.slice(PROJECT_ROOT.length + 1);
+  return String(pathValue || "").replace(/^\/+/, "");
+}
+
+function preferredManagerItemFileName(item) {
+  const savedBase = basename(item?.savedPath || "");
+  if (savedBase.toLowerCase().endsWith(".json")) return savedBase;
+  const sourceBase = basename(item?.sourcePath || "");
+  if (sourceBase.toLowerCase().endsWith(".json")) {
+    const cleaned = sourceBase.includes("·") ? sourceBase.split("·").pop().trim() : sourceBase;
+    if (cleaned.toLowerCase().endsWith(".json")) return cleaned;
+  }
+  const metaBase = basename(item?.level?.meta?.source_name || "");
+  if (metaBase.toLowerCase().endsWith(".json")) return metaBase;
+  if ((item?.notes || "").toLowerCase().includes("tutorial") || String(item?.file || "").toLowerCase().includes("tutorial")) {
+    return "tutorial_level.json";
+  }
+  return normalizeLevelFileName(item?.file || `level_${item?.level?.level || 1}`, item?.level?.level || 1);
+}
+
+async function materializeManagerItemToRepo(item) {
+  if (!item?.level) return null;
+  const fileName = preferredManagerItemFileName(item);
+  const relativeJsonPath = `levels/${fileName}`;
+  const relativeScreenshotPath = `levels/screenshots/${slugifyFilePart(fileName)}.png`;
+  const signature = JSON.stringify({
+    fileName,
+    screenshot: relativeScreenshotPath,
+    level: item.level
+  });
+  if (managerItemMaterializeSignatures.get(item.id) !== signature) {
+    await saveRepoFile(relativeJsonPath, JSON.stringify(item.level, null, 2));
+    await saveRepoDataUrl(relativeScreenshotPath, createLevelPreviewDataUrl(item.level));
+    managerItemMaterializeSignatures.set(item.id, signature);
+  }
+  item.savedPath = resolveProjectPath(relativeJsonPath);
+  item.screenshotPath = resolveProjectPath(relativeScreenshotPath);
+  return {
+    jsonRelativePath: relativeJsonPath,
+    screenshotRelativePath: relativeScreenshotPath
+  };
+}
+
+function progressionConfigFileName(key) {
+  if (key === "progressionA") return "progressionA_workshop.json";
+  if (key === "progressionB") return "progressionB_workshop.json";
+  if (key === "progressionC") return "progressionC_workshop.json";
+  if (key === "progressionExtra") return "progressionExtra_workshop.json";
+  return `${key}.json`;
+}
+
+async function materializeManagerProgressionsToRepo() {
+  const assignedIds = Array.from(getAllAssignedManagerIds());
+  const materializedItems = new Map();
+  for (const itemId of assignedIds) {
+    const item = getManagerItemById(itemId);
+    if (!item) continue;
+    materializedItems.set(itemId, await materializeManagerItemToRepo(item));
+  }
+
+  const summary = {};
+  for (const key of getManagerProgressionKeys()) {
+    if (!isManagerProgressionTab(key)) continue;
+    const progression = getManagerProgression(key);
+    const tutorialItem = progression.slots[0] != null ? getManagerItemById(progression.slots[0]) : null;
+    const tutorialMaterialized = tutorialItem ? materializedItems.get(tutorialItem.id) : null;
+    const config = {
+      name: key,
+      tutorial_level_file: tutorialMaterialized?.jsonRelativePath || "levels/tutorial_level.json",
+      slots: progression.slots.map((itemId, index) => {
+        if (index === 0) return { slot: 1, status: "reserved", label: "TUTORIAL" };
+        if (itemId == null) return { slot: index + 1 };
+        return {
+          slot: index + 1,
+          level_file: materializedItems.get(itemId)?.jsonRelativePath || projectRelativePath(getManagerItemById(itemId)?.savedPath || "")
+        };
+      })
+    };
+    const signature = JSON.stringify(config);
+    if (progressionMaterializeSignatures.get(key) !== signature) {
+      await saveRepoFile(`progressions/${progressionConfigFileName(key)}`, JSON.stringify(config, null, 2));
+      progressionMaterializeSignatures.set(key, signature);
+    }
+    summary[key] = config;
+  }
+  await saveRepoFile("progressions/manager_progressions_live.json", JSON.stringify(summary, null, 2));
 }
 
 function recordCorrectionLearning(originalLevel, correctedLevel, context = "session_fix") {
@@ -1216,7 +1808,24 @@ function setActiveView(viewName) {
     updateManagerTable();
   }
   if (viewName === "sessions") updateSessionTable();
-  if (viewName === "editor") updateEditorSaveStatus();
+  if (viewName === "editor") {
+    updateEditorSaveStatus();
+    drawBoard();
+  }
+}
+
+function currentActiveView() {
+  return document.querySelector(".nav-btn.active")?.dataset.view || "main";
+}
+
+function refreshVisibleView() {
+  const view = currentActiveView();
+  if (view === "manager") updateManagerTable();
+  if (view === "sessions") updateSessionTable();
+  if (view === "editor") {
+    updateEditorSaveStatus();
+    drawBoard();
+  }
 }
 
 function clearSavedWorkspaceState(options = {}) {
@@ -1233,6 +1842,7 @@ function clearSavedWorkspaceState(options = {}) {
 
 function resetWorkspaceInMemory() {
   state.editor = createDefaultEditorState();
+  applySettingsToEditorDefaults();
   state.progression = [];
   state.proceduralBatch = [];
   state.manager.items = [];
@@ -1240,9 +1850,12 @@ function resetWorkspaceInMemory() {
   state.manager.progressionOrder = defaultManagerProgressions.map(({ key }) => key);
   state.manager.activeTab = state.manager.progressionOrder[0];
   state.manager.selectedId = null;
+  state.manager.pendingRefTarget = null;
+  state.manager.allLevelsPage = 1;
   state.manager.draggingId = null;
   state.manager.referenceIds = [];
   state.manager.nextId = 1;
+  state.manager.filters = createDefaultManagerFilters();
   state.sessions.queue = [];
   state.sessions.selectedId = null;
   state.sessions.activeId = null;
@@ -1252,7 +1865,7 @@ function resetWorkspaceInMemory() {
   state.learning.rejected = [];
   state.learning.corrections = [];
   state.play.on = false;
-  state.play.selectedPair = "A";
+  state.play.selectedPair = PAIR_IDS[0];
   state.play.paths = {};
   state.play.occupied = new Map();
   state.play.history = [];
@@ -1269,7 +1882,7 @@ function resetWorkspaceInMemory() {
 }
 
 function toCsv(levels) {
-  const headers = ["level", "board_width", "board_height", "pairs_count", "blockers_count", "moves", "solution_count", "target_density", "solvable", "density_match", "curve_integrity"];
+  const headers = ["level", "board_width", "board_height", "pairs_count", "blockers_count", "moves", "solution_count", "target_density", "solvable", "decal", "decal_pass", "curve_integrity"];
   const rows = levels.map((l) => [
     l.level,
     levelWidth(l),
@@ -1280,7 +1893,8 @@ function toCsv(levels) {
     l.solution_count,
     l.target_density,
     l.validation?.solvable,
-    l.validation?.density_match,
+    !!l.decal,
+    l.validation?.decal_pass,
     l.validation?.curve_integrity
   ]);
   return [headers.join(",")].concat(rows.map((r) => r.join(","))).join("\n");
@@ -1326,6 +1940,12 @@ function cellFromCanvasEvent(ev, targetCanvas = canvas) {
 function applyEditorCellAction(cell) {
   const key = coordKey(cell[0], cell[1]);
   const mode = document.getElementById("ed-mode").value;
+  if (mode === "debug") {
+    if (state.editor.debugMarks.has(key)) state.editor.debugMarks.delete(key);
+    else state.editor.debugMarks.add(key);
+    updateEditorDebugStatus();
+    return;
+  }
   if (mode === "blocker") {
     if (state.editor.blockers.has(key)) state.editor.blockers.delete(key);
     else {
@@ -1367,6 +1987,13 @@ function setPlayStatus(text) {
   const sessionStatus = document.getElementById("session-play-status");
   if (editorStatus) editorStatus.textContent = text;
   if (sessionStatus) sessionStatus.textContent = text;
+  updateSessionPlayPanel();
+}
+
+function updateSessionPlayPanel() {
+  const panel = document.getElementById("session-play-panel");
+  if (!panel) return;
+  panel.hidden = !(state.play.on && state.sessions.activeId != null);
 }
 
 function getPlayStatus() {
@@ -1380,6 +2007,7 @@ function drawBoardOn(targetCanvas, targetCtx) {
   targetCtx.clearRect(0, 0, targetCanvas.width, targetCanvas.height);
 
   const blockers = state.editor.blockers;
+  const debugMarks = state.editor.debugMarks || new Set();
   const pairMap = state.editor.pairs;
   const colorMap = activeColorMap();
 
@@ -1394,6 +2022,18 @@ function drawBoardOn(targetCanvas, targetCtx) {
       targetCtx.strokeRect(x, y, size, size);
 
       const k = coordKey(r, c);
+      if (debugMarks.has(k)) {
+        targetCtx.fillStyle = "rgba(225, 29, 72, 0.14)";
+        targetCtx.fillRect(x + 2, y + 2, size - 4, size - 4);
+        targetCtx.strokeStyle = "#e11d48";
+        targetCtx.lineWidth = 2;
+        targetCtx.strokeRect(x + 4, y + 4, size - 8, size - 8);
+        targetCtx.fillStyle = "#be123c";
+        targetCtx.beginPath();
+        targetCtx.arc(x + size / 2, y + size / 2, 5, 0, Math.PI * 2);
+        targetCtx.fill();
+      }
+
       if (blockers.has(k)) {
         targetCtx.fillStyle = "#334155";
         targetCtx.fillRect(x + 2, y + 2, size - 4, size - 4);
@@ -1469,12 +2109,119 @@ function syncEditorInputs() {
   const heightEl = document.getElementById("ed-board-height");
   const difficultyEl = document.getElementById("ed-difficulty");
   const movesEl = document.getElementById("ed-moves");
+  const decalEl = document.getElementById("ed-decal");
+  const progressionEl = document.getElementById("ed-progression-select");
+  const progressionSlotEl = document.getElementById("ed-progression-slot");
+  const pairEl = document.getElementById("ed-pair-id");
+  syncEditorPairOptions();
   if (levelEl) levelEl.value = String(state.editor.level);
   if (nameEl) nameEl.value = fileName;
   if (widthEl) widthEl.value = String(state.editor.boardWidth);
   if (heightEl) heightEl.value = String(state.editor.boardHeight);
   if (difficultyEl) difficultyEl.value = state.editor.difficulty;
   if (movesEl) movesEl.value = String(state.editor.moves);
+  if (decalEl) decalEl.checked = !!state.editor.decal;
+  if (progressionEl) progressionEl.value = state.editor.progressionKey;
+  if (progressionSlotEl) progressionSlotEl.value = String(state.editor.progressionSlot);
+  if (pairEl && !activePairIds().includes(pairEl.value)) pairEl.value = activePairIds()[0];
+  updateEditorDebugStatus();
+  updateEditorPairBadge();
+}
+
+function updateEditorPairBadge() {
+  const pairEl = document.getElementById("ed-pair-id");
+  const badge = document.getElementById("ed-pair-color");
+  if (!pairEl || !badge) return;
+  const pairId = pairEl.value || PAIR_IDS[0];
+  const pairIndex = Math.max(0, PAIR_IDS.indexOf(pairId));
+  const color = pairColors[pairIndex] || pairColors[0];
+  badge.textContent = `${pairId} · ${color}`;
+  badge.style.background = color;
+  badge.style.color = "#ffffff";
+  badge.style.borderColor = color;
+}
+
+function updateEditorDebugStatus() {
+  const badge = document.getElementById("editor-debug-status");
+  if (!badge) return;
+  badge.textContent = `Debug marks: ${state.editor.debugMarks?.size || 0}`;
+}
+
+function syncEditorPairOptions() {
+  const pairEl = document.getElementById("ed-pair-id");
+  if (!pairEl) return;
+  const ids = activePairIds();
+  if (pairEl.options.length !== ids.length || ids.some((id, index) => pairEl.options[index]?.value !== id)) {
+    pairEl.innerHTML = "";
+    ids.forEach((id) => {
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = id;
+      pairEl.appendChild(option);
+    });
+  }
+  if (!ids.includes(pairEl.value)) pairEl.value = ids[0];
+}
+
+function editorSelectedProgressionKey() {
+  const select = document.getElementById("ed-progression-select");
+  const key = select?.value || state.editor.progressionKey || state.manager.activeTab || getManagerProgressionKeys()[0];
+  return isManagerProgressionTab(key) ? key : getManagerProgressionKeys()[0];
+}
+
+function editorSelectedProgressionSlotIndex() {
+  const select = document.getElementById("ed-progression-slot");
+  const slot = Number(select?.value || state.editor.progressionSlot || 1);
+  return Math.min(9, Math.max(0, slot - 1));
+}
+
+function suggestedEditorFileNameForSlot(key, slotIndex) {
+  const label = getManagerProgressionLabel(key).replace(/\s+/g, "_").toLowerCase();
+  return normalizeLevelFileName(`${label}_slot_${slotIndex + 1}`, slotIndex + 1);
+}
+
+function prepareEditorNewLevelForProgressionSlot(key, slotIndex) {
+  const progression = getManagerProgression(key);
+  if (isTutorialSlotIndex(slotIndex)) {
+    const tutorialItem = progression?.slots?.[0] != null ? getManagerItemById(progression.slots[0]) : null;
+    if (tutorialItem?.level) {
+      loadLevelToEditor(tutorialItem.level, { fileName: tutorialItem.file });
+      setEditorLink("manager", tutorialItem.id, `Linked to ${getManagerProgressionLabel(key)} · Slot 1 (Tutorial)`);
+      state.manager.selectedId = tutorialItem.id;
+      state.manager.activeTab = key;
+      updateEditorProgressionBuilder();
+      updateManagerTable();
+      return;
+    }
+  }
+  state.editor.progressionKey = key;
+  state.editor.progressionSlot = slotIndex + 1;
+  state.editor.level = slotIndex + 1;
+  state.editor.fileName = suggestedEditorFileNameForSlot(key, slotIndex);
+  state.editor.moves = 0;
+  state.editor.decal = false;
+  state.editor.solutionCount = 0;
+  state.editor.validationSolvable = false;
+  state.editor.validationDensityMatch = false;
+  state.editor.validationDecalPass = null;
+  state.editor.blockers.clear();
+  state.editor.debugMarks.clear();
+  Object.keys(state.editor.pairs).forEach((id) => {
+    state.editor.pairs[id] = { start: null, end: null };
+  });
+  const slotDifficulty = progression?.slotDifficulty?.[slotIndex];
+  if (slotDifficulty) {
+    state.editor.difficulty = slotDifficulty;
+  }
+  state.play.on = false;
+  state.play.history = [];
+  state.play.colorMap = {};
+  state.editor.dirty = false;
+  setEditorLink("standalone", null, `Building ${getManagerProgressionLabel(key)} · Slot ${slotIndex + 1}`);
+  setPlayStatus("Play OFF");
+  syncEditorInputs();
+  drawBoard();
+  updateEditorProgressionBuilder();
 }
 
 function setEditorLink(sourceType, sourceId, label) {
@@ -1496,8 +2243,345 @@ function createLevelPreviewDataUrl(level, selected = false) {
   return previewCanvas.toDataURL("image/png");
 }
 
+function getCachedPreviewDataUrl(item, selected = false) {
+  if (!item) return "";
+  if (!item.previewDataUrl) item.previewDataUrl = createLevelPreviewDataUrl(item.level, selected);
+  return item.previewDataUrl;
+}
+
+function rebuildManagerIndexes() {
+  state.manager.itemIndex = new Map(state.manager.items.map((item) => [item.id, item]));
+  const slotIndexByItemId = new Map();
+  getManagerProgressionKeys().forEach((key) => {
+    getManagerProgression(key).slots.forEach((itemId, index) => {
+      if (itemId != null) slotIndexByItemId.set(itemId, { tab: key, index });
+    });
+  });
+  state.manager.slotIndexByItemId = slotIndexByItemId;
+}
+
+function updateManagerPagination(totalItems = 0, visibleItems = totalItems) {
+  const prevBtn = document.getElementById("mgr-page-prev");
+  const nextBtn = document.getElementById("mgr-page-next");
+  const status = document.getElementById("mgr-page-status");
+  if (!prevBtn || !nextBtn || !status) return;
+  const totalPages = Math.max(1, Math.ceil(Math.max(totalItems, 1) / state.manager.allLevelsPageSize));
+  state.manager.allLevelsPage = Math.min(totalPages, Math.max(1, state.manager.allLevelsPage));
+  prevBtn.disabled = state.manager.allLevelsPage <= 1;
+  nextBtn.disabled = state.manager.allLevelsPage >= totalPages;
+  status.textContent = `Page ${state.manager.allLevelsPage} / ${totalPages} · ${visibleItems} visible`;
+}
+
+function progressionExportFileStem(key = state.manager.activeTab) {
+  return slugifyFilePart(getManagerProgressionLabel(key) || key || "progression");
+}
+
+function activeProgressionRows(key = state.manager.activeTab) {
+  if (!isManagerProgressionTab(key)) return [];
+  const progression = getManagerProgression(key);
+  return progression.slots.map((itemId, index) => {
+    const item = itemId != null ? getManagerItemById(itemId) : null;
+    return {
+      progression_key: key,
+      progression_label: getManagerProgressionLabel(key),
+      slot: index + 1,
+      file: item?.file || "",
+      path: displayProjectPath(item?.sourcePath || ""),
+      saved_path: displayProjectPath(item?.savedPath || ""),
+      level: item?.level?.level ?? "",
+      board: item ? `${levelWidth(item.level)}x${levelHeight(item.level)}` : "",
+      pairs: item ? (item.level.pairs || []).length : "",
+      blockers: item ? (item.level.blockers || []).length : "",
+      moves: item?.level?.moves ?? "",
+      solutions: item?.level?.solution_count ?? "",
+      difficulty: progression.slotDifficulty[index] || (item ? levelDifficulty(item.level) : ""),
+      status: item?.status || "EMPTY",
+      changed: item?.changed ? "Yes" : "No",
+      notes: item?.notes || ""
+    };
+  });
+}
+
+function csvEscape(value) {
+  const text = String(value ?? "");
+  if (/[",\n]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+  return text;
+}
+
+function toCsvFromRows(rows) {
+  if (!rows.length) return "";
+  const headers = Object.keys(rows[0]);
+  return [headers.join(",")]
+    .concat(rows.map((row) => headers.map((key) => csvEscape(row[key])).join(",")))
+    .join("\n");
+}
+
+function makeProgressionCurveDataUrl(key = state.manager.activeTab) {
+  if (!isManagerProgressionTab(key)) throw new Error("Open a progression tab first.");
+  const progression = getManagerProgression(key);
+  const width = 1280;
+  const height = 520;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#f8fbff";
+  ctx.fillRect(0, 0, width, height);
+
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "700 34px Arial";
+  ctx.fillText(`${getManagerProgressionLabel(key)} Difficulty Curve`, 40, 54);
+  ctx.fillStyle = "#64748b";
+  ctx.font = "16px Arial";
+  ctx.fillText("Slot order and editorial difficulty labels", 40, 84);
+
+  const labels = progression.slots.map((itemId, index) => {
+    const item = itemId != null ? getManagerItemById(itemId) : null;
+    return progression.slotDifficulty[index] || (item ? levelDifficulty(item.level) : "Auto");
+  });
+  const colors = {
+    EASY: ["#86efac", "#22c55e"],
+    MEDIUM: ["#fde68a", "#f59e0b"],
+    HARD: ["#fca5a5", "#ef4444"],
+    Auto: ["#e2e8f0", "#94a3b8"],
+    "": ["#e2e8f0", "#94a3b8"]
+  };
+  const left = 50;
+  const top = 140;
+  const chartHeight = 260;
+  const gap = 18;
+  const barWidth = 100;
+  labels.forEach((label, index) => {
+    const rank = difficultyRank(label);
+    const normalized = label || "Auto";
+    const [topColor, bottomColor] = colors[normalized] || colors.Auto;
+    const barHeight = 36 + Math.max(1, rank || 1) * 58;
+    const x = left + index * (barWidth + gap);
+    const y = top + chartHeight - barHeight;
+    const gradient = ctx.createLinearGradient(0, y, 0, y + barHeight);
+    gradient.addColorStop(0, topColor);
+    gradient.addColorStop(1, bottomColor);
+    ctx.fillStyle = gradient;
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x, y, barWidth, barHeight, 14);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "700 16px Arial";
+    ctx.fillText(`L${index + 1}`, x + 34, top + chartHeight + 26);
+    ctx.fillStyle = "#475569";
+    ctx.font = "14px Arial";
+    ctx.fillText(normalized, x + 18, top + chartHeight + 48);
+  });
+
+  const filled = progression.slots.filter((id) => id != null).length;
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "600 18px Arial";
+  ctx.fillText(`Filled slots: ${filled}/10`, 40, height - 50);
+  return canvas.toDataURL("image/png");
+}
+
+function makeProgressionBoardDataUrl(key = state.manager.activeTab) {
+  if (!isManagerProgressionTab(key)) throw new Error("Open a progression tab first.");
+  const progression = getManagerProgression(key);
+  const columns = 5;
+  const cardWidth = 220;
+  const cardHeight = 300;
+  const gap = 20;
+  const width = 40 + columns * cardWidth + (columns - 1) * gap + 40;
+  const rows = 2;
+  const height = 80 + rows * cardHeight + (rows - 1) * gap + 40;
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#f8fbff";
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = "#0f172a";
+  ctx.font = "700 32px Arial";
+  ctx.fillText(`${getManagerProgressionLabel(key)} Layout`, 40, 48);
+
+  progression.slots.forEach((itemId, index) => {
+    const item = itemId != null ? getManagerItemById(itemId) : null;
+    const col = index % columns;
+    const row = Math.floor(index / columns);
+    const x = 40 + col * (cardWidth + gap);
+    const y = 80 + row * (cardHeight + gap);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.strokeStyle = "#cbd5e1";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(x, y, cardWidth, cardHeight, 16);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "#0f172a";
+    ctx.font = "700 18px Arial";
+    ctx.fillText(`Slot ${index + 1}`, x + 14, y + 28);
+    ctx.fillStyle = "#64748b";
+    ctx.font = "14px Arial";
+    const diff = progression.slotDifficulty[index] || (item ? levelDifficulty(item.level) : "Auto");
+    ctx.fillText(diff, x + 14, y + 50);
+
+    if (item?.level) {
+      const preview = document.createElement("canvas");
+      preview.width = 160;
+      preview.height = 160;
+      drawLevelPreviewCanvas(preview, item.level, false);
+      ctx.drawImage(preview, x + 30, y + 64, 160, 160);
+      ctx.fillStyle = "#0f172a";
+      ctx.font = "600 13px Arial";
+      const fileLabel = item.file.length > 24 ? `${item.file.slice(0, 24)}...` : item.file;
+      ctx.fillText(fileLabel, x + 14, y + 246);
+      ctx.fillStyle = "#64748b";
+      ctx.font = "12px Arial";
+      ctx.fillText(`${levelWidth(item.level)}x${levelHeight(item.level)} · ${(item.level.pairs || []).length} pairs · ${item.status}`, x + 14, y + 268);
+    } else {
+      ctx.strokeStyle = "#cbd5e1";
+      ctx.setLineDash([6, 6]);
+      ctx.strokeRect(x + 30, y + 64, 160, 160);
+      ctx.setLineDash([]);
+      ctx.fillStyle = "#94a3b8";
+      ctx.font = "14px Arial";
+      ctx.fillText("Empty slot", x + 76, y + 150);
+    }
+  });
+
+  return canvas.toDataURL("image/png");
+}
+
+async function exportActiveProgressionZip(key = state.manager.activeTab) {
+  if (!isManagerProgressionTab(key)) throw new Error("Open a progression tab first.");
+  const stem = progressionExportFileStem(key);
+  const folder = stem;
+  const rows = activeProgressionRows(key);
+  const csv = toCsvFromRows(rows);
+  const entries = [
+    {
+      relativePath: `${folder}/${stem}_progression.csv`,
+      content: csv
+    },
+    {
+      relativePath: `${folder}/${stem}_difficulty_curve.png`,
+      dataUrl: makeProgressionCurveDataUrl(key)
+    },
+    {
+      relativePath: `${folder}/${stem}_progression_layout.png`,
+      dataUrl: makeProgressionBoardDataUrl(key)
+    }
+  ];
+
+  rows.forEach((row, index) => {
+    const progression = getManagerProgression(key);
+    const itemId = progression.slots[index];
+    const item = itemId != null ? getManagerItemById(itemId) : null;
+    if (!item?.level) return;
+    entries.push({
+      relativePath: `${folder}/jsons/${item.file}`,
+      content: JSON.stringify(item.level, null, 2)
+    });
+    entries.push({
+      relativePath: `${folder}/screenshots/${slugifyFilePart(item.file)}.png`,
+      dataUrl: createLevelPreviewDataUrl(item.level)
+    });
+  });
+
+  return createProjectZip(`bundles/${stem}.zip`, `${stem}.zip`, entries);
+}
+
 function refreshItemArtifacts(item) {
-  item.previewDataUrl = createLevelPreviewDataUrl(item.level);
+  item.previewDataUrl = null;
+}
+
+function updateEditorProgressionBuilder() {
+  const progressionSelect = document.getElementById("ed-progression-select");
+  const slotSelect = document.getElementById("ed-progression-slot");
+  const slotsWrap = document.getElementById("ed-progression-slots");
+  if (!progressionSelect || !slotSelect || !slotsWrap) return;
+
+  const progressionKeys = getManagerProgressionKeys();
+  if (!progressionKeys.includes(state.editor.progressionKey)) {
+    state.editor.progressionKey = progressionKeys[0];
+  }
+  const key = state.editor.progressionKey;
+  const progression = getManagerProgression(key);
+
+  if (progressionSelect.options.length !== progressionKeys.length || !progressionKeys.every((value, index) => progressionSelect.options[index]?.value === value)) {
+    progressionSelect.innerHTML = "";
+    progressionKeys.forEach((progressionKey) => {
+      const opt = document.createElement("option");
+      opt.value = progressionKey;
+      opt.textContent = getManagerProgressionLabel(progressionKey);
+      progressionSelect.appendChild(opt);
+    });
+  }
+  progressionSelect.value = key;
+
+  if (slotSelect.options.length !== 10) {
+    slotSelect.innerHTML = "";
+    Array.from({ length: 10 }, (_, index) => {
+      const opt = document.createElement("option");
+      opt.value = String(index + 1);
+      opt.textContent = `Slot ${index + 1}`;
+      slotSelect.appendChild(opt);
+    });
+  }
+  slotSelect.value = String(state.editor.progressionSlot || 1);
+
+  slotsWrap.innerHTML = "";
+  progression.slots.forEach((itemId, index) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "editor-slot-card";
+    if (index + 1 === state.editor.progressionSlot) card.classList.add("selected");
+    const item = itemId != null ? getManagerItemById(itemId) : null;
+    const title = document.createElement("div");
+    title.className = "editor-slot-title";
+    title.textContent = isTutorialSlotIndex(index) ? "Slot 1 · Tutorial" : `Slot ${index + 1}`;
+    card.appendChild(title);
+
+    if (item?.previewDataUrl) {
+      const meta = document.createElement("div");
+      meta.className = "editor-slot-meta";
+      meta.textContent = `${item.file} · ${item.status}`;
+      card.appendChild(meta);
+      if (shouldRenderEditorStripPreviews()) {
+        const img = document.createElement("img");
+        img.className = "editor-slot-thumb";
+        img.src = item.previewDataUrl;
+        img.alt = item.file;
+        card.appendChild(img);
+      }
+    } else {
+      const empty = document.createElement("div");
+      empty.className = "editor-slot-empty";
+      empty.textContent = isTutorialSlotIndex(index) ? "Tutorial reserved" : "Empty slot";
+      card.appendChild(empty);
+    }
+
+    card.addEventListener("click", () => {
+      state.editor.progressionKey = key;
+      state.editor.progressionSlot = index + 1;
+      slotSelect.value = String(index + 1);
+      if (item?.level) {
+        loadLevelToEditor(item.level, { fileName: item.file });
+        setEditorLink("manager", item.id, `Linked to ${getManagerProgressionLabel(key)} · Slot ${index + 1}`);
+        state.manager.selectedId = item.id;
+        state.manager.activeTab = key;
+        log("ed-log", `Loaded ${item.file} from ${getManagerProgressionLabel(key)} · Slot ${index + 1}.`);
+      } else {
+        prepareEditorNewLevelForProgressionSlot(key, index);
+        log("ed-log", `Ready to build ${getManagerProgressionLabel(key)} · Slot ${index + 1}.`);
+      }
+      updateEditorProgressionBuilder();
+      updateManagerTable();
+    });
+    slotsWrap.appendChild(card);
+  });
 }
 
 async function syncSessionItemToManager(item, { persistArtifacts = false } = {}) {
@@ -1559,9 +2643,17 @@ async function persistEditorToLinkedSource() {
     updateManagerTable();
     message = `Saved changes to manager item ${item.file}.`;
   } else {
+    const progressionKey = editorSelectedProgressionKey();
+    const slotIndex = editorSelectedProgressionSlotIndex();
+    const progression = getManagerProgression(progressionKey);
+    const emptySelectedSlot = isManagerProgressionTab(progressionKey) && progression?.slots?.[slotIndex] == null;
+    if (emptySelectedSlot) {
+      await saveEditorLevelIntoProgression({ advanceToNext: false });
+      return;
+    }
     localStorage.setItem(EDITOR_DRAFT_KEY, JSON.stringify(editedLevel));
     const saved = await saveLevelArtifactsToProject(editedLevel, editorFileName);
-    message = `Saved the current editor changes to ${saved.jsonPath}.`;
+    message = `Saved the current editor changes to ${displayProjectPath(saved.jsonPath)}.`;
   }
 
   state.editor.dirty = false;
@@ -1569,6 +2661,114 @@ async function persistEditorToLinkedSource() {
   syncEditorInputs();
   updateEditorSaveStatus();
   log("ed-log", message);
+}
+
+async function saveEditorLevelIntoProgression({ advanceToNext = false } = {}) {
+  const key = editorSelectedProgressionKey();
+  const slotIndex = editorSelectedProgressionSlotIndex();
+  const progression = getManagerProgression(key);
+  await ensureTutorialInProgressionSlot(key);
+  const editedLevel = levelFromEditor();
+  const editorFileName = normalizeLevelFileName(document.getElementById("ed-name")?.value || state.editor.fileName, editedLevel.level);
+  state.editor.fileName = editorFileName;
+
+  if (isTutorialSlotIndex(slotIndex)) {
+    const tutorialItem = progression.slots[0] != null ? getManagerItemById(progression.slots[0]) : null;
+    const linkedTutorial = tutorialItem && state.editor.link?.sourceType === "manager" && state.editor.link.sourceId === tutorialItem.id;
+    const editingTutorialFile = basename(editorFileName) === TUTORIAL_LEVEL_BASENAME;
+    if (!linkedTutorial && !editingTutorialFile) {
+      loadLevelToEditor(tutorialItem.level, { fileName: tutorialItem.file });
+      setEditorLink("manager", tutorialItem.id, `Linked to ${getManagerProgressionLabel(key)} · Slot 1 (Tutorial)`);
+      state.manager.selectedId = tutorialItem.id;
+      state.manager.activeTab = key;
+      updateEditorProgressionBuilder();
+      updateManagerTable();
+      log("ed-log", `Slot 1 in ${getManagerProgressionLabel(key)} is reserved for the tutorial. The tutorial was loaded instead of replacing it.`);
+      return;
+    }
+  }
+
+  let item = progression.slots[slotIndex] != null ? getManagerItemById(progression.slots[slotIndex]) : null;
+  if (!item) {
+    item = summarizeManagerItem(editedLevel, editorFileName, `Editor progression builder · ${getManagerProgressionLabel(key)} · Slot ${slotIndex + 1}`);
+    state.manager.items.push(item);
+    progression.slots[slotIndex] = item.id;
+  }
+
+  item.level = cloneLevel(editedLevel);
+  item.originalLevel = item.originalLevel ? cloneLevel(item.originalLevel) : cloneLevel(editedLevel);
+  item.file = editorFileName;
+  item.status = validateLevel(editedLevel).valid ? "OK" : "INVALID";
+  item.changed = true;
+  refreshItemArtifacts(item);
+
+  if (!progression.slotDifficulty[slotIndex]) {
+    progression.slotDifficulty[slotIndex] = editedLevel.difficulty || state.editor.difficulty;
+  } else {
+    applyDifficultyToManagerItem(item, progression.slotDifficulty[slotIndex]);
+  }
+
+  const saved = await saveLevelArtifactsToProject(item.level, item.file);
+  item.savedPath = saved.jsonPath;
+  item.screenshotPath = saved.screenshotPath;
+  item.sourcePath = saved.jsonPath;
+
+  state.manager.activeTab = key;
+  state.manager.selectedId = item.id;
+  state.editor.progressionKey = key;
+  state.editor.progressionSlot = slotIndex + 1;
+  state.editor.dirty = false;
+  state.editor.lastSavedAt = Date.now();
+  setEditorLink("manager", item.id, `Linked to ${getManagerProgressionLabel(key)} · Slot ${slotIndex + 1}`);
+  updateManagerTable();
+  syncEditorInputs();
+  updateEditorSaveStatus();
+  log("ed-log", `Saved ${item.file} into ${getManagerProgressionLabel(key)} · Slot ${slotIndex + 1}.`);
+
+  if (advanceToNext) {
+    const nextSlotIndex = Math.min(9, slotIndex + 1);
+    const nextItemId = progression.slots[nextSlotIndex];
+    if (nextItemId != null) {
+      const nextItem = getManagerItemById(nextItemId);
+      if (nextItem?.level) {
+        state.editor.progressionSlot = nextSlotIndex + 1;
+        loadLevelToEditor(nextItem.level, { fileName: nextItem.file });
+        setEditorLink("manager", nextItem.id, `Linked to ${getManagerProgressionLabel(key)} · Slot ${nextSlotIndex + 1}`);
+        state.manager.selectedId = nextItem.id;
+        log("ed-log", `Moved to existing ${getManagerProgressionLabel(key)} · Slot ${nextSlotIndex + 1}.`);
+      }
+    } else {
+      prepareEditorNewLevelForProgressionSlot(key, nextSlotIndex);
+      log("ed-log", `Created a new blank editor for ${getManagerProgressionLabel(key)} · Slot ${nextSlotIndex + 1}.`);
+    }
+  }
+}
+
+function makeSaveAsNewFileName(currentFileName, levelNumber) {
+  const stem = slugifyFilePart(currentFileName || `level_${levelNumber}.json`);
+  const suffix = new Date().toISOString().replace(/[-:TZ.]/g, "").slice(0, 14);
+  return normalizeLevelFileName(`${stem}_new_${suffix}`, levelNumber);
+}
+
+async function saveEditorAsNewLevel() {
+  const editedLevel = levelFromEditor();
+  const newFileName = makeSaveAsNewFileName(state.editor.fileName, editedLevel.level);
+  const saved = await saveLevelArtifactsToProject(editedLevel, newFileName);
+  const item = summarizeManagerItem(editedLevel, newFileName, saved.jsonPath);
+  item.savedPath = saved.jsonPath;
+  item.screenshotPath = saved.screenshotPath;
+  item.sourcePath = saved.jsonPath;
+  item.changed = true;
+  state.manager.items.push(item);
+  state.manager.selectedId = item.id;
+  state.editor.fileName = newFileName;
+  state.editor.dirty = false;
+  state.editor.lastSavedAt = Date.now();
+  setEditorLink("manager", item.id, `Linked to new level: ${newFileName}`);
+  updateManagerTable();
+  syncEditorInputs();
+  updateEditorSaveStatus();
+  log("ed-log", `Saved as new level: ${newFileName}\nJSON: ${displayProjectPath(saved.jsonPath)}\nScreenshot: ${displayProjectPath(saved.screenshotPath)}`);
 }
 
 function loadLevelToEditor(level, options = {}) {
@@ -1579,9 +2779,15 @@ function loadLevelToEditor(level, options = {}) {
   state.editor.targetDensity = level.target_density;
   state.editor.difficulty = levelDifficulty(level);
   state.editor.moves = level.moves || 0;
+  state.editor.decal = !!level.decal;
+  state.editor.solutionCount = Number(level.solution_count || 0);
+  state.editor.validationSolvable = !!level.validation?.solvable;
+  state.editor.validationDensityMatch = !!level.validation?.density_match;
+  state.editor.validationDecalPass = level.validation?.decal_pass ?? null;
   state.editor.blockers = new Set((level.blockers || []).map(([r, c]) => coordKey(r, c)));
+  state.editor.debugMarks = new Set();
 
-  state.editor.pairs = { A: { start: null, end: null }, B: { start: null, end: null }, C: { start: null, end: null }, D: { start: null, end: null } };
+  state.editor.pairs = Object.fromEntries(PAIR_IDS.map((id) => [id, { start: null, end: null }]));
   (level.pairs || []).forEach((p) => {
     if (state.editor.pairs[p.id]) {
       state.editor.pairs[p.id].start = p.start;
@@ -1596,6 +2802,7 @@ function loadLevelToEditor(level, options = {}) {
   state.editor.dirty = false;
   setPlayStatus("Play OFF");
   updateEditorSaveStatus();
+  updateEditorProgressionBuilder();
   drawBoard();
 }
 
@@ -1603,12 +2810,21 @@ function levelFromEditor() {
   const pairs = activePairsFromEditor();
   const blockers = Array.from(state.editor.blockers).map(parseKey);
   const solutionCount = countSolutions(state.editor.boardWidth, state.editor.boardHeight, pairs, blockers, 20);
-  const movesInput = Number(document.getElementById("ed-moves").value || 0);
-  const moves = movesInput > 0 ? movesInput : recommendedMoves();
+  const decal = !!document.getElementById("ed-decal")?.checked;
+  state.editor.decal = decal;
+  const decalPass = decal ? hasFullCoverSolution(state.editor.boardWidth, state.editor.boardHeight, pairs, blockers) : null;
+  const movesRaw = String(document.getElementById("ed-moves").value ?? "").trim();
+  const moves = movesRaw === "" ? recommendedMoves() : Number(movesRaw);
+  state.editor.moves = Number.isFinite(moves) ? moves : recommendedMoves();
   const difficulty = document.getElementById("ed-difficulty").value;
   const targetDensity = difficultyToTargetDensity(difficulty, solutionCount);
   const fileName = normalizeLevelFileName(document.getElementById("ed-name")?.value || state.editor.fileName, Number(document.getElementById("ed-level").value));
   state.editor.fileName = fileName;
+  state.editor.solutionCount = solutionCount;
+  state.editor.targetDensity = targetDensity;
+  state.editor.validationSolvable = solutionCount >= 1;
+  state.editor.validationDensityMatch = densityMatch(targetDensity, solutionCount);
+  state.editor.validationDecalPass = decalPass;
 
   return {
     level: Number(document.getElementById("ed-level").value),
@@ -1618,7 +2834,8 @@ function levelFromEditor() {
     grid: makeGrid(state.editor.boardWidth, state.editor.boardHeight, pairs, blockers),
     pairs,
     blockers,
-    moves,
+    decal,
+    moves: state.editor.moves,
     solution_count: solutionCount,
     target_density: targetDensity,
     difficulty,
@@ -1626,6 +2843,8 @@ function levelFromEditor() {
     validation: {
       solvable: solutionCount >= 1,
       density_match: densityMatch(targetDensity, solutionCount),
+      decal_required: decal,
+      decal_pass: decalPass,
       early_mistake_detection: true,
       no_isolated_pairs: true,
       no_late_dead_ends: true,
@@ -1645,7 +2864,32 @@ function bindClick(id, handler) {
   if (el) el.addEventListener("click", handler);
 }
 
+function pauseForPaint() {
+  return new Promise((resolve) => window.requestAnimationFrame(() => resolve()));
+}
+
+function setManagerLoading(active, label = "", current = 0, total = 0) {
+  state.manager.loading = { active, label, current, total };
+  const wrap = document.getElementById("mgr-loading");
+  const text = document.getElementById("mgr-loading-label");
+  const value = document.getElementById("mgr-loading-value");
+  const bar = document.getElementById("mgr-loading-bar");
+  if (!wrap || !text || !value || !bar) return;
+  wrap.hidden = !active;
+  if (!active) {
+    bar.value = 0;
+    value.textContent = "";
+    return;
+  }
+  const safeTotal = Math.max(total || 0, 1);
+  const percent = Math.max(0, Math.min(100, Math.round((current / safeTotal) * 100)));
+  text.textContent = label || "Loading manager data...";
+  value.textContent = total ? `${percent}%` : "Working...";
+  bar.value = percent;
+}
+
 function updateManagerTable() {
+  rebuildManagerIndexes();
   const tbody = document.querySelector("#mgr-table tbody");
   const slotPanel = document.getElementById("mgr-progression-panel");
   const allLevelsPanel = document.getElementById("mgr-all-levels-panel");
@@ -1658,46 +2902,59 @@ function updateManagerTable() {
   if (csvPanel) csvPanel.hidden = state.manager.activeTab !== "csvReview";
   if (progressTitle && isManagerProgressionTab(state.manager.activeTab)) progressTitle.textContent = `${getManagerProgressionLabel(state.manager.activeTab)} Order`;
   tbody.innerHTML = "";
+  syncManagerFilterControls();
 
-  state.manager.items.forEach((item) => {
-    const row = {
-      file: item.file,
-      path: item.sourcePath,
-      savedPath: item.savedPath || "-",
-      level: item.level.level ?? "-",
-      board: `${levelWidth(item.level) || "-"}x${levelHeight(item.level) || "-"}`,
-      pairs: (item.level.pairs || []).length,
-      blockers: (item.level.blockers || []).length,
-      moves: item.level.moves ?? "-",
-      solutions: item.level.solution_count ?? "-",
-      difficulty: levelDifficulty(item.level),
-      status: item.status,
-      changed: item.changed ? "Yes" : "No",
-      notes: item.notes || "",
-      placement: managerPlacementLabel(item.id),
-      error: item.parseError || ""
-    };
-    const tr = document.createElement("tr");
-    const screenshotTd = document.createElement("td");
-    const screenshot = document.createElement("img");
-    screenshot.className = "table-screenshot";
-    screenshot.alt = `${item.file} preview`;
-    screenshot.src = item.previewDataUrl || createLevelPreviewDataUrl(item.level);
-    screenshotTd.appendChild(screenshot);
-    tr.appendChild(screenshotTd);
+  const filteredItems = getFilteredManagerItems();
+  if (state.manager.activeTab !== "allLevels") state.manager.allLevelsPage = 1;
+  if (state.manager.activeTab === "csvReview") {
+    filteredItems.forEach((item) => {
+      const row = {
+        file: item.file,
+        path: displayProjectPath(item.sourcePath),
+        savedPath: displayProjectPath(item.savedPath || "-"),
+        level: item.level.level ?? "-",
+        board: managerItemBoardLabel(item),
+        pairs: (item.level.pairs || []).length,
+        blockers: (item.level.blockers || []).length,
+        moves: item.level.moves ?? "-",
+        solutions: item.level.solution_count ?? "-",
+        difficulty: levelDifficulty(item.level),
+        status: item.status,
+        changed: item.changed ? "Yes" : "No",
+        notes: item.notes || "",
+        placement: managerPlacementLabel(item.id),
+        error: item.parseError || ""
+      };
+      const tr = document.createElement("tr");
+      const screenshotTd = document.createElement("td");
+      if (shouldRenderCsvScreenshots()) {
+        const screenshot = document.createElement("img");
+        screenshot.className = "table-screenshot";
+        screenshot.alt = `${item.file} preview`;
+        screenshot.src = getCachedPreviewDataUrl(item);
+        screenshotTd.appendChild(screenshot);
+      } else {
+        screenshotTd.textContent = "Preview off";
+      }
+      tr.appendChild(screenshotTd);
 
-    [row.file, row.path, row.savedPath, row.level, row.board, row.pairs, row.blockers, row.moves, row.solutions, row.difficulty, row.status, row.changed, row.notes, row.placement, row.error].forEach((v) => {
-      const td = document.createElement("td");
-      td.textContent = String(v);
-      tr.appendChild(td);
+      [row.file, row.path, row.savedPath, row.level, row.board, row.pairs, row.blockers, row.moves, row.solutions, row.difficulty, row.status, row.changed, row.notes, row.placement, row.error].forEach((v) => {
+        const td = document.createElement("td");
+        td.textContent = String(v);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
     });
-    tbody.appendChild(tr);
-  });
+  }
 
-  const valid = state.manager.items.filter((r) => r.status === "OK").length;
-  const parseErrors = state.manager.items.filter((r) => r.status === "PARSE_ERROR").length;
+  const valid = filteredItems.filter((r) => r.status === "OK").length;
+  const parseErrors = filteredItems.filter((r) => r.status === "PARSE_ERROR").length;
   const assigned = getAllAssignedManagerIds().size;
-  log("mgr-log", `Files: ${state.manager.items.length}\nValid: ${valid}\nInvalid: ${state.manager.items.length - valid}\nParse errors: ${parseErrors}\nAssigned to progressions: ${assigned}`);
+  log("mgr-log", `Files: ${filteredItems.length} filtered / ${state.manager.items.length} total\nValid: ${valid}\nInvalid: ${filteredItems.length - valid}\nParse errors: ${parseErrors}\nAssigned to progressions: ${assigned}`);
+  ["mgr-export-progression-csv", "mgr-export-curve-png", "mgr-export-progression-png"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = !isManagerProgressionTab(state.manager.activeTab);
+  });
   ["mgr-rename-progression", "mgr-duplicate-progression", "mgr-autofill"].forEach((id) => {
     const el = document.getElementById(id);
     if (el) el.disabled = !isManagerProgressionTab(state.manager.activeTab);
@@ -1711,13 +2968,16 @@ function updateManagerTable() {
     setManagerDiffPanel("Open a progression tab to inspect level changes.");
   }
   renderManagerDifficultyCurve();
+  updateEditorProgressionBuilder();
   updateManagerPlanner();
   persistWorkspaceState();
+  scheduleManagerMetadataSnapshot("manager_update");
 }
 
 function makeManagerCard(item, compact = false) {
   const card = document.createElement("div");
   card.className = "manager-card";
+  card.classList.add(`difficulty-${levelDifficulty(item.level).toLowerCase()}`);
   if (item.id === state.manager.selectedId) card.classList.add("selected-preview");
   if (state.manager.referenceIds.includes(item.id)) card.classList.add("reference-preview");
   const currentSlot = findManagerSlotIndex(item.id);
@@ -1767,14 +3027,16 @@ function makeManagerCard(item, compact = false) {
 
   const path = document.createElement("div");
   path.className = "preview-path";
-  path.textContent = item.sourcePath;
+  path.textContent = displayProjectPath(item.sourcePath);
   card.appendChild(path);
 
-  const previewCanvas = document.createElement("canvas");
-  previewCanvas.width = compact ? 140 : 180;
-  previewCanvas.height = compact ? 140 : 180;
-  drawLevelPreviewCanvas(previewCanvas, item.level, item.id === state.manager.selectedId);
-  card.appendChild(previewCanvas);
+  if (shouldRenderManagerCardPreview()) {
+    const previewImg = document.createElement("img");
+    previewImg.className = "editor-slot-thumb";
+    previewImg.alt = `${item.file} preview`;
+    previewImg.src = getCachedPreviewDataUrl(item, item.id === state.manager.selectedId);
+    card.appendChild(previewImg);
+  }
 
   const actions = document.createElement("div");
   actions.className = "preview-actions";
@@ -1818,12 +3080,28 @@ function makeManagerCard(item, compact = false) {
   actions.appendChild(diffBtn);
 
   const refBtn = document.createElement("button");
-  refBtn.textContent = state.manager.referenceIds.includes(item.id) ? "Unref" : "Use as Ref";
-  refBtn.title = state.manager.referenceIds.includes(item.id)
-    ? "Remove this level from the reference set."
-    : "Use this level as a reference for procedural generation.";
+  const pendingRef = state.manager.pendingRefTarget;
+  const isWaitingForSlotRef = !!pendingRef;
+  refBtn.textContent = isWaitingForSlotRef
+    ? "Assign Ref"
+    : (state.manager.referenceIds.includes(item.id) ? "Unref" : "Use as Ref");
+  refBtn.title = isWaitingForSlotRef
+    ? `Assign this level to ${getManagerProgressionLabel(pendingRef.progressionKey)} · Slot ${pendingRef.slotIndex + 1}.`
+    : (state.manager.referenceIds.includes(item.id)
+      ? "Remove this level from the reference set."
+      : "Use this level as a reference for procedural generation.");
   refBtn.addEventListener("click", (ev) => {
     ev.stopPropagation();
+    if (state.manager.pendingRefTarget) {
+      const { progressionKey, slotIndex } = state.manager.pendingRefTarget;
+      moveManagerItemToSlot(item.id, slotIndex, progressionKey);
+      state.manager.selectedId = item.id;
+      state.manager.activeTab = progressionKey;
+      state.manager.pendingRefTarget = null;
+      updateManagerTable();
+      log("mgr-log", `Assigned ${item.file} to ${getManagerProgressionLabel(progressionKey)} · Slot ${slotIndex + 1}.`);
+      return;
+    }
     if (state.manager.referenceIds.includes(item.id)) {
       state.manager.referenceIds = state.manager.referenceIds.filter((id) => id !== item.id);
     } else {
@@ -1857,22 +3135,28 @@ function updateManagerPlanner() {
   slotGrid.innerHTML = "";
   poolGrid.innerHTML = "";
   unassignedGrid.innerHTML = "";
+  const renderToken = ++state.manager.renderToken;
 
   if (isManagerProgressionTab(state.manager.activeTab)) {
     const progression = getManagerProgression(state.manager.activeTab);
     progression.slots.forEach((itemId, index) => {
+      const isTutorialSlot = isTutorialSlotIndex(index);
       const slot = document.createElement("div");
       slot.className = "manager-slot";
       slot.dataset.slotIndex = String(index);
-      slot.title = progression.lockedSlots[index]
+      slot.title = isTutorialSlot
+        ? "Slot 1 is permanently reserved for the tutorial."
+        : progression.lockedSlots[index]
         ? `Slot ${index + 1} is locked. Unlock it before replacing the level.`
         : `Slot ${index + 1}. Drop a level here to place or reorder it.`;
       slot.addEventListener("dragover", (ev) => {
+        if (isTutorialSlot) return;
         ev.preventDefault();
         slot.classList.add("drag-over");
       });
       slot.addEventListener("dragleave", () => slot.classList.remove("drag-over"));
       slot.addEventListener("drop", (ev) => {
+        if (isTutorialSlot) return;
         ev.preventDefault();
         slot.classList.remove("drag-over");
         const droppedId = Number(ev.dataTransfer?.getData("text/plain") || state.manager.draggingId);
@@ -1884,7 +3168,7 @@ function updateManagerPlanner() {
 
       const slotLabel = document.createElement("div");
       slotLabel.className = "manager-slot-label";
-      slotLabel.textContent = `Level ${index + 1}`;
+      slotLabel.textContent = isTutorialSlot ? "Level 1 · Tutorial" : `Level ${index + 1}`;
       slot.appendChild(slotLabel);
 
       const slotActions = document.createElement("div");
@@ -1892,12 +3176,16 @@ function updateManagerPlanner() {
 
       const lockBtn = document.createElement("button");
       lockBtn.className = "manager-lock-btn";
-      lockBtn.textContent = progression.lockedSlots[index] ? "Unlock" : "Lock";
-      lockBtn.title = progression.lockedSlots[index]
+      lockBtn.textContent = isTutorialSlot ? "Tutorial" : (progression.lockedSlots[index] ? "Unlock" : "Lock");
+      lockBtn.disabled = isTutorialSlot;
+      lockBtn.title = isTutorialSlot
+        ? "Slot 1 stays locked because it always contains the tutorial."
+        : progression.lockedSlots[index]
         ? `Unlock slot ${index + 1} so it can be changed.`
         : `Lock slot ${index + 1} so its level cannot be moved or replaced.`;
       lockBtn.addEventListener("click", (ev) => {
         ev.stopPropagation();
+        if (isTutorialSlot) return;
         if (progression.slots[index] == null) return;
         progression.lockedSlots[index] = !progression.lockedSlots[index];
         updateManagerTable();
@@ -1907,8 +3195,10 @@ function updateManagerPlanner() {
       const clearBtn = document.createElement("button");
       clearBtn.className = "manager-clear-slot-btn";
       clearBtn.textContent = "Clear";
-      clearBtn.disabled = progression.lockedSlots[index] || progression.slots[index] == null;
-      clearBtn.title = progression.lockedSlots[index]
+      clearBtn.disabled = isTutorialSlot || progression.lockedSlots[index] || progression.slots[index] == null;
+      clearBtn.title = isTutorialSlot
+        ? "Slot 1 cannot be cleared because it always contains the tutorial."
+        : progression.lockedSlots[index]
         ? `Unlock slot ${index + 1} before clearing it.`
         : `Empty slot ${index + 1} so you can drag another level in from below.`;
       clearBtn.addEventListener("click", (ev) => {
@@ -1918,6 +3208,28 @@ function updateManagerPlanner() {
         log("mgr-log", `Cleared slot ${index + 1} in ${getManagerProgressionLabel(state.manager.activeTab)}. Drag a replacement from the pool below.`);
       });
       slotActions.appendChild(clearBtn);
+
+      const refSlotBtn = document.createElement("button");
+      refSlotBtn.className = "manager-ref-slot-btn";
+      refSlotBtn.textContent = state.manager.pendingRefTarget?.progressionKey === state.manager.activeTab && state.manager.pendingRefTarget?.slotIndex === index
+        ? "Cancel Ref"
+        : "Ref";
+      refSlotBtn.disabled = isTutorialSlot || progression.lockedSlots[index];
+      refSlotBtn.title = isTutorialSlot
+        ? "Slot 1 is fixed as the tutorial and does not accept references."
+        : progression.lockedSlots[index]
+        ? `Unlock slot ${index + 1} before assigning by reference.`
+        : `Mark slot ${index + 1} as waiting for a level from All Levels.`;
+      refSlotBtn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const isSame = state.manager.pendingRefTarget?.progressionKey === state.manager.activeTab && state.manager.pendingRefTarget?.slotIndex === index;
+        state.manager.pendingRefTarget = isSame ? null : { progressionKey: state.manager.activeTab, slotIndex: index };
+        updateManagerTable();
+        log("mgr-log", isSame
+          ? `Cancelled reference assignment for ${getManagerProgressionLabel(state.manager.activeTab)} · Slot ${index + 1}.`
+          : `Waiting for a level from All Levels for ${getManagerProgressionLabel(state.manager.activeTab)} · Slot ${index + 1}.`);
+      });
+      slotActions.appendChild(refSlotBtn);
       slot.appendChild(slotActions);
 
       const difficultyWrap = document.createElement("label");
@@ -1932,7 +3244,7 @@ function updateManagerPlanner() {
         difficultySelect.appendChild(option);
       });
       difficultySelect.value = progression.slotDifficulty[index] || "";
-      difficultySelect.disabled = progression.lockedSlots[index];
+      difficultySelect.disabled = isTutorialSlot || progression.lockedSlots[index];
       difficultySelect.addEventListener("change", (ev) => {
         ev.stopPropagation();
         progression.slotDifficulty[index] = ev.target.value;
@@ -1952,10 +3264,19 @@ function updateManagerPlanner() {
       if (itemId == null) {
         const empty = document.createElement("div");
         empty.className = "manager-empty-slot";
-        empty.textContent = progression.lockedSlots[index] ? "Locked empty slot" : "Clear slot ready. Drag a level here";
-        empty.title = progression.lockedSlots[index]
+        const isPendingRef = state.manager.pendingRefTarget?.progressionKey === state.manager.activeTab && state.manager.pendingRefTarget?.slotIndex === index;
+        empty.textContent = isTutorialSlot
+          ? "Tutorial reserved"
+          : progression.lockedSlots[index]
+          ? "Locked empty slot"
+          : (isPendingRef ? "Waiting for Ref from All Levels" : "Clear slot ready. Drag a level here");
+        empty.title = isTutorialSlot
+          ? "Slot 1 is permanently reserved for the tutorial."
+          : progression.lockedSlots[index]
           ? `Slot ${index + 1} is empty but locked.`
-          : `Drop a level here to assign it to position ${index + 1}.`;
+          : (isPendingRef
+            ? `This slot will accept the next Ref assignment from All Levels.`
+            : `Drop a level here to assign it to position ${index + 1}.`);
         slot.appendChild(empty);
       } else {
         const item = getManagerItemById(itemId);
@@ -1966,7 +3287,7 @@ function updateManagerPlanner() {
     });
   }
 
-  const poolItems = getManagerUnassignedItems();
+  const poolItems = getFilteredManagerItems(getManagerUnassignedItems());
   const progressionNames = getManagerProgressionKeys().map((key) => getManagerProgressionLabel(key)).join(", ");
   const poolTitle = state.manager.activeTab === "allLevels"
     ? `Levels that are not currently placed in ${progressionNames}.`
@@ -1982,10 +3303,40 @@ function updateManagerPlanner() {
     updateManagerTable();
   };
 
-  poolItems.forEach((item) => {
-    poolGrid.appendChild(makeManagerCard(item));
-    unassignedGrid.appendChild(makeManagerCard(item));
-  });
+  const targetGrid = state.manager.activeTab === "allLevels" ? unassignedGrid : poolGrid;
+  const pagedPoolItems = state.manager.activeTab === "allLevels"
+    ? (() => {
+      const totalPages = Math.max(1, Math.ceil(Math.max(poolItems.length, 1) / state.manager.allLevelsPageSize));
+      state.manager.allLevelsPage = Math.min(totalPages, Math.max(1, state.manager.allLevelsPage));
+      const startIndex = (state.manager.allLevelsPage - 1) * state.manager.allLevelsPageSize;
+      return poolItems.slice(startIndex, startIndex + state.manager.allLevelsPageSize);
+    })()
+    : poolItems;
+  updateManagerPagination(poolItems.length, pagedPoolItems.length);
+  const chunkSize = performanceSettings().renderChunkSize;
+  if (!pagedPoolItems.length) {
+    setManagerLoading(false);
+    return;
+  }
+
+  setManagerLoading(true, "Rendering level cards...", 0, pagedPoolItems.length);
+  const appendChunk = async (startIndex = 0) => {
+    if (renderToken !== state.manager.renderToken) return;
+    const endIndex = Math.min(startIndex + chunkSize, pagedPoolItems.length);
+    const fragment = document.createDocumentFragment();
+    for (let index = startIndex; index < endIndex; index += 1) {
+      fragment.appendChild(makeManagerCard(pagedPoolItems[index]));
+    }
+    targetGrid.appendChild(fragment);
+    setManagerLoading(true, "Rendering level cards...", endIndex, pagedPoolItems.length);
+    if (endIndex < pagedPoolItems.length) {
+      await pauseForPaint();
+      appendChunk(endIndex);
+      return;
+    }
+    setManagerLoading(false);
+  };
+  appendChunk();
 }
 
 function summarizeSessionLevel(level, file, source) {
@@ -1998,7 +3349,7 @@ function summarizeSessionLevel(level, file, source) {
     level: cloneLevel(level),
     originalLevel: cloneLevel(level),
     changed: false,
-    previewDataUrl: createLevelPreviewDataUrl(level),
+    previewDataUrl: null,
     reviewStatus: "PENDING",
     validationStatus: validateLevel(level).valid ? "OK" : "INVALID"
   };
@@ -2070,7 +3421,7 @@ function summarizeManagerItem(level, file, sourcePath = "Imported via browser pi
     originalLevel: cloneLevel(level),
     changed: false,
     notes: "",
-    previewDataUrl: createLevelPreviewDataUrl(level),
+    previewDataUrl: null,
     status: report.valid ? "OK" : "INVALID"
   };
 }
@@ -2140,8 +3491,13 @@ function createManagerProgressionFromPrompt() {
   state.manager.progressions[key] = createManagerProgression(label);
   state.manager.progressionOrder.push(key);
   state.manager.activeTab = key;
-  updateManagerTable();
-  log("mgr-log", `Created ${label}.`);
+  ensureTutorialInProgressionSlot(key).then(() => {
+    updateManagerTable();
+    log("mgr-log", `Created ${label} with the tutorial preloaded in slot 1.`);
+  }).catch((err) => {
+    updateManagerTable();
+    log("mgr-log", `Created ${label}, but tutorial preload failed: ${formatParseError(err)}`);
+  });
 }
 
 function renameActiveProgression() {
@@ -2168,10 +3524,18 @@ function duplicateActiveProgression() {
     lockedSlots: [...source.lockedSlots],
     slotDifficulty: [...source.slotDifficulty]
   };
+  state.manager.progressions[key].slots[0] = null;
+  state.manager.progressions[key].lockedSlots[0] = false;
+  state.manager.progressions[key].slotDifficulty[0] = "";
   state.manager.progressionOrder.push(key);
   state.manager.activeTab = key;
-  updateManagerTable();
-  log("mgr-log", `Duplicated ${source.label} into ${label}.`);
+  ensureTutorialInProgressionSlot(key).then(() => {
+    updateManagerTable();
+    log("mgr-log", `Duplicated ${source.label} into ${label} with the tutorial preserved in slot 1.`);
+  }).catch((err) => {
+    updateManagerTable();
+    log("mgr-log", `Duplicated ${source.label} into ${label}, but tutorial preload failed: ${formatParseError(err)}`);
+  });
 }
 
 function difficultyDistance(a, b) {
@@ -2205,6 +3569,7 @@ function autofillActiveProgression() {
   const progression = getManagerProgression(state.manager.activeTab);
   let filled = 0;
   progression.slots.forEach((itemId, index) => {
+    if (isTutorialSlotIndex(index)) return;
     if (itemId != null || progression.lockedSlots[index]) return;
     const candidate = chooseBestPoolItemForSlot(index, state.manager.activeTab);
     if (!candidate) return;
@@ -2281,6 +3646,7 @@ async function expandManagerImportPayload(data, fileName) {
       });
     }
     for (const slot of data.slots || []) {
+      if (data.tutorial_level && Number(slot?.slot) === 1) continue;
       if (!slot?.level) continue;
       expanded.push({
         item: summarizeManagerItem(toPlayableLevel(slot.level, `${data.name || fileName}_slot_${slot.slot}`), `${basename(fileName)} · slot ${slot.slot}`, `Embedded bundle level · ${fileName}`),
@@ -2303,6 +3669,7 @@ async function expandManagerImportPayload(data, fileName) {
       });
     }
     for (const slot of data.slots || []) {
+      if (data.tutorial_level_file && Number(slot?.slot) === 1) continue;
       if (!slot?.level_file) continue;
       const level = await fetchWorkshopLevelByFilename(slot.level_file);
       expanded.push({
@@ -2343,7 +3710,7 @@ async function expandManagerImportPayload(data, fileName) {
 function applyManagerImport(expanded) {
   for (const entry of expanded.items) {
     state.manager.items.push(entry.item);
-    if (entry.tab && Number.isInteger(entry.slot) && entry.slot >= 0 && entry.slot < getManagerProgression(entry.tab).slots.length && !getManagerProgression(entry.tab).lockedSlots[entry.slot] && getManagerProgression(entry.tab).slots[entry.slot] == null) {
+    if (entry.tab && Number.isInteger(entry.slot) && entry.slot >= 0 && entry.slot < getManagerProgression(entry.tab).slots.length && !isTutorialSlotIndex(entry.slot) && !getManagerProgression(entry.tab).lockedSlots[entry.slot] && getManagerProgression(entry.tab).slots[entry.slot] == null) {
       getManagerProgression(entry.tab).slots[entry.slot] = entry.item.id;
       if (!getManagerProgression(entry.tab).slotDifficulty[entry.slot]) {
         getManagerProgression(entry.tab).slotDifficulty[entry.slot] = levelDifficulty(entry.item.level);
@@ -2364,22 +3731,121 @@ function managerPlacementLabel(itemId) {
   return "Unassigned";
 }
 
+function buildManagerMetadataSnapshot(reason = "autosave") {
+  const progressions = Object.fromEntries(getManagerProgressionKeys().map((key) => {
+    const progression = getManagerProgression(key);
+    return [key, {
+      label: getManagerProgressionLabel(key),
+      slots: progression.slots.map((itemId, index) => {
+        const item = itemId != null ? getManagerItemById(itemId) : null;
+        return {
+          slot: index + 1,
+          item_id: itemId,
+          file: item?.file || "",
+          level: item?.level?.level ?? null,
+          board: item ? `${levelWidth(item.level)}x${levelHeight(item.level)}` : "",
+          pairs: item ? (item.level.pairs || []).length : 0,
+          blockers: item ? (item.level.blockers || []).length : 0,
+          moves: item?.level?.moves ?? null,
+          solutions: item?.level?.solution_count ?? null,
+          difficulty: progression.slotDifficulty[index] || (item ? levelDifficulty(item.level) : ""),
+          status: item?.status || "EMPTY",
+          changed: !!item?.changed,
+          locked: !!progression.lockedSlots[index],
+          notes: item?.notes || ""
+        };
+      })
+    }];
+  }));
+
+  const items = state.manager.items.map((item) => ({
+    id: item.id,
+    file: item.file,
+    source_path: displayProjectPath(item.sourcePath || ""),
+    saved_path: displayProjectPath(item.savedPath || ""),
+    screenshot_path: displayProjectPath(item.screenshotPath || ""),
+    level: item.level?.level ?? null,
+    board: item.level ? `${levelWidth(item.level)}x${levelHeight(item.level)}` : "",
+    pairs: item.level ? (item.level.pairs || []).length : 0,
+    blockers: item.level ? (item.level.blockers || []).length : 0,
+    moves: item.level?.moves ?? null,
+    solutions: item.level?.solution_count ?? null,
+    difficulty: item.level ? levelDifficulty(item.level) : "",
+    status: item.status,
+    changed: !!item.changed,
+    notes: item.notes || "",
+    placement: managerPlacementLabel(item.id),
+    parse_error: item.parseError || ""
+  }));
+
+  return {
+    saved_at: new Date().toISOString(),
+    reason,
+    active_tab: state.manager.activeTab,
+    selected_id: state.manager.selectedId,
+    filters: { ...(state.manager.filters || {}) },
+    counts: {
+      total_items: state.manager.items.length,
+      assigned_items: getAllAssignedManagerIds().size,
+      unassigned_items: getManagerUnassignedItems().length,
+      valid_items: state.manager.items.filter((item) => item.status === "OK").length,
+      invalid_items: state.manager.items.filter((item) => item.status === "INVALID").length,
+      parse_error_items: state.manager.items.filter((item) => item.status === "PARSE_ERROR").length
+    },
+    progression_order: [...getManagerProgressionKeys()],
+    progressions,
+    items
+  };
+}
+
+async function flushManagerMetadataSnapshot(reason = "autosave") {
+  if (isRestoringWorkspaceState || isBootstrappingWorkspaceState) return;
+  const snapshot = buildManagerMetadataSnapshot(reason);
+  const signature = JSON.stringify({
+    active_tab: snapshot.active_tab,
+    selected_id: snapshot.selected_id,
+    filters: snapshot.filters,
+    counts: snapshot.counts,
+    progressions: snapshot.progressions,
+    items: snapshot.items
+  });
+  if (signature === lastManagerMetadataSignature) return;
+  lastManagerMetadataSignature = signature;
+  await saveProjectFile("progressions/manager_state/level_manager_state.json", JSON.stringify(snapshot, null, 2));
+  await materializeManagerProgressionsToRepo();
+  await appendProjectFile("progressions/manager_state/level_manager_metadata.log.jsonl", `${JSON.stringify({
+    saved_at: snapshot.saved_at,
+    reason: snapshot.reason,
+    active_tab: snapshot.active_tab,
+    selected_id: snapshot.selected_id,
+    counts: snapshot.counts,
+    progression_order: snapshot.progression_order,
+    filters: snapshot.filters
+  })}\n`);
+}
+
+function scheduleManagerMetadataSnapshot(reason = "autosave") {
+  if (isRestoringWorkspaceState || isBootstrappingWorkspaceState) return;
+  clearTimeout(managerMetadataSaveTimer);
+  managerMetadataSaveTimer = setTimeout(() => {
+    flushManagerMetadataSnapshot(reason).catch((err) => {
+      log("mgr-log", `Metadata autosave error: ${formatParseError(err)}`);
+    });
+  }, 900);
+}
+
 function getManagerItemById(itemId) {
-  return state.manager.items.find((item) => item.id === itemId) || null;
+  return state.manager.itemIndex.get(itemId) || null;
 }
 
 function findManagerSlotIndex(itemId) {
-  for (const key of getManagerProgressionKeys()) {
-    const slotIndex = getManagerProgression(key).slots.findIndex((id) => id === itemId);
-    if (slotIndex >= 0) return { tab: key, index: slotIndex };
-  }
-  return null;
+  return state.manager.slotIndexByItemId.get(itemId) || null;
 }
 
 function assignManagerItemToNextSlot(itemId, tab = state.manager.activeTab) {
   if (!isManagerProgressionTab(tab)) return;
   const progression = getManagerProgression(tab);
-  const freeIndex = progression.slots.findIndex((slot, index) => slot == null && !progression.lockedSlots[index]);
+  const freeIndex = progression.slots.findIndex((slot, index) => index !== 0 && slot == null && !progression.lockedSlots[index]);
   if (freeIndex >= 0) {
     progression.slots[freeIndex] = itemId;
     const item = getManagerItemById(itemId);
@@ -2391,12 +3857,15 @@ function assignManagerItemToNextSlot(itemId, tab = state.manager.activeTab) {
 function moveManagerItemToSlot(itemId, slotIndex, tab = state.manager.activeTab) {
   if (!isManagerProgressionTab(tab)) return;
   const target = getManagerProgression(tab);
+  if (isTutorialSlotIndex(slotIndex)) return;
   if (target.lockedSlots[slotIndex]) return;
   const currentSlot = findManagerSlotIndex(itemId);
+  if (currentSlot && isTutorialSlotIndex(currentSlot.index)) return;
   if (currentSlot && getManagerProgression(currentSlot.tab).lockedSlots[currentSlot.index]) return;
   const displacedId = target.slots[slotIndex];
   if (displacedId != null) {
     const displacedSlot = findManagerSlotIndex(displacedId);
+    if (displacedSlot && isTutorialSlotIndex(displacedSlot.index) && displacedId !== itemId) return;
     if (displacedSlot && getManagerProgression(displacedSlot.tab).lockedSlots[displacedSlot.index] && displacedId !== itemId) return;
   }
 
@@ -2417,12 +3886,14 @@ function moveManagerItemToSlot(itemId, slotIndex, tab = state.manager.activeTab)
 
 function moveManagerItemToPool(itemId) {
   const currentSlot = findManagerSlotIndex(itemId);
+  if (currentSlot && isTutorialSlotIndex(currentSlot.index)) return;
   if (currentSlot && getManagerProgression(currentSlot.tab).lockedSlots[currentSlot.index]) return;
   if (currentSlot) getManagerProgression(currentSlot.tab).slots[currentSlot.index] = null;
 }
 
 function clearManagerSlot(slotIndex, tab = state.manager.activeTab) {
   if (!isManagerProgressionTab(tab)) return;
+  if (isTutorialSlotIndex(slotIndex)) return;
   const progression = getManagerProgression(tab);
   if (progression.lockedSlots[slotIndex]) return;
   progression.slots[slotIndex] = null;
@@ -2435,7 +3906,7 @@ function updateSessionPreviewGrid() {
 
   state.sessions.queue.forEach((item) => {
     const card = document.createElement("div");
-    card.className = "preview-card";
+    card.className = "preview-card session-preview-card";
     if (item.id === state.sessions.selectedId) card.classList.add("selected-preview");
     if (item.id === state.sessions.activeId) card.classList.add("active-preview");
     card.addEventListener("click", () => {
@@ -2447,23 +3918,34 @@ function updateSessionPreviewGrid() {
     card.title = "Click to select this session level. Use the buttons below it to play, edit, approve, or reject.";
 
     const title = document.createElement("div");
-    title.className = "preview-title";
+    title.className = "preview-title session-card-title";
     title.textContent = item.file;
     card.appendChild(title);
 
     const meta = document.createElement("div");
-    meta.className = "preview-meta";
+    meta.className = "preview-meta session-card-meta";
     meta.textContent = `L${item.level.level} · ${levelWidth(item.level)}x${levelHeight(item.level)} · ${item.reviewStatus} · ${item.validationStatus}`;
     card.appendChild(meta);
 
-    const previewCanvas = document.createElement("canvas");
-    previewCanvas.width = 180;
-    previewCanvas.height = 180;
-    drawLevelPreviewCanvas(previewCanvas, item.level, item.id === state.sessions.selectedId);
-    card.appendChild(previewCanvas);
+    const boardFrame = document.createElement("div");
+    boardFrame.className = "session-card-board";
+
+    if (shouldRenderSessionPreviews()) {
+      const previewImg = document.createElement("img");
+      previewImg.className = "editor-slot-thumb";
+      previewImg.alt = `${item.file} preview`;
+      previewImg.src = getCachedPreviewDataUrl(item);
+      boardFrame.appendChild(previewImg);
+    } else {
+      const placeholder = document.createElement("div");
+      placeholder.className = "editor-slot-empty";
+      placeholder.textContent = "Preview off";
+      boardFrame.appendChild(placeholder);
+    }
+    card.appendChild(boardFrame);
 
     const actions = document.createElement("div");
-    actions.className = "preview-actions";
+    actions.className = "preview-actions session-card-actions";
 
     const playBtn = document.createElement("button");
     playBtn.textContent = "Play";
@@ -2524,9 +4006,10 @@ function updateSessionTable() {
       log("session-log", `Selected ${item.file} (${item.reviewStatus}, ${item.validationStatus}).`);
     });
 
-    [item.source, item.file, item.level.level, `${levelWidth(item.level)}x${levelHeight(item.level)}`, item.level.pairs.length, item.level.moves ?? "-", item.level.solution_count ?? "-", item.reviewStatus, item.validationStatus].forEach((value) => {
+    [item.source, item.file, item.level.level, `${levelWidth(item.level)}x${levelHeight(item.level)}`, item.level.pairs.length, item.level.moves ?? "-", item.level.solution_count ?? "-", item.reviewStatus, item.validationStatus].forEach((value, index) => {
       const td = document.createElement("td");
       td.textContent = String(value);
+      if (index === 0 || index === 1) td.classList.add("session-table-text");
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
@@ -2573,7 +4056,11 @@ function loadProgressionIntoSessions(key) {
     });
   });
   const first = state.sessions.queue[0];
-  if (first) playSessionItem(first);
+  if (first) state.sessions.selectedId = first.id;
+  state.play.on = false;
+  state.sessions.activeId = null;
+  setPlayStatus("Play OFF");
+  updateSessionTable();
   log("session-log", `Loaded ${items.length} level(s) from ${getManagerProgressionLabel(key)}.`);
   return true;
 }
@@ -2607,6 +4094,7 @@ function advanceToNextSessionItem(currentId) {
   if (!state.sessions.queue.length) return false;
   const currentIndex = state.sessions.queue.findIndex((item) => item.id === currentId);
   if (currentIndex === -1) return false;
+  const currentWasActive = state.sessions.activeId === currentId;
   if (state.sessions.queue.length === 1) {
     state.sessions.selectedId = currentId;
     updateSessionTable();
@@ -2615,7 +4103,15 @@ function advanceToNextSessionItem(currentId) {
 
   const nextIndex = (currentIndex + 1) % state.sessions.queue.length;
   const nextItem = state.sessions.queue[nextIndex];
-  playSessionItem(nextItem);
+  if (currentWasActive) {
+    playSessionItem(nextItem);
+  } else {
+    state.sessions.selectedId = nextItem.id;
+    state.sessions.activeId = null;
+    state.play.on = false;
+    setPlayStatus("Play OFF");
+    updateSessionTable();
+  }
   return true;
 }
 
@@ -2660,22 +4156,86 @@ function initNavigation() {
 
 function initSettings() {
   const input = document.getElementById("settings-export-dir");
-  if (input) input.value = state.settings.exportDir;
+  if (input) input.value = displayProjectPath(state.settings.exportDir);
+  const setValue = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.value = String(value);
+  };
+  setValue("settings-performance-profile", state.settings.performanceProfile);
+  setValue("settings-font-family", state.settings.fontFamily);
+  setValue("settings-color-bg", state.settings.uiTheme.bg);
+  setValue("settings-color-surface", state.settings.uiTheme.surface);
+  setValue("settings-color-text", state.settings.uiTheme.text);
+  setValue("settings-color-muted", state.settings.uiTheme.muted);
+  setValue("settings-color-accent", state.settings.uiTheme.accent);
+  setValue("settings-color-accent2", state.settings.uiTheme.accent2);
+  setValue("settings-color-border", state.settings.uiTheme.border);
+  setValue("settings-max-pairs", state.settings.maxPairs);
+  setValue("settings-default-width", state.settings.defaultBoardWidth);
+  setValue("settings-default-height", state.settings.defaultBoardHeight);
+  setValue("settings-default-difficulty", state.settings.defaultDifficulty);
+  setValue("settings-pair-a", state.settings.pairColors[0]);
+  setValue("settings-pair-b", state.settings.pairColors[1]);
+  setValue("settings-pair-c", state.settings.pairColors[2]);
+  setValue("settings-pair-d", state.settings.pairColors[3]);
+  setValue("settings-pair-e", state.settings.pairColors[4]);
   document.getElementById("settings-save").addEventListener("click", () => {
-    state.settings.exportDir = String(document.getElementById("settings-export-dir").value || DEFAULT_PROJECT_SAVE_DIR).trim() || DEFAULT_PROJECT_SAVE_DIR;
+    state.settings.exportDir = resolveProjectPath(document.getElementById("settings-export-dir").value || DEFAULT_PROJECT_SAVE_DIR);
+    state.settings.performanceProfile = String(document.getElementById("settings-performance-profile").value || "medium").toLowerCase();
+    state.settings.fontFamily = String(document.getElementById("settings-font-family").value || DEFAULT_FONT_FAMILY);
+    state.settings.uiTheme = {
+      bg: document.getElementById("settings-color-bg").value || DEFAULT_UI_THEME.bg,
+      surface: document.getElementById("settings-color-surface").value || DEFAULT_UI_THEME.surface,
+      text: document.getElementById("settings-color-text").value || DEFAULT_UI_THEME.text,
+      muted: document.getElementById("settings-color-muted").value || DEFAULT_UI_THEME.muted,
+      accent: document.getElementById("settings-color-accent").value || DEFAULT_UI_THEME.accent,
+      accent2: document.getElementById("settings-color-accent2").value || DEFAULT_UI_THEME.accent2,
+      border: document.getElementById("settings-color-border").value || DEFAULT_UI_THEME.border
+    };
+    state.settings.maxPairs = Math.max(1, Math.min(PAIR_IDS.length, Number(document.getElementById("settings-max-pairs").value || PAIR_IDS.length)));
+    state.settings.defaultBoardWidth = Math.max(4, Math.min(8, Number(document.getElementById("settings-default-width").value || 5)));
+    state.settings.defaultBoardHeight = Math.max(4, Math.min(8, Number(document.getElementById("settings-default-height").value || 5)));
+    state.settings.defaultDifficulty = String(document.getElementById("settings-default-difficulty").value || "MEDIUM");
+    state.settings.pairColors = [
+      document.getElementById("settings-pair-a").value || pairColors[0],
+      document.getElementById("settings-pair-b").value || pairColors[1],
+      document.getElementById("settings-pair-c").value || pairColors[2],
+      document.getElementById("settings-pair-d").value || pairColors[3],
+      document.getElementById("settings-pair-e").value || pairColors[4]
+    ];
+    applySettingsToUi();
+    applySettingsToEditorDefaults();
     saveSettings();
-    log("settings-log", `Project save path updated to:\n${state.settings.exportDir}`);
+    syncEditorInputs();
+    refreshVisibleView();
+    log("settings-log", `Settings updated.\nSave path: ${displayProjectPath(state.settings.exportDir)}\nPerformance: ${state.settings.performanceProfile}\nActive pairs: ${state.settings.maxPairs}\nDefault board: ${state.settings.defaultBoardWidth}x${state.settings.defaultBoardHeight}\nDefault difficulty: ${state.settings.defaultDifficulty}`);
     log("mgr-paths", [
       "Level folders",
-      state.settings.exportDir,
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions/progressions_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed",
-      "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/niveles_workshop/jsons"
+      `${PROJECT_ROOT_NAME}/levels`,
+      `${PROJECT_ROOT_NAME}/progressions`,
+      `${PROJECT_ROOT_NAME}/playtest`,
+      "",
+      "Project save root",
+      displayProjectPath(state.settings.exportDir),
+      "",
+      "Archive and runtime mirrors",
+      `${PROJECT_ROOT_NAME}/archive`,
+      `${PROJECT_ROOT_NAME}/level_toolkit_web/workshop_jsons`,
+      `${PROJECT_ROOT_NAME}/bundles`
     ].join("\n"));
+  });
+  document.getElementById("settings-clear-cache").addEventListener("click", async () => {
+    clearSavedWorkspaceState({ keepSettings: false });
+    try {
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((key) => caches.delete(key)));
+      }
+    } catch (_err) {
+      // best effort
+    }
+    log("settings-log", "Toolkit page cache cleared. Reloading...");
+    window.location.href = `${window.location.pathname}?cache_cleared=1&v=${Date.now()}`;
   });
 }
 
@@ -2696,7 +4256,7 @@ function initMain() {
   bindClick("btn-download-progression-json", async () => {
     if (!state.progression.length) state.progression = generateProgression();
     const saved = await saveProjectFile("procedural/progression_levels.json", JSON.stringify(state.progression, null, 2));
-    log("main-log", `Saved progression JSON to ${saved.path}.`);
+    log("main-log", `Saved progression JSON to ${displayProjectPath(saved.path)}.`);
   });
 
   bindClick("btn-download-progression-csv", () => {
@@ -2720,7 +4280,7 @@ function initMain() {
       state.proceduralBatch = generateProceduralBatch(start, end, count);
     }
     const saved = await saveProjectFile("procedural/procedural_batch_levels.json", JSON.stringify(state.proceduralBatch, null, 2));
-    log("main-log", `Saved procedural batch JSON to ${saved.path}.`);
+    log("main-log", `Saved procedural batch JSON to ${displayProjectPath(saved.path)}.`);
   });
 
   bindClick("btn-download-procedural-csv", () => {
@@ -2782,14 +4342,53 @@ function initMain() {
 function initEditor() {
   const boardWidthEl = document.getElementById("ed-board-width");
   const boardHeightEl = document.getElementById("ed-board-height");
+  const progressionSelectEl = document.getElementById("ed-progression-select");
+  const progressionSlotEl = document.getElementById("ed-progression-slot");
+
+  updateEditorProgressionBuilder();
+
+  progressionSelectEl.addEventListener("change", () => {
+    state.editor.progressionKey = progressionSelectEl.value;
+    state.editor.progressionSlot = 1;
+    syncEditorInputs();
+    updateEditorProgressionBuilder();
+  });
+
+  progressionSlotEl.addEventListener("change", () => {
+    state.editor.progressionSlot = Number(progressionSlotEl.value || 1);
+    updateEditorProgressionBuilder();
+  });
+
+  document.getElementById("ed-save-to-progression").addEventListener("click", async () => {
+    try {
+      await saveEditorLevelIntoProgression({ advanceToNext: false });
+    } catch (err) {
+      log("ed-log", `Save to progression error: ${formatParseError(err)}`);
+    }
+  });
+
+  document.getElementById("ed-save-new-level").addEventListener("click", async () => {
+    try {
+      await saveEditorLevelIntoProgression({ advanceToNext: true });
+    } catch (err) {
+      log("ed-log", `Save + New Level error: ${formatParseError(err)}`);
+    }
+  });
+
   function handleBoardDimensionChange() {
     state.editor.boardWidth = Number(boardWidthEl.value);
     state.editor.boardHeight = Number(boardHeightEl.value);
+    state.editor.solutionCount = 0;
+    state.editor.validationSolvable = false;
+    state.editor.validationDensityMatch = false;
+    state.editor.validationDecalPass = null;
     state.editor.blockers.clear();
+    state.editor.debugMarks.clear();
     Object.keys(state.editor.pairs).forEach((id) => {
       state.editor.pairs[id].start = null;
       state.editor.pairs[id].end = null;
     });
+    updateEditorDebugStatus();
     markEditorDirty("board size change");
     drawBoard();
   }
@@ -2806,13 +4405,25 @@ function initEditor() {
     state.editor.difficulty = document.getElementById("ed-difficulty").value;
     markEditorDirty("difficulty change");
   });
-  document.getElementById("ed-moves").addEventListener("change", () => markEditorDirty("moves change"));
+  document.getElementById("ed-moves").addEventListener("change", () => {
+    const raw = String(document.getElementById("ed-moves").value ?? "").trim();
+    state.editor.moves = raw === "" ? recommendedMoves() : Number(raw);
+    markEditorDirty("moves change");
+  });
+  document.getElementById("ed-decal").addEventListener("change", () => {
+    state.editor.decal = !!document.getElementById("ed-decal").checked;
+    markEditorDirty("decal change");
+  });
   document.getElementById("ed-mode").addEventListener("change", () => drawBoard());
-  document.getElementById("ed-pair-id").addEventListener("change", () => drawBoard());
+  document.getElementById("ed-pair-id").addEventListener("change", () => {
+    updateEditorPairBadge();
+    drawBoard();
+  });
   document.getElementById("ed-endpoint").addEventListener("change", () => drawBoard());
 
   document.getElementById("ed-auto-moves").addEventListener("click", () => {
-    document.getElementById("ed-moves").value = String(recommendedMoves());
+    state.editor.moves = recommendedMoves();
+    document.getElementById("ed-moves").value = String(state.editor.moves);
     markEditorDirty("moves autofill");
   });
 
@@ -2824,18 +4435,18 @@ function initEditor() {
     const solvedNow = getPlayStatus() === "Solved";
     if (solvedNow) {
       const session = await saveSolvedSession("validate");
-      log("ed-log", `VALID\nPairs: ${level.pairs.length}\nBlockers: ${level.blockers.length}\nMoves: ${level.moves}\nSolutions: ${level.solution_count}\nSolved session saved to project: ${session.saved_path}`);
+      log("ed-log", `VALID\nPairs: ${level.pairs.length}\nBlockers: ${level.blockers.length}\nMoves: ${level.moves}\nSolutions: ${report.solutionCount}\nDecal: ${report.decalRequired ? (report.decalPass ? "PASS" : "FAIL") : "OFF"}\nSolved session saved to project: ${session.saved_path}`);
       return;
     }
     log("ed-log", report.valid
-      ? `VALID\nPairs: ${level.pairs.length}\nBlockers: ${level.blockers.length}\nMoves: ${level.moves}\nSolutions: ${level.solution_count}`
+      ? `VALID\nPairs: ${level.pairs.length}\nBlockers: ${level.blockers.length}\nMoves: ${level.moves}\nSolutions: ${report.solutionCount}\nDecal: ${report.decalRequired ? (report.decalPass ? "PASS" : "FAIL") : "OFF"}`
       : `INVALID\n- ${report.errors.join("\n- ")}`);
   });
 
   document.getElementById("ed-export").addEventListener("click", async () => {
     const level = levelFromEditor();
     const saved = await saveLevelArtifactsToProject(level, state.editor.fileName);
-    log("ed-log", `Saved level JSON to ${saved.jsonPath}\nSaved screenshot to ${saved.screenshotPath}`);
+    log("ed-log", `Saved level JSON to ${displayProjectPath(saved.jsonPath)}\nSaved screenshot to ${displayProjectPath(saved.screenshotPath)}`);
   });
 
   document.getElementById("ed-import").addEventListener("click", () => {
@@ -2861,15 +4472,23 @@ function initEditor() {
     const level = levelFromEditor();
     const stem = slugifyFilePart(state.editor.fileName || `level_${level.level}.json`);
     const saved = await saveProjectDataUrl(`screenshots/${stem}.png`, canvas.toDataURL("image/png"));
-    log("ed-log", `Saved screenshot to ${saved.path}`);
+    log("ed-log", `Saved screenshot to ${displayProjectPath(saved.path)}`);
   });
 
   document.getElementById("ed-reset").addEventListener("click", () => {
     state.editor.blockers.clear();
+    state.editor.debugMarks.clear();
     Object.keys(state.editor.pairs).forEach((id) => {
       state.editor.pairs[id] = { start: null, end: null };
     });
+    updateEditorDebugStatus();
     document.getElementById("ed-moves").value = "0";
+    document.getElementById("ed-decal").checked = false;
+    state.editor.decal = false;
+    state.editor.solutionCount = 0;
+    state.editor.validationSolvable = false;
+    state.editor.validationDensityMatch = false;
+    state.editor.validationDecalPass = null;
     state.play.on = false;
     state.play.history = [];
     state.play.colorMap = {};
@@ -2884,6 +4503,14 @@ function initEditor() {
       await persistEditorToLinkedSource();
     } catch (err) {
       log("ed-log", `Save error: ${formatParseError(err)}`);
+    }
+  });
+
+  document.getElementById("ed-save-as-new").addEventListener("click", async () => {
+    try {
+      await saveEditorAsNewLevel();
+    } catch (err) {
+      log("ed-log", `Save As New error: ${formatParseError(err)}`);
     }
   });
 
@@ -2918,9 +4545,9 @@ function initEditor() {
     const solvedNow = getPlayStatus() === "Solved";
     const session = solvedNow ? await saveSolvedSession("manual") : serializePlaySession(false);
     if (!solvedNow) {
-      session.saved_path = (await saveProjectFile(`play_sessions/play_session_level_${session.level.level}.json`, JSON.stringify(session, null, 2))).path;
+      session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}.json`, JSON.stringify(session, null, 2))).path;
     }
-    log("ed-log", `Saved play session for level ${session.level.level} to ${session.saved_path}.`);
+    log("ed-log", `Saved play session for level ${session.level.level} to ${displayProjectPath(session.saved_path)}.`);
   });
 }
 
@@ -3170,6 +4797,7 @@ async function autoloadManagerFromQuery() {
     progressionA: "./workshop_progressions/progressionA_bundle.json",
     progressionA_afterTewak: "./workshop_progressions/progressionA_afterTewak_bundle.json",
     progressionA_new_levels_a: "./workshop_progressions/progressionA_new_levels_a_bundle.json",
+    progressionImportedClean: "./workshop_progressions/progressionImportedClean_bundle.json",
     progressionB: "./workshop_progressions/progressionB_bundle.json",
     progressionC: "./workshop_progressions/progressionC_bundle.json",
     progressionExtra: "./workshop_progressions/progressionExtra_bundle.json"
@@ -3202,8 +4830,11 @@ async function autoloadWorkspaceFromQuery() {
   if (!preset) return;
 
   const presetMap = {
+    allUniqueLevels: "./workshop_progressions/allUniqueLevels_workspace.json",
+    gameUniqueLevels: "./workshop_progressions/gameUniqueLevels_workspace.json",
     workshop: "./workshop_progressions/workshop_workspace.json",
-    progressionA_afterTewak: "./workshop_progressions/progressionA_afterTewak_workspace.json"
+    progressionA_afterTewak: "./workshop_progressions/progressionA_afterTewak_workspace.json",
+    progressionImportedClean: "./workshop_progressions/progressionImportedClean_workspace.json"
   };
   const targetUrl = presetMap[preset];
   if (!targetUrl) {
@@ -3212,19 +4843,27 @@ async function autoloadWorkspaceFromQuery() {
   }
 
   try {
+    setManagerLoading(true, `Loading workspace preset ${preset}...`, 0, 100);
     const response = await fetch(targetUrl);
     if (!response.ok) throw new Error(`Failed to load ${targetUrl}`);
     const data = parseImportedJson(await response.text());
+    setManagerLoading(true, `Loading workspace preset ${preset}...`, 10, 100);
     const tutorialLevel = await fetchWorkshopLevelByFilename(data.tutorial_level_file || "tutorial_level.json");
+    setManagerLoading(true, `Loading workspace preset ${preset}...`, 20, 100);
 
     resetWorkspaceInMemory();
 
     const itemByFilename = new Map();
-    for (const fileName of data.all_level_files || []) {
+    const allLevelFiles = data.all_level_files || [];
+    for (let index = 0; index < allLevelFiles.length; index += 1) {
+      const fileName = allLevelFiles[index];
       const level = await fetchWorkshopLevelByFilename(fileName);
       const item = summarizeManagerItem(level, fileName, `Workshop level · ${fileName}`);
       state.manager.items.push(item);
       itemByFilename.set(basename(fileName), item);
+      const progress = 20 + Math.round(((index + 1) / Math.max(allLevelFiles.length, 1)) * 50);
+      setManagerLoading(true, `Loading workspace preset ${preset}...`, progress, 100);
+      if ((index + 1) % 8 === 0) await pauseForPaint();
     }
 
     const progressionEntries = Object.entries(data.progressions || {}).filter(([, entries]) =>
@@ -3258,6 +4897,7 @@ async function autoloadWorkspaceFromQuery() {
         progression.slotDifficulty[slotIndex] = levelDifficulty(item.level);
       });
     }
+    setManagerLoading(true, `Rendering workspace preset ${preset}...`, 85, 100);
 
     state.manager.activeTab = params.get("manager_tab") || "progressionA";
     updateManagerTable();
@@ -3267,8 +4907,10 @@ async function autoloadWorkspaceFromQuery() {
 
     setActiveView(params.get("view") || "sessions");
     persistWorkspaceState();
+    setManagerLoading(false);
     log("mgr-log", `Autoloaded workspace preset ${preset} with ${state.manager.items.length} levels.`);
   } catch (err) {
+    setManagerLoading(false);
     log("mgr-log", `Autoload workspace error: ${err.message}`);
   }
 }
@@ -3276,14 +4918,17 @@ async function autoloadWorkspaceFromQuery() {
 function initManager() {
   log("mgr-paths", [
     "Level folders",
-    state.settings.exportDir,
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/jsons",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions/progressions_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed",
-    "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/niveles_workshop/jsons"
+    `${PROJECT_ROOT_NAME}/levels`,
+    `${PROJECT_ROOT_NAME}/progressions`,
+    `${PROJECT_ROOT_NAME}/playtest`,
+    "",
+    "Project save root",
+    displayProjectPath(state.settings.exportDir),
+    "",
+    "Archive and runtime mirrors",
+    `${PROJECT_ROOT_NAME}/archive`,
+    `${PROJECT_ROOT_NAME}/level_toolkit_web/workshop_jsons`,
+    `${PROJECT_ROOT_NAME}/bundles`
   ].join("\n"));
 
   document.getElementById("mgr-add-progression").addEventListener("click", () => {
@@ -3301,10 +4946,46 @@ function initManager() {
   document.getElementById("mgr-generate-from-refs").addEventListener("click", () => {
     generateFromReferenceLevels();
   });
+  const filterBindings = [
+    ["mgr-filter-name", "name"],
+    ["mgr-filter-board", "board"],
+    ["mgr-filter-difficulty", "difficulty"],
+    ["mgr-filter-status", "status"],
+    ["mgr-filter-level", "level"],
+    ["mgr-filter-pairs", "pairs"],
+    ["mgr-filter-blockers", "blockers"],
+    ["mgr-filter-placement", "placement"],
+    ["mgr-filter-changed", "changed"]
+  ];
+  filterBindings.forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const eventName = el.tagName === "INPUT" ? "input" : "change";
+    el.addEventListener(eventName, (ev) => {
+      state.manager.filters[key] = String(ev.target.value || "");
+      state.manager.allLevelsPage = 1;
+      updateManagerTable();
+    });
+  });
+  document.getElementById("mgr-filter-reset").addEventListener("click", () => {
+    state.manager.filters = createDefaultManagerFilters();
+    state.manager.allLevelsPage = 1;
+    updateManagerTable();
+  });
+  document.getElementById("mgr-page-prev").addEventListener("click", () => {
+    state.manager.allLevelsPage = Math.max(1, state.manager.allLevelsPage - 1);
+    updateManagerTable();
+  });
+  document.getElementById("mgr-page-next").addEventListener("click", () => {
+    state.manager.allLevelsPage += 1;
+    updateManagerTable();
+  });
 
   document.getElementById("mgr-import-input").addEventListener("change", async (e) => {
     const files = Array.from(e.target.files || []);
-    for (const file of files) {
+    setManagerLoading(true, "Importing level files...", 0, Math.max(files.length, 1));
+    for (let index = 0; index < files.length; index += 1) {
+      const file = files[index];
       try {
         const data = parseImportedJson(await file.text());
         const expanded = await expandManagerImportPayload(data, file.name);
@@ -3331,27 +5012,35 @@ function initManager() {
         });
         log("mgr-log", `Parse error in ${file.name}: ${message}`);
       }
+      setManagerLoading(true, "Importing level files...", index + 1, Math.max(files.length, 1));
+      if ((index + 1) % 5 === 0) await pauseForPaint();
     }
+    await ensureTutorialInAllProgressions();
     updateManagerTable();
+    setManagerLoading(false);
     e.target.value = "";
   });
 
-  document.getElementById("mgr-clear").addEventListener("click", () => {
+  document.getElementById("mgr-clear").addEventListener("click", async () => {
     state.manager.items = [];
+    state.manager.itemIndex = new Map();
+    state.manager.slotIndexByItemId = new Map();
     state.manager.progressions = createDefaultManagerProgressions();
     state.manager.progressionOrder = defaultManagerProgressions.map(({ key }) => key);
     state.manager.activeTab = state.manager.progressionOrder[0];
     state.manager.selectedId = null;
     state.manager.draggingId = null;
     state.manager.referenceIds = [];
+    state.manager.filters = createDefaultManagerFilters();
+    await ensureTutorialInAllProgressions();
     updateManagerTable();
   });
 
   document.getElementById("mgr-export-csv").addEventListener("click", async () => {
     const rows = state.manager.items.map((item) => ({
       file: item.file,
-      path: item.sourcePath,
-      saved_path: item.savedPath || "",
+      path: displayProjectPath(item.sourcePath),
+      saved_path: displayProjectPath(item.savedPath || ""),
       level: item.level.level,
       board_width: levelWidth(item.level),
       board_height: levelHeight(item.level),
@@ -3367,37 +5056,51 @@ function initManager() {
     }));
     const headers = Object.keys(rows[0] || { file: "", path: "", saved_path: "", level: "", board_width: "", board_height: "", pairs_count: "", blockers_count: "", moves: "", solution_count: "", difficulty: "", status: "", changed: "", notes: "", placement: "" });
     const csv = [headers.join(",")].concat(rows.map((r) => headers.map((h) => r[h]).join(","))).join("\n");
-    const saved = await saveProjectFile("manager/manager_levels.csv", csv, "text/csv");
-    log("mgr-log", `Saved manager CSV to ${saved.path}`);
+    const saved = await saveProjectFile("progressions/manager_state/manager_levels.csv", csv, "text/csv");
+    log("mgr-log", `Saved manager CSV to ${displayProjectPath(saved.path)}`);
+  });
+
+  document.getElementById("mgr-export-progression-csv").addEventListener("click", async () => {
+    if (!isManagerProgressionTab(state.manager.activeTab)) {
+      log("mgr-log", "Open a progression tab first.");
+      return;
+    }
+    const key = state.manager.activeTab;
+    const stem = progressionExportFileStem(key);
+    const csv = toCsvFromRows(activeProgressionRows(key));
+    const saved = await saveProjectFile(`progressions/exports/${stem}_progression.csv`, csv, "text/csv");
+    log("mgr-log", `Saved progression CSV to ${displayProjectPath(saved.path)}`);
+  });
+
+  document.getElementById("mgr-export-curve-png").addEventListener("click", async () => {
+    if (!isManagerProgressionTab(state.manager.activeTab)) {
+      log("mgr-log", "Open a progression tab first.");
+      return;
+    }
+    const key = state.manager.activeTab;
+    const stem = progressionExportFileStem(key);
+    const saved = await saveProjectDataUrl(`screenshots/${stem}_difficulty_curve.png`, makeProgressionCurveDataUrl(key));
+    log("mgr-log", `Saved difficulty curve PNG to ${displayProjectPath(saved.path)}`);
+  });
+
+  document.getElementById("mgr-export-progression-png").addEventListener("click", async () => {
+    if (!isManagerProgressionTab(state.manager.activeTab)) {
+      log("mgr-log", "Open a progression tab first.");
+      return;
+    }
+    const key = state.manager.activeTab;
+    const stem = progressionExportFileStem(key);
+    const saved = await saveProjectDataUrl(`screenshots/${stem}_progression_layout.png`, makeProgressionBoardDataUrl(key));
+    log("mgr-log", `Saved progression PNG to ${displayProjectPath(saved.path)}`);
   });
 
   document.getElementById("mgr-export-progression-json").addEventListener("click", async () => {
-    const payload = Object.fromEntries(getManagerProgressionKeys().map((key) => [key, {
-      label: getManagerProgressionLabel(key),
-      slots: getManagerProgression(key).slots.map((itemId, index) => {
-        const item = itemId != null ? getManagerItemById(itemId) : null;
-        return {
-          order: index + 1,
-          file: item?.file ?? null,
-          status: item?.status ?? "EMPTY",
-          changed: item?.changed ?? false,
-          slot_difficulty: getManagerProgression(key).slotDifficulty[index] || null,
-          notes: item?.notes ?? "",
-          difficulty: item ? levelDifficulty(item.level) : null,
-          level: item ? cloneLevel(item.level) : null
-        };
-      })
-    }]));
-    payload.allLevels = getManagerUnassignedItems().map((item) => ({
-      file: item.file,
-      status: item.status,
-      changed: item.changed,
-      notes: item.notes,
-      difficulty: levelDifficulty(item.level),
-      level: cloneLevel(item.level)
-    }));
-    const saved = await saveProjectFile("manager/manager_progressions.json", JSON.stringify(payload, null, 2));
-    log("mgr-log", `Saved manager progressions JSON to ${saved.path}`);
+    if (!isManagerProgressionTab(state.manager.activeTab)) {
+      log("mgr-log", "Open a progression tab first.");
+      return;
+    }
+    const saved = await exportActiveProgressionZip(state.manager.activeTab);
+    log("mgr-log", `Saved progression ZIP to ${displayProjectPath(saved.path)}`);
   });
 
   updateManagerTable();
@@ -3486,8 +5189,8 @@ function initSessions() {
       validation_status: item.validationStatus,
       level: item.level
     }));
-    const saved = await saveProjectFile("play_sessions/play_sessions_queue.json", JSON.stringify(payload, null, 2));
-    log("session-log", `Saved session queue to ${saved.path}`);
+    const saved = await saveProjectFile("playtest/play_sessions_queue.json", JSON.stringify(payload, null, 2));
+    log("session-log", `Saved session queue to ${displayProjectPath(saved.path)}`);
   });
 
   document.getElementById("session-play-reset").addEventListener("click", () => {
@@ -3501,9 +5204,9 @@ function initSessions() {
     const solvedNow = getPlayStatus() === "Solved";
     const session = solvedNow ? await saveSolvedSession("session_manual") : serializePlaySession(false);
     if (!solvedNow) {
-      session.saved_path = (await saveProjectFile(`play_sessions/play_session_level_${session.level.level}_session.json`, JSON.stringify(session, null, 2))).path;
+      session.saved_path = (await saveProjectFile(`playtest/play_session_level_${session.level.level}_session.json`, JSON.stringify(session, null, 2))).path;
     }
-    log("session-log", `Saved session play for level ${session.level.level} to ${session.saved_path}.`);
+    log("session-log", `Saved session play for level ${session.level.level} to ${displayProjectPath(session.saved_path)}.`);
   });
 
   updateSessionTable();
@@ -3512,6 +5215,7 @@ function initSessions() {
 async function bootstrap() {
   isBootstrappingWorkspaceState = true;
   loadSettings();
+  applySettingsToUi();
   loadLearning();
   applyStaticTooltips();
   initNavigation();
@@ -3521,19 +5225,22 @@ async function bootstrap() {
   initSessions();
   initManager();
   updateLearningStatus();
-  drawBoard();
   log("main-log", "Ready.");
   log("ed-log", "Editor ready.");
   log("session-log", "No session levels loaded.");
   log("mgr-log", "No files loaded.");
-  log("settings-log", `Project save path:\n${state.settings.exportDir}`);
+  log("settings-log", `Project save path:\n${displayProjectPath(state.settings.exportDir)}`);
   const restoredWorkspace = restoreWorkspaceState();
   if (!restoredWorkspace) restoreEditorDraft();
+  if (!restoredWorkspace) applySettingsToEditorDefaults();
+  syncEditorInputs();
   isBootstrappingWorkspaceState = false;
   persistWorkspaceState();
   await autoloadManagerFromQuery();
   await autoloadWorkspaceFromQuery();
   await autoloadLevelFromQuery();
+  await ensureTutorialInAllProgressions();
+  refreshVisibleView();
 }
 
 bootstrap();

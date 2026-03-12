@@ -1,0 +1,462 @@
+{
+  "saved_at": "2026-03-09T06:54:23.731Z",
+  "solved": true,
+  "level": {
+    "level": 1,
+    "board_size": 6,
+    "grid": [
+      [
+        "NODE_A1",
+        "EMPTY",
+        "BLOCKED",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY"
+      ],
+      [
+        "BLOCKED",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY"
+      ],
+      [
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "BLOCKED",
+        "EMPTY",
+        "NODE_A2"
+      ],
+      [
+        "NODE_B1",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY"
+      ],
+      [
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "NODE_B2"
+      ],
+      [
+        "EMPTY",
+        "NODE_C1",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "NODE_C2"
+      ]
+    ],
+    "pairs": [
+      {
+        "id": "A",
+        "start": [
+          0,
+          0
+        ],
+        "end": [
+          2,
+          5
+        ],
+        "color": "#0EA5E9"
+      },
+      {
+        "id": "B",
+        "start": [
+          3,
+          0
+        ],
+        "end": [
+          4,
+          5
+        ],
+        "color": "#0284C7"
+      },
+      {
+        "id": "C",
+        "start": [
+          5,
+          1
+        ],
+        "end": [
+          5,
+          5
+        ],
+        "color": "#0891B2"
+      }
+    ],
+    "blockers": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "moves": 8,
+    "solution_count": 0,
+    "target_density": "HIGH",
+    "golden_path": {
+      "A": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          5
+        ]
+      ],
+      "B": [
+        [
+          3,
+          0
+        ],
+        [
+          4,
+          5
+        ]
+      ],
+      "C": [
+        [
+          5,
+          1
+        ],
+        [
+          5,
+          5
+        ]
+      ]
+    },
+    "validation": {
+      "solvable": false,
+      "density_match": true,
+      "early_mistake_detection": true,
+      "no_isolated_pairs": true,
+      "no_late_dead_ends": true,
+      "curve_integrity": true
+    },
+    "meta": {
+      "generation_attempts": 1,
+      "failed_checks": []
+    }
+  },
+  "selected_pair": "C",
+  "paths": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "history": [
+    {
+      "type": "reset",
+      "at": 1773039252268
+    },
+    {
+      "type": "start_path",
+      "pairId": "A",
+      "cell": [
+        0,
+        0
+      ],
+      "anchor": "start",
+      "at": 1773039253154
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        0,
+        1
+      ],
+      "at": 1773039253174
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        1,
+        1
+      ],
+      "at": 1773039253440
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        1,
+        2
+      ],
+      "at": 1773039253799
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        1,
+        3
+      ],
+      "at": 1773039253890
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        1,
+        4
+      ],
+      "at": 1773039254207
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        1,
+        5
+      ],
+      "at": 1773039254265
+    },
+    {
+      "type": "reach_end",
+      "pairId": "A",
+      "cell": [
+        2,
+        5
+      ],
+      "at": 1773039254567
+    },
+    {
+      "type": "start_path",
+      "pairId": "B",
+      "cell": [
+        3,
+        0
+      ],
+      "anchor": "start",
+      "at": 1773039256167
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        3,
+        1
+      ],
+      "at": 1773039256340
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        3,
+        2
+      ],
+      "at": 1773039256383
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        3,
+        3
+      ],
+      "at": 1773039256426
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        3,
+        4
+      ],
+      "at": 1773039256784
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        3,
+        5
+      ],
+      "at": 1773039257175
+    },
+    {
+      "type": "reach_end",
+      "pairId": "B",
+      "cell": [
+        4,
+        5
+      ],
+      "at": 1773039257293
+    },
+    {
+      "type": "start_path",
+      "pairId": "C",
+      "cell": [
+        5,
+        1
+      ],
+      "anchor": "start",
+      "at": 1773039258644
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        5,
+        2
+      ],
+      "at": 1773039258781
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1773039258799
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        4,
+        3
+      ],
+      "at": 1773039259441
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        4,
+        4
+      ],
+      "at": 1773039259549
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        5,
+        4
+      ],
+      "at": 1773039259815
+    },
+    {
+      "type": "reach_end",
+      "pairId": "C",
+      "cell": [
+        5,
+        5
+      ],
+      "at": 1773039260175
+    }
+  ],
+  "save_reason": "validate"
+}

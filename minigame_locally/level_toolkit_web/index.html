@@ -101,6 +101,9 @@
           <label>Moves
             <input id="ed-moves" type="number" min="0" value="0" />
           </label>
+          <label class="checkbox-label">Decal
+            <input id="ed-decal" type="checkbox" />
+          </label>
           <button id="ed-auto-moves">Auto Moves</button>
         </div>
 
@@ -109,14 +112,16 @@
             <select id="ed-mode">
               <option value="blocker">Blocker</option>
               <option value="node">Node</option>
+              <option value="debug">Debug Mark</option>
               <option value="erase">Erase</option>
             </select>
           </label>
           <label>Pair
             <select id="ed-pair-id">
-              <option>A</option><option>B</option><option>C</option><option>D</option>
+              <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
             </select>
           </label>
+          <span id="ed-pair-color" class="tag">Pair A color</span>
           <label>Endpoint
             <select id="ed-endpoint">
               <option value="start">Start</option>
@@ -124,6 +129,7 @@
             </select>
           </label>
           <button id="ed-save">Save Changes</button>
+          <button id="ed-save-as-new">Save As New</button>
           <button id="ed-validate">Validate</button>
           <button id="ed-import">Import JSON</button>
           <button id="ed-export">Export JSON</button>
@@ -140,6 +146,7 @@
 
         <div class="toolbar">
           <span id="editor-save-status" class="tag">Saved</span>
+          <span id="editor-debug-status" class="tag">Debug marks: 0</span>
           <span id="learning-status" class="tag">Learning: 0 approved / 0 rejected</span>
         </div>
 
@@ -149,6 +156,21 @@
 
         <canvas id="board-canvas" width="560" height="560"></canvas>
         <input id="ed-import-input" type="file" accept="application/json" hidden />
+
+        <section class="editor-progression-strip">
+          <div class="toolbar">
+            <label>Progression
+              <select id="ed-progression-select"></select>
+            </label>
+            <label>Slot
+              <select id="ed-progression-slot"></select>
+            </label>
+            <button id="ed-save-to-progression">Save To Slot</button>
+            <button id="ed-save-new-level">Save + New Level</button>
+          </div>
+          <div id="ed-progression-slots" class="editor-progression-slots"></div>
+        </section>
+
         <pre id="ed-log" class="log"></pre>
       </section>
 
@@ -182,14 +204,6 @@
           <button id="session-export-queue">Export Queue JSON</button>
         </div>
 
-        <div class="toolbar">
-          <button id="session-play-reset">Reset Session Play</button>
-          <button id="session-play-export">Export Session Play</button>
-          <span id="session-play-status" class="tag">Play OFF</span>
-        </div>
-
-        <canvas id="session-board-canvas" width="560" height="560"></canvas>
-
         <div id="session-preview-grid" class="preview-grid"></div>
 
         <table id="session-table">
@@ -200,6 +214,16 @@
           </thead>
           <tbody></tbody>
         </table>
+
+        <section id="session-play-panel" class="session-play-panel" hidden>
+          <div class="toolbar">
+            <button id="session-play-reset">Reset Session Play</button>
+            <button id="session-play-export">Export Session Play</button>
+            <span id="session-play-status" class="tag">Play OFF</span>
+          </div>
+
+          <canvas id="session-board-canvas" width="560" height="560"></canvas>
+        </section>
 
         <input id="session-import-input" type="file" accept="application/json" multiple hidden />
         <pre id="session-log" class="log"></pre>
@@ -217,11 +241,69 @@
           <button id="mgr-generate-from-refs">Generate From References</button>
           <button id="mgr-clear">Clear</button>
           <button id="mgr-export-csv">Export CSV</button>
-          <button id="mgr-export-progression-json">Export Progression JSON</button>
+          <button id="mgr-export-progression-csv">Export Progression CSV</button>
+          <button id="mgr-export-curve-png">Export Curve PNG</button>
+          <button id="mgr-export-progression-png">Export Progression PNG</button>
+          <button id="mgr-export-progression-json">Download Progression ZIP</button>
         </div>
+        <section class="manager-filter-bar">
+          <label>Name
+            <input id="mgr-filter-name" type="search" placeholder="Search by file or notes" />
+          </label>
+          <label>Dimensions
+            <select id="mgr-filter-board">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Difficulty
+            <select id="mgr-filter-difficulty">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Status
+            <select id="mgr-filter-status">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Level
+            <select id="mgr-filter-level">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Pairs
+            <select id="mgr-filter-pairs">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Blockers
+            <select id="mgr-filter-blockers">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Placement
+            <select id="mgr-filter-placement">
+              <option value="">All</option>
+            </select>
+          </label>
+          <label>Changed
+            <select id="mgr-filter-changed">
+              <option value="">All</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+          <button id="mgr-filter-reset" type="button">Reset Filters</button>
+        </section>
         <pre id="mgr-paths" class="log"></pre>
 
         <div id="mgr-tabs" class="manager-tabs"></div>
+        <section id="mgr-loading" class="manager-loading" hidden aria-live="polite">
+          <div class="manager-loading-row">
+            <strong id="mgr-loading-label">Loading manager data...</strong>
+            <span id="mgr-loading-value">0%</span>
+          </div>
+          <progress id="mgr-loading-bar" max="100" value="0"></progress>
+        </section>
 
         <section id="mgr-progression-panel">
           <h3 id="mgr-progress-title">Progression Order</h3>
@@ -244,6 +326,11 @@
         <section id="mgr-all-levels-panel" hidden>
           <h3>All Levels</h3>
           <p class="section-copy">Levels that are not currently placed in any progression.</p>
+          <div class="toolbar">
+            <button id="mgr-page-prev" type="button">Prev Page</button>
+            <span id="mgr-page-status" class="tag">Page 1 / 1</span>
+            <button id="mgr-page-next" type="button">Next Page</button>
+          </div>
           <div id="mgr-unassigned-grid" class="manager-pool-grid"></div>
         </section>
 
@@ -263,12 +350,93 @@
 
       <section id="view-settings" class="view card">
         <h2>Settings</h2>
-        <p class="section-copy">Choose where the toolkit saves JSON, CSV, and screenshots inside the project.</p>
+        <p class="section-copy">Choose where the toolkit saves files, how the UI looks, and how aggressively the app should trade visuals for speed.</p>
         <div class="toolbar">
           <label>Project Save Path
             <input id="settings-export-dir" type="text" />
           </label>
+          <label>Performance
+            <select id="settings-performance-profile">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </label>
+          <label>Font
+            <select id="settings-font-family">
+              <option value="&quot;Segoe UI&quot;, system-ui, sans-serif">Segoe UI</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="&quot;Trebuchet MS&quot;, sans-serif">Trebuchet MS</option>
+              <option value="&quot;Avenir Next&quot;, &quot;Segoe UI&quot;, sans-serif">Avenir Next</option>
+              <option value="monospace">Monospace</option>
+            </select>
+          </label>
+        </div>
+        <div class="toolbar">
+          <label>Background
+            <input id="settings-color-bg" type="color" />
+          </label>
+          <label>Surface
+            <input id="settings-color-surface" type="color" />
+          </label>
+          <label>Text
+            <input id="settings-color-text" type="color" />
+          </label>
+          <label>Muted
+            <input id="settings-color-muted" type="color" />
+          </label>
+          <label>Accent
+            <input id="settings-color-accent" type="color" />
+          </label>
+          <label>Accent 2
+            <input id="settings-color-accent2" type="color" />
+          </label>
+          <label>Border
+            <input id="settings-color-border" type="color" />
+          </label>
+        </div>
+        <div class="toolbar">
+          <label>Active Pairs
+            <select id="settings-max-pairs">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+          <label>Default Width
+            <input id="settings-default-width" type="number" min="4" max="8" />
+          </label>
+          <label>Default Height
+            <input id="settings-default-height" type="number" min="4" max="8" />
+          </label>
+          <label>Default Difficulty
+            <select id="settings-default-difficulty">
+              <option>EASY</option>
+              <option>MEDIUM</option>
+              <option>HARD</option>
+            </select>
+          </label>
+        </div>
+        <div class="toolbar">
+          <label>Pair A
+            <input id="settings-pair-a" type="color" />
+          </label>
+          <label>Pair B
+            <input id="settings-pair-b" type="color" />
+          </label>
+          <label>Pair C
+            <input id="settings-pair-c" type="color" />
+          </label>
+          <label>Pair D
+            <input id="settings-pair-d" type="color" />
+          </label>
+          <label>Pair E
+            <input id="settings-pair-e" type="color" />
+          </label>
           <button id="settings-save">Save Settings</button>
+          <button id="settings-clear-cache">Clear Page Cache</button>
         </div>
         <div class="toolbar">
           <span id="settings-status" class="tag">Project save mode enabled</span>

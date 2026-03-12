@@ -1,0 +1,321 @@
+{
+  "created_at": "2026-03-12T09:14:58.519Z",
+  "total_progressions": 38,
+  "progressions": [
+    {
+      "canonical_file": "progressionextra_workshop.json",
+      "source_file": "bundles/progressionExtra_bundle.json",
+      "aliases": [
+        "bundles/progressionExtra_bundle.json",
+        "level_toolkit_web/workshop_progressions/progressionExtra_bundle.json",
+        "progressionExtra_bundle.json"
+      ],
+      "hash": "a47067db5269d7eedb3967ba9154951cc95baea9"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionA_afterTewak_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionA_afterTewak_bundle.json",
+        "progressionA_afterTewak_bundle.json"
+      ],
+      "hash": "e2d35f891d651df49f5d930cfabbb9ad7eb18dcc"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak_minimal_workspace.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionA_afterTewak_workspace.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionA_afterTewak_workspace.json"
+      ],
+      "hash": "00a1b0a750e027fa55053160ce1240f6075bfc0d"
+    },
+    {
+      "canonical_file": "progressiona_workshop.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionA_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionA_bundle.json",
+        "progressionA_bundle.json"
+      ],
+      "hash": "e3f6ac768942a9beaad304cdab4b1f8453abebdc"
+    },
+    {
+      "canonical_file": "progressiona_new_levels_a.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionA_new_levels_a_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionA_new_levels_a_bundle.json",
+        "progressionA_new_levels_a_bundle.json"
+      ],
+      "hash": "0407c7a1b6d4cf47dd473cca840d366a564fcf98"
+    },
+    {
+      "canonical_file": "progressionb_workshop.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionB_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionB_bundle.json",
+        "progressionB_bundle.json"
+      ],
+      "hash": "d2398a79eaa56e25562ab30d2a3466962262d970"
+    },
+    {
+      "canonical_file": "progressionc_workshop.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionC_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionC_bundle.json",
+        "progressionC_bundle.json"
+      ],
+      "hash": "68e374c8b763ca191bab9a9883565103490417ab"
+    },
+    {
+      "canonical_file": "progressionimportedclean_workspace.json",
+      "source_file": "level_toolkit_web/workshop_progressions/progressionImportedClean_workspace.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionImportedClean_workspace.json"
+      ],
+      "hash": "10cda600121368d809c8356d810a978240abab24"
+    },
+    {
+      "canonical_file": "workshop_workspace.json",
+      "source_file": "level_toolkit_web/workshop_progressions/workshop_workspace.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/workshop_workspace.json"
+      ],
+      "hash": "76e2f1e4689d5dbb1bce4c0cd9c225b37c8acb4a"
+    },
+    {
+      "canonical_file": "imported_progression_levels_clean.json",
+      "source_file": "progression_levels_reference_config.json",
+      "aliases": [
+        "progression_levels_reference_config.json"
+      ],
+      "hash": "85dd985c99486bac9d4931a43fb9f2796f7e8039"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak_1.json",
+      "source_file": "progressionA_afterTewak.json",
+      "aliases": [
+        "progressionA_afterTewak.json"
+      ],
+      "hash": "8343a02df025e9ec0f46a9906bbcd1b67d641500"
+    },
+    {
+      "canonical_file": "progressiona_new_levels_a_1.json",
+      "source_file": "progressionA_new_levels_a.json",
+      "aliases": [
+        "progressionA_new_levels_a.json"
+      ],
+      "hash": "4c870ee53d0ddf4cbd080045b50c2c91fa1b1c51"
+    },
+    {
+      "canonical_file": "progressiona_workshop_1.json",
+      "source_file": "progressionA_workshop.json",
+      "aliases": [
+        "progressionA_workshop.json"
+      ],
+      "hash": "09bec172fbec87cded9790ae49118684ae7742ce"
+    },
+    {
+      "canonical_file": "progressionb_workshop_1.json",
+      "source_file": "progressionB_workshop.json",
+      "aliases": [
+        "progressionB_workshop.json"
+      ],
+      "hash": "caa9f8ce4a15cdccc0ba708fcca2bf58369ac547"
+    },
+    {
+      "canonical_file": "progressionc_workshop_1.json",
+      "source_file": "progressionC_workshop.json",
+      "aliases": [
+        "progressionC_workshop.json"
+      ],
+      "hash": "ad918eed446f52662c47290c411ff756a652b588"
+    },
+    {
+      "canonical_file": "progressionextra_workshop_1.json",
+      "source_file": "progressionExtra_workshop.json",
+      "aliases": [
+        "progressionExtra_workshop.json"
+      ],
+      "hash": "c9393183556239f86d0e8ea18180ba59566f6238"
+    },
+    {
+      "canonical_file": "alluniquelevels_workspace.json",
+      "source_file": "progressions/allUniqueLevels_workspace.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/allUniqueLevels_workspace.json",
+        "progressions/allUniqueLevels_workspace.json"
+      ],
+      "hash": "9ea4ba31aadb0c561de249182c8026f5b9eee69b"
+    },
+    {
+      "canonical_file": "gameuniquelevels_workspace.json",
+      "source_file": "progressions/gameUniqueLevels_workspace.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/gameUniqueLevels_workspace.json",
+        "progressions/gameUniqueLevels_workspace.json"
+      ],
+      "hash": "cb34ad537243218626eea5826feccc6ebfe7763e"
+    },
+    {
+      "canonical_file": "imported_progression_levels_clean_1.json",
+      "source_file": "progressions/progression_levels_reference_config.json",
+      "aliases": [
+        "progressions/progression_levels_reference_config.json"
+      ],
+      "hash": "2c36af68f24216c60905dfbc3ea7307c3749a39a"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak_2.json",
+      "source_file": "progressions/progressionA_afterTewak_bundle.json",
+      "aliases": [
+        "progressions/progressionA_afterTewak_bundle.json"
+      ],
+      "hash": "c497a5ca3d3cc851375bc32d2c2daf2013049bd7"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak_minimal_workspace_1.json",
+      "source_file": "progressions/progressionA_afterTewak_workspace.json",
+      "aliases": [
+        "progressions/progressionA_afterTewak_workspace.json"
+      ],
+      "hash": "69deff1d675f3c1804e12f28cb6f779fc0da5d56"
+    },
+    {
+      "canonical_file": "progressiona_aftertewak_3.json",
+      "source_file": "progressions/progressionA_afterTewak.json",
+      "aliases": [
+        "progressions/progressionA_afterTewak.json"
+      ],
+      "hash": "36404514060ad2679fd916aa7e903946b7fc5fac"
+    },
+    {
+      "canonical_file": "progressiona_workshop_2.json",
+      "source_file": "progressions/progressionA_bundle.json",
+      "aliases": [
+        "progressions/progressionA_bundle.json"
+      ],
+      "hash": "00a9e461de0f04d2f884cfd1727f77a1246eb7c2"
+    },
+    {
+      "canonical_file": "progressiona_new_levels_a_2.json",
+      "source_file": "progressions/progressionA_new_levels_a_bundle.json",
+      "aliases": [
+        "progressions/progressionA_new_levels_a_bundle.json"
+      ],
+      "hash": "c30cc4590a70eb1c006fbd4f28a666435c964516"
+    },
+    {
+      "canonical_file": "progressiona_new_levels_a_3.json",
+      "source_file": "progressions/progressionA_new_levels_a.json",
+      "aliases": [
+        "progressions/progressionA_new_levels_a.json"
+      ],
+      "hash": "4f110c8d7bfbfe2d23103e58297777199de9b371"
+    },
+    {
+      "canonical_file": "progressiona_recovered_from_screenshots.json",
+      "source_file": "progressions/progressionA_recovered_from_screenshots.json",
+      "aliases": [
+        "progressions/progressionA_recovered_from_screenshots.json"
+      ],
+      "hash": "590b7c311cf9d09ee4e61e6e0ee5664e7c02af67"
+    },
+    {
+      "canonical_file": "progressiona_workshop_3.json",
+      "source_file": "progressions/progressionA_workshop.json",
+      "aliases": [
+        "progressions/progressionA_workshop.json"
+      ],
+      "hash": "9ec18ecac1d269d68217287a95c59bd7f89fd643"
+    },
+    {
+      "canonical_file": "progressionb_workshop_2.json",
+      "source_file": "progressions/progressionB_bundle.json",
+      "aliases": [
+        "progressions/progressionB_bundle.json"
+      ],
+      "hash": "e71f08efcd3591a776f247ed7cafa11d892f8e0c"
+    },
+    {
+      "canonical_file": "progressionb_recovered_from_screenshots.json",
+      "source_file": "progressions/progressionB_recovered_from_screenshots.json",
+      "aliases": [
+        "progressions/progressionB_recovered_from_screenshots.json"
+      ],
+      "hash": "8f0906082043fdb24f109295e9c12374b060cda5"
+    },
+    {
+      "canonical_file": "progressionb_workshop_3.json",
+      "source_file": "progressions/progressionB_workshop.json",
+      "aliases": [
+        "progressions/progressionB_workshop.json"
+      ],
+      "hash": "793638acf087ee360867cc4f13ca93d24fd56597"
+    },
+    {
+      "canonical_file": "progressionc_workshop_2.json",
+      "source_file": "progressions/progressionC_bundle.json",
+      "aliases": [
+        "progressions/progressionC_bundle.json"
+      ],
+      "hash": "0316ce9c0db1762341b816e5c3f92b6bd3dbcaf5"
+    },
+    {
+      "canonical_file": "progressionc_recovered_from_screenshots.json",
+      "source_file": "progressions/progressionC_recovered_from_screenshots.json",
+      "aliases": [
+        "progressions/progressionC_recovered_from_screenshots.json"
+      ],
+      "hash": "6521be0982c48a946fb80d817a8dc63909691cdd"
+    },
+    {
+      "canonical_file": "progressionc_workshop_3.json",
+      "source_file": "progressions/progressionC_workshop.json",
+      "aliases": [
+        "progressions/progressionC_workshop.json"
+      ],
+      "hash": "7bb0a8771d69aaab2dbfafcfffd3433070681bcd"
+    },
+    {
+      "canonical_file": "progressionextra_workshop_2.json",
+      "source_file": "progressions/progressionExtra_bundle.json",
+      "aliases": [
+        "progressions/progressionExtra_bundle.json"
+      ],
+      "hash": "316b8d3891f0b0a14c636baba1805b6febd120c9"
+    },
+    {
+      "canonical_file": "progressionextra_workshop_3.json",
+      "source_file": "progressions/progressionExtra_workshop.json",
+      "aliases": [
+        "progressions/progressionExtra_workshop.json"
+      ],
+      "hash": "65e60e288cafd5b73a98ad210ea127d47add2a02"
+    },
+    {
+      "canonical_file": "imported_progression_levels_clean_2.json",
+      "source_file": "progressions/progressionImportedClean_bundle.json",
+      "aliases": [
+        "level_toolkit_web/workshop_progressions/progressionImportedClean_bundle.json",
+        "progression_levels_embedded_bundle.json",
+        "progressions/progressionImportedClean_bundle.json"
+      ],
+      "hash": "7935958e2d81bbf9b79c5b579d1f3406e1102647"
+    },
+    {
+      "canonical_file": "progressionimportedclean_workspace_1.json",
+      "source_file": "progressions/progressionImportedClean_workspace.json",
+      "aliases": [
+        "progressions/progressionImportedClean_workspace.json"
+      ],
+      "hash": "19e3175fba2be30bea2702a16d1bba094cd4b2d0"
+    },
+    {
+      "canonical_file": "workshop_workspace_1.json",
+      "source_file": "progressions/workshop_workspace.json",
+      "aliases": [
+        "progressions/workshop_workspace.json"
+      ],
+      "hash": "d7e8108e34e6a431238bc1e2d4cff871efd635ef"
+    }
+  ]
+}

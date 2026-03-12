@@ -1,0 +1,372 @@
+[
+  {
+    "file": "hard_large_01_7x7.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_01_7x7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_01_7x7.json"
+  },
+  {
+    "file": "hard_large_02_8x8.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_02_8x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_02_8x8.json"
+  },
+  {
+    "file": "hard_large_03_7x7.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_03_7x7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_03_7x7.json"
+  },
+  {
+    "file": "hard_large_04_8x8.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_04_8x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_04_8x8.json"
+  },
+  {
+    "file": "hard_large_05_7x7.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_05_7x7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_05_7x7.json"
+  },
+  {
+    "file": "hard_large_06_8x8.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_06_8x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_06_8x8.json"
+  },
+  {
+    "file": "hard_large_07_7x7.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_07_7x7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_07_7x7.json"
+  },
+  {
+    "file": "hard_large_08_8x8.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_08_8x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_08_8x8.json"
+  },
+  {
+    "file": "hard_large_09_7x7.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_09_7x7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_09_7x7.json"
+  },
+  {
+    "file": "hard_large_10_8x8.json",
+    "source": "levels/standalone/generated_large_hard_7x7_8x8/hard_large_10_8x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/hard_large_10_8x8.json"
+  },
+  {
+    "file": "image01_level_editor.json",
+    "source": "levels/standalone/from_images/image01_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image01_level_editor.json"
+  },
+  {
+    "file": "image02_level_editor.json",
+    "source": "levels/standalone/from_images/image02_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image02_level_editor.json"
+  },
+  {
+    "file": "image03_level_editor.json",
+    "source": "levels/standalone/from_images/image03_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image03_level_editor.json"
+  },
+  {
+    "file": "image04_level_editor.json",
+    "source": "levels/standalone/from_images/image04_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image04_level_editor.json"
+  },
+  {
+    "file": "image05_level_editor.json",
+    "source": "levels/standalone/from_images/image05_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image05_level_editor.json"
+  },
+  {
+    "file": "image06_level_editor.json",
+    "source": "levels/standalone/from_images/image06_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image06_level_editor.json"
+  },
+  {
+    "file": "image07_level_editor.json",
+    "source": "levels/standalone/from_images/image07_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image07_level_editor.json"
+  },
+  {
+    "file": "image08_level_editor.json",
+    "source": "levels/standalone/from_images/image08_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image08_level_editor.json"
+  },
+  {
+    "file": "image09_level_editor.json",
+    "source": "levels/standalone/from_images/image09_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image09_level_editor.json"
+  },
+  {
+    "file": "image10_level_editor.json",
+    "source": "levels/standalone/from_images/image10_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image10_level_editor.json"
+  },
+  {
+    "file": "image11_level_editor.json",
+    "source": "levels/standalone/from_images/image11_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image11_level_editor.json"
+  },
+  {
+    "file": "image12_level_editor.json",
+    "source": "levels/standalone/from_images/image12_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image12_level_editor.json"
+  },
+  {
+    "file": "image13_level_editor.json",
+    "source": "levels/standalone/from_images/image13_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image13_level_editor.json"
+  },
+  {
+    "file": "image14_level_editor.json",
+    "source": "levels/standalone/from_images/image14_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image14_level_editor.json"
+  },
+  {
+    "file": "image15_level_editor.json",
+    "source": "levels/standalone/from_images/image15_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image15_level_editor.json"
+  },
+  {
+    "file": "image16_level_editor.json",
+    "source": "levels/standalone/from_images/image16_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image16_level_editor.json"
+  },
+  {
+    "file": "image17_level_editor.json",
+    "source": "levels/standalone/from_images/image17_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image17_level_editor.json"
+  },
+  {
+    "file": "image18_level_editor.json",
+    "source": "levels/standalone/from_images/image18_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image18_level_editor.json"
+  },
+  {
+    "file": "image19_level_editor.json",
+    "source": "levels/standalone/from_images/image19_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image19_level_editor.json"
+  },
+  {
+    "file": "image20_level_editor.json",
+    "source": "levels/standalone/from_images/image20_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image20_level_editor.json"
+  },
+  {
+    "file": "image21_level_editor.json",
+    "source": "levels/standalone/from_images/image21_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image21_level_editor.json"
+  },
+  {
+    "file": "image22_level_editor.json",
+    "source": "levels/standalone/from_images/image22_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image22_level_editor.json"
+  },
+  {
+    "file": "image23_level_editor.json",
+    "source": "levels/standalone/from_images/image23_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image23_level_editor.json"
+  },
+  {
+    "file": "image24_level_editor.json",
+    "source": "levels/standalone/from_images/image24_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image24_level_editor.json"
+  },
+  {
+    "file": "image25_level_editor.json",
+    "source": "levels/standalone/from_images/image25_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image25_level_editor.json"
+  },
+  {
+    "file": "image26_level_editor.json",
+    "source": "levels/standalone/from_images/image26_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image26_level_editor.json"
+  },
+  {
+    "file": "image27_level_editor.json",
+    "source": "levels/standalone/from_images/image27_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image27_level_editor.json"
+  },
+  {
+    "file": "image28_level_editor.json",
+    "source": "levels/standalone/from_images/image28_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image28_level_editor.json"
+  },
+  {
+    "file": "image29_level_editor.json",
+    "source": "levels/standalone/from_images/image29_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image29_level_editor.json"
+  },
+  {
+    "file": "image30_level_editor.json",
+    "source": "levels/standalone/from_images/image30_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image30_level_editor.json"
+  },
+  {
+    "file": "image31_level_editor.json",
+    "source": "levels/standalone/from_images/image31_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image31_level_editor.json"
+  },
+  {
+    "file": "image32_level_editor.json",
+    "source": "levels/standalone/from_images/image32_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image32_level_editor.json"
+  },
+  {
+    "file": "image33_level_editor.json",
+    "source": "levels/standalone/from_images/image33_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image33_level_editor.json"
+  },
+  {
+    "file": "image34_level_editor.json",
+    "source": "levels/standalone/from_images/image34_level_editor.json",
+    "canonical_path": "levels/standalone/game_unique_levels/image34_level_editor.json"
+  },
+  {
+    "file": "level_1.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/level_1.json",
+    "canonical_path": "levels/standalone/game_unique_levels/level_1.json"
+  },
+  {
+    "file": "level_7_manager_ok.json",
+    "source": "levels/standalone/from_downloads_fixed/level_7_manager_ok.json",
+    "canonical_path": "levels/standalone/game_unique_levels/level_7_manager_ok.json"
+  },
+  {
+    "file": "new_level1_a.json",
+    "source": "levels/standalone/new_levels_a/new_level1_a.json",
+    "canonical_path": "levels/standalone/game_unique_levels/new_level1_a.json"
+  },
+  {
+    "file": "play_session_level_1_manual_1_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_manual_1_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_1_manual_1_level.json"
+  },
+  {
+    "file": "play_session_level_1_validate_5_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_5_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_1_validate_5_level.json"
+  },
+  {
+    "file": "play_session_level_1_validate_7_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_7_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_1_validate_7_level.json"
+  },
+  {
+    "file": "play_session_level_2_validate_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_2_validate_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_2_validate_level.json"
+  },
+  {
+    "file": "play_session_level_3_validate_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_3_validate_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_3_validate_level.json"
+  },
+  {
+    "file": "play_session_level_4_validate_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_4_validate_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_4_validate_level.json"
+  },
+  {
+    "file": "play_session_level_5_manual_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_manual_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_5_manual_level.json"
+  },
+  {
+    "file": "play_session_level_5_validate_2_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_2_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_5_validate_2_level.json"
+  },
+  {
+    "file": "play_session_level_6_validate_1_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_6_validate_1_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_6_validate_1_level.json"
+  },
+  {
+    "file": "play_session_level_6_validate_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_6_validate_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_6_validate_level.json"
+  },
+  {
+    "file": "play_session_level_8_validate_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_8_validate_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_8_validate_level.json"
+  },
+  {
+    "file": "play_session_level_9_manual_level.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/play_session_level_9_manual_level.json",
+    "canonical_path": "levels/standalone/game_unique_levels/play_session_level_9_manual_level.json"
+  },
+  {
+    "file": "progression_levels_slot_1.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_1.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_1.json"
+  },
+  {
+    "file": "progression_levels_slot_10.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_10.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_10.json"
+  },
+  {
+    "file": "progression_levels_slot_2.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_2.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_2.json"
+  },
+  {
+    "file": "progression_levels_slot_3.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_3.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_3.json"
+  },
+  {
+    "file": "progression_levels_slot_4.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_4.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_4.json"
+  },
+  {
+    "file": "progression_levels_slot_5.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_5.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_5.json"
+  },
+  {
+    "file": "progression_levels_slot_6.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_6.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_6.json"
+  },
+  {
+    "file": "progression_levels_slot_7.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_7.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_7.json"
+  },
+  {
+    "file": "progression_levels_slot_8.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_8.json"
+  },
+  {
+    "file": "progression_levels_slot_9.json",
+    "source": "levels/standalone/imported_from_downloads_clean/levels/progression_levels_slot_9.json",
+    "canonical_path": "levels/standalone/game_unique_levels/progression_levels_slot_9.json"
+  },
+  {
+    "file": "rect_test_7x8.json",
+    "source": "levels/standalone/rect_test_7x8.json",
+    "canonical_path": "levels/standalone/game_unique_levels/rect_test_7x8.json"
+  },
+  {
+    "file": "susanne_level_1_manager_ok.json",
+    "source": "levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json",
+    "canonical_path": "levels/standalone/game_unique_levels/susanne_level_1_manager_ok.json"
+  },
+  {
+    "file": "susanne_level_2_manager_ok.json",
+    "source": "levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json",
+    "canonical_path": "levels/standalone/game_unique_levels/susanne_level_2_manager_ok.json"
+  },
+  {
+    "file": "susanne_level_3_manager_ok.json",
+    "source": "levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json",
+    "canonical_path": "levels/standalone/game_unique_levels/susanne_level_3_manager_ok.json"
+  },
+  {
+    "file": "susanne_level_5_manager_ok.json",
+    "source": "levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json",
+    "canonical_path": "levels/standalone/game_unique_levels/susanne_level_5_manager_ok.json"
+  }
+]

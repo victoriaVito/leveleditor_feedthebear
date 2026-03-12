@@ -1,0 +1,77 @@
+{
+  "id": "016",
+  "name": "progressionB_level6_hard",
+  "source": "editor",
+  "tested": false,
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 6,
+    "rows": 5
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 4
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 3
+    }
+  ],
+  "meta": {
+    "canonical_id": "lvl_111",
+    "canonical_file": "lvl_111_progression_b_slot_8.json",
+    "canonical_slug": "progression_b_slot_8",
+    "canonicalized_at": "2026-03-12T09:22:45.469Z",
+    "previous_files": [
+      "archive/catalog_cleanup_20260312/levels__standalone/progressionB_level6_hard.json"
+    ]
+  }
+}

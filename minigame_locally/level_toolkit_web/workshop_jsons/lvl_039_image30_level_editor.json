@@ -1,0 +1,112 @@
+{
+  "level": 2,
+  "board_size": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        3,
+        0
+      ],
+      "end": [
+        2,
+        3
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        2,
+        0
+      ],
+      "color": "#0284C7"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      3
+    ]
+  ],
+  "moves": 8,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_039",
+    "canonical_file": "lvl_039_image30_level_editor.json",
+    "canonical_slug": "image30_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.426Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image30_level_editor.json",
+      "level_toolkit_web/workshop_jsons/new_level10_a.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image30_level_editor.json",
+      "levels/image30_level_editor.json",
+      "levels/new_level10_a.json",
+      "levels/standalone/image30_level_editor.json",
+      "niveles_workshop/jsons/image30_level_editor.json"
+    ]
+  }
+}

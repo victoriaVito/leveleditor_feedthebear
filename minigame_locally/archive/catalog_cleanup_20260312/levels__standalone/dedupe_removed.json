@@ -1,0 +1,282 @@
+[
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only/image13_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image13_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only/image21_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image21_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only/image33_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image33_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/discarded_levels_only/image34_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image34_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_7_validate_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/level_7_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/level_7_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/level_7_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_4_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/susanne_level_1_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/susanne_level_2_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_4_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/susanne_level_3_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/susanne_level_4_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/susanne_level_5_manager_ok.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_6_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image01_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_8_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image01_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image01_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image01_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image02_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image02_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image03_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image03_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image04_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image04_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image05_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image05_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level6_a.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image06_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image06_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image06_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image07_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image07_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image08_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image08_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image09_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image09_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image10_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image10_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image11_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image11_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image12_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image12_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image14_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image14_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image15_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image15_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image16_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image16_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image17_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image17_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image18_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image18_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image19_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image19_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image20_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image20_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image22_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image22_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image23_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image23_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image24_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image24_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image25_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image25_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image26_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image26_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image27_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image27_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image28_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image28_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/toolkit_exports/levels/level_1.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image29_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image29_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image29_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image30_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image30_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image31_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image31_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/valid_levels_only/image32_level_editor.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/from_images/image32_level_editor.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_10_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_manual_1_level.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_manual_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_1_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_2_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_3_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_1_validate_9_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/tutorial_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/new_levels_a/new_level1_a.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_manual_level.json",
+    "reason": "duplicate_content"
+  },
+  {
+    "removed": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_validate_1_level.json",
+    "kept": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/imported_from_downloads_clean/levels/play_session_level_5_manual_level.json",
+    "reason": "duplicate_content"
+  }
+]

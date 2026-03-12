@@ -1,0 +1,11 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progressionB,Progression B,1,tutorial_level.json,levels/tutorial_level.json,,1,6x6,3,3,8,0,EASY,UNKNOWN,No,
+progressionB,Progression B,2,image05_level_editor.json,levels/image05_level_editor.json,,5,4x4,2,1,9,20,EASY,UNKNOWN,No,
+progressionB,Progression B,3,image28_level_editor.json,levels/image28_level_editor.json,,10,4x4,2,1,9,20,EASY,UNKNOWN,No,
+progressionB,Progression B,4,image23_level_editor.json,levels/image23_level_editor.json,,5,4x4,2,2,10,20,EASY,UNKNOWN,No,
+progressionB,Progression B,5,image07_level_editor.json,levels/image07_level_editor.json,,7,4x4,2,1,9,16,MEDIUM,UNKNOWN,No,
+progressionB,Progression B,6,image10_level_editor.json,levels/image10_level_editor.json,,10,4x4,2,1,8,14,MEDIUM,UNKNOWN,No,
+progressionB,Progression B,7,image26_level_editor.json,levels/image26_level_editor.json,,8,4x4,2,3,9,20,MEDIUM,UNKNOWN,No,
+progressionB,Progression B,8,image02_level_editor.json,levels/image02_level_editor.json,,2,4x4,3,0,10,20,HARD,UNKNOWN,No,
+progressionB,Progression B,9,image25_level_editor.json,levels/image25_level_editor.json,,7,4x4,3,0,11,20,HARD,UNKNOWN,No,
+progressionB,Progression B,10,image31_level_editor.json,levels/image31_level_editor.json,,3,4x4,2,1,11,8,HARD,UNKNOWN,No,

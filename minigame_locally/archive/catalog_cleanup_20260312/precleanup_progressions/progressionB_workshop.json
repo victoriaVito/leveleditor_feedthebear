@@ -1,0 +1,47 @@
+{
+  "name": "progressionB_workshop",
+  "tutorial_level_file": "levels/tutorial_level.json",
+  "slots": [
+    {
+      "slot": 1,
+      "status": "reserved",
+      "label": "TUTORIAL"
+    },
+    {
+      "slot": 2,
+      "level_file": "levels/image05_level_editor.json"
+    },
+    {
+      "slot": 3,
+      "level_file": "levels/image28_level_editor.json"
+    },
+    {
+      "slot": 4,
+      "level_file": "levels/image23_level_editor.json"
+    },
+    {
+      "slot": 5,
+      "level_file": "levels/image07_level_editor.json"
+    },
+    {
+      "slot": 6,
+      "level_file": "levels/image10_level_editor.json"
+    },
+    {
+      "slot": 7,
+      "level_file": "levels/image26_level_editor.json"
+    },
+    {
+      "slot": 8,
+      "level_file": "levels/image02_level_editor.json"
+    },
+    {
+      "slot": 9,
+      "level_file": "levels/image25_level_editor.json"
+    },
+    {
+      "slot": 10,
+      "level_file": "levels/image31_level_editor.json"
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "level": 4,
+  "board_size": 5,
+  "grid": [
+    [
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_D1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_C2",
+      "BLOCKED",
+      "NODE_A1",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "NODE_D2",
+      "NODE_A2",
+      "EMPTY",
+      "BLOCKED"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        3,
+        3
+      ],
+      "end": [
+        4,
+        2
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "C",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        3,
+        1
+      ],
+      "color": "#0891B2"
+    },
+    {
+      "id": "D",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        4,
+        1
+      ],
+      "color": "#0369A1"
+    }
+  ],
+  "blockers": [
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      4
+    ]
+  ],
+  "moves": 13,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "C": [
+      [
+        0,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "D": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_023",
+    "canonical_file": "lvl_023_image14_level_editor.json",
+    "canonical_slug": "image14_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.423Z",
+    "previous_files": [
+      "bundles/progression_c/jsons/image14_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image14_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image14_level_editor.json",
+      "levels/image14_level_editor.json",
+      "levels/standalone/image14_level_editor.json",
+      "niveles_workshop/jsons/image14_level_editor.json"
+    ]
+  }
+}

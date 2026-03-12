@@ -1,0 +1,1111 @@
+{
+  "name": "progressionA_new_levels_a",
+  "tutorial_slot_reserved": false,
+  "tutorial_level": "levels/[object Object]",
+  "slots": [
+    {
+      "slot": 1,
+      "level_file": "levels/lvl_056_new_level1_a.json",
+      "type": "level",
+      "level": {
+        "level": 1,
+        "board_size": 6,
+        "grid": [
+          [
+            "NODE_A1",
+            "EMPTY",
+            "BLOCKED",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "BLOCKED",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "BLOCKED",
+            "EMPTY",
+            "NODE_A2"
+          ],
+          [
+            "NODE_B1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "NODE_B2"
+          ],
+          [
+            "EMPTY",
+            "NODE_C1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "NODE_C2"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              0,
+              0
+            ],
+            "end": [
+              2,
+              5
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              3,
+              0
+            ],
+            "end": [
+              4,
+              5
+            ],
+            "color": "#0284C7"
+          },
+          {
+            "id": "C",
+            "start": [
+              5,
+              1
+            ],
+            "end": [
+              5,
+              5
+            ],
+            "color": "#0891B2"
+          }
+        ],
+        "blockers": [
+          [
+            1,
+            0
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "moves": 8,
+        "solution_count": 0,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              5
+            ]
+          ],
+          "B": [
+            [
+              3,
+              0
+            ],
+            [
+              4,
+              5
+            ]
+          ],
+          "C": [
+            [
+              5,
+              1
+            ],
+            [
+              5,
+              5
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": false,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level1_a.json",
+          "cloned_from": "levels/standalone/tutorial_level.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 1,
+          "display_slot": 1
+        }
+      }
+    },
+    {
+      "slot": 2,
+      "level_file": "levels/lvl_017_image08_level_editor.json",
+      "type": "level",
+      "level": {
+        "level": 2,
+        "board_size": 4,
+        "grid": [
+          [
+            "NODE_A1",
+            "NODE_B1",
+            "NODE_B2",
+            "NODE_A2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              0,
+              0
+            ],
+            "end": [
+              0,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              1
+            ],
+            "end": [
+              0,
+              2
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 4,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "B": [
+            [
+              0,
+              1
+            ],
+            [
+              0,
+              2
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level2_a.json",
+          "cloned_from": "levels/standalone/from_images/image08_level_editor.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 2,
+          "display_slot": 2
+        }
+      }
+    },
+    {
+      "slot": 3,
+      "level_file": "levels/lvl_057_new_level3_a.json",
+      "type": "level",
+      "level": {
+        "level": 3,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "NODE_B1",
+            "EMPTY",
+            "NODE_A2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_A1",
+            "EMPTY"
+          ],
+          [
+            "NODE_B2",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              1,
+              2
+            ],
+            "end": [
+              0,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              1
+            ],
+            "end": [
+              2,
+              0
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 5,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "B": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level3_a.json",
+          "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 3,
+          "display_slot": 3
+        }
+      }
+    },
+    {
+      "slot": 4,
+      "level_file": "levels/lvl_107_susanne_level_4_manager_ok.json",
+      "type": "level",
+      "level": {
+        "level": 4,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "NODE_B2",
+            "EMPTY",
+            "NODE_A2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_A1",
+            "EMPTY"
+          ],
+          [
+            "NODE_B1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              1,
+              2
+            ],
+            "end": [
+              0,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              2,
+              0
+            ],
+            "end": [
+              0,
+              1
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 5,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "B": [
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level4_a.json",
+          "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_3_manager_ok.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 4,
+          "display_slot": 4
+        }
+      }
+    },
+    {
+      "slot": 5,
+      "level_file": "levels/lvl_107_susanne_level_4_manager_ok.json",
+      "type": "level",
+      "level": {
+        "level": 5,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "NODE_B2",
+            "EMPTY",
+            "NODE_A2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_A1",
+            "EMPTY"
+          ],
+          [
+            "NODE_B1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              1,
+              2
+            ],
+            "end": [
+              0,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              2,
+              0
+            ],
+            "end": [
+              0,
+              1
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 5,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              1,
+              2
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "B": [
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level5_a.json",
+          "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_4_manager_ok.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 5,
+          "display_slot": 5
+        }
+      }
+    },
+    {
+      "slot": 6,
+      "level_file": "levels/lvl_058_new_level6_a.json",
+      "type": "level",
+      "level": {
+        "level": 6,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "NODE_B1"
+          ],
+          [
+            "EMPTY",
+            "NODE_A1",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_A2",
+            "EMPTY"
+          ],
+          [
+            "NODE_B2",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              1,
+              1
+            ],
+            "end": [
+              2,
+              2
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              3
+            ],
+            "end": [
+              3,
+              0
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 8,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ],
+          "B": [
+            [
+              0,
+              3
+            ],
+            [
+              3,
+              0
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level6_a.json",
+          "cloned_from": "levels/standalone/from_images/image06_level_editor.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 6,
+          "display_slot": 6
+        }
+      }
+    },
+    {
+      "slot": 7,
+      "level_file": "levels/lvl_036_image27_level_editor.json",
+      "type": "level",
+      "level": {
+        "level": 7,
+        "board_size": 4,
+        "grid": [
+          [
+            "NODE_A1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "NODE_B1",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_B2",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "NODE_A2"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              0,
+              0
+            ],
+            "end": [
+              3,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              1,
+              1
+            ],
+            "end": [
+              2,
+              2
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 8,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              3
+            ]
+          ],
+          "B": [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level7_a.json",
+          "cloned_from": "levels/standalone/from_images/image27_level_editor.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 7,
+          "display_slot": 7
+        }
+      }
+    },
+    {
+      "slot": 8,
+      "level_file": "levels/lvl_059_new_level8_a.json",
+      "type": "level",
+      "level": {
+        "level": 8,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "NODE_B1",
+            "EMPTY",
+            "NODE_A1"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "NODE_A2",
+            "EMPTY",
+            "NODE_B2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              0,
+              3
+            ],
+            "end": [
+              2,
+              1
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              1
+            ],
+            "end": [
+              2,
+              3
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 8,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              0,
+              3
+            ],
+            [
+              2,
+              1
+            ]
+          ],
+          "B": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              3
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level8_a.json",
+          "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_5_manager_ok.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 8,
+          "display_slot": 8
+        }
+      }
+    },
+    {
+      "slot": 9,
+      "level_file": "levels/lvl_082_play_session_level_1_validate_4_level.json",
+      "type": "level",
+      "level": {
+        "level": 9,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "EMPTY",
+            "NODE_B1",
+            "NODE_A2"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "EMPTY",
+            "NODE_A1",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "NODE_B2",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              2,
+              1
+            ],
+            "end": [
+              0,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              2
+            ],
+            "end": [
+              3,
+              0
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [],
+        "moves": 9,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              2,
+              1
+            ],
+            [
+              0,
+              3
+            ]
+          ],
+          "B": [
+            [
+              0,
+              2
+            ],
+            [
+              3,
+              0
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level9_a.json",
+          "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_1_manager_ok.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 9,
+          "display_slot": 9
+        }
+      }
+    },
+    {
+      "slot": 10,
+      "level_file": "levels/lvl_039_image30_level_editor.json",
+      "type": "level",
+      "level": {
+        "level": 10,
+        "board_size": 4,
+        "grid": [
+          [
+            "EMPTY",
+            "NODE_B1",
+            "EMPTY",
+            "BLOCKED"
+          ],
+          [
+            "EMPTY",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ],
+          [
+            "NODE_B2",
+            "EMPTY",
+            "EMPTY",
+            "NODE_A2"
+          ],
+          [
+            "NODE_A1",
+            "EMPTY",
+            "EMPTY",
+            "EMPTY"
+          ]
+        ],
+        "pairs": [
+          {
+            "id": "A",
+            "start": [
+              3,
+              0
+            ],
+            "end": [
+              2,
+              3
+            ],
+            "color": "#0EA5E9"
+          },
+          {
+            "id": "B",
+            "start": [
+              0,
+              1
+            ],
+            "end": [
+              2,
+              0
+            ],
+            "color": "#0284C7"
+          }
+        ],
+        "blockers": [
+          [
+            0,
+            3
+          ]
+        ],
+        "moves": 8,
+        "solution_count": 20,
+        "target_density": "HIGH",
+        "golden_path": {
+          "A": [
+            [
+              3,
+              0
+            ],
+            [
+              2,
+              3
+            ]
+          ],
+          "B": [
+            [
+              0,
+              1
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "validation": {
+          "solvable": true,
+          "density_match": true,
+          "early_mistake_detection": true,
+          "no_isolated_pairs": true,
+          "no_late_dead_ends": true,
+          "curve_integrity": true
+        },
+        "meta": {
+          "generation_attempts": 1,
+          "failed_checks": [],
+          "source_name": "new_level10_a.json",
+          "cloned_from": "levels/standalone/from_images/image30_level_editor.json",
+          "cloned_from_progression": "progressionA_afterTewak",
+          "cloned_slot": 10,
+          "display_slot": 10
+        }
+      }
+    }
+  ]
+}

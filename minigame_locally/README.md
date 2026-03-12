@@ -58,42 +58,45 @@ Open:
 - [LEVEL_TOOLKIT_PRODUCT_NOTES.md](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/LEVEL_TOOLKIT_PRODUCT_NOTES.md)
   - product, UX, difficulty, and procedural thinking
 
-### Levels
+### Catalog
 
 - [levels](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels)
-  - unified root for all level JSON work
-- [levels/progressions](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions)
-  - progression configs
-  - progression assignment files
-  - import/export ready copies in `progressions_only/`
-- [levels/standalone](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone)
-  - individual playable levels
-  - grouped by source and state
+  - canonical standalone playable level catalog
+- [progressions](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions)
+  - canonical progression configs, bundles, and workspace presets
+- [playtest](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest)
+  - canonical play session wrappers and review files
 
 Recommended source of truth:
 
-- progression files: [levels/progressions](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/progressions)
-- individual level files: [levels/standalone](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone)
+- standalone levels: [levels](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels)
+- progression files: [progressions](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/progressions)
+- playtest/session files: [playtest](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/playtest)
 
 ## Level storage rules
 
-The repository now uses a clear split:
+The repository now uses a canonical split:
 
-- `levels/progressions/`
-  - progression JSON files
-  - progression bundles
-  - progression assignment plans
-- `levels/standalone/`
-  - raw or playable level JSON files
-  - grouped subsets such as:
-    - `from_images`
-    - `from_downloads_fixed`
-    - `new_levels_a`
-    - `valid_levels_only`
-    - `discarded_levels_only`
-    - `generated_large_hard_7x7_8x8`
+- `levels/`
+  - one retained version per standalone level in the active catalog
+- `progressions/`
+  - one retained version per progression config, bundle, or workspace preset
+- `playtest/`
+  - one retained version per play session wrapper
 
-This structure exists to avoid the old problem of levels being scattered across unrelated folders.
+Duplicate handling rule:
+
+- duplicates are compared by normalized JSON content
+- when duplicates match semantically, the newest file by filesystem modification time is kept in the canonical folder
+- older duplicates are left in historical source folders but are no longer the canonical source of truth
+
+Legacy folders are no longer part of the active source of truth.
+
+Current rule:
+
+- canonical source folders are `levels/`, `progressions/`, and `playtest/`
+- legacy imports and pre-cleanup copies live under `archive/`
+- `level_toolkit_web/workshop_jsons/` and `level_toolkit_web/workshop_progressions/` are runtime mirrors generated from the canonical source folders
 
 ## Core game model
 
@@ -192,18 +195,56 @@ The browser app writes managed files into the repository using the local Node se
 
 Default save root:
 
-- [levels/standalone/toolkit_exports](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/standalone/toolkit_exports)
+- [minigame_locally](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally)
 
 Typical outputs:
 
 - `levels/`
-- `screenshots/`
-- `play_sessions/`
-- `manager/`
-- `procedural/`
+- `progressions/manager_state/`
+- `progressions/exports/`
+- `playtest/`
 - `bundles/`
 
 This is the default content-production save flow.
+
+Note:
+
+- the active catalog is written into the root canonical folders
+- browser/runtime mirrors are regenerated from those canonical folders
+- old source folders are archived under [archive](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/archive)
+
+## Canonical naming
+
+Standalone levels are now renamed to a stable canonical scheme:
+
+- `lvl_001_<slug>.json`
+
+The current index lives in:
+
+- [levels/catalog_index.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/catalog_index.json)
+- [levels/catalog_index.csv](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/levels/catalog_index.csv)
+
+This index records:
+
+- canonical filename
+- original source path
+- alias paths
+- board size
+- pair count
+- moves
+- difficulty
+
+## Save-point and recovery model
+
+The toolkit now uses a stricter save-point strategy:
+
+- `localStorage` is still used for fast workspace restore
+- manager changes are also materialized into repo files
+- active progression state is written into `progressions/`
+- manager state snapshots and metadata logs are written into `progressions/manager_state/`
+- play sessions are written into `playtest/`
+
+This reduces the risk of losing browser-only progression layouts.
 
 ### 2. Save to GitHub
 
@@ -242,7 +283,7 @@ Without persistence, the tool becomes too fragile for real level-design work.
 These are the main workflow rules encoded into the product:
 
 - keep progression building editorial, not fully automatic
-- reserve slot 1 for tutorial unless intentionally overridden
+- always keep slot 1 preloaded with the tutorial in every progression
 - use `EASY`, `MEDIUM`, `HARD` as the visible difficulty language
 - keep invalid levels out of main progressions
 - send uncertain or overflow content to extra buckets instead of forcing them into curves

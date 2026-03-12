@@ -1,0 +1,47 @@
+{
+  "name": "progressionC_recovered_from_screenshots",
+  "tutorial_level_file": "levels/new_level1_a.json",
+  "slots": [
+    {
+      "slot": 1,
+      "status": "reserved",
+      "label": "TUTORIAL"
+    },
+    {
+      "slot": 2,
+      "level_file": "levels/p_2_c.json"
+    },
+    {
+      "slot": 3,
+      "level_file": "levels/p_3_c.json"
+    },
+    {
+      "slot": 4,
+      "level_file": "levels/p_4_c_new_20260311075908.json"
+    },
+    {
+      "slot": 5,
+      "level_file": "levels/progression_c_slot_5.json"
+    },
+    {
+      "slot": 6,
+      "level_file": "levels/progression_c_slot_6.json"
+    },
+    {
+      "slot": 7,
+      "level_file": "levels/progression_c_slot_7.json"
+    },
+    {
+      "slot": 8,
+      "level_file": "levels/progression_c_slot_8.json"
+    },
+    {
+      "slot": 9,
+      "level_file": "levels/progression_c_slot_9.json"
+    },
+    {
+      "slot": 10,
+      "level_file": "levels/progression_c_slot_10.json"
+    }
+  ]
+}

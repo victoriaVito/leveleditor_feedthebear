@@ -1,0 +1,143 @@
+{
+  "level": 4,
+  "board_size": 4,
+  "board_width": 4,
+  "board_height": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_C2",
+      "BLOCKED",
+      "NODE_A2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "NODE_C1",
+      "NODE_B2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        0,
+        3
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        2,
+        2
+      ],
+      "end": [
+        3,
+        3
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        3,
+        2
+      ],
+      "end": [
+        0,
+        1
+      ],
+      "color": "#0891B2"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      0
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      0,
+      2
+    ]
+  ],
+  "moves": 6,
+  "solution_count": 6,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "C": [
+      [
+        3,
+        2
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "p_4_a.json",
+    "canonical_id": "lvl_071",
+    "canonical_file": "lvl_071_p_4_a.json",
+    "canonical_slug": "p_4_a",
+    "canonicalized_at": "2026-03-12T09:14:58.431Z",
+    "previous_files": [
+      "bundles/progression_a/jsons/p_4_a.json",
+      "levels/p_4_a.json",
+      "levels/standalone/p_4_a.json"
+    ]
+  }
+}
