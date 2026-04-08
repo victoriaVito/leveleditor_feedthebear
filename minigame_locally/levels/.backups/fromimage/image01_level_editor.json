@@ -1,0 +1,154 @@
+{
+  "level": 1,
+  "board_size": 4,
+  "grid": [
+    [
+      "BLOCKED",
+      "NODE_A1",
+      "NODE_B1",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_A2",
+      "NODE_C1",
+      "NODE_B2",
+      "NODE_C2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        2,
+        0
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        2,
+        2
+      ],
+      "color": "#7DD3FC",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    },
+    {
+      "id": "C",
+      "start": [
+        2,
+        1
+      ],
+      "end": [
+        2,
+        3
+      ],
+      "color": "#0891B2",
+      "fish_color_id": "fish_cyan",
+      "color_letter": "M"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      0
+    ],
+    [
+      0,
+      3
+    ]
+  ],
+  "moves": 9,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "C": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": []
+  },
+  "color_manifest": {
+    "#0EA5E9": {
+      "fish_color_id": "fish_blue",
+      "color_letter": "C",
+      "pairs": [
+        "A"
+      ]
+    },
+    "#7DD3FC": {
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D",
+      "pairs": [
+        "B"
+      ]
+    },
+    "#0891B2": {
+      "fish_color_id": "fish_cyan",
+      "color_letter": "M",
+      "pairs": [
+        "C"
+      ]
+    }
+  }
+}

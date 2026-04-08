@@ -1,0 +1,95 @@
+{
+  "id": "progresion1_level2",
+  "difficultyTier": 2,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 5,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "C": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "progresion1_level2.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

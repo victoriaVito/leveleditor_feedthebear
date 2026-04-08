@@ -1,0 +1,1145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Progression Analysis Compare</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #162133;
+      --surface-2: #1e293b;
+      --border: #334155;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #0ea5e9;
+      --good: #10b981;
+      --warn: #f59e0b;
+      --bad: #ef4444;
+      --easy: #166534;
+      --medium: #92400e;
+      --hard: #991b1b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #11203b 0%, var(--bg) 48%);
+      color: var(--text);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      padding: 24px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: var(--accent);
+      font-size: 28px;
+    }
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      max-width: 920px;
+      line-height: 1.5;
+    }
+    .sticky-bar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      margin: 0 0 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(12px);
+    }
+    .sticky-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+    .check {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      font-size: 13px;
+    }
+    .check input { accent-color: var(--accent-2); }
+    button {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+    button:hover { border-color: var(--accent); transform: translateY(-1px); }
+    button.primary {
+      background: linear-gradient(180deg, #0ea5e9, #0284c7);
+      color: #f8fafc;
+      border-color: #38bdf8;
+    }
+    button.muted {
+      background: transparent;
+      color: var(--muted);
+    }
+    #status {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .summary-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.96), rgba(18, 31, 48, 0.96));
+      padding: 14px;
+    }
+    .summary-label {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .summary-value {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .summary-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(22, 33, 51, 0.96);
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+    .panel-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .panel-copy {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .progression-section {
+      margin-bottom: 26px;
+      border-top: 1px solid rgba(148, 163, 184, 0.16);
+      padding-top: 24px;
+    }
+    .progression-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .progression-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--accent);
+      margin: 0;
+    }
+    .progression-meta {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 780px;
+    }
+    .curve-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .curve-chip {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+    .curve-easy { background: rgba(22, 101, 52, 0.28); color: #bbf7d0; border-color: rgba(34, 197, 94, 0.35); }
+    .curve-medium { background: rgba(146, 64, 14, 0.28); color: #fde68a; border-color: rgba(245, 158, 11, 0.35); }
+    .curve-hard { background: rgba(153, 27, 27, 0.28); color: #fecaca; border-color: rgba(239, 68, 68, 0.35); }
+    .section-grid {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+    .list-card, .change-list, .cards-grid .level-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(30, 41, 59, 0.92), rgba(20, 31, 45, 0.92));
+    }
+    .list-card, .change-list {
+      padding: 14px;
+    }
+    .list-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .list-items {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .list-item {
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(15, 23, 42, 0.45);
+    }
+    .list-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #f8fafc;
+    }
+    .list-item span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      display: block;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 14px;
+    }
+    .level-card { padding: 14px; }
+    .level-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .level-name {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .slot-pill {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(15, 23, 42, 0.65);
+    }
+    .level-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .compare-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .compare img, .compare canvas {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+    }
+    img.missing { opacity: 0.28; filter: grayscale(1); }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .tag {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .tag-info { background: #1e3a5f; color: #7dd3fc; }
+    .tag-easy { background: #166534; color: #bbf7d0; }
+    .tag-medium { background: #92400e; color: #fde68a; }
+    .tag-hard { background: #991b1b; color: #fecaca; }
+    .tag-score { background: #312e81; color: #ddd6fe; }
+    .tag-invalid { background: rgba(239, 68, 68, 0.18); color: #fecaca; }
+    .suggestions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .suggestion {
+      padding: 9px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      background: rgba(15, 23, 42, 0.45);
+    }
+    .suggestion.reorder { border-color: rgba(56, 189, 248, 0.36); }
+    .suggestion.tweak { border-color: rgba(245, 158, 11, 0.28); }
+    .suggestion-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .suggestion-copy {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text);
+    }
+    .change-list {
+      display: none;
+    }
+    .change-list.active {
+      display: block;
+    }
+    .change-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .change-group {
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+    }
+    .change-group:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    .change-group h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--accent);
+    }
+    .empty {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 1060px) {
+      .section-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 740px) {
+      body { padding: 16px; }
+      .compare { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Progression Analysis Compare</h1>
+  <p class="subtitle">
+    Unified review of the 60 playable progression levels. Each card compares the saved screenshot against the current JSON render, then suggests
+    reorder moves inside the same difficulty band plus optional level tweaks. The page never rewrites files by itself: it asks first, then prepares
+    an apply-ready change list.
+  </p>
+
+  <div class="sticky-bar">
+    <span class="sticky-title">Change list mode</span>
+    <label class="check"><input type="checkbox" id="include-reorder" checked /> Include reorder</label>
+    <label class="check"><input type="checkbox" id="include-tweaks" checked /> Include tweaks</label>
+    <button class="primary" id="generate-list">Prepare change list</button>
+    <button class="muted" id="collapse-list">Hide list</button>
+  </div>
+
+  <div id="status">Loading progression analysis...</div>
+  <div id="summary" class="summary-grid"></div>
+
+  <div class="panel">
+    <div class="panel-title">How the page decides</div>
+    <div class="panel-copy">
+      Reorder suggestions keep each level inside its current difficulty band. The curve shape stays intact, but levels can move earlier or later
+      relative to peers with the same label. Suggestions use pair count, blocker load, board area, move pressure, solution count, and validation
+      warnings to estimate whether a level feels light, middle, or heavy for its local band.
+    </div>
+    <div class="panel-copy">
+      Tweak suggestions never ask for moves above the hard rule. They focus on slot fit, blocker pressure, endpoint isolation, dead-end risk,
+      and whether the level looks too open or too compressed for its current placement.
+    </div>
+  </div>
+
+  <div id="change-list" class="change-list panel"></div>
+  <div id="sections"></div>
+
+  <script>
+    const PROGRESSIONS = [
+      { key: "progression_a", label: "Progression A", manifest: "../progressions/progression_a.json" },
+      { key: "progression_b", label: "Progression B", manifest: "../progressions/progression_b.json" },
+      { key: "progression_c", label: "Progression C", manifest: "../progressions/progression_c.json" },
+      { key: "progression_d", label: "Progression D", manifest: "../progressions/progression_d.json" },
+      { key: "progression_e", label: "Progression E", manifest: "../progressions/progression_e.json" },
+      { key: "progression_f", label: "Progression F", manifest: "../progressions/progression_f.json" }
+    ];
+
+    const PALETTE = ["#0EA5E9", "#10B981", "#F97316", "#A855F7", "#F43F5E", "#22C55E", "#F59E0B", "#14B8A6", "#E879F9", "#F8FAFC"];
+    const DIFF_CLASS = { EASY: "tag-easy", MEDIUM: "tag-medium", HARD: "tag-hard" };
+    const DIFF_CURVE = { EASY: "curve-easy", MEDIUM: "curve-medium", HARD: "curve-hard" };
+    const state = { sections: [], changeList: null };
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    async function loadJson(path) {
+      const response = await fetch(path);
+      if (!response.ok) throw new Error("Failed to load " + path);
+      return response.json();
+    }
+
+    function getDifficulty(level) {
+      return String(level.difficulty || (level.meta && level.meta.manual_difficulty) || "HARD").toUpperCase();
+    }
+
+    function getGridSize(level) {
+      const width = level.board_width || level.board_size || 0;
+      const height = level.board_height || level.board_size || 0;
+      return { width: width, height: height, area: width * height };
+    }
+
+    function countValidationFailures(level) {
+      const validation = level.validation || {};
+      const failed = [];
+      Object.keys(validation).forEach(function(key) {
+        if (typeof validation[key] === "boolean" && !validation[key]) failed.push(key);
+      });
+      return failed;
+    }
+
+    function humanizeFlag(flag) {
+      return flag.replace(/_/g, " ");
+    }
+
+    function complexityScore(metrics) {
+      const difficultyBase = metrics.difficulty === "HARD" ? 3.2 : metrics.difficulty === "MEDIUM" ? 1.7 : 0;
+      const solutionPenalty = metrics.solutionCount === 0 ? 1.2 : metrics.solutionCount <= 2 ? 0.8 : 0;
+      return Number(
+        (
+          metrics.pairs * 1.9 +
+          metrics.blockers * 0.55 +
+          metrics.grid.area * 0.08 +
+          metrics.moveSlack * 0.9 +
+          metrics.failedFlags.length * 1.35 +
+          metrics.occupancy * 5.5 +
+          difficultyBase +
+          solutionPenalty
+        ).toFixed(2)
+      );
+    }
+
+    function collectTweaks(item) {
+      const tweaks = [];
+      const level = item.level;
+      const metrics = item.metrics;
+
+      if (!level.validation || level.validation.solvable === false) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Repair solvability before any reorder",
+          detail: "The validation flags the level as unsolved. Fix path topology first, then reconsider slot position."
+        });
+      }
+
+      if (level.validation && level.validation.no_isolated_pairs === false) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Reduce isolated endpoints",
+          detail: "One or more pairs are too detached. Pull one endpoint closer to a shared lane or remove one nearby blocker."
+        });
+      }
+
+      if (level.validation && level.validation.no_late_dead_ends === false) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Open the late dead-end pocket",
+          detail: "There is a late trap in the routing space. Relax one blocker pocket or widen one corridor close to the conflict zone."
+        });
+      }
+
+      if (level.validation && level.validation.early_mistake_detection === false) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Add earlier decision pressure",
+          detail: "The level allows too much safe progress before the main mistake appears. Add one blocker pinch or tighten one overlap lane."
+        });
+      }
+
+      if (level.validation && level.validation.density_match === false) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Adjust occupancy to match the intended tier",
+          detail: "The current blocker-to-space ratio does not match the declared difficulty. Rebalance blockers instead of increasing moves."
+        });
+      }
+
+      if (metrics.difficulty === "EASY" && metrics.blockers >= metrics.pairs + 3) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Ease blocker pressure for an EASY slot",
+          detail: "This easy level carries heavier blocker pressure than its peers. Remove 1-2 blockers or open one freer lane."
+        });
+      }
+
+      if (metrics.difficulty === "EASY" && metrics.grid.area <= 25 && metrics.pairs >= 6) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Simplify one pair interaction",
+          detail: "Six pairs on a small board makes this easy slot read late. Either reduce one pair or separate the busiest overlap."
+        });
+      }
+
+      if (metrics.difficulty === "MEDIUM" && metrics.blockers < Math.max(2, Math.floor(metrics.pairs / 2))) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Add one more blocker decision",
+          detail: "This medium level looks a bit open for its pair count. Adding a single blocker pinch could improve curve fit without touching moves."
+        });
+      }
+
+      if (metrics.difficulty === "HARD" && metrics.pairs <= 4 && metrics.blockers <= 3) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Raise hard-level pressure without changing moves",
+          detail: "For a hard slot, the level is light on both pairs and blockers. Add one blocker cluster or create a more contested endpoint lane."
+        });
+      }
+
+      if (metrics.difficulty === "HARD" && metrics.solutionCount > 10) {
+        tweaks.push({
+          kind: "tweak",
+          summary: "Reduce solution openness",
+          detail: "The level still offers many solutions for a hard slot. Tighten one lane instead of increasing moves."
+        });
+      }
+
+      return tweaks.slice(0, 3);
+    }
+
+    function buildAnalysis(level, slot, levelFile, progression) {
+      const difficulty = getDifficulty(level);
+      const grid = getGridSize(level);
+      const pairs = Array.isArray(level.pairs) ? level.pairs.length : 0;
+      const blockers = Array.isArray(level.blockers) ? level.blockers.length : 0;
+      const moves = Number(level.moves || 0);
+      const solutionCount = Number(level.solution_count || 0);
+      const moveSlack = moves - pairs;
+      const failedFlags = countValidationFailures(level);
+      const occupancy = grid.area ? ((pairs * 2 + blockers) / grid.area) : 0;
+      const metrics = {
+        difficulty: difficulty,
+        grid: grid,
+        pairs: pairs,
+        blockers: blockers,
+        moves: moves,
+        moveSlack: moveSlack,
+        solutionCount: solutionCount,
+        failedFlags: failedFlags,
+        occupancy: occupancy
+      };
+      const fileName = levelFile.split("/").pop();
+      const screenName = fileName.replace(/\.json$/i, ".png");
+      const screenPath = "../" + levelFile.replace(/\.json$/i, ".png");
+
+      const item = {
+        progressionKey: progression.key,
+        progressionLabel: progression.label,
+        slot: slot,
+        levelFile: levelFile,
+        fileName: fileName,
+        screenshotPath: screenPath,
+        screenshotName: screenName,
+        level: level,
+        metrics: metrics,
+        score: complexityScore(metrics),
+        tweaks: []
+      };
+      item.tweaks = collectTweaks(item);
+      return item;
+    }
+
+    function scoreReason(item, targetSlot) {
+      const direction = targetSlot < item.slot ? "earlier" : "later";
+      return item.metrics.difficulty + " score " + item.score.toFixed(2) + " fits " + direction +
+        " inside the same band (" + item.metrics.pairs + "p, " + item.metrics.blockers + "b, " + item.metrics.moves + "m).";
+    }
+
+    function computeReorders(items) {
+      const byDifficulty = { EASY: [], MEDIUM: [], HARD: [] };
+      items.forEach(function(item) { byDifficulty[item.metrics.difficulty].push(item); });
+
+      const suggestions = [];
+      ["EASY", "MEDIUM", "HARD"].forEach(function(diff) {
+        const group = byDifficulty[diff];
+        if (group.length < 2) return;
+        const positions = group.map(function(item) { return item.slot; }).sort(function(a, b) { return a - b; });
+        const sorted = group.slice().sort(function(a, b) {
+          if (a.score !== b.score) return a.score - b.score;
+          if (a.metrics.pairs !== b.metrics.pairs) return a.metrics.pairs - b.metrics.pairs;
+          if (a.metrics.blockers !== b.metrics.blockers) return a.metrics.blockers - b.metrics.blockers;
+          return a.fileName.localeCompare(b.fileName);
+        });
+        sorted.forEach(function(item, index) {
+          const targetSlot = positions[index];
+          item.suggestedSlot = targetSlot;
+          if (targetSlot !== item.slot) {
+            suggestions.push({
+              kind: "reorder",
+              progressionKey: item.progressionKey,
+              file: item.fileName,
+              currentSlot: item.slot,
+              suggestedSlot: targetSlot,
+              difficulty: diff,
+              reason: scoreReason(item, targetSlot),
+              score: item.score
+            });
+          }
+        });
+      });
+      return suggestions.sort(function(a, b) {
+        if (a.currentSlot !== b.currentSlot) return a.currentSlot - b.currentSlot;
+        return a.file.localeCompare(b.file);
+      });
+    }
+
+    function diffClass(diff) {
+      return DIFF_CLASS[diff] || "tag-hard";
+    }
+
+    function curveClass(diff) {
+      return DIFF_CURVE[diff] || "curve-hard";
+    }
+
+    function createTag(text, cls) {
+      return '<span class="tag ' + cls + '">' + escapeHtml(text) + "</span>";
+    }
+
+    function renderBoard(canvas, level) {
+      const width = level.board_width || level.board_size || 0;
+      const height = level.board_height || level.board_size || 0;
+      const size = 260;
+      const cellW = size / width;
+      const cellH = size / height;
+      canvas.width = size;
+      canvas.height = Math.max(140, Math.round((size / width) * height));
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#0f172a";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = "#243146";
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= width; x++) {
+        ctx.beginPath();
+        ctx.moveTo(x * cellW, 0);
+        ctx.lineTo(x * cellW, canvas.height);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= height; y++) {
+        ctx.beginPath();
+        ctx.moveTo(0, y * cellH);
+        ctx.lineTo(canvas.width, y * cellH);
+        ctx.stroke();
+      }
+
+      (level.blockers || []).forEach(function(blocker) {
+        ctx.fillStyle = "#020617";
+        ctx.fillRect(blocker.x * cellW + 2, blocker.y * cellH + 2, cellW - 4, cellH - 4);
+      });
+
+      (level.pairs || []).forEach(function(pair, index) {
+        const color = pair.color || PALETTE[index % PALETTE.length];
+        const start = pair.start || pair.a || [0, 0];
+        const end = pair.end || pair.b || [0, 0];
+        const sx = start[0] * cellW + cellW / 2;
+        const sy = start[1] * cellH + cellH / 2;
+        const ex = end[0] * cellW + cellW / 2;
+        const ey = end[1] * cellH + cellH / 2;
+        const radius = Math.min(cellW, cellH) * 0.32;
+
+        ctx.globalAlpha = 0.24;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(ex, ey);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(ex, ey, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        const label = pair.id || String.fromCharCode(65 + index);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold " + Math.max(11, Math.floor(radius)) + "px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, sx, sy);
+        ctx.fillText(label, ex, ey);
+      });
+    }
+
+    function applyScreenshotFallback(img) {
+      img.addEventListener("error", function onError() {
+        img.classList.add("missing");
+        img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
+          '<svg xmlns="http://www.w3.org/2000/svg" width="520" height="320" viewBox="0 0 520 320">' +
+            '<rect width="520" height="320" fill="#020617"/>' +
+            '<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#94a3b8" font-size="18" font-family="Segoe UI, sans-serif">' +
+              "Missing screenshot" +
+            "</text>" +
+          "</svg>"
+        );
+        img.removeEventListener("error", onError);
+      });
+    }
+
+    function reorderForFile(section, fileName) {
+      return section.reorders.find(function(entry) { return entry.file === fileName; }) || null;
+    }
+
+    function renderCard(section, item) {
+      const reorder = reorderForFile(section, item.fileName);
+      const invalidFlags = item.metrics.failedFlags;
+      const tags = [
+        createTag(item.metrics.difficulty, diffClass(item.metrics.difficulty)),
+        createTag(item.metrics.grid.width + "x" + item.metrics.grid.height, "tag-info"),
+        createTag(item.metrics.pairs + "p", "tag-info"),
+        createTag(item.metrics.blockers + "b", "tag-info"),
+        createTag(item.metrics.moves + "m", "tag-info"),
+        createTag("score " + item.score.toFixed(1), "tag-score")
+      ];
+      if (invalidFlags.length) {
+        tags.push(createTag(invalidFlags.length + " validation warnings", "tag-invalid"));
+      }
+
+      const suggestionHtml = [];
+      if (reorder) {
+        suggestionHtml.push(
+          '<div class="suggestion reorder">' +
+            '<div class="suggestion-title">Reorder</div>' +
+            '<div class="suggestion-copy">Move from slot ' + reorder.currentSlot + " to slot " + reorder.suggestedSlot + ". " +
+              escapeHtml(reorder.reason) + "</div>" +
+          "</div>"
+        );
+      }
+      item.tweaks.forEach(function(tweak) {
+        suggestionHtml.push(
+          '<div class="suggestion tweak">' +
+            '<div class="suggestion-title">Level tweak</div>' +
+            '<div class="suggestion-copy"><strong>' + escapeHtml(tweak.summary) + ".</strong> " + escapeHtml(tweak.detail) + "</div>" +
+          "</div>"
+        );
+      });
+      if (!suggestionHtml.length) {
+        suggestionHtml.push(
+          '<div class="suggestion">' +
+            '<div class="suggestion-title">Fit</div>' +
+            '<div class="suggestion-copy">No strong change suggested. The level already sits close to the center of its current band.</div>' +
+          "</div>"
+        );
+      }
+
+      return (
+        '<div class="level-card">' +
+          '<div class="level-title">' +
+            '<div class="level-name">' + escapeHtml(item.fileName) + "</div>" +
+            '<div class="slot-pill">Slot ' + item.slot + "</div>" +
+          "</div>" +
+          '<div class="level-subtitle">' +
+            escapeHtml(section.label) + " · " + escapeHtml(item.metrics.difficulty) + " · " +
+            escapeHtml(item.screenshotName) +
+          "</div>" +
+          '<div class="compare">' +
+            '<div>' +
+              '<div class="compare-label">Screenshot</div>' +
+              '<img data-screen="' + escapeHtml(item.screenshotPath) + '" alt="' + escapeHtml(item.fileName) + '" />' +
+            "</div>" +
+            '<div>' +
+              '<div class="compare-label">JSON render</div>' +
+              '<canvas data-level="' + escapeHtml(item.fileName) + '"></canvas>' +
+            "</div>" +
+          "</div>" +
+          '<div class="tags">' + tags.join("") + "</div>" +
+          '<div class="suggestions">' + suggestionHtml.join("") + "</div>" +
+        "</div>"
+      );
+    }
+
+    function renderSection(section) {
+      const currentCurve = section.items.map(function(item) {
+        return '<span class="curve-chip ' + curveClass(item.metrics.difficulty) + '">S' + item.slot + " " + item.metrics.difficulty + "</span>";
+      }).join("");
+
+      const reorderItems = section.reorders.length
+        ? section.reorders.map(function(entry) {
+            return (
+              '<div class="list-item">' +
+                "<strong>" + escapeHtml(entry.file) + "</strong>" +
+                "<span>Slot " + entry.currentSlot + " → " + entry.suggestedSlot + " · " + escapeHtml(entry.reason) + "</span>" +
+              "</div>"
+            );
+          }).join("")
+        : '<div class="empty">No reorder needed inside the current difficulty bands.</div>';
+
+      const tweakPool = section.items
+        .filter(function(item) { return item.tweaks.length; })
+        .map(function(item) {
+          return item.tweaks.map(function(tweak) {
+            return (
+              '<div class="list-item">' +
+                "<strong>" + escapeHtml(item.fileName) + "</strong>" +
+                "<span>" + escapeHtml(tweak.summary) + ". " + escapeHtml(tweak.detail) + "</span>" +
+              "</div>"
+            );
+          }).join("");
+        })
+        .join("");
+      const tweakItems = tweakPool || '<div class="empty">No tweak suggestions above threshold.</div>';
+
+      const cards = section.items.map(function(item) { return renderCard(section, item); }).join("");
+
+      return (
+        '<section class="progression-section">' +
+          '<div class="progression-head">' +
+            '<div>' +
+              '<h2 class="progression-title">' + escapeHtml(section.label) + "</h2>" +
+              '<div class="progression-meta">' +
+                section.items.length + " playable levels · curve preserved by difficulty band · " +
+                section.reorders.length + " reorder suggestions · " + section.tweakCount + " tweak suggestions" +
+              "</div>" +
+            "</div>" +
+          "</div>" +
+          '<div class="curve-row">' + currentCurve + "</div>" +
+          '<div class="section-grid">' +
+            '<div>' +
+              '<div class="list-card">' +
+                '<div class="list-title">Suggested reorder</div>' +
+                '<div class="list-items">' + reorderItems + "</div>" +
+              "</div>" +
+              '<div class="list-card" style="margin-top:12px;">' +
+                '<div class="list-title">Suggested tweaks</div>' +
+                '<div class="list-items">' + tweakItems + "</div>" +
+              "</div>" +
+            "</div>" +
+            '<div class="cards-grid">' + cards + "</div>" +
+          "</div>" +
+        "</section>"
+      );
+    }
+
+    function renderSummary(sections) {
+      const totalLevels = sections.reduce(function(sum, section) { return sum + section.items.length; }, 0);
+      const totalReorders = sections.reduce(function(sum, section) { return sum + section.reorders.length; }, 0);
+      const totalTweaks = sections.reduce(function(sum, section) { return sum + section.tweakCount; }, 0);
+      const invalidLevels = sections.reduce(function(sum, section) {
+        return sum + section.items.filter(function(item) { return item.metrics.failedFlags.length > 0; }).length;
+      }, 0);
+
+      const cards = [
+        { label: "Playable levels", value: totalLevels, note: "Tutorial slots excluded from analysis." },
+        { label: "Reorder suggestions", value: totalReorders, note: "Only inside the same difficulty band." },
+        { label: "Tweak suggestions", value: totalTweaks, note: "Moves never exceed the hard rule." },
+        { label: "Levels with validation warnings", value: invalidLevels, note: "Useful when prioritising repair work." }
+      ];
+
+      document.getElementById("summary").innerHTML = cards.map(function(card) {
+        return (
+          '<div class="summary-card">' +
+            '<div class="summary-label">' + escapeHtml(card.label) + "</div>" +
+            '<div class="summary-value">' + escapeHtml(card.value) + "</div>" +
+            '<div class="summary-note">' + escapeHtml(card.note) + "</div>" +
+          "</div>"
+        );
+      }).join("");
+    }
+
+    function buildChangeList() {
+      const includeReorder = document.getElementById("include-reorder").checked;
+      const includeTweaks = document.getElementById("include-tweaks").checked;
+
+      const payload = {
+        generatedAt: new Date().toISOString(),
+        includeReorder: includeReorder,
+        includeTweaks: includeTweaks,
+        progressions: [],
+        totals: { reorder: 0, tweaks: 0 }
+      };
+
+      state.sections.forEach(function(section) {
+        const block = {
+          key: section.key,
+          label: section.label,
+          reorder: [],
+          tweaks: []
+        };
+
+        if (includeReorder) {
+          section.reorders.forEach(function(entry) {
+            block.reorder.push({
+              file: entry.file,
+              current_slot: entry.currentSlot,
+              suggested_slot: entry.suggestedSlot,
+              difficulty: entry.difficulty,
+              reason: entry.reason
+            });
+            payload.totals.reorder += 1;
+          });
+        }
+
+        if (includeTweaks) {
+          section.items.forEach(function(item) {
+            item.tweaks.forEach(function(tweak) {
+              block.tweaks.push({
+                file: item.fileName,
+                slot: item.slot,
+                difficulty: item.metrics.difficulty,
+                summary: tweak.summary,
+                detail: tweak.detail
+              });
+              payload.totals.tweaks += 1;
+            });
+          });
+        }
+
+        if (block.reorder.length || block.tweaks.length) {
+          payload.progressions.push(block);
+        }
+      });
+
+      return payload;
+    }
+
+    function downloadText(name, text, type) {
+      const blob = new Blob([text], { type: type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function renderChangeList(payload) {
+      const root = document.getElementById("change-list");
+      const groups = payload.progressions.map(function(group) {
+        const reorderItems = group.reorder.length
+          ? group.reorder.map(function(entry) {
+              return (
+                '<div class="list-item">' +
+                  "<strong>Reorder · " + escapeHtml(entry.file) + "</strong>" +
+                  "<span>Move slot " + entry.current_slot + " → " + entry.suggested_slot + ". " + escapeHtml(entry.reason) + "</span>" +
+                "</div>"
+              );
+            }).join("")
+          : "";
+
+        const tweakItems = group.tweaks.length
+          ? group.tweaks.map(function(entry) {
+              return (
+                '<div class="list-item">' +
+                  "<strong>Tweak · " + escapeHtml(entry.file) + "</strong>" +
+                  "<span>Slot " + entry.slot + " · " + escapeHtml(entry.summary) + ". " + escapeHtml(entry.detail) + "</span>" +
+                "</div>"
+              );
+            }).join("")
+          : "";
+
+        return (
+          '<div class="change-group">' +
+            '<h3>' + escapeHtml(group.label) + "</h3>" +
+            '<div class="list-items">' + reorderItems + tweakItems + "</div>" +
+          "</div>"
+        );
+      }).join("");
+
+      root.innerHTML =
+        '<div class="panel-title">Apply-ready change list</div>' +
+        '<div class="panel-copy">This is a review list only. No file has been rewritten. If you decide to apply it later, this export becomes the change contract.</div>' +
+        '<div class="summary-grid" style="margin-bottom:16px;">' +
+          '<div class="summary-card"><div class="summary-label">Reorder actions</div><div class="summary-value">' + payload.totals.reorder + '</div></div>' +
+          '<div class="summary-card"><div class="summary-label">Tweak actions</div><div class="summary-value">' + payload.totals.tweaks + '</div></div>' +
+        '</div>' +
+        (groups || '<div class="empty">No changes matched the current selection.</div>') +
+        '<div class="change-actions">' +
+          '<button class="primary" id="download-json">Download JSON</button>' +
+          '<button id="download-csv">Download CSV</button>' +
+        "</div>";
+
+      root.classList.add("active");
+
+      document.getElementById("download-json").addEventListener("click", function() {
+        downloadText("progression_change_list.json", JSON.stringify(payload, null, 2), "application/json");
+      });
+
+      document.getElementById("download-csv").addEventListener("click", function() {
+        const rows = ["progression,type,file,current_slot,suggested_slot,difficulty,summary,detail,reason"];
+        payload.progressions.forEach(function(group) {
+          group.reorder.forEach(function(entry) {
+            rows.push([
+              group.key,
+              "reorder",
+              entry.file,
+              entry.current_slot,
+              entry.suggested_slot,
+              entry.difficulty,
+              "",
+              "",
+              '"' + String(entry.reason).replace(/"/g, '""') + '"'
+            ].join(","));
+          });
+          group.tweaks.forEach(function(entry) {
+            rows.push([
+              group.key,
+              "tweak",
+              entry.file,
+              entry.slot,
+              "",
+              entry.difficulty,
+              '"' + String(entry.summary).replace(/"/g, '""') + '"',
+              '"' + String(entry.detail).replace(/"/g, '""') + '"',
+              ""
+            ].join(","));
+          });
+        });
+        downloadText("progression_change_list.csv", rows.join("\n"), "text/csv");
+      });
+    }
+
+    async function loadProgression(progression) {
+      const manifest = await loadJson(progression.manifest);
+      const playable = manifest.slots.filter(function(slot) { return slot.level_file; });
+      const levels = await Promise.all(playable.map(function(slot) {
+        return loadJson("../" + slot.level_file).then(function(level) {
+          return buildAnalysis(level, slot.slot, slot.level_file, progression);
+        });
+      }));
+      const items = levels.sort(function(a, b) { return a.slot - b.slot; });
+      const reorders = computeReorders(items);
+      const tweakCount = items.reduce(function(sum, item) { return sum + item.tweaks.length; }, 0);
+      return {
+        key: progression.key,
+        label: progression.label,
+        manifest: manifest,
+        items: items,
+        reorders: reorders,
+        tweakCount: tweakCount
+      };
+    }
+
+    function hydrateCards() {
+      document.querySelectorAll("[data-screen]").forEach(function(img) {
+        applyScreenshotFallback(img);
+        img.src = img.getAttribute("data-screen");
+      });
+
+      state.sections.forEach(function(section) {
+        section.items.forEach(function(item) {
+          const selector = 'canvas[data-level="' + CSS.escape(item.fileName) + '"]';
+          const canvas = document.querySelector(selector);
+          if (canvas) renderBoard(canvas, item.level);
+        });
+      });
+    }
+
+    async function main() {
+      const status = document.getElementById("status");
+      try {
+        const sections = await Promise.all(PROGRESSIONS.map(loadProgression));
+        state.sections = sections;
+
+        renderSummary(sections);
+        document.getElementById("sections").innerHTML = sections.map(renderSection).join("");
+        hydrateCards();
+
+        const totalLevels = sections.reduce(function(sum, section) { return sum + section.items.length; }, 0);
+        status.textContent = "Loaded " + totalLevels + " playable levels across 6 progressions. Tutorials are excluded.";
+
+        document.getElementById("generate-list").addEventListener("click", function() {
+          const includeReorder = document.getElementById("include-reorder").checked;
+          const includeTweaks = document.getElementById("include-tweaks").checked;
+          if (!includeReorder && !includeTweaks) {
+            alert("Select reorder, tweaks, or both before generating the change list.");
+            return;
+          }
+          const confirmed = window.confirm(
+            "Do you want to prepare a reviewed change list for " +
+            (includeReorder && includeTweaks ? "reorder + tweaks" : includeReorder ? "reorder only" : "tweaks only") +
+            "?\n\nThis will not modify files. It only generates the review list."
+          );
+          if (!confirmed) return;
+          const payload = buildChangeList();
+          state.changeList = payload;
+          renderChangeList(payload);
+          document.getElementById("change-list").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        document.getElementById("collapse-list").addEventListener("click", function() {
+          const root = document.getElementById("change-list");
+          root.classList.remove("active");
+          root.innerHTML = "";
+        });
+      } catch (error) {
+        console.error(error);
+        status.textContent = "Failed to load progression data. Check the browser console for details.";
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>

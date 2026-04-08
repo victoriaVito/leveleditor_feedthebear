@@ -1,12 +1,13 @@
 # Toolkit Startup Integrity Report
 
-Generated: 2026-03-12T18:10:48.190Z
+Generated: 2026-04-07T09:12:34.631Z
 
-Checked presets: 5
-Checked level references: 105
+Checked presets: 0
+Skipped optional presets: 5
+Checked level references: 0
 Missing references: 0
 
-## Presets
+## Skipped Optional Presets
 
 - workshop: ./workshop_progressions/workshop_workspace.json
 - allUniqueLevels: ./workshop_progressions/allUniqueLevels_workspace.json

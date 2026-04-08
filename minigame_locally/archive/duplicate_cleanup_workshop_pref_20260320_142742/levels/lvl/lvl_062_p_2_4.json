@@ -1,0 +1,137 @@
+{
+  "id": "lvl_062_p_2_4",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        5
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "D": [
+      [
+        2,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "p_2_4.json",
+    "canonical_id": "lvl_062",
+    "canonical_file": "lvl_062_p_2_4.json",
+    "canonical_slug": "p_2_4",
+    "canonicalized_at": "2026-03-12T09:14:58.430Z",
+    "previous_files": [
+      "levels/p_2_4.json",
+      "levels/p_2_4_new_20260310165931.json",
+      "levels/standalone/p_2_4.json",
+      "levels/standalone/p_2_4_new_20260310165931.json"
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

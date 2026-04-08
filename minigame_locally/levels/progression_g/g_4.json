@@ -1,0 +1,182 @@
+{
+  "id": "g_4",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 15,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 3,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 2
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 3
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 3
+    }
+  ],
+  "solutionCount": 3,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "B": [
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "C": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "D": [
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "g_4.json",
+    "generated_by": "scripts/generate_medium_levels_by_size.mjs",
+    "generated_at": "2026-03-27T20:00:15.789Z",
+    "source_level": "procedural_medium_5x5_005.json",
+    "curated_from": "procedural_medium_5x5_005.json",
+    "curated_for_progression": "progression_g",
+    "curated_slot": 4,
+    "curve_summary": "Steady ramp: grows board size and pair count first, then increases blocker pressure.",
+    "manual_difficulty": "MEDIUM",
+    "curated_at": "2026-04-02T17:00:36.874Z"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

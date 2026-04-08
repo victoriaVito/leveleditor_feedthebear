@@ -1,0 +1,807 @@
+{
+  "saved_at": "2026-03-27T22:36:22.395Z",
+  "solved": true,
+  "level": {
+    "level": 10,
+    "board_size": 6,
+    "board_width": 6,
+    "board_height": 6,
+    "grid": [
+      [
+        "BLOCKED",
+        "NODE_B1",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "BLOCKED"
+      ],
+      [
+        "NODE_A1",
+        "NODE_C1",
+        "EMPTY",
+        "NODE_C2",
+        "EMPTY",
+        "NODE_B2"
+      ],
+      [
+        "EMPTY",
+        "NODE_F1",
+        "EMPTY",
+        "NODE_F2",
+        "NODE_D1",
+        "BLOCKED"
+      ],
+      [
+        "EMPTY",
+        "EMPTY",
+        "NODE_A2",
+        "BLOCKED",
+        "EMPTY",
+        "NODE_E1"
+      ],
+      [
+        "BLOCKED",
+        "EMPTY",
+        "NODE_G1",
+        "NODE_D2",
+        "EMPTY",
+        "EMPTY"
+      ],
+      [
+        "NODE_G2",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+        "NODE_E2"
+      ]
+    ],
+    "pairs": [
+      {
+        "id": "A",
+        "start": [
+          1,
+          0
+        ],
+        "end": [
+          3,
+          2
+        ],
+        "color": "#DC2626",
+        "fish_color_id": "fish_red",
+        "color_letter": "A"
+      },
+      {
+        "id": "B",
+        "start": [
+          0,
+          1
+        ],
+        "end": [
+          1,
+          5
+        ],
+        "color": "#0F766E",
+        "fish_color_id": "fish_red_striped",
+        "color_letter": "B"
+      },
+      {
+        "id": "C",
+        "start": [
+          1,
+          1
+        ],
+        "end": [
+          1,
+          3
+        ],
+        "color": "#2563EB",
+        "fish_color_id": "fish_blue",
+        "color_letter": "C"
+      },
+      {
+        "id": "D",
+        "start": [
+          2,
+          4
+        ],
+        "end": [
+          4,
+          3
+        ],
+        "color": "#D97706",
+        "fish_color_id": "fish_blue_striped",
+        "color_letter": "D"
+      },
+      {
+        "id": "E",
+        "start": [
+          3,
+          5
+        ],
+        "end": [
+          5,
+          5
+        ],
+        "color": "#059669",
+        "fish_color_id": "fish_green",
+        "color_letter": "E"
+      },
+      {
+        "id": "F",
+        "start": [
+          2,
+          1
+        ],
+        "end": [
+          2,
+          3
+        ],
+        "color": "#7C3AED",
+        "fish_color_id": "fish_green_striped",
+        "color_letter": "F"
+      },
+      {
+        "id": "G",
+        "start": [
+          4,
+          2
+        ],
+        "end": [
+          5,
+          0
+        ],
+        "color": "#0891B2",
+        "fish_color_id": "fish_yellow",
+        "color_letter": "G"
+      }
+    ],
+    "blockers": [
+      [
+        3,
+        3
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "decal": false,
+    "moves": 9,
+    "solution_count": 9,
+    "target_density": "LOW",
+    "difficulty": "HARD",
+    "golden_path": {
+      "A": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          2
+        ]
+      ],
+      "B": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          5
+        ]
+      ],
+      "C": [
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          3
+        ]
+      ],
+      "D": [
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          3
+        ]
+      ],
+      "E": [
+        [
+          3,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "F": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "G": [
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          0
+        ]
+      ]
+    },
+    "validation": {
+      "solvable": true,
+      "density_match": false,
+      "decal_required": false,
+      "decal_pass": null,
+      "early_mistake_detection": true,
+      "no_isolated_pairs": true,
+      "no_late_dead_ends": true,
+      "curve_integrity": true
+    },
+    "position": {
+      "progression": "progression_6_1",
+      "slot": 10
+    },
+    "meta": {
+      "generation_attempts": 1,
+      "failed_checks": [],
+      "manual_difficulty": "HARD",
+      "source_name": "6_10.json"
+    }
+  },
+  "selected_pair": "B",
+  "paths": {
+    "A": [
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "D": [
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "E": [
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        5
+      ]
+    ],
+    "F": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "G": [
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        4,
+        2
+      ]
+    ]
+  },
+  "history": [
+    {
+      "type": "reset",
+      "at": 1774650960451
+    },
+    {
+      "type": "start_path",
+      "pairId": "D",
+      "cell": [
+        4,
+        3
+      ],
+      "anchor": "end",
+      "at": 1774650962431
+    },
+    {
+      "type": "step",
+      "pairId": "D",
+      "cell": [
+        5,
+        3
+      ],
+      "at": 1774650962581
+    },
+    {
+      "type": "step",
+      "pairId": "D",
+      "cell": [
+        5,
+        4
+      ],
+      "at": 1774650962745
+    },
+    {
+      "type": "step",
+      "pairId": "D",
+      "cell": [
+        4,
+        4
+      ],
+      "at": 1774650962972
+    },
+    {
+      "type": "step",
+      "pairId": "D",
+      "cell": [
+        3,
+        4
+      ],
+      "at": 1774650963047
+    },
+    {
+      "type": "reach_end",
+      "pairId": "D",
+      "cell": [
+        2,
+        4
+      ],
+      "at": 1774650963151
+    },
+    {
+      "type": "start_path",
+      "pairId": "E",
+      "cell": [
+        3,
+        5
+      ],
+      "anchor": "start",
+      "at": 1774650964245
+    },
+    {
+      "type": "step",
+      "pairId": "E",
+      "cell": [
+        4,
+        5
+      ],
+      "at": 1774650964381
+    },
+    {
+      "type": "reach_end",
+      "pairId": "E",
+      "cell": [
+        5,
+        5
+      ],
+      "at": 1774650964747
+    },
+    {
+      "type": "start_path",
+      "pairId": "G",
+      "cell": [
+        5,
+        0
+      ],
+      "anchor": "end",
+      "at": 1774650966168
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        5,
+        1
+      ],
+      "at": 1774650966555
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        5,
+        2
+      ],
+      "at": 1774650966876
+    },
+    {
+      "type": "reach_end",
+      "pairId": "G",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1774650967368
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1774650968843
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        5,
+        2
+      ],
+      "at": 1774650969451
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        4,
+        1
+      ],
+      "at": 1774650969647
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        4,
+        1
+      ],
+      "at": 1774650970049
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        5,
+        1
+      ],
+      "at": 1774650970464
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        5,
+        1
+      ],
+      "at": 1774650970623
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        4,
+        1
+      ],
+      "at": 1774650970909
+    },
+    {
+      "type": "reach_end",
+      "pairId": "G",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1774650971505
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1774650972226
+    },
+    {
+      "type": "backtrack",
+      "pairId": "G",
+      "cell": [
+        4,
+        1
+      ],
+      "at": 1774650972345
+    },
+    {
+      "type": "step",
+      "pairId": "G",
+      "cell": [
+        5,
+        2
+      ],
+      "at": 1774650972530
+    },
+    {
+      "type": "reach_end",
+      "pairId": "G",
+      "cell": [
+        4,
+        2
+      ],
+      "at": 1774650972797
+    },
+    {
+      "type": "start_path",
+      "pairId": "A",
+      "cell": [
+        3,
+        2
+      ],
+      "anchor": "end",
+      "at": 1774650975690
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        3,
+        1
+      ],
+      "at": 1774650975964
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        3,
+        0
+      ],
+      "at": 1774650976051
+    },
+    {
+      "type": "step",
+      "pairId": "A",
+      "cell": [
+        2,
+        0
+      ],
+      "at": 1774650976443
+    },
+    {
+      "type": "reach_end",
+      "pairId": "A",
+      "cell": [
+        1,
+        0
+      ],
+      "at": 1774650976516
+    },
+    {
+      "type": "start_path",
+      "pairId": "F",
+      "cell": [
+        2,
+        1
+      ],
+      "anchor": "start",
+      "at": 1774650977656
+    },
+    {
+      "type": "step",
+      "pairId": "F",
+      "cell": [
+        2,
+        2
+      ],
+      "at": 1774650977768
+    },
+    {
+      "type": "reach_end",
+      "pairId": "F",
+      "cell": [
+        2,
+        3
+      ],
+      "at": 1774650977918
+    },
+    {
+      "type": "start_path",
+      "pairId": "C",
+      "cell": [
+        1,
+        3
+      ],
+      "anchor": "end",
+      "at": 1774650979200
+    },
+    {
+      "type": "step",
+      "pairId": "C",
+      "cell": [
+        1,
+        2
+      ],
+      "at": 1774650979326
+    },
+    {
+      "type": "reach_end",
+      "pairId": "C",
+      "cell": [
+        1,
+        1
+      ],
+      "at": 1774650979815
+    },
+    {
+      "type": "start_path",
+      "pairId": "B",
+      "cell": [
+        0,
+        1
+      ],
+      "anchor": "start",
+      "at": 1774650980822
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        0,
+        2
+      ],
+      "at": 1774650980985
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        0,
+        3
+      ],
+      "at": 1774650981150
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        0,
+        4
+      ],
+      "at": 1774650981315
+    },
+    {
+      "type": "step",
+      "pairId": "B",
+      "cell": [
+        1,
+        4
+      ],
+      "at": 1774650981710
+    },
+    {
+      "type": "reach_end",
+      "pairId": "B",
+      "cell": [
+        1,
+        5
+      ],
+      "at": 1774650982395
+    }
+  ]
+}

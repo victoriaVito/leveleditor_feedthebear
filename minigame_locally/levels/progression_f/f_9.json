@@ -1,0 +1,234 @@
+{
+  "level": 9,
+  "board_size": 6,
+  "board_width": 6,
+  "board_height": 6,
+  "grid": [
+    [
+      "NODE_E2",
+      "NODE_A1",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C1"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "BLOCKED",
+      "BLOCKED",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "EMPTY",
+      "NODE_B1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_E1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_D1"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "NODE_D2",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        0,
+        5
+      ],
+      "color": "#DC2626",
+      "fish_color_id": "fish_red",
+      "color_letter": "A"
+    },
+    {
+      "id": "B",
+      "start": [
+        3,
+        2
+      ],
+      "end": [
+        3,
+        0
+      ],
+      "color": "#0F766E",
+      "fish_color_id": "fish_red_striped",
+      "color_letter": "B"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        5
+      ],
+      "end": [
+        5,
+        3
+      ],
+      "color": "#2563EB",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "D",
+      "start": [
+        4,
+        5
+      ],
+      "end": [
+        5,
+        4
+      ],
+      "color": "#D97706",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    },
+    {
+      "id": "E",
+      "start": [
+        4,
+        1
+      ],
+      "end": [
+        0,
+        0
+      ],
+      "color": "#059669",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    }
+  ],
+  "blockers": [
+    [
+      3,
+      3
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      4
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      0,
+      3
+    ]
+  ],
+  "decal": false,
+  "moves": 7,
+  "solution_count": 20,
+  "target_density": "LOW",
+  "difficulty": "HARD",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "C": [
+      [
+        1,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "D": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "E": [
+      [
+        4,
+        1
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "position": {
+    "progression": "progression_6_1",
+    "slot": 9
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "HARD",
+    "source_name": "f_9.json",
+    "curated_for_progression": "progression_f",
+    "curated_slot": 9
+  },
+  "id": "f_9"
+}

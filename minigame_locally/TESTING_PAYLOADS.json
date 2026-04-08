@@ -1,0 +1,289 @@
+{
+  "flows": {
+    "paraclau_sync": {
+      "description": "When docs/PROJECT_MASTER_HANDOFF.md file changes",
+      "endpoint": "POST http://localhost:3000/webhook/zapier",
+      "example": {
+        "event": "paraclau_file_changed",
+        "timestamp": "2026-03-24T15:30:00Z",
+        "task_id": "paraclau-1711270200000",
+        "file": "docs/PROJECT_MASTER_HANDOFF.md",
+        "file_size": 8562,
+        "sections_changed": [
+          {
+            "section": "Work Assignment",
+            "line_number": 42,
+            "old_content": "- [ ] Claude: Review design",
+            "new_content": "- [x] Claude: Review design (DONE)"
+          }
+        ],
+        "action_items": [
+          {
+            "agent": "claude",
+            "action": "Analyze changes",
+            "status": "pending"
+          },
+          {
+            "agent": "codex",
+            "action": "Apply code changes",
+            "status": "pending"
+          }
+        ],
+        "change_summary": {
+          "total_sections_changed": 2,
+          "action_items_found": 2,
+          "agents_involved": ["claude", "codex"]
+        }
+      },
+      "test_command": "curl -X POST http://localhost:3000/webhook/zapier -H 'Content-Type: application/json' -d @examples/paraclau_sync.json"
+    },
+
+    "task_routing": {
+      "description": "Submit a new task for intelligent routing",
+      "endpoint": "POST http://localhost:3001/task",
+      "example": {
+        "type": "code_generation",
+        "title": "Generate ML config updater",
+        "description": "Create a script that updates learning configuration files based on analysis",
+        "priority": "high",
+        "deadline": "2026-03-24T18:00:00Z",
+        "required_skills": ["javascript", "machine-learning", "optimization"],
+        "dependencies": [],
+        "source": "slack:#tasks",
+        "requester": "victoria.serrano"
+      },
+      "test_command": "curl -X POST http://localhost:3001/task -H 'Content-Type: application/json' -d @examples/task_routing.json",
+      "response": {
+        "task_id": "TASK-1711270200000-a1b2c3",
+        "status": "created",
+        "routed_to": "codex",
+        "estimated_time": "30-60min"
+      }
+    },
+
+    "learning_pipeline": {
+      "description": "Learning batch ready for processing",
+      "endpoint": "POST http://localhost:3000/webhook/zapier",
+      "example": {
+        "event": "learning_batch_ready",
+        "timestamp": "2026-03-24T14:00:00Z",
+        "batch_id": "BATCH-2026-03-24-001",
+        "entry_count": 8,
+        "approved_count": 2,
+        "rejected_count": 6,
+        "entries": [
+          {
+            "id": "level_001",
+            "status": "rejected",
+            "tags": ["too_easy", "meaningless_blockers"],
+            "feedback_text": "Bloques sin sentido, pares muy pocos",
+            "player_rating": 2.5,
+            "generation_params": {
+              "board_size": "8x8",
+              "pair_count": 2,
+              "blocker_count": 5,
+              "blocker_spread": 0.3
+            }
+          },
+          {
+            "id": "level_002",
+            "status": "approved",
+            "tags": ["good_difficulty", "strategic"],
+            "feedback_text": "Great difficulty curve, fun puzzles",
+            "player_rating": 4.5,
+            "generation_params": {
+              "board_size": "8x8",
+              "pair_count": 4,
+              "blocker_count": 3,
+              "blocker_spread": 0.8
+            }
+          }
+        ],
+        "statistical_summary": {
+          "total_entries": 8,
+          "approved_count": 2,
+          "rejected_count": 6,
+          "approval_rate": "25.0",
+          "avg_rating": "3.2",
+          "top_rejection_reasons": [
+            {
+              "reason": "meaningless_blockers",
+              "count": 5,
+              "pct": "62.5"
+            },
+            {
+              "reason": "too_easy",
+              "count": 3,
+              "pct": "37.5"
+            }
+          ]
+        }
+      },
+      "test_command": "curl -X POST http://localhost:3000/webhook/zapier -H 'Content-Type: application/json' -d @examples/learning_pipeline.json"
+    },
+
+    "doc_publish": {
+      "description": "Documentation file changed and ready to publish",
+      "endpoint": "POST http://localhost:3000/webhook/zapier",
+      "example": {
+        "event": "doc_changed",
+        "timestamp": "2026-03-24T14:30:00Z",
+        "task_id": "DOC-1711270200000",
+        "file": "memoria.md",
+        "git_commit": "abc123def456",
+        "git_author": "victoria.serrano",
+        "frontmatter": {
+          "title": "Project Memory",
+          "publish_targets": ["confluence", "sheets"],
+          "confluence_page_id": "12345",
+          "sheets_range": "Documentation!A1:H100",
+          "audience": "internal"
+        },
+        "content_length": 5230,
+        "content_preview": "# Project Memory\n\n## Latest Updates\n...",
+        "publish_targets": ["confluence", "sheets"],
+        "source": "local-file-watcher"
+      },
+      "test_command": "curl -X POST http://localhost:3000/webhook/zapier -H 'Content-Type: application/json' -d @examples/doc_publish.json"
+    },
+
+    "agent_handoff": {
+      "description": "Agent blocked and transferring to another agent",
+      "endpoint": "POST http://localhost:3000/webhook/zapier",
+      "example": {
+        "event": "handoff_request",
+        "timestamp": "2026-03-24T15:35:00Z",
+        "task_id": "TASK-1711270200000-xyz",
+        "from_agent": "claude",
+        "to_agent": "codex",
+        "reason": "Implementation of recommendations",
+        "status": "blocked_needs_codex",
+        "context": {
+          "task": "Improve procedural generation for 8x8 boards",
+          "claude_analysis": "Blockers too clustered (55%), pair count too low",
+          "claude_recommendation": "Add spreadBlockers config, increase pair_count to 4-5",
+          "claude_output": "ML_RECOMMENDATIONS.md",
+          "estimated_effort": "2-3 hours",
+          "dependencies": []
+        },
+        "handoff_metadata": {
+          "original_deadline": "2026-03-24T18:00:00Z",
+          "handoff_time": "2026-03-24T15:35:00Z",
+          "priority": "high",
+          "escalation_chain": ["claude", "codex", "copilot"]
+        },
+        "codex_instructions": {
+          "type": "code_modification",
+          "files": ["app.js", "PROCEDURAL_ML_DESIGN.md"],
+          "config_keys": ["spreadBlockers", "pair_count_range"],
+          "test_after": true
+        }
+      },
+      "test_command": "curl -X POST http://localhost:3000/webhook/zapier -H 'Content-Type: application/json' -d @examples/agent_handoff.json"
+    }
+  },
+
+  "api_endpoints": {
+    "task_router": {
+      "base_url": "http://localhost:3001",
+      "endpoints": {
+        "submit_task": {
+          "method": "POST",
+          "path": "/task",
+          "description": "Submit new task for routing",
+          "example": {
+            "type": "code_generation",
+            "title": "Test Task",
+            "description": "A test task",
+            "priority": "normal"
+          }
+        },
+        "get_task_status": {
+          "method": "GET",
+          "path": "/task/{task_id}",
+          "description": "Get status of a specific task",
+          "test_command": "curl http://localhost:3001/task/TASK-1711270200000-abc"
+        },
+        "list_tasks": {
+          "method": "GET",
+          "path": "/tasks",
+          "description": "List all tasks",
+          "query_params": {
+            "status": "pending|in_progress|completed|failed",
+            "agent": "claude|codex|copilot"
+          },
+          "test_command": "curl 'http://localhost:3001/tasks?status=pending'"
+        },
+        "task_statistics": {
+          "method": "GET",
+          "path": "/stats",
+          "description": "Get task statistics",
+          "test_command": "curl http://localhost:3001/stats | jq"
+        },
+        "health_check": {
+          "method": "GET",
+          "path": "/health",
+          "description": "Check service health",
+          "test_command": "curl http://localhost:3001/health"
+        },
+        "agent_callback": {
+          "method": "POST",
+          "path": "/task/{task_id}/callback",
+          "description": "Agent completion callback",
+          "example": {
+            "agent": "codex",
+            "status": "completed",
+            "output": {
+              "files_modified": ["app.js"],
+              "test_passed": true,
+              "git_commit": "xyz789"
+            },
+            "duration_ms": 45000
+          }
+        }
+      }
+    },
+
+    "webhook_receiver": {
+      "base_url": "http://localhost:3000",
+      "endpoints": {
+        "main_webhook": {
+          "method": "POST",
+          "path": "/webhook/zapier",
+          "description": "Receive all events from Zapier"
+        },
+        "health_check": {
+          "method": "GET",
+          "path": "/health",
+          "description": "Check webhook receiver health",
+          "test_command": "curl http://localhost:3000/health"
+        },
+        "task_status": {
+          "method": "GET",
+          "path": "/task-status/{task_id}",
+          "description": "Query task status from webhook receiver",
+          "test_command": "curl http://localhost:3000/task-status/TEST-001"
+        }
+      }
+    }
+  },
+
+  "testing": {
+    "health_checks": [
+      "curl http://localhost:3000/health",
+      "curl http://localhost:3001/health"
+    ],
+    "create_test_task": "curl -X POST http://localhost:3001/task -H 'Content-Type: application/json' -d '{\"type\":\"code_generation\",\"title\":\"Test Task\",\"description\":\"Testing flow\"}'",
+    "list_pending_tasks": "curl 'http://localhost:3001/tasks?status=pending' | jq",
+    "view_statistics": "curl http://localhost:3001/stats | jq",
+    "send_test_event": "curl -X POST http://localhost:3000/webhook/zapier -H 'Content-Type: application/json' -d '{\"event\":\"test\",\"task_id\":\"TEST-001\"}'"
+  },
+
+  "notes": {
+    "payloads": "JSON payloads in examples/ directory - copy and modify as needed",
+    "webhook_timing": "Zapier webhook delivery is typically 1-30 seconds",
+    "callbacks": "Agents send results via callback webhooks configured in .env",
+    "logging": "All events logged to logs/zapier-*.log",
+    "persistence": "Tasks tracked in-memory (production would use database)"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "id": "x_3",
+  "difficultyTier": 2,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 0
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 4,
+        "y": 5
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 4,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 3
+    },
+    {
+      "x": 5,
+      "y": 1
+    }
+  ],
+  "solutionCount": 9,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "B": [
+      [
+        1,
+        1
+      ],
+      [
+        5,
+        5
+      ]
+    ],
+    "C": [
+      [
+        3,
+        2
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "E": [
+      [
+        5,
+        4
+      ],
+      [
+        0,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "x_3.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

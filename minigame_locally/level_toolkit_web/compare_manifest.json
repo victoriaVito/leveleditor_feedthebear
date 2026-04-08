@@ -1,0 +1,2639 @@
+{
+  "total_jsons": 514,
+  "total_with_screenshot": 498,
+  "sections": [
+    {
+      "name": "Workshop",
+      "count": 28,
+      "with_screenshot": 28,
+      "items": [
+        {
+          "json": "workshop/andrea_level_1v2.json",
+          "stem": "andrea_level_1v2",
+          "screenshot": "screenshots/andrea_level_1v2.png"
+        },
+        {
+          "json": "workshop/andrea_level_2.json",
+          "stem": "andrea_level_2",
+          "screenshot": "screenshots/andrea_level_2.png"
+        },
+        {
+          "json": "workshop/level_7_manager_ok.json",
+          "stem": "level_7_manager_ok",
+          "screenshot": "screenshots/level_7_manager_ok.png"
+        },
+        {
+          "json": "workshop/susanne_level_1_manager_ok.json",
+          "stem": "susanne_level_1_manager_ok",
+          "screenshot": "screenshots/susanne_level_1_manager_ok.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_1.json",
+          "stem": "workshop_chloe_1",
+          "screenshot": "screenshots/workshop_chloe_1.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_10.json",
+          "stem": "workshop_chloe_10",
+          "screenshot": "screenshots/workshop_chloe_10.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_2.json",
+          "stem": "workshop_chloe_2",
+          "screenshot": "screenshots/workshop_chloe_2.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_3.json",
+          "stem": "workshop_chloe_3",
+          "screenshot": "screenshots/workshop_chloe_3.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_4.json",
+          "stem": "workshop_chloe_4",
+          "screenshot": "screenshots/workshop_chloe_4.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_5.json",
+          "stem": "workshop_chloe_5",
+          "screenshot": "screenshots/workshop_chloe_5.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_6.json",
+          "stem": "workshop_chloe_6",
+          "screenshot": "screenshots/workshop_chloe_6.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_7.json",
+          "stem": "workshop_chloe_7",
+          "screenshot": "screenshots/workshop_chloe_7.png"
+        },
+        {
+          "json": "workshop/workshop_chloe_8.json",
+          "stem": "workshop_chloe_8",
+          "screenshot": "screenshots/workshop_chloe_8.png"
+        },
+        {
+          "json": "workshop/workshop_karina_10.json",
+          "stem": "workshop_karina_10",
+          "screenshot": "screenshots/workshop_karina_10.png"
+        },
+        {
+          "json": "workshop/workshop_karina_3.json",
+          "stem": "workshop_karina_3",
+          "screenshot": "screenshots/workshop_karina_3.png"
+        },
+        {
+          "json": "workshop/workshop_karina_4.json",
+          "stem": "workshop_karina_4",
+          "screenshot": "screenshots/workshop_karina_4.png"
+        },
+        {
+          "json": "workshop/workshop_karina_5.json",
+          "stem": "workshop_karina_5",
+          "screenshot": "screenshots/workshop_karina_5.png"
+        },
+        {
+          "json": "workshop/workshop_karina_6.json",
+          "stem": "workshop_karina_6",
+          "screenshot": "screenshots/workshop_karina_6.png"
+        },
+        {
+          "json": "workshop/workshop_karina_7.json",
+          "stem": "workshop_karina_7",
+          "screenshot": "screenshots/workshop_karina_7.png"
+        },
+        {
+          "json": "workshop/workshop_karina_8.json",
+          "stem": "workshop_karina_8",
+          "screenshot": "screenshots/workshop_karina_8.png"
+        },
+        {
+          "json": "workshop/workshop_karina_9.json",
+          "stem": "workshop_karina_9",
+          "screenshot": "screenshots/workshop_karina_9.png"
+        },
+        {
+          "json": "workshop/workshop_susanne_1.json",
+          "stem": "workshop_susanne_1",
+          "screenshot": "screenshots/workshop_susanne_1.png"
+        },
+        {
+          "json": "workshop/workshop_susanne_2.json",
+          "stem": "workshop_susanne_2",
+          "screenshot": "screenshots/workshop_susanne_2.png"
+        },
+        {
+          "json": "workshop/workshop_susanne_3.json",
+          "stem": "workshop_susanne_3",
+          "screenshot": "screenshots/workshop_susanne_3.png"
+        },
+        {
+          "json": "workshop/workshop_susanne_5.json",
+          "stem": "workshop_susanne_5",
+          "screenshot": "screenshots/workshop_susanne_5.png"
+        },
+        {
+          "json": "workshop/x1.json",
+          "stem": "x1",
+          "screenshot": "screenshots/x1.png"
+        },
+        {
+          "json": "workshop/x2.json",
+          "stem": "x2",
+          "screenshot": "screenshots/x2.png"
+        },
+        {
+          "json": "workshop/x_3.json",
+          "stem": "x_3",
+          "screenshot": "screenshots/x_3.png"
+        }
+      ]
+    },
+    {
+      "name": "Editor (from image)",
+      "count": 32,
+      "with_screenshot": 32,
+      "items": [
+        {
+          "json": "fromimage/lvl_012_image02_level_editor.json",
+          "stem": "lvl_012_image02_level_editor",
+          "screenshot": "screenshots/lvl_012_image02_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_013_image03_level_editor.json",
+          "stem": "lvl_013_image03_level_editor",
+          "screenshot": "screenshots/lvl_013_image03_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_014_image04_level_editor.json",
+          "stem": "lvl_014_image04_level_editor",
+          "screenshot": "screenshots/lvl_014_image04_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_015_image05_level_editor.json",
+          "stem": "lvl_015_image05_level_editor",
+          "screenshot": "screenshots/lvl_015_image05_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_016_image07_level_editor.json",
+          "stem": "lvl_016_image07_level_editor",
+          "screenshot": "screenshots/lvl_016_image07_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_017_image08_level_editor.json",
+          "stem": "lvl_017_image08_level_editor",
+          "screenshot": "screenshots/lvl_017_image08_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_018_image09_level_editor.json",
+          "stem": "lvl_018_image09_level_editor",
+          "screenshot": "screenshots/lvl_018_image09_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_019_image10_level_editor.json",
+          "stem": "lvl_019_image10_level_editor",
+          "screenshot": "screenshots/lvl_019_image10_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_020_image11_level_editor.json",
+          "stem": "lvl_020_image11_level_editor",
+          "screenshot": "screenshots/lvl_020_image11_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_021_image12_level_editor.json",
+          "stem": "lvl_021_image12_level_editor",
+          "screenshot": "screenshots/lvl_021_image12_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_022_image13_level_editor.json",
+          "stem": "lvl_022_image13_level_editor",
+          "screenshot": "screenshots/lvl_022_image13_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_023_image14_level_editor.json",
+          "stem": "lvl_023_image14_level_editor",
+          "screenshot": "screenshots/lvl_023_image14_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_024_image15_level_editor.json",
+          "stem": "lvl_024_image15_level_editor",
+          "screenshot": "screenshots/lvl_024_image15_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_025_image16_level_editor.json",
+          "stem": "lvl_025_image16_level_editor",
+          "screenshot": "screenshots/lvl_025_image16_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_026_image17_level_editor.json",
+          "stem": "lvl_026_image17_level_editor",
+          "screenshot": "screenshots/lvl_026_image17_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_027_image18_level_editor.json",
+          "stem": "lvl_027_image18_level_editor",
+          "screenshot": "screenshots/lvl_027_image18_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_028_image19_level_editor.json",
+          "stem": "lvl_028_image19_level_editor",
+          "screenshot": "screenshots/lvl_028_image19_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_029_image20_level_editor.json",
+          "stem": "lvl_029_image20_level_editor",
+          "screenshot": "screenshots/lvl_029_image20_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_030_image21_level_editor.json",
+          "stem": "lvl_030_image21_level_editor",
+          "screenshot": "screenshots/lvl_030_image21_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_031_image22_level_editor.json",
+          "stem": "lvl_031_image22_level_editor",
+          "screenshot": "screenshots/lvl_031_image22_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_032_image23_level_editor.json",
+          "stem": "lvl_032_image23_level_editor",
+          "screenshot": "screenshots/lvl_032_image23_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_033_image24_level_editor.json",
+          "stem": "lvl_033_image24_level_editor",
+          "screenshot": "screenshots/lvl_033_image24_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_034_image25_level_editor.json",
+          "stem": "lvl_034_image25_level_editor",
+          "screenshot": "screenshots/lvl_034_image25_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_035_image26_level_editor.json",
+          "stem": "lvl_035_image26_level_editor",
+          "screenshot": "screenshots/lvl_035_image26_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_036_image27_level_editor.json",
+          "stem": "lvl_036_image27_level_editor",
+          "screenshot": "screenshots/lvl_036_image27_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_037_image28_level_editor.json",
+          "stem": "lvl_037_image28_level_editor",
+          "screenshot": "screenshots/lvl_037_image28_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_038_image29_level_editor.json",
+          "stem": "lvl_038_image29_level_editor",
+          "screenshot": "screenshots/lvl_038_image29_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_039_image30_level_editor.json",
+          "stem": "lvl_039_image30_level_editor",
+          "screenshot": "screenshots/lvl_039_image30_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_040_image31_level_editor.json",
+          "stem": "lvl_040_image31_level_editor",
+          "screenshot": "screenshots/lvl_040_image31_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_041_image32_level_editor.json",
+          "stem": "lvl_041_image32_level_editor",
+          "screenshot": "screenshots/lvl_041_image32_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_042_image33_level_editor.json",
+          "stem": "lvl_042_image33_level_editor",
+          "screenshot": "screenshots/lvl_042_image33_level_editor.png"
+        },
+        {
+          "json": "fromimage/lvl_043_image34_level_editor.json",
+          "stem": "lvl_043_image34_level_editor",
+          "screenshot": "screenshots/lvl_043_image34_level_editor.png"
+        }
+      ]
+    },
+    {
+      "name": "Catalog (lvl)",
+      "count": 80,
+      "with_screenshot": 79,
+      "items": [
+        {
+          "json": "lvl/lvl_001_hard_10_2.json",
+          "stem": "lvl_001_hard_10_2",
+          "screenshot": "screenshots/lvl_001_hard_10_2.png"
+        },
+        {
+          "json": "lvl/lvl_002_hard_large_01_7x7.json",
+          "stem": "lvl_002_hard_large_01_7x7",
+          "screenshot": "screenshots/lvl_002_hard_large_01_7x7.png"
+        },
+        {
+          "json": "lvl/lvl_003_hard_large_02_8x8.json",
+          "stem": "lvl_003_hard_large_02_8x8",
+          "screenshot": "screenshots/lvl_003_hard_large_02_8x8.png"
+        },
+        {
+          "json": "lvl/lvl_004_hard_large_03_7x7.json",
+          "stem": "lvl_004_hard_large_03_7x7",
+          "screenshot": "screenshots/lvl_004_hard_large_03_7x7.png"
+        },
+        {
+          "json": "lvl/lvl_005_hard_large_04_8x8.json",
+          "stem": "lvl_005_hard_large_04_8x8",
+          "screenshot": "screenshots/lvl_005_hard_large_04_8x8.png"
+        },
+        {
+          "json": "lvl/lvl_006_hard_large_05_7x7.json",
+          "stem": "lvl_006_hard_large_05_7x7",
+          "screenshot": "screenshots/lvl_006_hard_large_05_7x7.png"
+        },
+        {
+          "json": "lvl/lvl_007_hard_large_06_8x8.json",
+          "stem": "lvl_007_hard_large_06_8x8",
+          "screenshot": "screenshots/lvl_007_hard_large_06_8x8.png"
+        },
+        {
+          "json": "lvl/lvl_008_hard_large_07_7x7.json",
+          "stem": "lvl_008_hard_large_07_7x7",
+          "screenshot": "screenshots/lvl_008_hard_large_07_7x7.png"
+        },
+        {
+          "json": "lvl/lvl_009_hard_large_08_8x8.json",
+          "stem": "lvl_009_hard_large_08_8x8",
+          "screenshot": "screenshots/lvl_009_hard_large_08_8x8.png"
+        },
+        {
+          "json": "lvl/lvl_010_hard_large_09_7x7.json",
+          "stem": "lvl_010_hard_large_09_7x7",
+          "screenshot": "screenshots/lvl_010_hard_large_09_7x7.png"
+        },
+        {
+          "json": "lvl/lvl_011_hard_large_10_8x8.json",
+          "stem": "lvl_011_hard_large_10_8x8",
+          "screenshot": "screenshots/lvl_011_hard_large_10_8x8.png"
+        },
+        {
+          "json": "lvl/lvl_012_image02_level_editor.json",
+          "stem": "lvl_012_image02_level_editor",
+          "screenshot": "screenshots/lvl_012_image02_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_013_image03_level_editor.json",
+          "stem": "lvl_013_image03_level_editor",
+          "screenshot": "screenshots/lvl_013_image03_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_014_image04_level_editor.json",
+          "stem": "lvl_014_image04_level_editor",
+          "screenshot": "screenshots/lvl_014_image04_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_015_image05_level_editor.json",
+          "stem": "lvl_015_image05_level_editor",
+          "screenshot": "screenshots/lvl_015_image05_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_016_image07_level_editor.json",
+          "stem": "lvl_016_image07_level_editor",
+          "screenshot": "screenshots/lvl_016_image07_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_017_image08_level_editor.json",
+          "stem": "lvl_017_image08_level_editor",
+          "screenshot": "screenshots/lvl_017_image08_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_018_image09_level_editor.json",
+          "stem": "lvl_018_image09_level_editor",
+          "screenshot": "screenshots/lvl_018_image09_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_019_image10_level_editor.json",
+          "stem": "lvl_019_image10_level_editor",
+          "screenshot": "screenshots/lvl_019_image10_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_020_image11_level_editor.json",
+          "stem": "lvl_020_image11_level_editor",
+          "screenshot": "screenshots/lvl_020_image11_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_021_image12_level_editor.json",
+          "stem": "lvl_021_image12_level_editor",
+          "screenshot": "screenshots/lvl_021_image12_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_022_image13_level_editor.json",
+          "stem": "lvl_022_image13_level_editor",
+          "screenshot": "screenshots/lvl_022_image13_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_023_image14_level_editor.json",
+          "stem": "lvl_023_image14_level_editor",
+          "screenshot": "screenshots/lvl_023_image14_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_024_image15_level_editor.json",
+          "stem": "lvl_024_image15_level_editor",
+          "screenshot": "screenshots/lvl_024_image15_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_025_image16_level_editor.json",
+          "stem": "lvl_025_image16_level_editor",
+          "screenshot": "screenshots/lvl_025_image16_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_026_image17_level_editor.json",
+          "stem": "lvl_026_image17_level_editor",
+          "screenshot": "screenshots/lvl_026_image17_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_027_image18_level_editor.json",
+          "stem": "lvl_027_image18_level_editor",
+          "screenshot": "screenshots/lvl_027_image18_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_028_image19_level_editor.json",
+          "stem": "lvl_028_image19_level_editor",
+          "screenshot": "screenshots/lvl_028_image19_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_029_image20_level_editor.json",
+          "stem": "lvl_029_image20_level_editor",
+          "screenshot": "screenshots/lvl_029_image20_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_030_image21_level_editor.json",
+          "stem": "lvl_030_image21_level_editor",
+          "screenshot": "screenshots/lvl_030_image21_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_031_image22_level_editor.json",
+          "stem": "lvl_031_image22_level_editor",
+          "screenshot": "screenshots/lvl_031_image22_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_032_image23_level_editor.json",
+          "stem": "lvl_032_image23_level_editor",
+          "screenshot": "screenshots/lvl_032_image23_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_033_image24_level_editor.json",
+          "stem": "lvl_033_image24_level_editor",
+          "screenshot": "screenshots/lvl_033_image24_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_034_image25_level_editor.json",
+          "stem": "lvl_034_image25_level_editor",
+          "screenshot": "screenshots/lvl_034_image25_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_035_image26_level_editor.json",
+          "stem": "lvl_035_image26_level_editor",
+          "screenshot": "screenshots/lvl_035_image26_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_036_image27_level_editor.json",
+          "stem": "lvl_036_image27_level_editor",
+          "screenshot": "screenshots/lvl_036_image27_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_037_image28_level_editor.json",
+          "stem": "lvl_037_image28_level_editor",
+          "screenshot": "screenshots/lvl_037_image28_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_038_image29_level_editor.json",
+          "stem": "lvl_038_image29_level_editor",
+          "screenshot": "screenshots/lvl_038_image29_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_039_image30_level_editor.json",
+          "stem": "lvl_039_image30_level_editor",
+          "screenshot": "screenshots/lvl_039_image30_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_040_image31_level_editor.json",
+          "stem": "lvl_040_image31_level_editor",
+          "screenshot": "screenshots/lvl_040_image31_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_041_image32_level_editor.json",
+          "stem": "lvl_041_image32_level_editor",
+          "screenshot": "screenshots/lvl_041_image32_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_042_image33_level_editor.json",
+          "stem": "lvl_042_image33_level_editor",
+          "screenshot": "screenshots/lvl_042_image33_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_043_image34_level_editor.json",
+          "stem": "lvl_043_image34_level_editor",
+          "screenshot": "screenshots/lvl_043_image34_level_editor.png"
+        },
+        {
+          "json": "lvl/lvl_044_level_01.json",
+          "stem": "lvl_044_level_01",
+          "screenshot": "screenshots/lvl_044_level_01.png"
+        },
+        {
+          "json": "lvl/lvl_045_level_02.json",
+          "stem": "lvl_045_level_02",
+          "screenshot": "screenshots/lvl_045_level_02.png"
+        },
+        {
+          "json": "lvl/lvl_046_level_03.json",
+          "stem": "lvl_046_level_03",
+          "screenshot": "screenshots/lvl_046_level_03.png"
+        },
+        {
+          "json": "lvl/lvl_047_level_04.json",
+          "stem": "lvl_047_level_04",
+          "screenshot": "screenshots/lvl_047_level_04.png"
+        },
+        {
+          "json": "lvl/lvl_048_level_05.json",
+          "stem": "lvl_048_level_05",
+          "screenshot": "screenshots/lvl_048_level_05.png"
+        },
+        {
+          "json": "lvl/lvl_049_level_06.json",
+          "stem": "lvl_049_level_06",
+          "screenshot": "screenshots/lvl_049_level_06.png"
+        },
+        {
+          "json": "lvl/lvl_050_level_07.json",
+          "stem": "lvl_050_level_07",
+          "screenshot": "screenshots/lvl_050_level_07.png"
+        },
+        {
+          "json": "lvl/lvl_051_level_08.json",
+          "stem": "lvl_051_level_08",
+          "screenshot": "screenshots/lvl_051_level_08.png"
+        },
+        {
+          "json": "lvl/lvl_052_level_09.json",
+          "stem": "lvl_052_level_09",
+          "screenshot": "screenshots/lvl_052_level_09.png"
+        },
+        {
+          "json": "lvl/lvl_053_level_1.json",
+          "stem": "lvl_053_level_1",
+          "screenshot": "screenshots/lvl_053_level_1.png"
+        },
+        {
+          "json": "lvl/lvl_054_level_10.json",
+          "stem": "lvl_054_level_10",
+          "screenshot": "screenshots/lvl_054_level_10.png"
+        },
+        {
+          "json": "lvl/lvl_055_level3_with_moves.json",
+          "stem": "lvl_055_level3_with_moves",
+          "screenshot": "screenshots/lvl_055_level3_with_moves.png"
+        },
+        {
+          "json": "lvl/lvl_078_p_9_a.json",
+          "stem": "lvl_078_p_9_a",
+          "screenshot": "screenshots/lvl_078_p_9_a.png"
+        },
+        {
+          "json": "lvl/lvl_081_play_session_level_1_validate_10_level.json",
+          "stem": "lvl_081_play_session_level_1_validate_10_level",
+          "screenshot": "screenshots/lvl_081_play_session_level_1_validate_10_level.png"
+        },
+        {
+          "json": "lvl/lvl_084_play_session_level_1_validate_7_level.json",
+          "stem": "lvl_084_play_session_level_1_validate_7_level",
+          "screenshot": "screenshots/lvl_084_play_session_level_1_validate_7_level.png"
+        },
+        {
+          "json": "lvl/lvl_085_play_session_level_1_validate_8_level.json",
+          "stem": "lvl_085_play_session_level_1_validate_8_level",
+          "screenshot": "screenshots/lvl_085_play_session_level_1_validate_8_level.png"
+        },
+        {
+          "json": "lvl/lvl_086_play_session_level_2_validate_level.json",
+          "stem": "lvl_086_play_session_level_2_validate_level",
+          "screenshot": "screenshots/lvl_086_play_session_level_2_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_087_play_session_level_3_validate_level.json",
+          "stem": "lvl_087_play_session_level_3_validate_level",
+          "screenshot": "screenshots/lvl_087_play_session_level_3_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_088_play_session_level_4_validate_level.json",
+          "stem": "lvl_088_play_session_level_4_validate_level",
+          "screenshot": "screenshots/lvl_088_play_session_level_4_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_089_play_session_level_5_validate_2_level.json",
+          "stem": "lvl_089_play_session_level_5_validate_2_level",
+          "screenshot": "screenshots/lvl_089_play_session_level_5_validate_2_level.png"
+        },
+        {
+          "json": "lvl/lvl_090_play_session_level_5_validate_level.json",
+          "stem": "lvl_090_play_session_level_5_validate_level",
+          "screenshot": "screenshots/lvl_090_play_session_level_5_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_091_play_session_level_6_validate_1_level.json",
+          "stem": "lvl_091_play_session_level_6_validate_1_level",
+          "screenshot": "screenshots/lvl_091_play_session_level_6_validate_1_level.png"
+        },
+        {
+          "json": "lvl/lvl_092_play_session_level_6_validate_level.json",
+          "stem": "lvl_092_play_session_level_6_validate_level",
+          "screenshot": "screenshots/lvl_092_play_session_level_6_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_094_play_session_level_8_validate_level.json",
+          "stem": "lvl_094_play_session_level_8_validate_level",
+          "screenshot": "screenshots/lvl_094_play_session_level_8_validate_level.png"
+        },
+        {
+          "json": "lvl/lvl_095_play_session_level_9_manual_level.json",
+          "stem": "lvl_095_play_session_level_9_manual_level",
+          "screenshot": "screenshots/lvl_095_play_session_level_9_manual_level.png"
+        },
+        {
+          "json": "lvl/lvl_096_progression_levels_slot_1.json",
+          "stem": "lvl_096_progression_levels_slot_1",
+          "screenshot": "screenshots/lvl_096_progression_levels_slot_1.png"
+        },
+        {
+          "json": "lvl/lvl_098_progression_levels_slot_2.json",
+          "stem": "lvl_098_progression_levels_slot_2",
+          "screenshot": "screenshots/lvl_098_progression_levels_slot_2.png"
+        },
+        {
+          "json": "lvl/lvl_099_progression_levels_slot_3.json",
+          "stem": "lvl_099_progression_levels_slot_3",
+          "screenshot": "screenshots/lvl_099_progression_levels_slot_3.png"
+        },
+        {
+          "json": "lvl/lvl_100_progression_levels_slot_4.json",
+          "stem": "lvl_100_progression_levels_slot_4",
+          "screenshot": "screenshots/lvl_100_progression_levels_slot_4.png"
+        },
+        {
+          "json": "lvl/lvl_101_progression_levels_slot_5.json",
+          "stem": "lvl_101_progression_levels_slot_5",
+          "screenshot": "screenshots/lvl_101_progression_levels_slot_5.png"
+        },
+        {
+          "json": "lvl/lvl_102_progression_levels_slot_6.json",
+          "stem": "lvl_102_progression_levels_slot_6",
+          "screenshot": "screenshots/lvl_102_progression_levels_slot_6.png"
+        },
+        {
+          "json": "lvl/lvl_103_progression_levels_slot_7.json",
+          "stem": "lvl_103_progression_levels_slot_7",
+          "screenshot": "screenshots/lvl_103_progression_levels_slot_7.png"
+        },
+        {
+          "json": "lvl/lvl_104_progression_levels_slot_8.json",
+          "stem": "lvl_104_progression_levels_slot_8",
+          "screenshot": "screenshots/lvl_104_progression_levels_slot_8.png"
+        },
+        {
+          "json": "lvl/lvl_105_progression_levels_slot_9.json",
+          "stem": "lvl_105_progression_levels_slot_9",
+          "screenshot": "screenshots/lvl_105_progression_levels_slot_9.png"
+        },
+        {
+          "json": "lvl/lvl_106_rect_test_7x8.json",
+          "stem": "lvl_106_rect_test_7x8",
+          "screenshot": "screenshots/lvl_106_rect_test_7x8.png"
+        },
+        {
+          "json": "lvl/lvl_108_tune_large_01_7x7.json",
+          "stem": "lvl_108_tune_large_01_7x7",
+          "screenshot": "screenshots/lvl_108_tune_large_01_7x7.png"
+        },
+        {
+          "json": "lvl/progression3_level_9.json",
+          "stem": "progression3_level_9",
+          "screenshot": null
+        }
+      ]
+    },
+    {
+      "name": "Progression A",
+      "count": 11,
+      "with_screenshot": 9,
+      "items": [
+        {
+          "json": "progression_a/progresion1_level6.json",
+          "stem": "progresion1_level6",
+          "screenshot": "screenshots/progresion1_level6.png"
+        },
+        {
+          "json": "progression_a/progression1_level1.json",
+          "stem": "progression1_level1",
+          "screenshot": "screenshots/progression1_level1.png"
+        },
+        {
+          "json": "progression_a/progression1_level10.json",
+          "stem": "progression1_level10",
+          "screenshot": "screenshots/progression1_level10.png"
+        },
+        {
+          "json": "progression_a/progression1_level2 copia.json",
+          "stem": "progression1_level2 copia",
+          "screenshot": null
+        },
+        {
+          "json": "progression_a/progression1_level3.json",
+          "stem": "progression1_level3",
+          "screenshot": "screenshots/progression1_level3.png"
+        },
+        {
+          "json": "progression_a/progression1_level4.json",
+          "stem": "progression1_level4",
+          "screenshot": "screenshots/progression1_level4.png"
+        },
+        {
+          "json": "progression_a/progression1_level5.json",
+          "stem": "progression1_level5",
+          "screenshot": "screenshots/progression1_level5.png"
+        },
+        {
+          "json": "progression_a/progression1_level6.json",
+          "stem": "progression1_level6",
+          "screenshot": null
+        },
+        {
+          "json": "progression_a/progression1_level7_v2.json",
+          "stem": "progression1_level7_v2",
+          "screenshot": "screenshots/progression1_level7_v2.png"
+        },
+        {
+          "json": "progression_a/progression1_level8.json",
+          "stem": "progression1_level8",
+          "screenshot": "screenshots/progression1_level8.png"
+        },
+        {
+          "json": "progression_a/progression1_level9.json",
+          "stem": "progression1_level9",
+          "screenshot": "screenshots/progression1_level9.png"
+        }
+      ]
+    },
+    {
+      "name": "Progression B",
+      "count": 14,
+      "with_screenshot": 7,
+      "items": [
+        {
+          "json": "progression_b/lvl_057_new_level3_a.json",
+          "stem": "lvl_057_new_level3_a",
+          "screenshot": "screenshots/lvl_057_new_level3_a.png"
+        },
+        {
+          "json": "progression_b/lvl_058_new_level6_a.json",
+          "stem": "lvl_058_new_level6_a",
+          "screenshot": "screenshots/lvl_058_new_level6_a.png"
+        },
+        {
+          "json": "progression_b/lvl_059_new_level8_a.json",
+          "stem": "lvl_059_new_level8_a",
+          "screenshot": "screenshots/lvl_059_new_level8_a.png"
+        },
+        {
+          "json": "progression_b/lvl_061_p_2_2.json",
+          "stem": "lvl_061_p_2_2",
+          "screenshot": "screenshots/lvl_061_p_2_2.png"
+        },
+        {
+          "json": "progression_b/lvl_097_progression_levels_slot_10.json",
+          "stem": "lvl_097_progression_levels_slot_10",
+          "screenshot": "screenshots/lvl_097_progression_levels_slot_10.png"
+        },
+        {
+          "json": "progression_b/procedural_2_level_1_new_20260322234743.json",
+          "stem": "procedural_2_level_1_new_20260322234743",
+          "screenshot": "screenshots/procedural_2_level_1_new_20260322234743.png"
+        },
+        {
+          "json": "progression_b/progression2_level_2.json",
+          "stem": "progression2_level_2",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/progression2_level_3.json",
+          "stem": "progression2_level_3",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/progression2_level_4.json",
+          "stem": "progression2_level_4",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/progression2_level_5.json",
+          "stem": "progression2_level_5",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/progression2_level_6.json",
+          "stem": "progression2_level_6",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/progression2_level_9.json",
+          "stem": "progression2_level_9",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/x2_variant_3.json",
+          "stem": "x2_variant_3",
+          "screenshot": null
+        },
+        {
+          "json": "progression_b/x_4.json",
+          "stem": "x_4",
+          "screenshot": "screenshots/x_4.png"
+        }
+      ]
+    },
+    {
+      "name": "Progression C",
+      "count": 14,
+      "with_screenshot": 14,
+      "items": [
+        {
+          "json": "progression_c/progression_3_level1.json",
+          "stem": "progression_3_level1",
+          "screenshot": "screenshots/progression_3_level1.png"
+        },
+        {
+          "json": "progression_c/progression_3_level10.json",
+          "stem": "progression_3_level10",
+          "screenshot": "screenshots/progression_3_level10.png"
+        },
+        {
+          "json": "progression_c/progression_3_level10_v2.json",
+          "stem": "progression_3_level10_v2",
+          "screenshot": "screenshots/progression_3_level10_v2.png"
+        },
+        {
+          "json": "progression_c/progression_3_level3.json",
+          "stem": "progression_3_level3",
+          "screenshot": "screenshots/progression_3_level3.png"
+        },
+        {
+          "json": "progression_c/progression_3_level4.json",
+          "stem": "progression_3_level4",
+          "screenshot": "screenshots/progression_3_level4.png"
+        },
+        {
+          "json": "progression_c/progression_3_level5.json",
+          "stem": "progression_3_level5",
+          "screenshot": "screenshots/progression_3_level5.png"
+        },
+        {
+          "json": "progression_c/progression_3_level6.json",
+          "stem": "progression_3_level6",
+          "screenshot": "screenshots/progression_3_level6.png"
+        },
+        {
+          "json": "progression_c/progression_3_level7.json",
+          "stem": "progression_3_level7",
+          "screenshot": "screenshots/progression_3_level7.png"
+        },
+        {
+          "json": "progression_c/progression_3_level7_v2.json",
+          "stem": "progression_3_level7_v2",
+          "screenshot": "screenshots/progression_3_level7_v2.png"
+        },
+        {
+          "json": "progression_c/progression_3_level8.json",
+          "stem": "progression_3_level8",
+          "screenshot": "screenshots/progression_3_level8.png"
+        },
+        {
+          "json": "progression_c/progression_3_level9.json",
+          "stem": "progression_3_level9",
+          "screenshot": "screenshots/progression_3_level9.png"
+        },
+        {
+          "json": "progression_c/progression_3_level9_v2.json",
+          "stem": "progression_3_level9_v2",
+          "screenshot": "screenshots/progression_3_level9_v2.png"
+        },
+        {
+          "json": "progression_c/progression_3_level_2_v2.json",
+          "stem": "progression_3_level_2_v2",
+          "screenshot": "screenshots/progression_3_level_2_v2.png"
+        },
+        {
+          "json": "progression_c/progression_3_level_8_v2.json",
+          "stem": "progression_3_level_8_v2",
+          "screenshot": "screenshots/progression_3_level_8_v2.png"
+        }
+      ]
+    },
+    {
+      "name": "Procedural 8x8-9x9",
+      "count": 100,
+      "with_screenshot": 100,
+      "items": [
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_001.json",
+          "stem": "procedular_reference_large_001",
+          "screenshot": "screenshots/procedular_reference_large_001.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_002.json",
+          "stem": "procedular_reference_large_002",
+          "screenshot": "screenshots/procedular_reference_large_002.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_003.json",
+          "stem": "procedular_reference_large_003",
+          "screenshot": "screenshots/procedular_reference_large_003.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_004.json",
+          "stem": "procedular_reference_large_004",
+          "screenshot": "screenshots/procedular_reference_large_004.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_005.json",
+          "stem": "procedular_reference_large_005",
+          "screenshot": "screenshots/procedular_reference_large_005.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_006.json",
+          "stem": "procedular_reference_large_006",
+          "screenshot": "screenshots/procedular_reference_large_006.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_007.json",
+          "stem": "procedular_reference_large_007",
+          "screenshot": "screenshots/procedular_reference_large_007.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_008.json",
+          "stem": "procedular_reference_large_008",
+          "screenshot": "screenshots/procedular_reference_large_008.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_009.json",
+          "stem": "procedular_reference_large_009",
+          "screenshot": "screenshots/procedular_reference_large_009.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_010.json",
+          "stem": "procedular_reference_large_010",
+          "screenshot": "screenshots/procedular_reference_large_010.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_011.json",
+          "stem": "procedular_reference_large_011",
+          "screenshot": "screenshots/procedular_reference_large_011.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_012.json",
+          "stem": "procedular_reference_large_012",
+          "screenshot": "screenshots/procedular_reference_large_012.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_013.json",
+          "stem": "procedular_reference_large_013",
+          "screenshot": "screenshots/procedular_reference_large_013.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_014.json",
+          "stem": "procedular_reference_large_014",
+          "screenshot": "screenshots/procedular_reference_large_014.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_015.json",
+          "stem": "procedular_reference_large_015",
+          "screenshot": "screenshots/procedular_reference_large_015.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_016.json",
+          "stem": "procedular_reference_large_016",
+          "screenshot": "screenshots/procedular_reference_large_016.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_017.json",
+          "stem": "procedular_reference_large_017",
+          "screenshot": "screenshots/procedular_reference_large_017.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_018.json",
+          "stem": "procedular_reference_large_018",
+          "screenshot": "screenshots/procedular_reference_large_018.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_019.json",
+          "stem": "procedular_reference_large_019",
+          "screenshot": "screenshots/procedular_reference_large_019.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_020.json",
+          "stem": "procedular_reference_large_020",
+          "screenshot": "screenshots/procedular_reference_large_020.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_021.json",
+          "stem": "procedular_reference_large_021",
+          "screenshot": "screenshots/procedular_reference_large_021.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_022.json",
+          "stem": "procedular_reference_large_022",
+          "screenshot": "screenshots/procedular_reference_large_022.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_023.json",
+          "stem": "procedular_reference_large_023",
+          "screenshot": "screenshots/procedular_reference_large_023.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_024.json",
+          "stem": "procedular_reference_large_024",
+          "screenshot": "screenshots/procedular_reference_large_024.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_025.json",
+          "stem": "procedular_reference_large_025",
+          "screenshot": "screenshots/procedular_reference_large_025.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_026.json",
+          "stem": "procedular_reference_large_026",
+          "screenshot": "screenshots/procedular_reference_large_026.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_027.json",
+          "stem": "procedular_reference_large_027",
+          "screenshot": "screenshots/procedular_reference_large_027.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_028.json",
+          "stem": "procedular_reference_large_028",
+          "screenshot": "screenshots/procedular_reference_large_028.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_029.json",
+          "stem": "procedular_reference_large_029",
+          "screenshot": "screenshots/procedular_reference_large_029.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_030.json",
+          "stem": "procedular_reference_large_030",
+          "screenshot": "screenshots/procedular_reference_large_030.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_031.json",
+          "stem": "procedular_reference_large_031",
+          "screenshot": "screenshots/procedular_reference_large_031.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_032.json",
+          "stem": "procedular_reference_large_032",
+          "screenshot": "screenshots/procedular_reference_large_032.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_033.json",
+          "stem": "procedular_reference_large_033",
+          "screenshot": "screenshots/procedular_reference_large_033.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_034.json",
+          "stem": "procedular_reference_large_034",
+          "screenshot": "screenshots/procedular_reference_large_034.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_035.json",
+          "stem": "procedular_reference_large_035",
+          "screenshot": "screenshots/procedular_reference_large_035.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_036.json",
+          "stem": "procedular_reference_large_036",
+          "screenshot": "screenshots/procedular_reference_large_036.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_037.json",
+          "stem": "procedular_reference_large_037",
+          "screenshot": "screenshots/procedular_reference_large_037.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_038.json",
+          "stem": "procedular_reference_large_038",
+          "screenshot": "screenshots/procedular_reference_large_038.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_039.json",
+          "stem": "procedular_reference_large_039",
+          "screenshot": "screenshots/procedular_reference_large_039.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_040.json",
+          "stem": "procedular_reference_large_040",
+          "screenshot": "screenshots/procedular_reference_large_040.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_041.json",
+          "stem": "procedular_reference_large_041",
+          "screenshot": "screenshots/procedular_reference_large_041.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_042.json",
+          "stem": "procedular_reference_large_042",
+          "screenshot": "screenshots/procedular_reference_large_042.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_043.json",
+          "stem": "procedular_reference_large_043",
+          "screenshot": "screenshots/procedular_reference_large_043.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_044.json",
+          "stem": "procedular_reference_large_044",
+          "screenshot": "screenshots/procedular_reference_large_044.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_045.json",
+          "stem": "procedular_reference_large_045",
+          "screenshot": "screenshots/procedular_reference_large_045.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_046.json",
+          "stem": "procedular_reference_large_046",
+          "screenshot": "screenshots/procedular_reference_large_046.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_047.json",
+          "stem": "procedular_reference_large_047",
+          "screenshot": "screenshots/procedular_reference_large_047.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_048.json",
+          "stem": "procedular_reference_large_048",
+          "screenshot": "screenshots/procedular_reference_large_048.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_049.json",
+          "stem": "procedular_reference_large_049",
+          "screenshot": "screenshots/procedular_reference_large_049.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_050.json",
+          "stem": "procedular_reference_large_050",
+          "screenshot": "screenshots/procedular_reference_large_050.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_051.json",
+          "stem": "procedular_reference_large_051",
+          "screenshot": "screenshots/procedular_reference_large_051.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_052.json",
+          "stem": "procedular_reference_large_052",
+          "screenshot": "screenshots/procedular_reference_large_052.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_053.json",
+          "stem": "procedular_reference_large_053",
+          "screenshot": "screenshots/procedular_reference_large_053.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_054.json",
+          "stem": "procedular_reference_large_054",
+          "screenshot": "screenshots/procedular_reference_large_054.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_055.json",
+          "stem": "procedular_reference_large_055",
+          "screenshot": "screenshots/procedular_reference_large_055.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_056.json",
+          "stem": "procedular_reference_large_056",
+          "screenshot": "screenshots/procedular_reference_large_056.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_057.json",
+          "stem": "procedular_reference_large_057",
+          "screenshot": "screenshots/procedular_reference_large_057.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_058.json",
+          "stem": "procedular_reference_large_058",
+          "screenshot": "screenshots/procedular_reference_large_058.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_059.json",
+          "stem": "procedular_reference_large_059",
+          "screenshot": "screenshots/procedular_reference_large_059.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_060.json",
+          "stem": "procedular_reference_large_060",
+          "screenshot": "screenshots/procedular_reference_large_060.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_061.json",
+          "stem": "procedular_reference_large_061",
+          "screenshot": "screenshots/procedular_reference_large_061.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_062.json",
+          "stem": "procedular_reference_large_062",
+          "screenshot": "screenshots/procedular_reference_large_062.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_063.json",
+          "stem": "procedular_reference_large_063",
+          "screenshot": "screenshots/procedular_reference_large_063.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_064.json",
+          "stem": "procedular_reference_large_064",
+          "screenshot": "screenshots/procedular_reference_large_064.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_065.json",
+          "stem": "procedular_reference_large_065",
+          "screenshot": "screenshots/procedular_reference_large_065.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_066.json",
+          "stem": "procedular_reference_large_066",
+          "screenshot": "screenshots/procedular_reference_large_066.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_067.json",
+          "stem": "procedular_reference_large_067",
+          "screenshot": "screenshots/procedular_reference_large_067.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_068.json",
+          "stem": "procedular_reference_large_068",
+          "screenshot": "screenshots/procedular_reference_large_068.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_069.json",
+          "stem": "procedular_reference_large_069",
+          "screenshot": "screenshots/procedular_reference_large_069.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_070.json",
+          "stem": "procedular_reference_large_070",
+          "screenshot": "screenshots/procedular_reference_large_070.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_071.json",
+          "stem": "procedular_reference_large_071",
+          "screenshot": "screenshots/procedular_reference_large_071.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_072.json",
+          "stem": "procedular_reference_large_072",
+          "screenshot": "screenshots/procedular_reference_large_072.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_073.json",
+          "stem": "procedular_reference_large_073",
+          "screenshot": "screenshots/procedular_reference_large_073.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_074.json",
+          "stem": "procedular_reference_large_074",
+          "screenshot": "screenshots/procedular_reference_large_074.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_075.json",
+          "stem": "procedular_reference_large_075",
+          "screenshot": "screenshots/procedular_reference_large_075.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_076.json",
+          "stem": "procedular_reference_large_076",
+          "screenshot": "screenshots/procedular_reference_large_076.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_077.json",
+          "stem": "procedular_reference_large_077",
+          "screenshot": "screenshots/procedular_reference_large_077.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_078.json",
+          "stem": "procedular_reference_large_078",
+          "screenshot": "screenshots/procedular_reference_large_078.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_079.json",
+          "stem": "procedular_reference_large_079",
+          "screenshot": "screenshots/procedular_reference_large_079.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_080.json",
+          "stem": "procedular_reference_large_080",
+          "screenshot": "screenshots/procedular_reference_large_080.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_081.json",
+          "stem": "procedular_reference_large_081",
+          "screenshot": "screenshots/procedular_reference_large_081.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_082.json",
+          "stem": "procedular_reference_large_082",
+          "screenshot": "screenshots/procedular_reference_large_082.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_083.json",
+          "stem": "procedular_reference_large_083",
+          "screenshot": "screenshots/procedular_reference_large_083.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_084.json",
+          "stem": "procedular_reference_large_084",
+          "screenshot": "screenshots/procedular_reference_large_084.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_085.json",
+          "stem": "procedular_reference_large_085",
+          "screenshot": "screenshots/procedular_reference_large_085.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_086.json",
+          "stem": "procedular_reference_large_086",
+          "screenshot": "screenshots/procedular_reference_large_086.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_087.json",
+          "stem": "procedular_reference_large_087",
+          "screenshot": "screenshots/procedular_reference_large_087.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_088.json",
+          "stem": "procedular_reference_large_088",
+          "screenshot": "screenshots/procedular_reference_large_088.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_089.json",
+          "stem": "procedular_reference_large_089",
+          "screenshot": "screenshots/procedular_reference_large_089.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_090.json",
+          "stem": "procedular_reference_large_090",
+          "screenshot": "screenshots/procedular_reference_large_090.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_091.json",
+          "stem": "procedular_reference_large_091",
+          "screenshot": "screenshots/procedular_reference_large_091.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_092.json",
+          "stem": "procedular_reference_large_092",
+          "screenshot": "screenshots/procedular_reference_large_092.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_093.json",
+          "stem": "procedular_reference_large_093",
+          "screenshot": "screenshots/procedular_reference_large_093.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_094.json",
+          "stem": "procedular_reference_large_094",
+          "screenshot": "screenshots/procedular_reference_large_094.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_095.json",
+          "stem": "procedular_reference_large_095",
+          "screenshot": "screenshots/procedular_reference_large_095.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_096.json",
+          "stem": "procedular_reference_large_096",
+          "screenshot": "screenshots/procedular_reference_large_096.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_097.json",
+          "stem": "procedular_reference_large_097",
+          "screenshot": "screenshots/procedular_reference_large_097.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_098.json",
+          "stem": "procedular_reference_large_098",
+          "screenshot": "screenshots/procedular_reference_large_098.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_099.json",
+          "stem": "procedular_reference_large_099",
+          "screenshot": "screenshots/procedular_reference_large_099.png"
+        },
+        {
+          "json": "8x8-9x9-procedular/procedular_reference_large_100.json",
+          "stem": "procedular_reference_large_100",
+          "screenshot": "screenshots/procedular_reference_large_100.png"
+        }
+      ]
+    },
+    {
+      "name": "Benchmark Flow Free",
+      "count": 23,
+      "with_screenshot": 23,
+      "items": [
+        {
+          "json": "benchmark_flow_free/easy_p_4_a.json",
+          "stem": "easy_p_4_a",
+          "screenshot": "screenshots/easy_p_4_a.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel11_9x9.json",
+          "stem": "ff_nivel11_9x9",
+          "screenshot": "screenshots/ff_nivel11_9x9.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel13_8x8.json",
+          "stem": "ff_nivel13_8x8",
+          "screenshot": "screenshots/ff_nivel13_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel15_9x9.json",
+          "stem": "ff_nivel15_9x9",
+          "screenshot": "screenshots/ff_nivel15_9x9.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel16_8x8.json",
+          "stem": "ff_nivel16_8x8",
+          "screenshot": "screenshots/ff_nivel16_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel1_10x12.json",
+          "stem": "ff_nivel1_10x12",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel1_10x12.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel2_3_12x12.json",
+          "stem": "ff_nivel2_3_12x12",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel2_3_12x12.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel2_5_9x9.json",
+          "stem": "ff_nivel2_5_9x9",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel2_5_9x9.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel32_8x8.json",
+          "stem": "ff_nivel32_8x8",
+          "screenshot": "screenshots/ff_nivel32_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel34_8x8.json",
+          "stem": "ff_nivel34_8x8",
+          "screenshot": "screenshots/ff_nivel34_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel3_6_8x8.json",
+          "stem": "ff_nivel3_6_8x8",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel3_6_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel3_8x8.json",
+          "stem": "ff_nivel3_8x8",
+          "screenshot": "screenshots/ff_nivel3_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel4_10x12.json",
+          "stem": "ff_nivel4_10x12",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel4_10x12.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel4_6_8x8.json",
+          "stem": "ff_nivel4_6_8x8",
+          "screenshot": "benchmark_flow_free/screenshots/ff_nivel4_6_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel4_8x8.json",
+          "stem": "ff_nivel4_8x8",
+          "screenshot": "screenshots/ff_nivel4_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel5_8x8.json",
+          "stem": "ff_nivel5_8x8",
+          "screenshot": "screenshots/ff_nivel5_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel5_9x9.json",
+          "stem": "ff_nivel5_9x9",
+          "screenshot": "screenshots/ff_nivel5_9x9.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel6_8x8.json",
+          "stem": "ff_nivel6_8x8",
+          "screenshot": "screenshots/ff_nivel6_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel6v2_8x8.json",
+          "stem": "ff_nivel6v2_8x8",
+          "screenshot": "screenshots/ff_nivel6v2_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel7a_8x8.json",
+          "stem": "ff_nivel7a_8x8",
+          "screenshot": "screenshots/ff_nivel7a_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel7b_8x8.json",
+          "stem": "ff_nivel7b_8x8",
+          "screenshot": "screenshots/ff_nivel7b_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel9a_8x8.json",
+          "stem": "ff_nivel9a_8x8",
+          "screenshot": "screenshots/ff_nivel9a_8x8.png"
+        },
+        {
+          "json": "benchmark_flow_free/ff_nivel9b_9x9.json",
+          "stem": "ff_nivel9b_9x9",
+          "screenshot": "screenshots/ff_nivel9b_9x9.png"
+        }
+      ]
+    },
+    {
+      "name": "Root levels",
+      "count": 212,
+      "with_screenshot": 206,
+      "items": [
+        {
+          "json": "1.json",
+          "stem": "1",
+          "screenshot": "screenshots/1.png"
+        },
+        {
+          "json": "2.json",
+          "stem": "2",
+          "screenshot": "screenshots/2.png"
+        },
+        {
+          "json": "3.json",
+          "stem": "3",
+          "screenshot": "screenshots/3.png"
+        },
+        {
+          "json": "4.json",
+          "stem": "4",
+          "screenshot": null
+        },
+        {
+          "json": "Progression B \u00b7 Level 2.json",
+          "stem": "Progression B \u00b7 Level 2",
+          "screenshot": null
+        },
+        {
+          "json": "baseprocedular_1.json",
+          "stem": "baseprocedular_1",
+          "screenshot": "screenshots/baseprocedular_1.png"
+        },
+        {
+          "json": "image11_level_editor.json",
+          "stem": "image11_level_editor",
+          "screenshot": "screenshots/image11_level_editor.png"
+        },
+        {
+          "json": "image19_level_editor.json",
+          "stem": "image19_level_editor",
+          "screenshot": "screenshots/image19_level_editor.png"
+        },
+        {
+          "json": "image20_level_editor.json",
+          "stem": "image20_level_editor",
+          "screenshot": "screenshots/image20_level_editor.png"
+        },
+        {
+          "json": "image21_level_editor.json",
+          "stem": "image21_level_editor",
+          "screenshot": "screenshots/image21_level_editor.png"
+        },
+        {
+          "json": "image24_level_editor.json",
+          "stem": "image24_level_editor",
+          "screenshot": "screenshots/image24_level_editor.png"
+        },
+        {
+          "json": "image25_level_editor.json",
+          "stem": "image25_level_editor",
+          "screenshot": "screenshots/image25_level_editor.png"
+        },
+        {
+          "json": "image28_level_editor.json",
+          "stem": "image28_level_editor",
+          "screenshot": "screenshots/image28_level_editor.png"
+        },
+        {
+          "json": "lvl_012_image02_level_editor.json",
+          "stem": "lvl_012_image02_level_editor",
+          "screenshot": "screenshots/lvl_012_image02_level_editor.png"
+        },
+        {
+          "json": "lvl_013_image03_level_editor.json",
+          "stem": "lvl_013_image03_level_editor",
+          "screenshot": "screenshots/lvl_013_image03_level_editor.png"
+        },
+        {
+          "json": "lvl_014_image04_level_editor.json",
+          "stem": "lvl_014_image04_level_editor",
+          "screenshot": "screenshots/lvl_014_image04_level_editor.png"
+        },
+        {
+          "json": "lvl_015_image05_level_editor.json",
+          "stem": "lvl_015_image05_level_editor",
+          "screenshot": "screenshots/lvl_015_image05_level_editor.png"
+        },
+        {
+          "json": "lvl_016_image07_level_editor.json",
+          "stem": "lvl_016_image07_level_editor",
+          "screenshot": "screenshots/lvl_016_image07_level_editor.png"
+        },
+        {
+          "json": "lvl_017_image08_level_editor.json",
+          "stem": "lvl_017_image08_level_editor",
+          "screenshot": "screenshots/lvl_017_image08_level_editor.png"
+        },
+        {
+          "json": "lvl_018_image09_level_editor.json",
+          "stem": "lvl_018_image09_level_editor",
+          "screenshot": "screenshots/lvl_018_image09_level_editor.png"
+        },
+        {
+          "json": "lvl_019_image10_level_editor.json",
+          "stem": "lvl_019_image10_level_editor",
+          "screenshot": "screenshots/lvl_019_image10_level_editor.png"
+        },
+        {
+          "json": "lvl_020_image11_level_editor.json",
+          "stem": "lvl_020_image11_level_editor",
+          "screenshot": "screenshots/lvl_020_image11_level_editor.png"
+        },
+        {
+          "json": "lvl_021_image12_level_editor.json",
+          "stem": "lvl_021_image12_level_editor",
+          "screenshot": "screenshots/lvl_021_image12_level_editor.png"
+        },
+        {
+          "json": "lvl_022_image13_level_editor.json",
+          "stem": "lvl_022_image13_level_editor",
+          "screenshot": "screenshots/lvl_022_image13_level_editor.png"
+        },
+        {
+          "json": "lvl_023_image14_level_editor.json",
+          "stem": "lvl_023_image14_level_editor",
+          "screenshot": "screenshots/lvl_023_image14_level_editor.png"
+        },
+        {
+          "json": "lvl_024_image15_level_editor.json",
+          "stem": "lvl_024_image15_level_editor",
+          "screenshot": "screenshots/lvl_024_image15_level_editor.png"
+        },
+        {
+          "json": "lvl_025_image16_level_editor.json",
+          "stem": "lvl_025_image16_level_editor",
+          "screenshot": "screenshots/lvl_025_image16_level_editor.png"
+        },
+        {
+          "json": "lvl_026_image17_level_editor.json",
+          "stem": "lvl_026_image17_level_editor",
+          "screenshot": "screenshots/lvl_026_image17_level_editor.png"
+        },
+        {
+          "json": "lvl_027_image18_level_editor.json",
+          "stem": "lvl_027_image18_level_editor",
+          "screenshot": "screenshots/lvl_027_image18_level_editor.png"
+        },
+        {
+          "json": "lvl_028_image19_level_editor.json",
+          "stem": "lvl_028_image19_level_editor",
+          "screenshot": "screenshots/lvl_028_image19_level_editor.png"
+        },
+        {
+          "json": "lvl_029_image20_level_editor.json",
+          "stem": "lvl_029_image20_level_editor",
+          "screenshot": "screenshots/lvl_029_image20_level_editor.png"
+        },
+        {
+          "json": "lvl_030_image21_level_editor.json",
+          "stem": "lvl_030_image21_level_editor",
+          "screenshot": "screenshots/lvl_030_image21_level_editor.png"
+        },
+        {
+          "json": "lvl_031_image22_level_editor.json",
+          "stem": "lvl_031_image22_level_editor",
+          "screenshot": "screenshots/lvl_031_image22_level_editor.png"
+        },
+        {
+          "json": "lvl_032_image23_level_editor.json",
+          "stem": "lvl_032_image23_level_editor",
+          "screenshot": "screenshots/lvl_032_image23_level_editor.png"
+        },
+        {
+          "json": "lvl_033_image24_level_editor.json",
+          "stem": "lvl_033_image24_level_editor",
+          "screenshot": "screenshots/lvl_033_image24_level_editor.png"
+        },
+        {
+          "json": "lvl_034_image25_level_editor.json",
+          "stem": "lvl_034_image25_level_editor",
+          "screenshot": "screenshots/lvl_034_image25_level_editor.png"
+        },
+        {
+          "json": "lvl_035_image26_level_editor.json",
+          "stem": "lvl_035_image26_level_editor",
+          "screenshot": "screenshots/lvl_035_image26_level_editor.png"
+        },
+        {
+          "json": "lvl_036_image27_level_editor.json",
+          "stem": "lvl_036_image27_level_editor",
+          "screenshot": "screenshots/lvl_036_image27_level_editor.png"
+        },
+        {
+          "json": "lvl_037_image28_level_editor.json",
+          "stem": "lvl_037_image28_level_editor",
+          "screenshot": "screenshots/lvl_037_image28_level_editor.png"
+        },
+        {
+          "json": "lvl_038_image29_level_editor.json",
+          "stem": "lvl_038_image29_level_editor",
+          "screenshot": "screenshots/lvl_038_image29_level_editor.png"
+        },
+        {
+          "json": "lvl_039_image30_level_editor.json",
+          "stem": "lvl_039_image30_level_editor",
+          "screenshot": "screenshots/lvl_039_image30_level_editor.png"
+        },
+        {
+          "json": "lvl_040_image31_level_editor.json",
+          "stem": "lvl_040_image31_level_editor",
+          "screenshot": "screenshots/lvl_040_image31_level_editor.png"
+        },
+        {
+          "json": "lvl_041_image32_level_editor.json",
+          "stem": "lvl_041_image32_level_editor",
+          "screenshot": "screenshots/lvl_041_image32_level_editor.png"
+        },
+        {
+          "json": "lvl_042_image33_level_editor.json",
+          "stem": "lvl_042_image33_level_editor",
+          "screenshot": "screenshots/lvl_042_image33_level_editor.png"
+        },
+        {
+          "json": "lvl_043_image34_level_editor.json",
+          "stem": "lvl_043_image34_level_editor",
+          "screenshot": "screenshots/lvl_043_image34_level_editor.png"
+        },
+        {
+          "json": "lvl_057_new_level3_a.json",
+          "stem": "lvl_057_new_level3_a",
+          "screenshot": "screenshots/lvl_057_new_level3_a.png"
+        },
+        {
+          "json": "lvl_058_new_level6_a.json",
+          "stem": "lvl_058_new_level6_a",
+          "screenshot": "screenshots/lvl_058_new_level6_a.png"
+        },
+        {
+          "json": "lvl_059_new_level8_a.json",
+          "stem": "lvl_059_new_level8_a",
+          "screenshot": "screenshots/lvl_059_new_level8_a.png"
+        },
+        {
+          "json": "lvl_061_p_2_2.json",
+          "stem": "lvl_061_p_2_2",
+          "screenshot": "screenshots/lvl_061_p_2_2.png"
+        },
+        {
+          "json": "lvl_062_p_2_4.json",
+          "stem": "lvl_062_p_2_4",
+          "screenshot": "screenshots/lvl_062_p_2_4.png"
+        },
+        {
+          "json": "lvl_063_p_2_5.json",
+          "stem": "lvl_063_p_2_5",
+          "screenshot": "screenshots/lvl_063_p_2_5.png"
+        },
+        {
+          "json": "lvl_064_p_2_6.json",
+          "stem": "lvl_064_p_2_6",
+          "screenshot": "screenshots/lvl_064_p_2_6.png"
+        },
+        {
+          "json": "lvl_065_p_2_9.json",
+          "stem": "lvl_065_p_2_9",
+          "screenshot": "screenshots/lvl_065_p_2_9.png"
+        },
+        {
+          "json": "lvl_067_p_2_b.json",
+          "stem": "lvl_067_p_2_b",
+          "screenshot": "screenshots/lvl_067_p_2_b.png"
+        },
+        {
+          "json": "lvl_069_p_3_b.json",
+          "stem": "lvl_069_p_3_b",
+          "screenshot": "screenshots/lvl_069_p_3_b.png"
+        },
+        {
+          "json": "lvl_082_play_session_level_1_validate_4_level.json",
+          "stem": "lvl_082_play_session_level_1_validate_4_level",
+          "screenshot": "screenshots/lvl_082_play_session_level_1_validate_4_level.png"
+        },
+        {
+          "json": "lvl_085_play_session_level_1_validate_8_level.json",
+          "stem": "lvl_085_play_session_level_1_validate_8_level",
+          "screenshot": "screenshots/lvl_085_play_session_level_1_validate_8_level.png"
+        },
+        {
+          "json": "lvl_093_play_session_level_7_validate_level.json",
+          "stem": "lvl_093_play_session_level_7_validate_level",
+          "screenshot": "screenshots/lvl_093_play_session_level_7_validate_level.png"
+        },
+        {
+          "json": "lvl_107_susanne_level_4_manager_ok.json",
+          "stem": "lvl_107_susanne_level_4_manager_ok",
+          "screenshot": "screenshots/lvl_107_susanne_level_4_manager_ok.png"
+        },
+        {
+          "json": "new_level1_a.json",
+          "stem": "new_level1_a",
+          "screenshot": "screenshots/new_level1_a.png"
+        },
+        {
+          "json": "p_medium_2_a.json",
+          "stem": "p_medium_2_a",
+          "screenshot": "screenshots/p_medium_2_a.png"
+        },
+        {
+          "json": "procedular_reference_large_001.json",
+          "stem": "procedular_reference_large_001",
+          "screenshot": "screenshots/procedular_reference_large_001.png"
+        },
+        {
+          "json": "procedular_reference_large_002.json",
+          "stem": "procedular_reference_large_002",
+          "screenshot": "screenshots/procedular_reference_large_002.png"
+        },
+        {
+          "json": "procedular_reference_large_003.json",
+          "stem": "procedular_reference_large_003",
+          "screenshot": "screenshots/procedular_reference_large_003.png"
+        },
+        {
+          "json": "procedular_reference_large_004.json",
+          "stem": "procedular_reference_large_004",
+          "screenshot": "screenshots/procedular_reference_large_004.png"
+        },
+        {
+          "json": "procedular_reference_large_005.json",
+          "stem": "procedular_reference_large_005",
+          "screenshot": "screenshots/procedular_reference_large_005.png"
+        },
+        {
+          "json": "procedular_reference_large_006.json",
+          "stem": "procedular_reference_large_006",
+          "screenshot": "screenshots/procedular_reference_large_006.png"
+        },
+        {
+          "json": "procedular_reference_large_007.json",
+          "stem": "procedular_reference_large_007",
+          "screenshot": "screenshots/procedular_reference_large_007.png"
+        },
+        {
+          "json": "procedular_reference_large_008.json",
+          "stem": "procedular_reference_large_008",
+          "screenshot": "screenshots/procedular_reference_large_008.png"
+        },
+        {
+          "json": "procedular_reference_large_009.json",
+          "stem": "procedular_reference_large_009",
+          "screenshot": "screenshots/procedular_reference_large_009.png"
+        },
+        {
+          "json": "procedular_reference_large_010.json",
+          "stem": "procedular_reference_large_010",
+          "screenshot": "screenshots/procedular_reference_large_010.png"
+        },
+        {
+          "json": "procedular_reference_large_011.json",
+          "stem": "procedular_reference_large_011",
+          "screenshot": "screenshots/procedular_reference_large_011.png"
+        },
+        {
+          "json": "procedular_reference_large_012.json",
+          "stem": "procedular_reference_large_012",
+          "screenshot": "screenshots/procedular_reference_large_012.png"
+        },
+        {
+          "json": "procedular_reference_large_013.json",
+          "stem": "procedular_reference_large_013",
+          "screenshot": "screenshots/procedular_reference_large_013.png"
+        },
+        {
+          "json": "procedular_reference_large_014.json",
+          "stem": "procedular_reference_large_014",
+          "screenshot": "screenshots/procedular_reference_large_014.png"
+        },
+        {
+          "json": "procedular_reference_large_015.json",
+          "stem": "procedular_reference_large_015",
+          "screenshot": "screenshots/procedular_reference_large_015.png"
+        },
+        {
+          "json": "procedular_reference_large_016.json",
+          "stem": "procedular_reference_large_016",
+          "screenshot": "screenshots/procedular_reference_large_016.png"
+        },
+        {
+          "json": "procedular_reference_large_017.json",
+          "stem": "procedular_reference_large_017",
+          "screenshot": "screenshots/procedular_reference_large_017.png"
+        },
+        {
+          "json": "procedular_reference_large_018.json",
+          "stem": "procedular_reference_large_018",
+          "screenshot": "screenshots/procedular_reference_large_018.png"
+        },
+        {
+          "json": "procedular_reference_large_019.json",
+          "stem": "procedular_reference_large_019",
+          "screenshot": "screenshots/procedular_reference_large_019.png"
+        },
+        {
+          "json": "procedular_reference_large_020.json",
+          "stem": "procedular_reference_large_020",
+          "screenshot": "screenshots/procedular_reference_large_020.png"
+        },
+        {
+          "json": "procedular_reference_large_021.json",
+          "stem": "procedular_reference_large_021",
+          "screenshot": "screenshots/procedular_reference_large_021.png"
+        },
+        {
+          "json": "procedular_reference_large_022.json",
+          "stem": "procedular_reference_large_022",
+          "screenshot": "screenshots/procedular_reference_large_022.png"
+        },
+        {
+          "json": "procedular_reference_large_023.json",
+          "stem": "procedular_reference_large_023",
+          "screenshot": "screenshots/procedular_reference_large_023.png"
+        },
+        {
+          "json": "procedular_reference_large_024.json",
+          "stem": "procedular_reference_large_024",
+          "screenshot": "screenshots/procedular_reference_large_024.png"
+        },
+        {
+          "json": "procedular_reference_large_025.json",
+          "stem": "procedular_reference_large_025",
+          "screenshot": "screenshots/procedular_reference_large_025.png"
+        },
+        {
+          "json": "procedular_reference_large_026.json",
+          "stem": "procedular_reference_large_026",
+          "screenshot": "screenshots/procedular_reference_large_026.png"
+        },
+        {
+          "json": "procedular_reference_large_027.json",
+          "stem": "procedular_reference_large_027",
+          "screenshot": "screenshots/procedular_reference_large_027.png"
+        },
+        {
+          "json": "procedular_reference_large_028.json",
+          "stem": "procedular_reference_large_028",
+          "screenshot": "screenshots/procedular_reference_large_028.png"
+        },
+        {
+          "json": "procedular_reference_large_029.json",
+          "stem": "procedular_reference_large_029",
+          "screenshot": "screenshots/procedular_reference_large_029.png"
+        },
+        {
+          "json": "procedular_reference_large_030.json",
+          "stem": "procedular_reference_large_030",
+          "screenshot": "screenshots/procedular_reference_large_030.png"
+        },
+        {
+          "json": "procedular_reference_large_031.json",
+          "stem": "procedular_reference_large_031",
+          "screenshot": "screenshots/procedular_reference_large_031.png"
+        },
+        {
+          "json": "procedular_reference_large_032.json",
+          "stem": "procedular_reference_large_032",
+          "screenshot": "screenshots/procedular_reference_large_032.png"
+        },
+        {
+          "json": "procedular_reference_large_033.json",
+          "stem": "procedular_reference_large_033",
+          "screenshot": "screenshots/procedular_reference_large_033.png"
+        },
+        {
+          "json": "procedular_reference_large_034.json",
+          "stem": "procedular_reference_large_034",
+          "screenshot": "screenshots/procedular_reference_large_034.png"
+        },
+        {
+          "json": "procedular_reference_large_035.json",
+          "stem": "procedular_reference_large_035",
+          "screenshot": "screenshots/procedular_reference_large_035.png"
+        },
+        {
+          "json": "procedular_reference_large_036.json",
+          "stem": "procedular_reference_large_036",
+          "screenshot": "screenshots/procedular_reference_large_036.png"
+        },
+        {
+          "json": "procedular_reference_large_037.json",
+          "stem": "procedular_reference_large_037",
+          "screenshot": "screenshots/procedular_reference_large_037.png"
+        },
+        {
+          "json": "procedular_reference_large_038.json",
+          "stem": "procedular_reference_large_038",
+          "screenshot": "screenshots/procedular_reference_large_038.png"
+        },
+        {
+          "json": "procedular_reference_large_039.json",
+          "stem": "procedular_reference_large_039",
+          "screenshot": "screenshots/procedular_reference_large_039.png"
+        },
+        {
+          "json": "procedular_reference_large_040.json",
+          "stem": "procedular_reference_large_040",
+          "screenshot": "screenshots/procedular_reference_large_040.png"
+        },
+        {
+          "json": "procedular_reference_large_041.json",
+          "stem": "procedular_reference_large_041",
+          "screenshot": "screenshots/procedular_reference_large_041.png"
+        },
+        {
+          "json": "procedular_reference_large_042.json",
+          "stem": "procedular_reference_large_042",
+          "screenshot": "screenshots/procedular_reference_large_042.png"
+        },
+        {
+          "json": "procedular_reference_large_043.json",
+          "stem": "procedular_reference_large_043",
+          "screenshot": "screenshots/procedular_reference_large_043.png"
+        },
+        {
+          "json": "procedular_reference_large_044.json",
+          "stem": "procedular_reference_large_044",
+          "screenshot": "screenshots/procedular_reference_large_044.png"
+        },
+        {
+          "json": "procedular_reference_large_045.json",
+          "stem": "procedular_reference_large_045",
+          "screenshot": "screenshots/procedular_reference_large_045.png"
+        },
+        {
+          "json": "procedular_reference_large_046.json",
+          "stem": "procedular_reference_large_046",
+          "screenshot": "screenshots/procedular_reference_large_046.png"
+        },
+        {
+          "json": "procedular_reference_large_047.json",
+          "stem": "procedular_reference_large_047",
+          "screenshot": "screenshots/procedular_reference_large_047.png"
+        },
+        {
+          "json": "procedular_reference_large_048.json",
+          "stem": "procedular_reference_large_048",
+          "screenshot": "screenshots/procedular_reference_large_048.png"
+        },
+        {
+          "json": "procedular_reference_large_049.json",
+          "stem": "procedular_reference_large_049",
+          "screenshot": "screenshots/procedular_reference_large_049.png"
+        },
+        {
+          "json": "procedular_reference_large_050.json",
+          "stem": "procedular_reference_large_050",
+          "screenshot": "screenshots/procedular_reference_large_050.png"
+        },
+        {
+          "json": "procedular_reference_large_051.json",
+          "stem": "procedular_reference_large_051",
+          "screenshot": "screenshots/procedular_reference_large_051.png"
+        },
+        {
+          "json": "procedular_reference_large_052.json",
+          "stem": "procedular_reference_large_052",
+          "screenshot": "screenshots/procedular_reference_large_052.png"
+        },
+        {
+          "json": "procedular_reference_large_053.json",
+          "stem": "procedular_reference_large_053",
+          "screenshot": "screenshots/procedular_reference_large_053.png"
+        },
+        {
+          "json": "procedular_reference_large_054.json",
+          "stem": "procedular_reference_large_054",
+          "screenshot": "screenshots/procedular_reference_large_054.png"
+        },
+        {
+          "json": "procedular_reference_large_055.json",
+          "stem": "procedular_reference_large_055",
+          "screenshot": "screenshots/procedular_reference_large_055.png"
+        },
+        {
+          "json": "procedular_reference_large_056.json",
+          "stem": "procedular_reference_large_056",
+          "screenshot": "screenshots/procedular_reference_large_056.png"
+        },
+        {
+          "json": "procedular_reference_large_057.json",
+          "stem": "procedular_reference_large_057",
+          "screenshot": "screenshots/procedular_reference_large_057.png"
+        },
+        {
+          "json": "procedular_reference_large_058.json",
+          "stem": "procedular_reference_large_058",
+          "screenshot": "screenshots/procedular_reference_large_058.png"
+        },
+        {
+          "json": "procedular_reference_large_059.json",
+          "stem": "procedular_reference_large_059",
+          "screenshot": "screenshots/procedular_reference_large_059.png"
+        },
+        {
+          "json": "procedular_reference_large_060.json",
+          "stem": "procedular_reference_large_060",
+          "screenshot": "screenshots/procedular_reference_large_060.png"
+        },
+        {
+          "json": "procedular_reference_large_061.json",
+          "stem": "procedular_reference_large_061",
+          "screenshot": "screenshots/procedular_reference_large_061.png"
+        },
+        {
+          "json": "procedular_reference_large_062.json",
+          "stem": "procedular_reference_large_062",
+          "screenshot": "screenshots/procedular_reference_large_062.png"
+        },
+        {
+          "json": "procedular_reference_large_063.json",
+          "stem": "procedular_reference_large_063",
+          "screenshot": "screenshots/procedular_reference_large_063.png"
+        },
+        {
+          "json": "procedular_reference_large_064.json",
+          "stem": "procedular_reference_large_064",
+          "screenshot": "screenshots/procedular_reference_large_064.png"
+        },
+        {
+          "json": "procedular_reference_large_065.json",
+          "stem": "procedular_reference_large_065",
+          "screenshot": "screenshots/procedular_reference_large_065.png"
+        },
+        {
+          "json": "procedular_reference_large_066.json",
+          "stem": "procedular_reference_large_066",
+          "screenshot": "screenshots/procedular_reference_large_066.png"
+        },
+        {
+          "json": "procedular_reference_large_067.json",
+          "stem": "procedular_reference_large_067",
+          "screenshot": "screenshots/procedular_reference_large_067.png"
+        },
+        {
+          "json": "procedular_reference_large_068.json",
+          "stem": "procedular_reference_large_068",
+          "screenshot": "screenshots/procedular_reference_large_068.png"
+        },
+        {
+          "json": "procedular_reference_large_069.json",
+          "stem": "procedular_reference_large_069",
+          "screenshot": "screenshots/procedular_reference_large_069.png"
+        },
+        {
+          "json": "procedular_reference_large_070.json",
+          "stem": "procedular_reference_large_070",
+          "screenshot": "screenshots/procedular_reference_large_070.png"
+        },
+        {
+          "json": "procedular_reference_large_071.json",
+          "stem": "procedular_reference_large_071",
+          "screenshot": "screenshots/procedular_reference_large_071.png"
+        },
+        {
+          "json": "procedular_reference_large_072.json",
+          "stem": "procedular_reference_large_072",
+          "screenshot": "screenshots/procedular_reference_large_072.png"
+        },
+        {
+          "json": "procedular_reference_large_073.json",
+          "stem": "procedular_reference_large_073",
+          "screenshot": "screenshots/procedular_reference_large_073.png"
+        },
+        {
+          "json": "procedular_reference_large_074.json",
+          "stem": "procedular_reference_large_074",
+          "screenshot": "screenshots/procedular_reference_large_074.png"
+        },
+        {
+          "json": "procedular_reference_large_075.json",
+          "stem": "procedular_reference_large_075",
+          "screenshot": "screenshots/procedular_reference_large_075.png"
+        },
+        {
+          "json": "procedular_reference_large_076.json",
+          "stem": "procedular_reference_large_076",
+          "screenshot": "screenshots/procedular_reference_large_076.png"
+        },
+        {
+          "json": "procedular_reference_large_077.json",
+          "stem": "procedular_reference_large_077",
+          "screenshot": "screenshots/procedular_reference_large_077.png"
+        },
+        {
+          "json": "procedular_reference_large_078.json",
+          "stem": "procedular_reference_large_078",
+          "screenshot": "screenshots/procedular_reference_large_078.png"
+        },
+        {
+          "json": "procedular_reference_large_079.json",
+          "stem": "procedular_reference_large_079",
+          "screenshot": "screenshots/procedular_reference_large_079.png"
+        },
+        {
+          "json": "procedular_reference_large_080.json",
+          "stem": "procedular_reference_large_080",
+          "screenshot": "screenshots/procedular_reference_large_080.png"
+        },
+        {
+          "json": "procedular_reference_large_081.json",
+          "stem": "procedular_reference_large_081",
+          "screenshot": "screenshots/procedular_reference_large_081.png"
+        },
+        {
+          "json": "procedular_reference_large_082.json",
+          "stem": "procedular_reference_large_082",
+          "screenshot": "screenshots/procedular_reference_large_082.png"
+        },
+        {
+          "json": "procedular_reference_large_083.json",
+          "stem": "procedular_reference_large_083",
+          "screenshot": "screenshots/procedular_reference_large_083.png"
+        },
+        {
+          "json": "procedular_reference_large_084.json",
+          "stem": "procedular_reference_large_084",
+          "screenshot": "screenshots/procedular_reference_large_084.png"
+        },
+        {
+          "json": "procedular_reference_large_085.json",
+          "stem": "procedular_reference_large_085",
+          "screenshot": "screenshots/procedular_reference_large_085.png"
+        },
+        {
+          "json": "procedular_reference_large_086.json",
+          "stem": "procedular_reference_large_086",
+          "screenshot": "screenshots/procedular_reference_large_086.png"
+        },
+        {
+          "json": "procedular_reference_large_087.json",
+          "stem": "procedular_reference_large_087",
+          "screenshot": "screenshots/procedular_reference_large_087.png"
+        },
+        {
+          "json": "procedular_reference_large_088.json",
+          "stem": "procedular_reference_large_088",
+          "screenshot": "screenshots/procedular_reference_large_088.png"
+        },
+        {
+          "json": "procedular_reference_large_089.json",
+          "stem": "procedular_reference_large_089",
+          "screenshot": "screenshots/procedular_reference_large_089.png"
+        },
+        {
+          "json": "procedular_reference_large_090.json",
+          "stem": "procedular_reference_large_090",
+          "screenshot": "screenshots/procedular_reference_large_090.png"
+        },
+        {
+          "json": "procedular_reference_large_091.json",
+          "stem": "procedular_reference_large_091",
+          "screenshot": "screenshots/procedular_reference_large_091.png"
+        },
+        {
+          "json": "procedular_reference_large_092.json",
+          "stem": "procedular_reference_large_092",
+          "screenshot": "screenshots/procedular_reference_large_092.png"
+        },
+        {
+          "json": "procedular_reference_large_093.json",
+          "stem": "procedular_reference_large_093",
+          "screenshot": "screenshots/procedular_reference_large_093.png"
+        },
+        {
+          "json": "procedular_reference_large_094.json",
+          "stem": "procedular_reference_large_094",
+          "screenshot": "screenshots/procedular_reference_large_094.png"
+        },
+        {
+          "json": "procedular_reference_large_095.json",
+          "stem": "procedular_reference_large_095",
+          "screenshot": "screenshots/procedular_reference_large_095.png"
+        },
+        {
+          "json": "procedular_reference_large_096.json",
+          "stem": "procedular_reference_large_096",
+          "screenshot": "screenshots/procedular_reference_large_096.png"
+        },
+        {
+          "json": "procedular_reference_large_097.json",
+          "stem": "procedular_reference_large_097",
+          "screenshot": "screenshots/procedular_reference_large_097.png"
+        },
+        {
+          "json": "procedular_reference_large_098.json",
+          "stem": "procedular_reference_large_098",
+          "screenshot": "screenshots/procedular_reference_large_098.png"
+        },
+        {
+          "json": "procedular_reference_large_099.json",
+          "stem": "procedular_reference_large_099",
+          "screenshot": "screenshots/procedular_reference_large_099.png"
+        },
+        {
+          "json": "procedular_reference_large_100.json",
+          "stem": "procedular_reference_large_100",
+          "screenshot": "screenshots/procedular_reference_large_100.png"
+        },
+        {
+          "json": "procedular_reference_large_101.json",
+          "stem": "procedular_reference_large_101",
+          "screenshot": "screenshots/procedular_reference_large_101.png"
+        },
+        {
+          "json": "procedular_reference_large_102.json",
+          "stem": "procedular_reference_large_102",
+          "screenshot": "screenshots/procedular_reference_large_102.png"
+        },
+        {
+          "json": "procedural_1_slot_1.json",
+          "stem": "procedural_1_slot_1",
+          "screenshot": "screenshots/procedural_1_slot_1.png"
+        },
+        {
+          "json": "procedural_2_level_1_new_20260322234743.json",
+          "stem": "procedural_2_level_1_new_20260322234743",
+          "screenshot": "screenshots/procedural_2_level_1_new_20260322234743.png"
+        },
+        {
+          "json": "procedural_a.json",
+          "stem": "procedural_a",
+          "screenshot": null
+        },
+        {
+          "json": "procedural_d_slot2.json",
+          "stem": "procedural_d_slot2",
+          "screenshot": "screenshots/procedural_d_slot2.png"
+        },
+        {
+          "json": "procedural_d_slot_2.json",
+          "stem": "procedural_d_slot_2",
+          "screenshot": "screenshots/procedural_d_slot_2.png"
+        },
+        {
+          "json": "progresion1_level2.json",
+          "stem": "progresion1_level2",
+          "screenshot": "screenshots/progresion1_level2.png"
+        },
+        {
+          "json": "progresion1_level6.json",
+          "stem": "progresion1_level6",
+          "screenshot": "screenshots/progresion1_level6.png"
+        },
+        {
+          "json": "progresion2_level1.json",
+          "stem": "progresion2_level1",
+          "screenshot": "screenshots/progresion2_level1.png"
+        },
+        {
+          "json": "progresion2_level10.json",
+          "stem": "progresion2_level10",
+          "screenshot": "screenshots/progresion2_level10.png"
+        },
+        {
+          "json": "progresion2_level2.json",
+          "stem": "progresion2_level2",
+          "screenshot": "screenshots/progresion2_level2.png"
+        },
+        {
+          "json": "progresion2_level3.json",
+          "stem": "progresion2_level3",
+          "screenshot": "screenshots/progresion2_level3.png"
+        },
+        {
+          "json": "progresion2_level4.json",
+          "stem": "progresion2_level4",
+          "screenshot": "screenshots/progresion2_level4.png"
+        },
+        {
+          "json": "progresion2_level5.json",
+          "stem": "progresion2_level5",
+          "screenshot": "screenshots/progresion2_level5.png"
+        },
+        {
+          "json": "progresion2_level6.json",
+          "stem": "progresion2_level6",
+          "screenshot": "screenshots/progresion2_level6.png"
+        },
+        {
+          "json": "progresion2_level7.json",
+          "stem": "progresion2_level7",
+          "screenshot": "screenshots/progresion2_level7.png"
+        },
+        {
+          "json": "progresion2_level8.json",
+          "stem": "progresion2_level8",
+          "screenshot": "screenshots/progresion2_level8.png"
+        },
+        {
+          "json": "progresion2_level9.json",
+          "stem": "progresion2_level9",
+          "screenshot": "screenshots/progresion2_level9.png"
+        },
+        {
+          "json": "progression1_level1.json",
+          "stem": "progression1_level1",
+          "screenshot": "screenshots/progression1_level1.png"
+        },
+        {
+          "json": "progression1_level10.json",
+          "stem": "progression1_level10",
+          "screenshot": "screenshots/progression1_level10.png"
+        },
+        {
+          "json": "progression1_level3.json",
+          "stem": "progression1_level3",
+          "screenshot": "screenshots/progression1_level3.png"
+        },
+        {
+          "json": "progression1_level4.json",
+          "stem": "progression1_level4",
+          "screenshot": "screenshots/progression1_level4.png"
+        },
+        {
+          "json": "progression1_level5.json",
+          "stem": "progression1_level5",
+          "screenshot": "screenshots/progression1_level5.png"
+        },
+        {
+          "json": "progression1_level7.json",
+          "stem": "progression1_level7",
+          "screenshot": "screenshots/progression1_level7.png"
+        },
+        {
+          "json": "progression1_level7_v2.json",
+          "stem": "progression1_level7_v2",
+          "screenshot": "screenshots/progression1_level7_v2.png"
+        },
+        {
+          "json": "progression1_level8.json",
+          "stem": "progression1_level8",
+          "screenshot": "screenshots/progression1_level8.png"
+        },
+        {
+          "json": "progression1_level9.json",
+          "stem": "progression1_level9",
+          "screenshot": "screenshots/progression1_level9.png"
+        },
+        {
+          "json": "progression2_level_1.json",
+          "stem": "progression2_level_1",
+          "screenshot": "screenshots/progression2_level_1.png"
+        },
+        {
+          "json": "progression2_level_2.json",
+          "stem": "progression2_level_2",
+          "screenshot": null
+        },
+        {
+          "json": "progression2_level_2_new_20260323083628.json",
+          "stem": "progression2_level_2_new_20260323083628",
+          "screenshot": null
+        },
+        {
+          "json": "progression3_2.json",
+          "stem": "progression3_2",
+          "screenshot": "screenshots/progression3_2.png"
+        },
+        {
+          "json": "progression3_level1_v2.json",
+          "stem": "progression3_level1_v2",
+          "screenshot": "screenshots/progression3_level1_v2.png"
+        },
+        {
+          "json": "progression_3_level1.json",
+          "stem": "progression_3_level1",
+          "screenshot": "screenshots/progression_3_level1.png"
+        },
+        {
+          "json": "progression_3_level10.json",
+          "stem": "progression_3_level10",
+          "screenshot": "screenshots/progression_3_level10.png"
+        },
+        {
+          "json": "progression_3_level10_v2.json",
+          "stem": "progression_3_level10_v2",
+          "screenshot": "screenshots/progression_3_level10_v2.png"
+        },
+        {
+          "json": "progression_3_level3.json",
+          "stem": "progression_3_level3",
+          "screenshot": "screenshots/progression_3_level3.png"
+        },
+        {
+          "json": "progression_3_level4.json",
+          "stem": "progression_3_level4",
+          "screenshot": "screenshots/progression_3_level4.png"
+        },
+        {
+          "json": "progression_3_level4_new_20260325071549.json",
+          "stem": "progression_3_level4_new_20260325071549",
+          "screenshot": "screenshots/progression_3_level4_new_20260325071549.png"
+        },
+        {
+          "json": "progression_3_level5.json",
+          "stem": "progression_3_level5",
+          "screenshot": "screenshots/progression_3_level5.png"
+        },
+        {
+          "json": "progression_3_level6.json",
+          "stem": "progression_3_level6",
+          "screenshot": "screenshots/progression_3_level6.png"
+        },
+        {
+          "json": "progression_3_level7.json",
+          "stem": "progression_3_level7",
+          "screenshot": "screenshots/progression_3_level7.png"
+        },
+        {
+          "json": "progression_3_level7_v2.json",
+          "stem": "progression_3_level7_v2",
+          "screenshot": "screenshots/progression_3_level7_v2.png"
+        },
+        {
+          "json": "progression_3_level8.json",
+          "stem": "progression_3_level8",
+          "screenshot": "screenshots/progression_3_level8.png"
+        },
+        {
+          "json": "progression_3_level9.json",
+          "stem": "progression_3_level9",
+          "screenshot": "screenshots/progression_3_level9.png"
+        },
+        {
+          "json": "progression_3_level9_v2.json",
+          "stem": "progression_3_level9_v2",
+          "screenshot": "screenshots/progression_3_level9_v2.png"
+        },
+        {
+          "json": "progression_3_level_2_v2.json",
+          "stem": "progression_3_level_2_v2",
+          "screenshot": "screenshots/progression_3_level_2_v2.png"
+        },
+        {
+          "json": "progression_3_level_8_v2.json",
+          "stem": "progression_3_level_8_v2",
+          "screenshot": "screenshots/progression_3_level_8_v2.png"
+        },
+        {
+          "json": "progression_b_level_2.json",
+          "stem": "progression_b_level_2",
+          "screenshot": null
+        },
+        {
+          "json": "slot2_4.json",
+          "stem": "slot2_4",
+          "screenshot": "screenshots/slot2_4.png"
+        },
+        {
+          "json": "tutorial_level.json",
+          "stem": "tutorial_level",
+          "screenshot": "screenshots/tutorial_level.png"
+        }
+      ]
+    }
+  ]
+}

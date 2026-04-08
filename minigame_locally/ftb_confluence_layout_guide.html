@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FTB Confluence Layout Guide — Before & After</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, system-ui, 'Segoe UI', sans-serif; background: #f4f5f7; color: #172b4d; line-height: 1.5; }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  .subtitle { color: #6b778c; margin-bottom: 32px; }
+
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; }
+  .panel { background: white; border-radius: 8px; padding: 20px; border: 2px solid #dfe1e6; }
+  .panel.bad { border-color: #ff5630; }
+  .panel.good { border-color: #36b37e; }
+  .panel-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; padding: 4px 10px; border-radius: 4px; display: inline-block; }
+  .panel.bad .panel-label { background: #ffebe6; color: #bf2600; }
+  .panel.good .panel-label { background: #e3fcef; color: #006644; }
+
+  .mock { background: #f4f5f7; border: 1px solid #dfe1e6; border-radius: 4px; padding: 12px; font-size: 12px; }
+  .mock-row { display: flex; gap: 8px; margin-bottom: 8px; }
+  .mock-block { background: #deebff; border: 1px solid #b3d4ff; border-radius: 3px; padding: 8px; flex: 1; text-align: center; font-size: 11px; color: #0747a6; }
+  .mock-block.full { flex: 1; }
+  .mock-block.sidebar { flex: 0 0 30%; background: #eae6ff; border-color: #c0b6f2; color: #403294; }
+  .mock-block.main { flex: 0 0 68%; }
+  .mock-block.third { flex: 0 0 31%; }
+  .mock-block.highlight { background: #e3fcef; border-color: #abf5d1; color: #006644; }
+  .mock-block.warn { background: #fff0b3; border-color: #ffe380; color: #7a5a00; }
+
+  .section { background: white; border-radius: 8px; padding: 24px; margin: 24px 0; border: 1px solid #dfe1e6; }
+  .section h2 { font-size: 20px; margin-bottom: 16px; color: #0747a6; }
+  .section h3 { font-size: 16px; margin: 16px 0 8px; color: #172b4d; }
+
+  .tip { background: #deebff; border-left: 4px solid #0065ff; padding: 12px 16px; border-radius: 0 4px 4px 0; margin: 12px 0; font-size: 14px; }
+  .warning { background: #ffebe6; border-left: 4px solid #ff5630; padding: 12px 16px; border-radius: 0 4px 4px 0; margin: 12px 0; font-size: 14px; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { counter-increment: step; padding: 12px 0 12px 48px; position: relative; border-bottom: 1px solid #f4f5f7; }
+  .steps li::before { content: counter(step); position: absolute; left: 0; top: 12px; width: 32px; height: 32px; background: #0065ff; color: white; border-radius: 50%; text-align: center; line-height: 32px; font-weight: 700; font-size: 14px; }
+  .steps li:last-child { border-bottom: none; }
+
+  code { background: #f4f5f7; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+
+  .layout-diagram { display: flex; gap: 4px; margin: 8px 0; height: 40px; }
+  .layout-col { background: #deebff; border: 1px solid #b3d4ff; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #0747a6; }
+
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 13px; }
+  th { background: #f4f5f7; padding: 8px 12px; border: 1px solid #dfe1e6; text-align: left; font-weight: 600; }
+  td { padding: 8px 12px; border: 1px solid #dfe1e6; }
+
+  .confluence-toolbar { background: #fff; border: 1px solid #dfe1e6; border-radius: 4px; padding: 6px 12px; display: inline-flex; gap: 4px; margin: 8px 0; }
+  .toolbar-btn { width: 28px; height: 22px; border: 1px solid #dfe1e6; border-radius: 2px; display: inline-flex; overflow: hidden; }
+  .toolbar-btn div { background: #0065ff; flex: 1; margin: 2px; border-radius: 1px; }
+  .toolbar-btn.active { border-color: #0065ff; background: #deebff; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Confluence Layouts — Guía para Feed the Bear</h1>
+<p class="subtitle">Cómo pasar de "todo apilado" a una página que se escanea en 5 segundos</p>
+
+<!-- ================================ -->
+<!-- BEFORE / AFTER -->
+<!-- ================================ -->
+
+<div class="comparison">
+  <div class="panel bad">
+    <div class="panel-label">Ahora: todo en una columna</div>
+    <div class="mock">
+      <div class="mock-row"><div class="mock-block full">Title + Subtitle</div></div>
+      <div class="mock-row"><div class="mock-block full">Table of Contents</div></div>
+      <div class="mock-row"><div class="mock-block full" style="background:#fff0b3;border-color:#ffe380;color:#7a5a00">Tabla "tabs" falsa (Game | How it works | Difficulty | ...)</div></div>
+      <div class="mock-row"><div class="mock-block full">Note panel</div></div>
+      <div class="mock-row"><div class="mock-block full">What is FTB? — Info panel</div></div>
+      <div class="mock-row"><div class="mock-block full">How it works — largo...</div></div>
+      <div class="mock-row"><div class="mock-block full">Difficulty — largo...</div></div>
+      <div class="mock-row"><div class="mock-block full">Curves — largo...</div></div>
+      <div class="mock-row"><div class="mock-block full">... y más secciones apiladas</div></div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:#6b778c">
+      Problema: hay que hacer scroll infinito. La tabla de "tabs" no lleva a ningún sitio. Todo compite por atención.
+    </p>
+  </div>
+
+  <div class="panel good">
+    <div class="panel-label">Propuesta: layouts con sidebar + expand</div>
+    <div class="mock">
+      <div class="mock-row"><div class="mock-block full highlight">Header (layout completo)</div></div>
+      <div class="mock-row">
+        <div class="mock-block sidebar">Sidebar fija<br><small>Quick Facts<br>+ Nav links</small></div>
+        <div class="mock-block main highlight">Contenido principal<br><small>Secciones con Expand macros</small></div>
+      </div>
+      <div class="mock-row">
+        <div class="mock-block third highlight">Difficulty Model</div>
+        <div class="mock-block third highlight">Progression</div>
+        <div class="mock-block third highlight">Procedural</div>
+      </div>
+      <div class="mock-row"><div class="mock-block full warn">Open Questions / VERIFY flags</div></div>
+    </div>
+    <p style="margin-top:12px;font-size:13px;color:#6b778c">
+      La sidebar da contexto rápido. Expand macros colapsan las secciones largas. El layout de 3 columnas agrupa las dimensiones de diseño.
+    </p>
+  </div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION-BY-SECTION GUIDE -->
+<!-- ================================ -->
+
+<div class="section">
+  <h2>Reestructura propuesta, sección por sección</h2>
+
+  <h3>Zona 1: Header (layout completo, sin columnas)</h3>
+  <div class="tip">Mantén el título, subtítulo y la tabla de contenido aquí arriba. <strong>Elimina la tabla de "tabs"</strong> — no funciona como navegación real. El ToC ya hace ese trabajo.</div>
+
+  <h3>Zona 2: Overview + Quick Facts (layout 30/70)</h3>
+  <p>Usa el layout de <strong>sidebar izquierda</strong> (el tercer icono en la toolbar de layouts):</p>
+
+  <div class="layout-diagram">
+    <div class="layout-col" style="flex:0 0 30%">Sidebar (30%)</div>
+    <div class="layout-col" style="flex:0 0 68%">Main (70%)</div>
+  </div>
+
+  <table>
+    <tr><th>Sidebar (izquierda)</th><th>Main (derecha)</th></tr>
+    <tr>
+      <td>
+        <strong>Panel "Quick Facts"</strong><br>
+        • Board: path-based puzzle<br>
+        • Platform: Mobile (Meta)<br>
+        • Grid: 4x4 → 8x8<br>
+        • Pairs: 2–6<br>
+        • Progressions: A, B, C<br>
+        • Status: Prototype<br><br>
+        <strong>Panel "Key Links"</strong><br>
+        • Notion design ref<br>
+        • Level toolkit<br>
+        • Playtest spreadsheet<br>
+        • GDD canonical doc
+      </td>
+      <td>
+        <strong>"What is Feed the Bear?"</strong> — el Info panel que ya tienes.<br><br>
+        <strong>"How It Plays"</strong> — la explicación del core loop, par tracing, move budget. Esta es la sección que más necesita estar visible porque es la que lee alguien nuevo.<br><br>
+        Usa un <code>{expand}</code> macro para "Move Budget Details" y "Extra Moves Rules" dentro de esta sección, para que no sea tan larga.
+      </td>
+    </tr>
+  </table>
+
+  <h3>Zona 3: Design Dimensions (layout de 3 columnas)</h3>
+  <p>Usa el layout de <strong>tres columnas iguales</strong> (el quinto icono):</p>
+
+  <div class="layout-diagram">
+    <div class="layout-col" style="flex:1">Col 1 (33%)</div>
+    <div class="layout-col" style="flex:1">Col 2 (33%)</div>
+    <div class="layout-col" style="flex:1">Col 3 (33%)</div>
+  </div>
+
+  <table>
+    <tr><th>Columna 1</th><th>Columna 2</th><th>Columna 3</th></tr>
+    <tr>
+      <td>
+        <strong>Difficulty Model</strong><br>
+        Panel con la tabla de dimensiones (board size, pair count, blocker count, etc.).<br>
+        El working size curve va aquí.
+      </td>
+      <td>
+        <strong>Progression</strong><br>
+        Slot intents (teach, reinforce, test, breathe, surprise).<br>
+        Prog A/B/C overview.<br>
+        Tutorial = slot 0 note.
+      </td>
+      <td>
+        <strong>Procedural</strong><br>
+        Pipeline overview.<br>
+        Rejection rate insight (35% blocker issues).<br>
+        Link to PROCEDURAL_ML_DESIGN.md.
+      </td>
+    </tr>
+  </table>
+
+  <div class="tip">Cada columna debería tener un <code>{panel}</code> macro con título para que visualmente se entienda que son 3 áreas paralelas del diseño, no 3 secciones secuenciales.</div>
+
+  <h3>Zona 4: Detalles largos (layout completo + Expand macros)</h3>
+  <p>Aquí van las secciones que son largas pero que no todo el mundo necesita leer cada vez:</p>
+
+  <table>
+    <tr><th>Sección</th><th>Tratamiento</th></tr>
+    <tr><td>Curves / Difficulty Curves</td><td><code>{expand:Difficulty Curves Detail}</code> — colapsado por defecto</td></tr>
+    <tr><td>Original Progressions (tablas completas)</td><td><code>{expand:Full Progression Tables}</code></td></tr>
+    <tr><td>Editor Workflow</td><td><code>{expand:Editor → Save → Sync Workflow}</code></td></tr>
+    <tr><td>Toolkit Architecture</td><td><code>{expand:Toolkit Module Map}</code></td></tr>
+    <tr><td>Reporting / Manager</td><td><code>{expand:Reporting & Manager State}</code></td></tr>
+  </table>
+
+  <div class="warning">No metas todo en Expand — si todo está colapsado, la página no comunica nada. Las secciones de la Zona 2 (overview) y Zona 3 (dimensions) deben estar siempre visibles.</div>
+
+  <h3>Zona 5: Footer (layout completo)</h3>
+  <p>Open Questions, VERIFY flags, y Related Docs. Esto puede quedar como está, al final de la página.</p>
+</div>
+
+<!-- ================================ -->
+<!-- HOW TO DO IT IN CONFLUENCE -->
+<!-- ================================ -->
+
+<div class="section">
+  <h2>Cómo hacerlo en Confluence (paso a paso)</h2>
+
+  <ol class="steps">
+    <li>
+      <strong>Eliminar la tabla de "tabs"</strong><br>
+      Selecciona toda la tabla (Game | How it works | Difficulty...) y bórrala. El Table of Contents macro ya hace de navegación — y funciona de verdad (lleva al anchor).
+    </li>
+    <li>
+      <strong>Insertar un layout 30/70 debajo del ToC</strong><br>
+      Pon el cursor debajo del Table of Contents → toolbar superior → icono de layouts (parece columnas) → elige "Sidebar izquierda" (30/70).<br>
+      En la columna izquierda: crea un <code>{panel:title=Quick Facts}</code> con los datos clave.<br>
+      En la columna derecha: mueve el Info panel de "What is FTB?" y la sección "How It Plays".
+    </li>
+    <li>
+      <strong>Insertar un layout de 3 columnas para Design Dimensions</strong><br>
+      Debajo del layout 30/70, inserta otro layout → "3 columnas iguales".<br>
+      Columna 1: Difficulty Model. Columna 2: Progression. Columna 3: Procedural.<br>
+      Cada una con un <code>{panel}</code> macro para darle borde visual.
+    </li>
+    <li>
+      <strong>Envolver secciones largas con Expand</strong><br>
+      Para cada sección larga (Curves, Progressions, Editor, Toolkit, Reporting): selecciona el contenido → <code>/expand</code> → ponle un título descriptivo.<br>
+      Esto colapsa el contenido por defecto — el lector solo lo abre si lo necesita.
+    </li>
+    <li>
+      <strong>Convertir los "anchors" de la tabla de tabs en headings reales</strong><br>
+      Si tenías anchors manuales para la tabla de tabs, conviértelos en <code>h2</code> headings normales. El ToC los detecta automáticamente.
+    </li>
+  </ol>
+</div>
+
+<!-- ================================ -->
+<!-- LAYOUT ICONS REFERENCE -->
+<!-- ================================ -->
+
+<div class="section">
+  <h2>Referencia rápida: layouts disponibles en Confluence</h2>
+
+  <table>
+    <tr><th>Layout</th><th>Cuándo usarlo</th><th>En tu página</th></tr>
+    <tr>
+      <td>
+        <div class="layout-diagram" style="width:120px;height:24px">
+          <div class="layout-col" style="flex:1"></div>
+        </div>
+        Full width
+      </td>
+      <td>Header, footer, secciones con tablas anchas</td>
+      <td>Zona 1 (header), Zona 4 (expands), Zona 5 (footer)</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="layout-diagram" style="width:120px;height:24px">
+          <div class="layout-col" style="flex:1"></div>
+          <div class="layout-col" style="flex:1"></div>
+        </div>
+        Two columns (50/50)
+      </td>
+      <td>Comparaciones lado a lado (before/after, pros/cons)</td>
+      <td>Podrías usarlo para comparar niveles o variantes de diseño</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="layout-diagram" style="width:120px;height:24px">
+          <div class="layout-col" style="flex:0 0 30%"></div>
+          <div class="layout-col" style="flex:0 0 68%"></div>
+        </div>
+        Sidebar left (30/70)
+      </td>
+      <td>Metadata/nav fija + contenido principal</td>
+      <td><strong>Zona 2</strong> — Quick Facts + Overview</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="layout-diagram" style="width:120px;height:24px">
+          <div class="layout-col" style="flex:0 0 68%"></div>
+          <div class="layout-col" style="flex:0 0 30%"></div>
+        </div>
+        Sidebar right (70/30)
+      </td>
+      <td>Contenido + notas laterales o status</td>
+      <td>Bueno para secciones con un aside de "current status" o "links"</td>
+    </tr>
+    <tr>
+      <td>
+        <div class="layout-diagram" style="width:120px;height:24px">
+          <div class="layout-col" style="flex:1"></div>
+          <div class="layout-col" style="flex:1"></div>
+          <div class="layout-col" style="flex:1"></div>
+        </div>
+        Three columns
+      </td>
+      <td>Dimensiones paralelas, cards de resumen</td>
+      <td><strong>Zona 3</strong> — Difficulty / Progression / Procedural</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ================================ -->
+<!-- MACROS CHEATSHEET -->
+<!-- ================================ -->
+
+<div class="section">
+  <h2>Macros que complementan los layouts</h2>
+
+  <table>
+    <tr><th>Macro</th><th>Shortcut</th><th>Para qué</th></tr>
+    <tr><td><code>{expand}</code></td><td><code>/expand</code></td><td>Colapsar secciones largas. El lector abre solo lo que necesita.</td></tr>
+    <tr><td><code>{panel}</code></td><td><code>/panel</code></td><td>Caja con borde y título. Ideal dentro de columnas para dar estructura visual.</td></tr>
+    <tr><td><code>{info}</code></td><td><code>/info</code></td><td>Caja azul para contexto importante. Ya lo usas bien.</td></tr>
+    <tr><td><code>{note}</code></td><td><code>/note</code></td><td>Caja amarilla para advertencias suaves. Ya lo usas bien.</td></tr>
+    <tr><td><code>{warning}</code></td><td><code>/warning</code></td><td>Caja roja para VERIFY flags y cosas que bloquean.</td></tr>
+    <tr><td><code>{status}</code></td><td><code>/status</code></td><td>Badges de color (GREEN/YELLOW/RED). Útil en la sidebar para mostrar el estado de cada sección.</td></tr>
+    <tr><td><code>{toc}</code></td><td><code>/toc</code></td><td>Table of Contents automático. Ya lo tienes — mantenerlo.</td></tr>
+    <tr><td><code>{section}</code> + <code>{column}</code></td><td><code>/section</code></td><td>Alternativa a layouts — más control pero más manual. Solo si los layouts built-in no alcanzan.</td></tr>
+  </table>
+</div>
+
+<div style="background:#172b4d;padding:16px 24px;border-radius:8px;margin-top:32px;text-align:center">
+  <p style="color:rgba(255,255,255,0.5);font-size:12px">Feed the Bear · Confluence Layout Guide · 2026-03-26</p>
+</div>
+
+</div>
+</body>
+</html>

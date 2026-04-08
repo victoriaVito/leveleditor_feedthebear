@@ -1,0 +1,130 @@
+{
+  "id": "progresion2_level4",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        5
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "D": [
+      [
+        2,
+        3
+      ],
+      [
+        1,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "HARD",
+    "source_name": "progresion2_level4.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

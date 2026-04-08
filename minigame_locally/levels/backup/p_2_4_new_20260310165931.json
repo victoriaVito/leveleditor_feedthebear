@@ -1,0 +1,27 @@
+{
+  "id": "p_2_4_new_20260310165931",
+  "difficultyTier": 2,
+  "gridSize": { "cols": 6, "rows": 6 },
+  "moves": 0,
+  "pairs": [
+    { "type": "blue", "a": {"x": 0, "y": 0}, "b": {"x": 4, "y": 5} },
+    { "type": "green", "a": {"x": 1, "y": 0}, "b": {"x": 4, "y": 2} },
+    { "type": "pink", "a": {"x": 3, "y": 1}, "b": {"x": 3, "y": 5} },
+    { "type": "orange", "a": {"x": 4, "y": 1}, "b": {"x": 1, "y": 3} }
+  ],
+  "blockers": [
+    {"x": 2, "y": 1},
+    {"x": 2, "y": 2},
+    {"x": 2, "y": 3}
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "meta": {
+    "source_name": "p_2_4_new_20260310165931.png",
+    "reconstructed_from_image": true,
+    "reconstruction_date": "2026-03-26",
+    "manual_difficulty": "MEDIUM"
+  },
+  "validation": { "solvable": null },
+  "decal": false
+}

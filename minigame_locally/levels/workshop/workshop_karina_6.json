@@ -1,0 +1,113 @@
+{
+  "id": "workshop_karina_6",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 5,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 3,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 1
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        2
+      ],
+      [
+        5,
+        0
+      ]
+    ],
+    "B": [
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "C": [
+      [
+        0,
+        5
+      ],
+      [
+        3,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "workshop_karina_6.json",
+    "workshop_creator": "karina",
+    "workshop_index": 6,
+    "workshop_source_file": "levels/p_2_6_new_20260310170645.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

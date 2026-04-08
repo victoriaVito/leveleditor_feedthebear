@@ -1,0 +1,35 @@
+{
+  "expectations": [
+    {
+      "text": "Dated entry (contains 2026-XX-XX)",
+      "passed": true,
+      "evidence": "Date found"
+    },
+    {
+      "text": "Entry under 300 characters",
+      "passed": true,
+      "evidence": "Longest line: 171 chars"
+    },
+    {
+      "text": "Relative paths only",
+      "passed": true,
+      "evidence": "0 absolute path(s)"
+    },
+    {
+      "text": "Changes file has detail (3+ lines)",
+      "passed": true,
+      "evidence": "6 non-empty lines"
+    },
+    {
+      "text": "Relative paths only",
+      "passed": true,
+      "evidence": "0 absolute path(s)"
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 0,
+    "total": 5,
+    "pass_rate": 1.0
+  }
+}

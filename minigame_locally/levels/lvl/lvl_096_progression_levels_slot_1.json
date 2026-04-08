@@ -1,0 +1,99 @@
+{
+  "id": "lvl_096_progression_levels_slot_1",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "B": [
+      [
+        3,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_096",
+    "canonical_file": "lvl_096_progression_levels_slot_1.json",
+    "canonical_slug": "progression_levels_slot_1",
+    "canonicalized_at": "2026-03-12T09:14:58.435Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_1.json",
+      "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_1.json",
+      "levels/progression_levels_slot_1.json",
+      "levels/standalone/progression_levels_slot_1.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "eval_id": 3,
+  "eval_name": "onboarding-level-design",
+  "prompt": "Crea una guía paso a paso para un nuevo diseñador que se une al equipo y necesita entender cómo crear un nivel en el editor, testearlo, y meterlo en una progresión. Ponla en docs/ONBOARDING_LEVEL_DESIGN.md",
+  "assertions": []
+}

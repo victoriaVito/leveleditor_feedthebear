@@ -1,0 +1,1 @@
+- `2026-03-24`: Fixed canvas resize bug in Level Editor — `level_toolkit_web/app.js` line 2450 now correctly handles responsive canvas sizing during editor view activation

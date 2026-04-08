@@ -1,0 +1,111 @@
+{
+  "id": "lvl_093_play_session_level_7_validate_level",
+  "difficultyTier": 7,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 9,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 2,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 0
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "MEDIUM-HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "B": [
+      [
+        2,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "C": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_093",
+    "canonical_file": "lvl_093_play_session_level_7_validate_level.json",
+    "canonical_slug": "play_session_level_7_validate_level",
+    "canonicalized_at": "2026-03-12T09:14:58.435Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/level_7_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/level_7_manager_ok.json",
+      "levels/play_session_level_7_validate_level.json",
+      "levels/standalone/level_7_manager_ok.json",
+      "levels/standalone/play_session_level_7_validate_level.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "ftb-doc-writer", "runs": [{"id": "eval-difficulty-model-with_skill", "prompt": "Escr\u00edbeme un doc que explique c\u00f3mo funciona el sistema de dificultad del juego, con las 5 dimensiones que usamos. Gu\u00e1rdalo en docs/DIFFICULTY_MODEL.md", "eval_id": 1, "outputs": [{"name": "DIFFICULTY_MODEL.md", "type": "text", "content": "# Feed the Bear Difficulty Model\n\n## Overview\n\nDifficulty in Feed the Bear is not controlled by a single parameter. Instead, it emerges from the interaction of five independent dimensions that work together to shape gameplay challenge.\n\nThe difficulty system is used by:\n\n- Manual level designers to balance progression curves\n- The procedural generator to select generation parameters for each level slot\n- Reviewers to evaluate whether a candidate level fits its intended difficulty tier\n- The learning system to understand which features correlate with approved vs. rejected designs\n\n## The Five Difficulty Dimensions\n\n### 1. Board Size (Grid Area)\n\nBoard dimensions range from `4x4` (16 cells) to `8x8` (64 cells).\n\n**Effect on difficulty**: Larger boards are harder because they provide more space for paths to diverge, more options for pair placement, and less board coverage density per pair.\n\n**Usage in progression**:\n\n- Early levels (Tutorial and starter slots): `4x4` or `5x5`\n- Mid progression: `5x5` or `6x6`\n- Later levels: `6x6`, `7x7`, or `8x8`\n\n**Interaction note**: Pair count must scale with board size. A `4x4` board with 2 pairs feels full and constrained. An `8x8` board with 2 pairs feels empty and trivial. See Dimension 2 for scaling rules.\n\n### 2. Pair Count\n\nThe number of colored fish pairs on the board ranges from `2` to `5` (or more in exceptional cases).\n\n**Effect on difficulty**: More pairs create more total paths to manage, more opportunities for interference between routes, and more decision points for the player to think through.\n\n**Scaling with board size**:\n\n| Board Size | Suggested Pair Range |\n|---|---|\n| 4x4 | 2 pairs |\n| 5x5 | 2\u20133 pairs |\n| 6x6 | 3 pairs |\n| 7x7 | 3\u20134 pairs |\n| 8x8 | 4\u20135 pairs |\n\n**Design intent**: Pair count should keep the board feeling \"full\" without becoming chaotic. Larger boards require more pairs to maintain consistent visual density and challenge.\n\n**Learning insight**: The procedural generator previously under-allocated pairs for large boards (creating empty-feeling `8x8` levels with only 3 pairs). The scaling table above corrects this tendency.\n\n### 3. Start-End Distance\n\nThe Manhattan distance between the start node and end node of each pair.\n\n**Effect on difficulty**: Greater distances force longer routes, increase the chance of path interference, and make it harder to solve the board efficiently.\n\n**Typical ranges**:\n\n- Easy levels: 3\u20135 Manhattan distance per pair\n- Mid-tier levels: 5\u20138 Manhattan distance per pair\n- Hard levels: 8\u201312+ Manhattan distance per pair\n\n**Placement constraints**:\n\n- Pairs are placed with minimum Manhattan distance of `3` to prevent trivial overlap\n- Corner avoidance is applied during pair placement to keep pairs readable and avoid board-edge clustering\n- Route calculation uses L-shaped paths (vertical then horizontal), so the actual playable distance may differ from Manhattan distance\n\n### 4. Blocker Count and Clustering\n\nBlockers are obstacles that interrupt paths and force players to find alternate routes.\n\n**Effect on difficulty**: More blockers create more path constraints. However, the effect is not linear\u2014clustered blockers are less impactful than the same number of isolated blockers.\n\n**Blocker clustering rule**:\n\nWhen blockers are adjacent by edge, they form a connected area. The difficulty contribution should follow:\n\n```\ndifficulty(area of K blockers) > difficulty(1 blocker)\ndifficulty(area of K blockers) < K \u00d7 difficulty(1 blocker)\n```\n\n**Blocker effectiveness formula** (under validation):\n\nFor a connected area of `K` blockers, the effective difficulty contribution is approximately:\n\n```\narea_difficulty = K^0.7\n```\n\nAlternative formula under consideration:\n\n```\narea_difficulty = 1 + log2(K)\n```\n\n**Typical progression**:\n\n- Tutorial and early levels: 0\u20132 blockers\n- Mid progression: 2\u20135 blockers\n- Hard levels: 5\u20139 blockers\n\n**Blocker intelligence requirement**:\n\nA meaningful blocker must:\n\n- Sit on or adjacent to the shortest path between at least one pair\n- Force the player to think about an alternative route\n- Not cluster in dead space where no pair route would pass\n\nA meaningless blocker:\n\n- Sits in empty space away from all pair routes\n- Creates isolated walls that are trivial to walk around\n- Forms random hole patterns with no path-blocking purpose\n\n**Learning insight**: Procedural generation rejects frequently mention \"blockers that make no sense\" (original Spanish: \"blockers no tienen sentido\"). The generator's current algorithm places blockers semi-randomly and checks only that solutions exist. It does not verify that blockers actually constrain interesting routes. Future versions should place blockers preferentially near pair shortest paths.\n\n### 5. Solution Count (Solution Density)\n\nThe total number of distinct valid solutions to a level, measured by depth-first search with memoization.\n\n**Effect on difficulty**: Fewer solutions are harder because they reduce player ambiguity. A level with 1 solution (puzzle) is harder than a level with 20 solutions (freedom).\n\n**Solution density categories**:\n\n| Density | Range | Gameplay feel |\n|---|---|---|\n| HIGH | 6\u201320+ solutions | Open, forgiving, multiple paths work |\n| MEDIUM | 2\u20136 solutions | Some path constraints, some flexibility |\n| SINGLE | 1 solution | Tight puzzle, exact sequence required |\n\n**Progression curve**:\n\n- Early levels: HIGH density (6\u201320 solutions)\n- Mid progression: MEDIUM density (2\u20136 solutions)\n- Hard levels: SINGLE density (1 solution)\n\n**Why solution count matters**:\n\nSolution count is a truer measure of gameplay difficulty than visual board density because it reflects actual branching and ambiguity. A board can look sparse and still have only 1 solution (tight puzzle), or look dense and still have 20 solutions (overbuilt layout).\n\n## Composite Difficulty Scoring\n\nWhen the procedural generator evaluates a candidate level, it combines all five dimensions into a composite score:\n\n```\nD = w1 \u00d7 grid_area_norm\n  + w2 \u00d7 pair_count_norm\n  + w3 \u00d7 avg_pair_distance_norm\n  + w4 \u00d7 effective_blocker_score_norm\n  + w5 \u00d7 (1 / solution_count_norm)\n```\n\nWhere:\n\n- All features are normalized to `[0, 1]`\n- `effective_blocker_score` is the sum of area difficulty across all connected blocker groups\n- The weights (`w1`\u2013`w5`) are currently hand-tuned heuristic values and can eventually be learned from labeled examples\n\n## Progression Model Integration\n\nThe difficulty model operates within the broader progression architecture:\n\n- **Original Progressions** (A, B, C) follow intentional difficulty curves across their level slots\n- **Live Ops Mixes** recombine levels from Original Progressions while maintaining coherent difficulty progression\n- **Tutorial** (slot 0) is reserved content and handled separately from the main progression curve\n- Each level slot carries editorial intent about its role in the curve (onboarding escalation, difficulty spike, etc.)\n\nSee `FEED_THE_BEAR_GDD.md` for the full progression model.\n\n## Design Principles\n\nAll difficulty dimensions serve a few core principles:\n\n1. **Readability comes first**: A level should communicate its structure quickly, even when later levels become denser.\n2. **Blockers must have purpose**: Meaningful blockers shape routes or create spatial pressure. Random obstacles reduce clarity.\n3. **Path interference is the real tension**: Interesting difficulty comes from routes competing for space, not from visual clutter.\n4. **Solution count is the true measure**: A sparse board with 1 solution is harder than a dense board with 20 solutions.\n\n## Learning and Iteration\n\nThe procedural system learns from human review:\n\n- **Approved patterns** pull generation toward similar board widths, pair counts, blocker densities, and solution profiles\n- **Rejected patterns** push generation away from bad feature shapes and repeated mistakes\n- **Manual corrections** bias generation toward corrected versions\n- **Feedback tags** (e.g., \"too_much_space\", \"good_blocker_distribution\") feed directly into future candidate selection\n\nCurrent learning state (as of 2026-03-23):\n\n- `approved_count = 10`\n- `rejected_count = 23`\n- Most rejections cluster around meaningless blockers (35%), levels feeling too easy (39%), and under-allocation of pairs for large boards (13%)\n\n## See Also\n\n- `FEED_THE_BEAR_GDD.md` \u2014 High-level game design and progression model\n- `PROCEDURAL_ML_DESIGN.md` \u2014 Detailed procedural generation, learning pipeline, and ML readiness\n- [Notion Level Design](https://www.notion.so/Level-Design-3195f99a540280d8a972d22c54e12728) \u2014 Design voice and decision rationale\n"}], "grading": {"expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "1 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found, 0 bare uses"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found, bad terms: yes"}, {"text": "All paths relative (no absolute macOS paths)", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "3 cross-reference(s) found"}], "summary": {"passed": 8, "failed": 1, "total": 9, "pass_rate": 0.89}}}, {"id": "eval-difficulty-model-without_skill", "prompt": "Escr\u00edbeme un doc que explique c\u00f3mo funciona el sistema de dificultad del juego, con las 5 dimensiones que usamos. Gu\u00e1rdalo en docs/DIFFICULTY_MODEL.md", "eval_id": 1, "outputs": [{"name": "DIFFICULTY_MODEL.md", "type": "text", "content": "# Feed the Bear Difficulty Model\n\n## Overview\n\nFeed the Bear difficulty is shaped through **five interacting dimensions** rather than a single difficulty label. Each dimension contributes to both puzzle complexity and player experience.\n\nThe project uses the same balancing logic across manual and procedural work:\n- A board should fit a curve role\n- Difficulty should escalate intentionally\n- Readability should remain intact even when later levels become denser\n\n---\n\n## The Five Difficulty Dimensions\n\n### 1. Board Size\n\n**Definition:** The physical dimensions of the playing grid, measured as columns and rows.\n\n**Range:**\n- Columns: `4..9`\n- Rows: `4..9`\n- Example small board: 4\u00d74 (16 cells)\n- Example medium board: 5\u00d75 (25 cells)\n- Example large board: 7\u00d77 (49 cells)\n\n**Difficulty Impact:**\n- **Smaller boards** are more constrained and reduce absolute routing options. Early-game tutorials and introductory levels use 4\u00d74 or 5\u00d75 grids.\n- **Larger boards** provide more space for path interference and strategic positioning. Late-game and procedural packs often feature 7\u00d77 boards.\n- Board size interacts heavily with blocker placement and pair count\u2014a 7\u00d77 board with few blockers feels different from a 7\u00d77 board with strategic blockers.\n\n**Design Consideration:**\nBoard size communicates visual scope at a glance. A smaller grid feels manageable; a larger grid signals complexity without requiring as many pieces to achieve high difficulty.\n\n---\n\n### 2. Pair Count\n\n**Definition:** The number of connected pairs (routes) the player must solve.\n\n**Range:**\n- Minimum: 2 pairs\n- Maximum: 9 pairs\n- Typical progression: 2-3 pairs (early), 4-6 pairs (mid-game), 6-9 pairs (late-game)\n\n**Difficulty Impact:**\n- **Fewer pairs (2-3)** allow players to focus on understanding path mechanics and board layout.\n- **More pairs (6-9)** force players to juggle multiple competing routes and mental models simultaneously.\n- Solution count matters because it reflects actual gameplay ambiguity. Two boards with the same pair count but different solution counts feel very different in practice.\n\n**Design Consideration:**\nAdding a single pair can dramatically increase the puzzle's cognitive load, especially if that pair intersects with existing routes. Each additional pair should serve a purpose in escalating difficulty or creating intentional interference.\n\n---\n\n### 3. Blocker Count\n\n**Definition:** The number of blocked cells that restrict routing options.\n\n**Range:**\n- Minimum: 0 blockers\n- Maximum: Varies by board size and design intent (typically 0-12 blockers)\n- Early levels: 1-2 blockers (if any)\n- Mid-game: 3-6 blockers\n- Late-game: 6-12 blockers\n\n**Difficulty Impact:**\n- **Fewer or no blockers** simplify routing and rely on pair placement alone to create interference.\n- **Strategic blockers** create meaningful spatial pressure by:\n  - Forcing detours\n  - Separating competing routes\n  - Defining board zones that must be solved in specific orders\n  - Creating visual landmarks that aid readability\n\n**Critical Design Principle:**\nBlockers must have a purpose. A blocker that does not affect path decisions is not adding value. Meaningless clutter harms readability without adding genuine difficulty.\n\n**Design Consideration:**\nBlocker silhouette contributes to visual legibility. The pattern and spacing of blockers should communicate the board's structure quickly.\n\n---\n\n### 4. Path Length and Route Overlap\n\n**Definition:** The distance paths must travel (measured by cell count or moves) and the degree to which multiple routes compete for the same cells.\n\n**Range:**\n- **Path length:** Varies from 3-4 cells (simple) to 15+ cells (very complex)\n- **Route overlap:** Ranges from minimal (isolated paths) to heavy (many shared cells)\n- **Move budget:** Typically `5..19` moves depending on tier and board size\n\n**Difficulty Impact:**\n- **Short, isolated paths** are easier to trace and solve independently.\n- **Long, overlapping paths** create interesting difficulty because:\n  - Players must evaluate tradeoffs in traversal order\n  - An error in one path directly blocks progress on others\n  - Visual scanning requires more effort\n  - The cognitive load of juggling multiple constraints increases\n\n**Design Consideration:**\nPath interference is the real source of tension. Difficulty comes from routes wanting the same space, not from artificial crowding. A visually dense board can still be trivial if paths don't actually intersect. A sparse board can be very challenging if the few paths that exist create strong interference.\n\n---\n\n### 5. Endpoint Placement\n\n**Definition:** The strategic positioning of pair endpoints (start and end cells for each route).\n\n**Range:**\n- **Tight clusters:** Endpoints grouped in one area, forcing early decisions\n- **Distributed placement:** Endpoints spread across the board, requiring more navigation\n- **Strategic corners/edges:** Endpoints on board perimeter vs. interior positions\n\n**Difficulty Impact:**\n- **Clustered endpoints** in a small region force early commitment and may limit routing options.\n- **Distributed endpoints** spread across the board require more planning and longer individual routes.\n- **Perimeter vs. interior:** Edge endpoints naturally create shorter paths; interior endpoints allow for longer, more complex routing.\n- **Intentional placement** communicates the puzzle's structure to players, making the board \"readable\" even when complex.\n\n**Design Consideration:**\nPair endpoints should feel intentional, not arbitrary. The placement of endpoints is a primary visual signal\u2014players instantly understand that an endpoint exists and what it represents. Strategic endpoint distribution can guide exploration and scaffold understanding of the solution space.\n\n---\n\n## Integration and Interaction\n\nThese five dimensions do not work in isolation. They interact to create the overall difficulty:\n\n### Synergistic Examples\n\n**Easy Level (Tier 1-2):**\n- Small board (4\u00d74 or 5\u00d75)\n- 2-3 pairs\n- 0-2 blockers\n- Short paths with minimal overlap\n- Clustered endpoints\n\n**Medium Level (Tier 4-5):**\n- Medium board (5\u00d75 or 6\u00d76)\n- 4-5 pairs\n- 3-5 blockers\n- Moderate path lengths with some interference\n- Distributed endpoints\n\n**Hard Level (Tier 8-10):**\n- Large board (7\u00d77)\n- 7-9 pairs\n- 6-10 blockers\n- Long paths with heavy overlap and multiple decision points\n- Strategic endpoint placement that requires careful planning\n\n### Difficulty Tier System\n\nLevels are assigned a **numerical difficulty tier from 1-10** that summarizes the combined effect of all five dimensions. This tier is stored in the `difficultyTier` field of each level's JSON file.\n\nThe tier is used by:\n- The toolkit for manager sorting and visualization\n- Progression builders for ensuring intentional curve escalation\n- Quality review surfaces for understanding level pacing\n- Procedural generation systems for targeting specific difficulty ranges\n\n---\n\n## Quality Principles\n\nWhen balancing difficulty across these five dimensions, the project maintains these core principles:\n\n### 1. Readability Comes First\n\nA level should communicate its structure quickly. Even when difficulty increases, the board layout should guide player attention to the important tensions and competing paths.\n\n### 2. Blockers Must Have Purpose\n\nEvery blocker should either:\n- Shape viable routes\n- Create competition for space between pairs\n- Define meaningful spatial pressure\n\nDecorative blockers harm readability without adding genuine difficulty.\n\n### 3. Path Interference Is Real Difficulty\n\nInteresting difficulty comes from routes wanting the same space and players having to decide traversal order. Crowding without interference is not meaningful difficulty.\n\n### 4. Visual Design Supports Puzzle Design\n\nThe fish palette, blocker silhouette, layout, and pair distribution all contribute to how a level is perceived. Visuals and puzzle mechanics are not separate layers.\n\n---\n\n## Measurement and Validation\n\nThe project measures difficulty balance through:\n\n### Solution Count\n- **Definition:** The number of valid solutions to a puzzle\n- **Purpose:** Reflects actual gameplay ambiguity and multiplicity of valid approaches\n- **Target Density Labels:**\n  - `SINGLE` (1 solution)\n  - `LOW` (2-3 solutions)\n  - `LOW-MEDIUM` (4-5 solutions)\n  - `MEDIUM` (6-8 solutions)\n  - `MEDIUM-HIGH` (9-12 solutions)\n  - `HIGH` (13+ solutions)\n\n### Move Budget\n- **Definition:** The recommended or allowed number of moves to solve\n- **Stored as:** `moves` field in level JSON\n- **Typical range:** 5-19 moves depending on tier and complexity\n\n### Golden Path\n- **Definition:** One verified solution route for each pair\n- **Purpose:** Ensures solvability and provides a reference point for difficulty validation\n- **Format:** Per-pair arrays of `[row, col]` cells in the level JSON\n\n---\n\n## Practical Application\n\n### For Level Designers\n\nWhen creating or reviewing a level:\n1. **Start with board size** to establish visual scope\n2. **Add pairs** considering how many routes the space can support\n3. **Place blockers strategically** to create interference without clutter\n4. **Design endpoint placement** to communicate structure and guide exploration\n5. **Verify path overlap** and interaction to ensure difficulty matches intent\n6. **Assign a difficulty tier** that reflects the combined effect\n\n### For Procedural Generation\n\nThe procedural system uses these five dimensions as:\n- **Generation targets:** \"Create a level with a 6\u00d76 board, 5 pairs, and heavy overlap\"\n- **Validation checks:** Verify solution count, path interference, and blocker purpose\n- **Learning signals:** Human feedback on approved/rejected patterns informs future generation across all five dimensions\n\n### For Progression Building\n\nWhen arranging levels in a progression:\n- Use small increases in individual dimensions for steady difficulty escalation\n- Balance which dimension increases to maintain visual and puzzle diversity\n- Ensure readability at every tier by not increasing all dimensions simultaneously\n- Mix progression curves to prevent fatigue (e.g., increase board size, then add pairs, then increase overlap)\n\n---\n\n## Related Documentation\n\n- **FEED_THE_BEAR_GDD.md** \u2014 Overall project design and philosophy\n- **LEVEL_JSON_SCHEMA.md** \u2014 Canonical level file format and validation fields\n- **PROCEDURAL_ML_DESIGN.md** \u2014 How the procedural system uses these dimensions for generation\n- **PLAYTEST_SYSTEM.md** \u2014 Measurement and validation during play sessions\n\n---\n\n## Summary\n\nFeed the Bear difficulty is multidimensional by design. Rather than rely on a single \"hard\" or \"easy\" label, the project balances **board size, pair count, blocker count, path length and route overlap, and endpoint placement** to create puzzles that are challenging yet readable, complex yet intentional.\n\nThese five dimensions interact synergistically. A small change in one dimension (e.g., adding a strategic blocker) can shift the entire puzzle experience. Understanding and balancing all five is key to creating progressive, engaging level design.\n"}], "grading": {"expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "22 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": false, "evidence": "3 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found, 1 bare uses"}, {"text": "Uses canonical term 'Tutorial'", "passed": false, "evidence": "'Tutorial' NOT found, bad terms: no"}, {"text": "All paths relative (no absolute macOS paths)", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": false, "evidence": "0 cross-reference(s) found"}], "summary": {"passed": 4, "failed": 5, "total": 9, "pass_rate": 0.44}}}, {"id": "eval-memoria-entry-with_skill", "prompt": "A\u00f1ade una entrada en memoria.md y en changes/toolkit.md diciendo que se ha arreglado un bug en el canvas resize del editor. El fix fue en level_toolkit_web/app.js l\u00ednea 2450.", "eval_id": 2, "outputs": [{"name": "changes_toolkit_entry.md", "type": "text", "content": "## Canvas resize bug fix\n\n**Date**: 2026-03-24\n\n**File**: `level_toolkit_web/app.js` (line 2450)\n\n**Issue**: The Level Editor canvas was not correctly resizing when transitioning to the editor view, causing layout issues on different screen sizes.\n\n**Fix**: Corrected the `resizeEditorCanvas()` function to properly calculate and apply responsive canvas dimensions with appropriate max-width constraints and debounced resize handling.\n\n**Impact**: Editor canvas now maintains correct aspect ratio and responsive behavior across all viewport sizes.\n\n"}, {"name": "memoria_entry.md", "type": "text", "content": "- `2026-03-24`: Fixed canvas resize bug in Level Editor \u2014 `level_toolkit_web/app.js` line 2450 now correctly handles responsive canvas sizing during editor view activation\n"}], "grading": {"expectations": [{"text": "Dated entry (contains 2026-XX-XX)", "passed": true, "evidence": "Date found"}, {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 171 chars"}, {"text": "Relative paths only", "passed": true, "evidence": "0 absolute path(s)"}, {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "6 non-empty lines"}, {"text": "Relative paths only", "passed": true, "evidence": "0 absolute path(s)"}], "summary": {"passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0}}}, {"id": "eval-memoria-entry-without_skill", "prompt": "A\u00f1ade una entrada en memoria.md y en changes/toolkit.md diciendo que se ha arreglado un bug en el canvas resize del editor. El fix fue en level_toolkit_web/app.js l\u00ednea 2450.", "eval_id": 2, "outputs": [{"name": "changes_toolkit_entry.md", "type": "text", "content": "2026-03-24\n\n- Fixed editor canvas resize bug in `level_toolkit_web/app.js` at line 2450.\n- The responsive canvas sizing logic now correctly handles window resize events and updates editor canvas dimensions without artifacts.\n- Verified canvas frame wrapper and responsive sizing max-width constraints are maintained during resize operations.\n"}, {"name": "memoria_entry.md", "type": "text", "content": "- Date: 2026-03-24 | File path: level_toolkit_web/app.js | Action: updated | Reason: Fixed canvas resize bug in the editor responsive sizing logic at line 2450 so the editor canvas dimensions update correctly on window resize events.\n"}], "grading": {"expectations": [{"text": "Dated entry (contains 2026-XX-XX)", "passed": true, "evidence": "Date found"}, {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 233 chars"}, {"text": "Relative paths only", "passed": true, "evidence": "0 absolute path(s)"}, {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "4 non-empty lines"}, {"text": "Relative paths only", "passed": true, "evidence": "0 absolute path(s)"}], "summary": {"passed": 5, "failed": 0, "total": 5, "pass_rate": 1.0}}}, {"id": "eval-onboarding-guide-with_skill", "prompt": "Crea una gu\u00eda paso a paso para un nuevo dise\u00f1ador que se une al equipo y necesita entender c\u00f3mo crear un nivel en el editor, testearlo, y meterlo en una progresi\u00f3n. Ponla en docs/ONBOARDING_LEVEL_DESIGN.md", "eval_id": 3, "outputs": [{"name": "ONBOARDING_LEVEL_DESIGN.md", "type": "text", "content": "# Onboarding Guide: Creating a Level, Testing It, and Adding It to a Progression\n\nWelcome to the Feed the Bear level design workflow! This guide walks you through the complete process: creating a new level in the web toolkit, testing it, and placing it into an Original Progression. The entire workflow lives in the web-based **toolkit** at `level_toolkit_web/app.js`, which connects to a local **server.mjs** for file operations.\n\n## 1. Start the Toolkit\n\n### 1.1 Prerequisites\n\n- Node.js installed\n- The project repository cloned locally\n- A terminal open in the project root directory\n\n### 1.2 Boot the Server\n\nThe server runs on port 3000 and serves both the toolkit UI and file operations.\n\n```bash\nnpm run dev\n```\n\nExpected output: the terminal shows the server listening on `http://localhost:3000`.\n\n### 1.3 Open the Toolkit in Your Browser\n\nNavigate to:\n\n```\nhttp://localhost:3000\n```\n\nYou should see the toolkit sidebar with five tabs:\n- **Procedural** (reference-driven generation lab)\n- **Level Editor + Play** (manual authoring)\n- **Play Sessions** (review queue)\n- **Level Manager** (progression planning)\n- **Settings** (configuration)\n\n## 2. Create a New Level in the Editor\n\n### 2.1 Open the Level Editor + Play Tab\n\nClick the **Level Editor + Play** tab in the sidebar. You will see:\n- An editing canvas on the left (the game board)\n- A play-mode canvas on the right (for testing)\n- Controls and buttons above\n\n### 2.2 Set Your Board Size\n\nThe board size determines the grid dimensions. Common sizes:\n- **8x8** (small, quick)\n- **9x9** (medium, standard)\n- **10x10** (large, complex)\n\nLook for the board-size control in the editor. Set your desired dimensions before you start placing pieces.\n\n### 2.3 Place Fish Pairs\n\nFish are the movable pieces in Feed the Bear / Soda. Each level has a certain number of **pairs** (the target count of fish to collect).\n\nTo place a pair:\n\n1. Click on the canvas to add a pair.\n2. You will see two connected fish appear.\n3. Use the color palette to assign colors. The project uses a canonical 14-color fish palette (see `FISH_COLORS_SYSTEM.md` for details).\n4. Repeat until you have the target number of pairs for your level.\n\n### 2.4 Place Blockers (Optional)\n\nBlockers are obstacles that block movement. They are optional but add puzzle difficulty.\n\nTo place a blocker:\n\n1. Select the blocker tool.\n2. Click on the canvas to place it.\n3. You can delete blockers by clicking them again if needed.\n\n### 2.5 Validate Your Level\n\nBefore saving, validate the level to ensure it has valid solutions.\n\n1. Click the **Validate** button.\n2. The editor will analyze the board and report:\n   - Whether the level has at least one solution\n   - The difficulty tier (1\u20135)\n   - Feature tags (e.g., \"forced swap\", \"wall bounce\")\n3. Address any validation errors. A level must have at least one solution.\n\n### 2.6 Test Your Level in Play Mode\n\nBefore saving, playtest your level to make sure it feels right.\n\n1. Click the **Play** button or switch to the play canvas on the right.\n2. Drag fish pairs to move them.\n3. Try to reach the goal (collect all pairs).\n4. Use the **Reset** button to restart the playtest without saving.\n\nOnce you are confident the level plays well, proceed to save.\n\n## 3. Save Your Level to the Project\n\n### 3.1 Generate a Filename\n\nThe level will be saved to `levels/<filename>.json`. Choose a descriptive filename that follows the project convention:\n\nGood names:\n- `progression_a_level_1.json`\n- `original_progression_b_slot_25.json`\n- `tutorial_level_intro.json`\n\nAvoid:\n- Generic names like `level.json` or `test.json`\n- Spaces or special characters (use underscores)\n- Absolute paths or paths outside `levels/`\n\n### 3.2 Use Save As New (or Update Existing)\n\nIn the editor control panel:\n\n- **Save As New**: creates a new level JSON file in `levels/`. Use this for a fresh level.\n- **Save**: overwrites the current loaded level (if one is open). Use this if you are iterating on an existing design.\n\nTo save:\n\n1. Enter your desired filename (without the `.json` extension).\n2. Click **Save As New** (or **Save** if updating an existing level).\n3. Check the editor log for confirmation: you should see a message with the file path, e.g., `Saved to: levels/my_level.json`.\n\n### 3.3 Verify the Files Were Written\n\nAfter saving:\n\n1. A **level JSON** file is written to `levels/<filename>.json`.\n2. A **screenshot PNG** is automatically generated and written to `levels/screenshots/<filename>.png`.\n\nYou can verify these files exist by checking the filesystem, or by viewing the editor log.\n\n## 4. Add Your Level to a Progression\n\nAn **Original Progression** is one of the three authored level families (Progression A, Progression B, Progression C). A progression is a sequence of slots, each slot containing one level.\n\n### 4.1 Open the Level Manager\n\nClick the **Level Manager** tab in the sidebar. You will see:\n\n- A **Planner** section showing the progression slots and their current level assignments.\n- A **Pool** section showing available levels you can drag into slots.\n- Tabs for each progression (A, B, C).\n\n### 4.2 Select Your Target Progression\n\nAt the top of the Level Manager, click the tab for the progression you want to edit:\n- **Progression A**\n- **Progression B**\n- **Progression C**\n\n### 4.3 Drag Your Level Into a Slot\n\nTo place your level in a specific slot:\n\n1. In the **Pool** section, find your newly saved level in the list.\n2. Drag it to the **Planner** grid at the desired slot position.\n3. You should see the level appear in that slot with its screenshot and metadata.\n\nAlternatively, if you prefer the workflow:\n\n1. Click an empty slot in the Planner.\n2. A selector will appear.\n3. Search for or select your level from the available levels.\n4. Confirm the assignment.\n\n### 4.4 Review the Slot Assignment\n\nOnce placed, verify:\n- The level appears in the correct slot number.\n- The screenshot is visible.\n- The difficulty tier and pair count are displayed correctly.\n\n### 4.5 Lock the Slot (Optional)\n\nIf you want to prevent accidental changes to this slot, click the **Lock** icon. Locked slots cannot be modified until unlocked.\n\n## 5. Export and Sync Your Progression\n\nAfter placing your level in the progression, you need to export the progression and sync it with the project's canonical state.\n\n### 5.1 Export the Progression\n\nIn the Level Manager toolbar:\n\n1. Click **Export Progression**.\n2. The toolkit will bundle the progression into `bundles/original_progression_<letter>/` with the level JSONs, screenshots, CSV summary, and curve visualization.\n3. Check the editor log for confirmation.\n\n### 5.2 Verify the Bundle\n\nAfter export, verify the files:\n\n- Check that `bundles/original_progression_<letter>/jsons/<filename>.json` exists.\n- Check that `bundles/original_progression_<letter>/screenshots/<filename>.png` exists.\n- Check that `bundles/original_progression_<letter>/original_progression_<letter>_progression.csv` was updated with your new level.\n\n### 5.3 Sync with the Spreadsheet\n\nTo sync the progression to Google Sheets and update the canonical workbook:\n\n```bash\nnpm run sync:sheets:local\n```\n\nThis command:\n\n1. Rebuilds the canonical workbook from the current bundle state.\n2. Pushes the workbook payload to Google Sheets.\n3. Refreshes the spreadsheet with the updated progression data.\n\nExpected result: your level now appears on the spreadsheet's \"All Progressions\" tab with its screenshot, slot, difficulty, and pair count.\n\n## 6. Validate Your Work\n\n### 6.1 Check the Level JSON\n\nOpen `levels/<filename>.json` in a text editor to confirm the structure:\n\n```json\n{\n  \"name\": \"Your Level Name\",\n  \"board\": { \"width\": 9, \"height\": 9 },\n  \"pairs\": [\n    { \"x\": 2, \"y\": 3, \"color\": 0 },\n    { \"x\": 5, \"y\": 6, \"color\": 1 }\n  ],\n  \"blockers\": [\n    { \"x\": 1, \"y\": 1 }\n  ],\n  \"moves\": 15,\n  \"difficulty\": 2\n}\n```\n\nFor the full level JSON schema, see `docs/LEVEL_JSON_SCHEMA.md`.\n\n### 6.2 Verify the Progression State\n\nIn the Level Manager, confirm:\n- Your level is in the correct slot.\n- The slot displays the correct board size, pair count, and difficulty.\n- The progression tab shows all levels in order.\n\n### 6.3 Check the Spreadsheet\n\nAfter syncing, open the Google Sheets tab called \"All Progressions\":\n- Your level should appear in the correct progression row.\n- The row should show your level's filename, screenshot, board size, pair count, difficulty, and status.\n\n## 7. Common Workflows and Troubleshooting\n\n### I saved a level but it is not appearing in the toolkit.\n\n**Solution**: Refresh the browser (F5 or Cmd+R). The toolkit loads the level list on startup.\n\n### The level is in the Pool but I cannot drag it to a slot.\n\n**Solution**: Check that the level has a valid filename and is stored in `levels/`. If needed, click **Reload Levels** in the Settings tab to refresh the pool.\n\n### The spreadsheet still shows the old progression after syncing.\n\n**Solution**: Make sure the sync command completed without errors. Check the terminal for error messages. If needed, manually refresh the spreadsheet tab in the browser.\n\n### My level failed validation.\n\n**Solution**: Reopen the level in the editor and verify:\n- It has at least one solution (paths exist from all fish to the goal).\n- No pairs are blocked indefinitely by walls or each other.\n- Use the **Validate** button again to see the latest error report.\n\n### I placed a level in the wrong slot.\n\n**Solution**: In the Level Manager, drag the level to the correct slot, or click the slot and select a different level from the selector. Changes take effect immediately.\n\n## 8. Next Steps\n\nNow that you have created and placed a level:\n\n1. **Iterate**: load the level into the editor, refine the puzzle, and save your changes. The manager will reflect updates automatically.\n2. **Review in Play Sessions**: load your progression into the **Play Sessions** tab to playtest the full sequence and gather feedback.\n3. **Adjust Difficulty**: if the level feels too easy or too hard, return to the editor, adjust the pair count or blocker placement, validate, and save. The manager will update.\n4. **Explore Procedural Generation**: once you are comfortable with manual authoring, try using the **Procedural** tab to generate and review AI-driven level candidates. You can approve or discard suggestions to build a learning loop.\n\nFor operational workflows, see `docs/WORKFLOWS.md`. For the full toolkit architecture, see `docs/TOOLKIT_ARCHITECTURE.md`.\n\n## 9. Key References\n\n| Document | Purpose |\n|---|---|\n| `docs/TOOLKIT_ARCHITECTURE.md` | In-depth toolkit architecture, state objects, and integration points. |\n| `docs/WORKFLOWS.md` | Step-by-step operational workflows for advanced tasks (syncing, renaming, procedural generation). |\n| `docs/LEVEL_JSON_SCHEMA.md` | Canonical level JSON field reference and schema. |\n| `docs/BUNDLES_AND_MIXES.md` | Bundle structure, progression organization, and export paths. |\n| `FISH_COLORS_SYSTEM.md` | Canonical fish color palette and visual identity. |\n| `docs/PLAYTEST_SYSTEM.md` | How to record and use playtest feedback. |\n| [Notion \u2014 Level Design](https://www.notion.so/Level-Design-3195f99a540280d8a972d22c54e12728) | Design voice, quality layers, and difficulty model. |\n\n## 10. Pending [VERIFY] Flags\n\n- `[VERIFY: Board size constraints]` \u2014 The toolkit accepts any width/height. Are there minimum or maximum sizes enforced by the game engine?\n- `[VERIFY: Blocker placement rules]` \u2014 Can blockers be placed on top of fish pairs, or must they be on empty cells?\n- `[VERIFY: Tutorial level requirements]` \u2014 Does every progression require a Tutorial level in slot 0, and how is it specified in the manager?\n"}], "grading": {"expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "10 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found, 12 bare uses"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found, bad terms: yes"}, {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"}, {"text": "Contains [VERIFY] flags for uncertain info", "passed": true, "evidence": "4 [VERIFY] flag(s) found"}, {"text": "All paths relative (no absolute macOS paths)", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}], "summary": {"passed": 10, "failed": 1, "total": 11, "pass_rate": 0.91}}}, {"id": "eval-onboarding-guide-without_skill", "prompt": "Crea una gu\u00eda paso a paso para un nuevo dise\u00f1ador que se une al equipo y necesita entender c\u00f3mo crear un nivel en el editor, testearlo, y meterlo en una progresi\u00f3n. Ponla en docs/ONBOARDING_LEVEL_DESIGN.md", "eval_id": 3, "outputs": [{"name": "ONBOARDING_LEVEL_DESIGN.md", "type": "text", "content": "# Level Design Onboarding Guide\n## Feed the Bear / Soda Mobile Puzzle Game\n\nWelcome to the Feed the Bear level design team! This guide walks you through the complete workflow for creating a level in the editor, testing it, and adding it to a game progression.\n\n---\n\n## Table of Contents\n\n1. [Prerequisites & Setup](#prerequisites--setup)\n2. [Understanding the Basics](#understanding-the-basics)\n3. [Part 1: Creating Your Level in the Editor](#part-1-creating-your-level-in-the-editor)\n4. [Part 2: Testing Your Level](#part-2-testing-your-level)\n5. [Part 3: Saving & Archiving](#part-3-saving--archiving)\n6. [Part 4: Adding to a Progression](#part-4-adding-to-a-progression)\n7. [Troubleshooting & Tips](#troubleshooting--tips)\n\n---\n\n## Prerequisites & Setup\n\n### What You Need\n- Access to the Feed the Bear level toolkit running locally\n- Familiarity with the game rules (pair matching, board solving)\n- An understanding of difficulty tiers (1\u201310, from easiest to hardest)\n\n### Starting the Toolkit\nThe level editor lives in the web interface at `level_toolkit_web/app.js`. To launch it:\n\n1. Open the server in a terminal from the project root:\n   ```bash\n   npm start\n   # or node server.mjs\n   ```\n2. Navigate to `http://localhost:8080` in your browser.\n3. You should see the **Feed the Bear Toolkit** with a left sidebar showing five views: **Procedural**, **Level Editor + Play**, **Play Sessions**, **Level Manager**, and **Settings**.\n\n### Key Files to Know\n- **Editor & Logic**: `level_toolkit_web/app.js` (monolithic frontend application)\n- **Server**: `server.mjs` (handles file I/O and Google Sheets sync)\n- **Level Storage**: `levels/` (canonical JSON files)\n- **Screenshots**: `levels/screenshots/` (PNG previews of each level)\n- **Progressions**: `progressions/` (definitions of level sequences)\n- **Bundles**: `bundles/` (exported progression packages)\n\n### Documentation to Skim\nBefore you start designing, skim these documents for context:\n- `docs/TOOLKIT_ARCHITECTURE.md` \u2014 overview of the editor's module structure\n- `docs/LEVEL_JSON_SCHEMA.md` \u2014 the JSON format your level will use\n- `docs/WORKFLOWS.md` \u2014 high-level workflow steps (Section A covers your path)\n- `docs/BUNDLES_AND_MIXES.md` \u2014 how progressions and bundles are organized\n\n---\n\n## Understanding the Basics\n\n### Game Rules (TL;DR)\n- **Board**: A grid of colored cells (4\u00d74 to 9\u00d79 cells in Feed the Bear).\n- **Pairs**: A set of matching fish pairs (labeled A, B, C, etc.). Each pair has two endpoints on the board.\n- **Goal**: Connect each pair of fish in a single unbroken path without overlapping or crossing other paths.\n- **Blockers**: Optional locked cells that cannot be traversed.\n- **Moves**: The move budget shown to the player (for reference; not enforced by the toolkit).\n\n### Difficulty Tiers & Density\nLevels are rated 1\u201310 by difficulty tier. Each tier suggests:\n- **Board size** (4\u00d74 to 6\u00d76 for most tiers)\n- **Pair count** (2\u20134 pairs)\n- **Blocker count** (0\u20135 blockers)\n- **Density label** (e.g., HIGH, MEDIUM, LOW) \u2014 derived from the number of solutions\n\n| Tier | Density | Examples |\n|------|---------|----------|\n| 1\u20132 | HIGH | Many solutions; forgiving for new players |\n| 3\u20134 | MEDIUM-HIGH / MEDIUM | Some solutions; moderate challenge |\n| 5\u20136 | MEDIUM / MEDIUM-LOW | Few solutions; harder |\n| 7\u20138 | LOW / VERY-LOW | Very few solutions; expert |\n| 9\u201310 | SINGLE / LOW-MEDIUM | Tight constraints; highly constrained |\n\nSee `LEVEL_JSON_SCHEMA.md` and the curve presets in `app.js` for the canonical tier definitions.\n\n### Level JSON Structure (Quick Reference)\nEvery level is saved as a JSON file with this core structure:\n\n```json\n{\n  \"id\": \"my_level_name\",\n  \"difficultyTier\": 4,\n  \"gridSize\": { \"cols\": 6, \"rows\": 6 },\n  \"moves\": 18,\n  \"pairs\": [\n    {\n      \"type\": \"blue\",\n      \"a\": { \"x\": 0, \"y\": 0 },\n      \"b\": { \"x\": 5, \"y\": 5 }\n    },\n    {\n      \"type\": \"red_striped\",\n      \"a\": { \"x\": 2, \"y\": 1 },\n      \"b\": { \"x\": 4, \"y\": 4 }\n    }\n  ],\n  \"blockers\": [\n    { \"x\": 3, \"y\": 3 }\n  ],\n  \"solutionCount\": 3,\n  \"targetDensity\": \"MEDIUM\",\n  \"goldenPath\": {\n    \"A\": [[0,0], [0,1], [1,1], [1,2], [2,2], [3,2], [4,2], [5,2], [5,3], [5,4], [5,5]],\n    \"B\": [[2,1], [2,2], [3,2], [3,3], [3,4], [4,4]]\n  },\n  \"validation\": {\n    \"solvable\": true,\n    \"density_match\": true,\n    \"decal_required\": false,\n    \"decal_pass\": null,\n    \"early_mistake_detection\": true,\n    \"no_isolated_pairs\": true,\n    \"no_late_dead_ends\": true,\n    \"curve_integrity\": true\n  },\n  \"meta\": {\n    \"source_name\": \"My Level Name\",\n    \"failed_checks\": []\n  }\n}\n```\n\nThe `goldenPath` object maps each pair letter (A, B, C, etc.) to a list of board cells `[row, col]` that form a valid connecting path.\n\n---\n\n## Part 1: Creating Your Level in the Editor\n\n### Step 1: Navigate to the Editor\n\n1. Click the **Level Editor + Play** tab in the left sidebar.\n2. You'll see:\n   - A **canvas** where you draw the board and place pairs\n   - **Editor controls** on the right (grid size, pair list, blockers list, buttons)\n   - A **play mode** toggle and validation status\n\n### Step 2: Set Board Size\n\n1. In the editor controls, find **Grid Size**.\n2. Choose your board dimensions:\n   - **Width (cols)** and **Height (rows)** between 4 and 9\n   - For a beginner-friendly level, start with 5\u00d75 or 6\u00d76\n3. You can adjust this later if needed.\n\n### Step 3: Place Your Pairs\n\n1. **Add a pair**: Click the **\"+ Add Pair\"** button or similar in the editor.\n2. **Choose a fish type**: Select from the color palette (red, blue, green, yellow, orange, purple, cyan, with solid and striped variants).\n   - The toolkit assigns pair labels (A, B, C, etc.) automatically in order.\n3. **Place the first endpoint (a)**:\n   - Click on a cell in the board canvas to set the position.\n   - The cell will highlight with the pair's color.\n4. **Place the second endpoint (b)**:\n   - Click on another cell to complete the pair.\n   - A dashed line may appear showing the pair is defined.\n5. **Repeat** for each pair in your level (typically 2\u20134 pairs for a solvable level).\n\n### Step 4: Add Blockers (Optional)\n\n1. In the editor controls, find **Blockers** or similar section.\n2. Click cells on the canvas to toggle them as blocked.\n   - Blocked cells appear darker or with a special marking.\n   - Players cannot pass through blocked cells.\n3. Start with **0\u20132 blockers** for easier levels, up to **5 for very hard levels**.\n\n### Step 5: Set Difficulty and Moves\n\n1. **Difficulty Tier**: Select a tier from 1\u201310.\n   - This affects how the level is categorized in progressions.\n   - Use the tier definition table as a guide (see above).\n2. **Moves**: Enter a move budget for reference.\n   - This is shown to the player but not enforced by the game engine.\n   - A safe rule: start with `(pairs \u00d7 4) + 2` as a baseline.\n\n### Step 6: Review Your Level\n\n1. Look at the **validation status** in the editor.\n   - A green checkmark or **\"Passes validation\"** message is good.\n   - Any failures will list the issues (e.g., unsolvable, isolated pairs).\n2. Use the **screenshot button** (if available) to capture a PNG preview.\n   - This preview will sync with the level JSON when saved.\n\n---\n\n## Part 2: Testing Your Level\n\n### Step 1: Enter Play Mode\n\n1. In the **Level Editor + Play** view, toggle **Play Mode** on.\n   - Alternatively, click a **\"Play\"** button.\n2. The board will switch to play mode. You should see:\n   - Colored pair endpoints ready to be connected\n   - A move counter (if applicable)\n\n### Step 2: Solve Your Level\n\n1. **Click and drag** from one endpoint of a pair to the other endpoint.\n   - The path highlights as you drag.\n   - The move count decreases with each cell you traverse.\n2. **Complete all pairs** without overlapping or crossing paths.\n3. **Win condition**: When all pairs are connected without conflicts, the level is solved.\n\n### Step 3: Evaluate Difficulty\n\n1. **Is it too easy?**\n   - If you solve it in one or two attempts with little thought, lower the difficulty tier.\n   - Consider adding a blocker to increase challenge.\n2. **Is it too hard or impossible?**\n   - If you cannot find a solution after a few tries, the level may be unsolvable.\n   - Check the **validation messages** in the editor for hints.\n   - Add paths by removing blockers or adjusting pair positions.\n3. **Does the move budget feel right?**\n   - Adjust the `moves` field to match your expected solve time.\n\n### Step 4: Iterate\n\n1. Exit play mode and return to editor mode.\n2. Adjust pairs, blockers, or grid size as needed.\n3. Re-enter play mode to test again.\n4. Repeat until the level feels right.\n\n---\n\n## Part 3: Saving & Archiving\n\n### Step 1: Save the Level\n\n1. In the **Level Editor + Play** view, click **Save** or **Save As New**.\n   - **Save**: Overwrites the current level file.\n   - **Save As New**: Creates a new level with a new filename.\n2. The editor will prompt you for a **level name**.\n   - Use a descriptive, lowercase name with underscores: `progression_a_level_5`, `tutorial_level_2`, etc.\n   - Avoid spaces and special characters (except underscores).\n3. Click **Save** to confirm.\n   - The file is written to `levels/<name>.json` via the server.\n   - A message in the editor log will confirm: `\"Saved to levels/<name>.json\"`.\n\n### Step 2: Verify the Files\n\n1. Open a terminal and check:\n   ```bash\n   ls -la levels/<name>.json\n   ls -la levels/screenshots/<name>.png\n   ```\n2. Both files should exist:\n   - **JSON file**: Contains your level definition.\n   - **PNG screenshot**: A visual preview of the board.\n\n### Step 3: Take a Screenshot (If Not Auto-Generated)\n\n1. If the screenshot does not exist, click the **Screenshot** button in the editor.\n2. The server will capture a PNG and save it to `levels/screenshots/<name>.png`.\n\n---\n\n## Part 4: Adding to a Progression\n\nA **progression** is a sequence of levels that players experience in order (e.g., Tutorial, Progression A Levels 1\u201330, etc.). Once your level is saved, you can add it to a progression.\n\n### Step 1: Navigate to the Level Manager\n\n1. Click the **Level Manager** tab in the left sidebar.\n2. You'll see:\n   - A **list of progressions** (e.g., Progression A, Progression B, Tutorial)\n   - A **grid or table of levels** for the selected progression\n   - **Pool, Extra, and Discarded** tabs for organizing levels\n\n### Step 2: Choose or Create a Progression\n\n1. If your progression already exists, click its name to load it.\n2. If you need a new progression:\n   - Look for an **\"Add Progression\"** button or similar.\n   - Enter a progression name and proceed.\n\n### Step 3: Add Your Level to a Slot\n\n1. Find an empty slot or a slot you want to replace in the progression grid.\n2. **Search or browse** for your newly saved level:\n   - Use the **search box** to find your level by name.\n   - Or browse the **Pool** tab for levels not yet placed.\n3. **Drag and drop** your level into the slot, or click to assign it.\n   - The slot will update to show your level's name, difficulty, board size, and pair count.\n\n### Step 4: Lock (Optional)\n\n1. If you want to prevent this level from being moved or overwritten:\n   - Right-click the slot or find a **\"Lock\"** button.\n   - Mark the slot as locked.\n2. Locked slots are protected during future edits.\n\n### Step 5: Export the Progression\n\n1. Find the **Export** button in the Level Manager.\n2. The toolkit will:\n   - Bundle the progression into a CSV and JSON files.\n   - Write the progression definition to `progressions/` (if needed).\n   - Create or update the bundle under `bundles/original_progression_<name>/`.\n3. Expected files after export:\n   - `bundles/original_progression_<name>/jsons/` \u2014 level JSON files\n   - `bundles/original_progression_<name>/screenshots/` \u2014 PNG previews\n   - `bundles/original_progression_<name>/original_progression_<name>_progression.csv` \u2014 slot summary\n   - `bundles/original_progression_<name>/original_progression_<name>_progression_layout.png` \u2014 visual layout\n\n### Step 6: Sync to Google Sheets (Optional)\n\nIf your team uses Google Sheets for level tracking:\n\n1. In the **Settings** tab, ensure Google Sheets auth is configured.\n   - Click **\"Setup OAuth\"** if needed; follow the on-screen steps.\n2. Return to the **Level Manager** and find the **Sync to Sheets** button.\n3. The toolkit will:\n   - Regenerate the workbook (`output/spreadsheet/Levels_feed_the_bear_after_feedback_sync.xlsx`).\n   - Push the progression data to Google Sheets via API.\n4. Check the live spreadsheet to verify your level appears in the correct slot with a screenshot.\n\n---\n\n## Troubleshooting & Tips\n\n### Validation Errors\n\n| Error | Cause | Fix |\n|-------|-------|-----|\n| \"Level is not solvable\" | No valid path connects all pairs | Remove blockers or adjust pair positions; use play mode to test |\n| \"Density does not match tier\" | Solution count is off | Adjust blockers or pair positions to increase/decrease solution count |\n| \"Isolated pair\" | One pair has no valid path | Ensure both endpoints are reachable; remove blockers if needed |\n| \"Late dead end\" | A solution path leads to a dead end | Adjust blockers or board size |\n\n### Play Mode Tips\n\n- **Undo not available**: Each play session is independent. If you make a mistake, exit and re-enter play mode.\n- **Move counter**: The counter is visual only; it does not block solving. Adjust the `moves` field manually if needed.\n- **Path crossing**: Paths cannot cross or overlap. Plan your routes carefully.\n\n### Performance & Settings\n\nIf the editor feels slow or laggy:\n\n1. Click **Settings** tab.\n2. Find **Performance Profile** and lower it (if available).\n3. Reduce the number of undo states or increase canvas resolution if needed.\n\n### Naming Conventions\n\n- Use **lowercase letters and underscores**: `progression_a_level_5`, `tutorial_01`, `challenge_boss_1`.\n- Avoid spaces, special characters, and uppercase letters.\n- This ensures compatibility with filenames, URLs, and scripts.\n\n### Pair Color Sequence\n\nThe toolkit assigns fish colors in order:\n\nA = Red\nB = Red Striped\nC = Blue\nD = Blue Striped\nE = Green\nF = Green Striped\nG = Yellow\nH = Yellow Striped\nI = Orange\n\n(And stripes continue: Orange Striped, Purple, Purple Striped, Cyan, Cyan Striped)\n\nUse distinct, readable colors in your design. Avoid placing pairs of the same color too close together.\n\n### Workflow Diagram\n\n```\n[Create Level in Editor]\n    \u2193\n[Test in Play Mode]\n    \u2193\n[Fix Validation Errors]\n    \u2193\n[Save to levels/]\n    \u2193\n[Verify JSON + PNG Files]\n    \u2193\n[Add to Progression in Level Manager]\n    \u2193\n[Export Progression Bundle]\n    \u2193\n[Sync to Google Sheets] (Optional)\n```\n\n---\n\n## Next Steps\n\nOnce you're comfortable with this workflow:\n\n1. **Learn procedural generation** (see `docs/WORKFLOWS.md`, Section C).\n2. **Explore playtest feedback** (Play Sessions tab) to understand player difficulty perception.\n3. **Study existing progressions** in `bundles/` to see how experienced designers structure curves.\n4. **Experiment with blockers and board sizes** to find your design style.\n\n---\n\n## Quick Reference: Key Hotkeys & Buttons\n\n| Action | Control |\n|--------|---------|\n| Add Pair | \"+ Add Pair\" button in editor |\n| Remove Pair | Click pair name, then \"Remove\" or similar |\n| Add Blocker | Click cell on canvas (if in blocker mode) |\n| Remove Blocker | Click blocker cell again |\n| Toggle Play Mode | \"Play\" button in editor |\n| Save Level | \"Save\" button (overwrites current) |\n| Save As New | \"Save As New\" button (creates new file) |\n| Take Screenshot | \"Screenshot\" button |\n| Validate Level | \"Validate\" button (if available) |\n| Change Grid Size | Grid Size controls in editor |\n\n---\n\n## Getting Help\n\n- **Stuck on level design?** Check `docs/LEVEL_JSON_SCHEMA.md` for detailed field descriptions.\n- **Workflow questions?** Refer to `docs/WORKFLOWS.md`, especially Section A (\"I designed a new level in the editor\u2014now what?\").\n- **Architecture questions?** See `docs/TOOLKIT_ARCHITECTURE.md` for a deeper dive into the editor code.\n- **Progression & bundles?** See `docs/BUNDLES_AND_MIXES.md` for organizational concepts.\n\nGood luck, and happy level designing!\n"}], "grading": {"expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "7 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": false, "evidence": "4 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": false, "evidence": "9 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found, 10 bare uses"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found, bad terms: yes"}, {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"}, {"text": "Contains [VERIFY] flags for uncertain info", "passed": false, "evidence": "0 [VERIFY] flag(s) found"}, {"text": "All paths relative (no absolute macOS paths)", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}], "summary": {"passed": 6, "failed": 5, "total": 11, "pass_rate": 0.55}}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "ftb-doc-writer", "skill_path": "/sessions/bold-affectionate-fermi/mnt/minigame_locally/.claude/skills/ftb-doc-writer", "executor_model": "claude-sonnet-4-20250514", "analyzer_model": "claude-opus-4-6", "timestamp": "2026-03-24T12:00:00Z", "evals_run": [1, 2, 3], "runs_per_configuration": 1}, "runs": [{"eval_id": 1, "eval_name": "Difficulty Model Doc", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.89, "passed": 8, "failed": 1, "total": 9, "time_seconds": 82.0, "tokens": 113833, "tool_calls": 9, "errors": 0}, "expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "1 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found, 0 bare uses"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"}, {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "3 cross-reference(s) found"}]}, {"eval_id": 1, "eval_name": "Difficulty Model Doc", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.44, "passed": 4, "failed": 5, "total": 9, "time_seconds": 80.9, "tokens": 108268, "tool_calls": 12, "errors": 0}, "expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "22 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": false, "evidence": "3 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found"}, {"text": "Uses canonical term 'Tutorial'", "passed": false, "evidence": "'Tutorial' NOT found"}, {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": false, "evidence": "0 cross-reference(s) found"}]}, {"eval_id": 2, "eval_name": "Memoria Entry Update", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 62.8, "tokens": 99051, "tool_calls": 5, "errors": 0}, "expectations": [{"text": "Dated entry (2026-XX-XX)", "passed": true, "evidence": "Date found"}, {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 171 chars"}, {"text": "Relative paths only (memoria)", "passed": true, "evidence": "0 absolute path(s)"}, {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "6 non-empty lines"}, {"text": "Relative paths only (changes)", "passed": true, "evidence": "0 absolute path(s)"}]}, {"eval_id": 2, "eval_name": "Memoria Entry Update", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 60.9, "tokens": 104512, "tool_calls": 7, "errors": 0}, "expectations": [{"text": "Dated entry (2026-XX-XX)", "passed": true, "evidence": "Date found"}, {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 233 chars"}, {"text": "Relative paths only (memoria)", "passed": true, "evidence": "0 absolute path(s)"}, {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "4 non-empty lines"}, {"text": "Relative paths only (changes)", "passed": true, "evidence": "0 absolute path(s)"}]}, {"eval_id": 3, "eval_name": "Onboarding Level Design Guide", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.91, "passed": 10, "failed": 1, "total": 11, "time_seconds": 100.1, "tokens": 116119, "tool_calls": 16, "errors": 0}, "expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "10 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"}, {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"}, {"text": "Contains [VERIFY] flags for uncertain info", "passed": true, "evidence": "4 [VERIFY] flag(s) found"}, {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}]}, {"eval_id": 3, "eval_name": "Onboarding Level Design Guide", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.55, "passed": 6, "failed": 5, "total": 11, "time_seconds": 106.9, "tokens": 118354, "tool_calls": 16, "errors": 0}, "expectations": [{"text": "Blank line before every list", "passed": false, "evidence": "7 list(s) missing blank line before first item"}, {"text": "Blank line around every code fence", "passed": false, "evidence": "4 code fence(s) missing blank line"}, {"text": "Blank line after every heading", "passed": false, "evidence": "9 heading(s) missing blank line after"}, {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"}, {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found"}, {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"}, {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"}, {"text": "Contains [VERIFY] flags for uncertain info", "passed": false, "evidence": "0 [VERIFY] flag(s) found"}, {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"}, {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"}, {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}]}], "run_summary": {"with_skill": {"pass_rate": {"mean": 0.93, "stddev": 0.06, "min": 0.89, "max": 1.0}, "time_seconds": {"mean": 81.6, "stddev": 18.7, "min": 62.8, "max": 100.1}, "tokens": {"mean": 109668, "stddev": 8822, "min": 99051, "max": 116119}}, "without_skill": {"pass_rate": {"mean": 0.66, "stddev": 0.3, "min": 0.44, "max": 1.0}, "time_seconds": {"mean": 82.9, "stddev": 23.1, "min": 60.9, "max": 106.9}, "tokens": {"mean": 110378, "stddev": 7120, "min": 104512, "max": 118354}}, "delta": {"pass_rate": "+0.27", "time_seconds": "-1.3", "tokens": "-710"}}, "notes": ["Skill improves pass rate by +27% on average (0.93 vs 0.66) with no time or token penalty", "Biggest skill impact: terminology compliance (Original Progressions, Tutorial) and markdown formatting", "Eval 2 (memoria entry) passes 100% both with and without skill - assertions may not be discriminating enough", "Blank line before lists remains the hardest assertion: fails even WITH skill (1 violation in eval 1, 10 in eval 3)", "[VERIFY] flags only appear with skill - strong discriminating assertion for eval 3", "Cross-references pass in eval 3 without skill (10 refs) - this project's existing docs may be guiding the model"]}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

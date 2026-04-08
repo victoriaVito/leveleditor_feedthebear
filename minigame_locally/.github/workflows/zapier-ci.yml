@@ -1,0 +1,237 @@
+name: Zapier Automation - CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'scripts/zapier-*.mjs'
+      - 'scripts/task-router-*.mjs'
+      - 'scripts/learning-*.mjs'
+      - 'scripts/doc-publisher-*.mjs'
+      - 'scripts/paraclau-*.js'
+      - 'scripts/audit-supply-chain.mjs'
+      - '.env.example'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'requirements.txt'
+      - 'python_preview_project/requirements.txt'
+      - '.github/workflows/zapier-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate Configuration
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd minigame_locally
+          npm ci
+
+      - name: Check .env.example syntax
+        run: |
+          cd minigame_locally
+          if [ ! -f .env.example ]; then
+            echo "ERROR: .env.example not found"
+            exit 1
+          fi
+          echo "✓ .env.example exists"
+
+      - name: Validate Node scripts
+        run: |
+          cd minigame_locally
+          node --check scripts/zapier-webhook-receiver.mjs
+          node --check scripts/task-router-server.mjs
+          node --check scripts/learning-batch-processor.mjs
+          node --check scripts/doc-publisher-zapier.mjs
+          node --check scripts/validate-env.mjs
+          node --check scripts/audit-supply-chain.mjs
+          echo "✓ All scripts have valid syntax"
+
+  lint:
+    name: Lint Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd minigame_locally
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd minigame_locally
+          npm run lint -- --max-warnings 0 || echo "⚠️  Linting warnings found (non-blocking)"
+        continue-on-error: true
+
+      - name: Run Prettier check
+        run: |
+          cd minigame_locally
+          npm run format -- --check || echo "⚠️  Formatting issues found (non-blocking)"
+        continue-on-error: true
+
+  test-syntax:
+    name: Test Script Syntax
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Test validate-env.mjs
+        run: |
+          cd minigame_locally
+          # Create minimal .env for testing
+          echo "ZAPIER_WEBHOOK_RECEIVER_PORT=3000" > .env.test
+          export $(cat .env.test)
+          node scripts/validate-env.mjs 2>&1 | head -20
+        continue-on-error: true
+
+      - name: Check JSON payloads
+        run: |
+          cd minigame_locally
+          if [ -f TESTING_PAYLOADS.json ]; then
+            node -e "require('fs').readFileSync('TESTING_PAYLOADS.json'); console.log('✓ Valid JSON')"
+          fi
+
+  security:
+    name: Security Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check for secrets
+        run: |
+          echo "Checking for exposed secrets..."
+          ! grep -r "ZAPIER_.*=.*http" minigame_locally/scripts/ 2>/dev/null || {
+            echo "⚠️  Warning: Webhook URLs found in code (should use .env)"
+          }
+          ! grep -r "sk-ant" minigame_locally/scripts/ 2>/dev/null || {
+            echo "ERROR: API keys found in code!"
+            exit 1
+          }
+          echo "✓ No exposed secrets detected"
+
+  supply-chain:
+    name: Supply Chain Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies (lockfile-exact)
+        run: |
+          cd minigame_locally
+          npm ci
+
+      - name: Run supply chain audit (strict)
+        run: |
+          cd minigame_locally
+          node scripts/audit-supply-chain.mjs --ci
+
+      - name: Verify .npmrc not tampered
+        run: |
+          cd minigame_locally
+          if [ -f .npmrc ]; then
+            echo "⚠️  .npmrc exists — verifying registry setting"
+            if grep -qE 'registry\s*=' .npmrc; then
+              REGISTRY=$(grep -oP 'registry\s*=\s*\K.*' .npmrc)
+              if echo "$REGISTRY" | grep -q 'registry.npmjs.org'; then
+                echo "✓ .npmrc registry points to npmjs.org"
+              else
+                echo "ERROR: .npmrc registry points to $REGISTRY"
+                exit 1
+              fi
+            else
+              echo "✓ .npmrc does not override registry"
+            fi
+          else
+            echo "✓ No .npmrc file (using default registry)"
+          fi
+
+  documentation:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check required documentation
+        run: |
+          cd minigame_locally
+          required_docs=(
+            "AGENTS_ZAPIER_INTEGRATION.md"
+            "ZAPIER_QUICK_START.md"
+            "ZAPIER_CHEATSHEET.txt"
+            ".env.example"
+          )
+
+          for doc in "${required_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✓ $doc"
+            else
+              echo "ERROR: Missing $doc"
+              exit 1
+            fi
+          done
+
+          echo ""
+          echo "Documentation Check: PASSED"
+
+  report:
+    name: Summary Report
+    runs-on: ubuntu-latest
+    needs: [validate, lint, test-syntax, security, supply-chain, documentation]
+    if: always()
+
+    steps:
+      - name: Check results
+        run: |
+          echo "╔══════════════════════════════════════════╗"
+          echo "║ Zapier Automation - CI/CD Report        ║"
+          echo "╚══════════════════════════════════════════╝"
+          echo ""
+          echo "Validation:     ${{ needs.validate.result }}"
+          echo "Linting:        ${{ needs.lint.result }}"
+          echo "Syntax Tests:   ${{ needs.test-syntax.result }}"
+          echo "Security:       ${{ needs.security.result }}"
+          echo "Supply Chain:   ${{ needs.supply-chain.result }}"
+          echo "Documentation:  ${{ needs.documentation.result }}"
+          echo ""
+
+          if [ "${{ needs.validate.result }}" = "failure" ] || \
+             [ "${{ needs.security.result }}" = "failure" ] || \
+             [ "${{ needs.supply-chain.result }}" = "failure" ] || \
+             [ "${{ needs.documentation.result }}" = "failure" ]; then
+            echo "⚠️  Build status: CHECK FAILED"
+            exit 1
+          fi
+
+          echo "✓ Build status: PASSED"

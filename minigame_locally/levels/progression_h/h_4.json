@@ -1,0 +1,149 @@
+{
+  "id": "h_4",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 1
+    },
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 4,
+      "y": 4
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "C": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "h_4.json",
+    "generated_by": "scripts/generate_medium_levels_by_size.mjs",
+    "generated_at": "2026-03-27T20:00:15.820Z",
+    "source_level": "procedural_medium_5x5_009.json",
+    "curated_from": "procedural_medium_5x5_009.json",
+    "curated_for_progression": "progression_h",
+    "curated_slot": 4,
+    "curve_summary": "Blocker-led curve: earlier lane pressure, tighter corridors, one deliberate mid-curve spike.",
+    "manual_difficulty": "MEDIUM",
+    "curated_at": "2026-04-02T17:00:36.902Z"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

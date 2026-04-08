@@ -1,0 +1,205 @@
+{
+  "id": "procedular_reference_large_079",
+  "difficultyTier": 9,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 13,
+  "pairs": [
+    {
+      "type": "orange",
+      "a": {
+        "x": 3,
+        "y": 5
+      },
+      "b": {
+        "x": 6,
+        "y": 3
+      }
+    },
+    {
+      "type": "orange_striped",
+      "a": {
+        "x": 0,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 0
+    },
+    {
+      "x": 6,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 3,
+      "y": 6
+    },
+    {
+      "x": 4,
+      "y": 6
+    },
+    {
+      "x": 6,
+      "y": 6
+    }
+  ],
+  "solutionCount": 2,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        5,
+        3
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "B": [
+      [
+        4,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "C": [
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "generated_for_large_board_pack": false,
+    "not_supported_in_current_web_editor": false,
+    "canonical_id": "lvl_010",
+    "canonical_file": "lvl_010_hard_large_09_7x7.json",
+    "canonical_slug": "hard_large_09_7x7",
+    "canonicalized_at": "2026-03-12T09:14:58.421Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/hard_large_09_7x7.json",
+      "level_toolkit_web/workshop_jsons_game_unique/hard_large_09_7x7.json",
+      "levels/hard_large_09_7x7.json",
+      "levels/standalone/hard_large_09_7x7.json"
+    ],
+    "generated_for_supported_reference_pack": true,
+    "generator_family": "procedular_reference_variants_v2",
+    "generated_by": "scripts/generate_large_procedular_pack.py",
+    "generated_at": "2026-03-28T22:22:02.826020+00:00",
+    "reference_source": "lvl_010_hard_large_09_7x7.json",
+    "reference_transform": "anti_transpose",
+    "reference_board_label": "7x7",
+    "board_label": "7x7",
+    "pair_count": 3,
+    "serial": 79,
+    "learning_feedback_tags": {
+      "good_blocker_distribution": 1,
+      "needs_more_pairs": 5,
+      "too_much_space": 2,
+      "bad_blocker_clustering": 3,
+      "good_flow": 1,
+      "needs_more_blockers": 1,
+      "too_easy": 12,
+      "bad_layout": 3,
+      "meaningless_blockers": 7,
+      "too_hard": 1
+    },
+    "source_name": "procedular_reference_large_079.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true,
+    "reference_variant": true
+  },
+  "decal": false
+}

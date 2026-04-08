@@ -1,0 +1,38 @@
+{
+  "saved_at": "2026-04-07T08:25:44.489Z",
+  "reason": "manager_update",
+  "active_tab": "progression_9",
+  "selected_id": 383,
+  "counts": {
+    "total_items": 77,
+    "assigned_items": 20,
+    "unassigned_items": 57,
+    "extra_items": 0,
+    "discarded_items": 0,
+    "valid_items": 71,
+    "invalid_items": 1,
+    "parse_error_items": 5
+  },
+  "progression_order": [
+    "progressionA",
+    "progressionB",
+    "progressionC",
+    "progression_4",
+    "progression_5",
+    "progression_6",
+    "progression_7",
+    "progression_8",
+    "progression_9"
+  ],
+  "filters": {
+    "name": "i",
+    "board": "",
+    "difficulty": "",
+    "status": "",
+    "level": "",
+    "pairs": "",
+    "blockers": "",
+    "placement": "",
+    "changed": ""
+  }
+}

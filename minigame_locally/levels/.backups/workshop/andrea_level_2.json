@@ -1,0 +1,107 @@
+{
+  "level": 1,
+  "board_size": 4,
+  "board_width": 4,
+  "board_height": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        3,
+        0
+      ],
+      "end": [
+        2,
+        3
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        2,
+        0
+      ],
+      "end": [
+        0,
+        1
+      ],
+      "color": "#10B981"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      3
+    ]
+  ],
+  "decal": false,
+  "moves": 4,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "andrea_level_2.json"
+  }
+}

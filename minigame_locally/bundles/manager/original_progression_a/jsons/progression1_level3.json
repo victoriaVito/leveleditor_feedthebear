@@ -1,0 +1,134 @@
+{
+  "level": 1,
+  "board_size": 4,
+  "board_width": 4,
+  "board_height": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B1",
+      "NODE_C1",
+      "NODE_A1"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "NODE_C2",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        2,
+        0
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "C",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        3,
+        0
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      2
+    ]
+  ],
+  "decal": false,
+  "moves": 5,
+  "solution_count": 2,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "C": [
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "source_name": "a_d_4.json",
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM"
+  }
+}

@@ -1,0 +1,142 @@
+{
+  "id": "slot2_3",
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 9,
+  "pairs": [
+    {
+      "type": "orange",
+      "a": {
+        "x": 3,
+        "y": 5
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "orange_striped",
+      "a": {
+        "x": 6,
+        "y": 4
+      },
+      "b": {
+        "x": 5,
+        "y": 1
+      }
+    },
+    {
+      "type": "green_striped",
+      "a": {
+        "x": 1,
+        "y": 6
+      },
+      "b": {
+        "x": 5,
+        "y": 6
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 5,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 6
+    },
+    {
+      "x": 6,
+      "y": 6
+    },
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        5,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "B": [
+      [
+        4,
+        6
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "F": [
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        5
+      ]
+    ],
+    "G": [
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "slot2_3.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

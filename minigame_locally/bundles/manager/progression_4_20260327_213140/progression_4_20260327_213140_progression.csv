@@ -1,0 +1,12 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progression_4_1,Progression 4,0,tutorial_level.json,Workshop tutorial · progressionA,minigame_locally/levels/tutorial_level.json,1,6x6,3,3,8,0,EASY,OK,Yes,Tutorial slot
+progression_4_1,Progression 4,1,d_d_d_4.json,Imported via browser picker · d_d_d_4.json,minigame_locally/levels/progression_d/d_d_d_4.json,6,4x4,3,1,5,6,EASY,OK,Yes,
+progression_4_1,Progression 4,2,d_d_5.json,Imported via browser picker · d_d_5.json,minigame_locally/levels/progression_d/d_d_5.json,5,5x5,4,0,6,20,EASY,OK,Yes,
+progression_4_1,Progression 4,3,d_d_4.json,minigame_locally/levels/progression_d/d_d_4.json,minigame_locally/levels/progression_d/d_d_4.json,1,5x5,4,2,7,16,MEDIUM,OK,Yes,
+progression_4_1,Progression 4,4,d_d_9.json,minigame_locally/levels/progression_d/d_d_9.json,minigame_locally/levels/progression_d/d_d_9.json,4,7x6,6,0,7,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,5,d_5.json,minigame_locally/levels/progression_d/d_d_d_5.json,minigame_locally/levels/progression_d/d_d_d_5.json,2,6x6,5,3,6,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,6,d_8.json,Imported via browser picker · d_8.json,minigame_locally/levels/progression_d/d_8.json,1,7x7,6,4,11,20,MEDIUM,OK,No,
+progression_4_1,Progression 4,7,d_4.json,minigame_locally/levels/progression_d/d_4.json,minigame_locally/levels/progression_d/d_4.json,3,7x7,5,2,0,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,8,d_9.json,minigame_locally/levels/progression_d/d_9.json,minigame_locally/levels/progression_d/d_9.json,7,7x7,6,8,8,20,EASY,OK,Yes,
+progression_4_1,Progression 4,9,d_d_d_d_4.json,minigame_locally/levels/progression_d/d_d_d_d_4.json,minigame_locally/levels/progression_d/d_d_d_d_4.json,9,6x6,4,2,9,0,MEDIUM,INVALID,Yes,
+progression_4_1,Progression 4,10,d_10.json,minigame_locally/levels/progression_d/d_10.json,minigame_locally/levels/progression_d/d_10.json,10,7x7,7,3,7,20,HARD,OK,Yes,

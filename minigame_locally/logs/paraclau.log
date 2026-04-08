@@ -1,0 +1,45 @@
+
+╔═════════════════════════════════════════════════════╗
+║  Paraclau Watcher - Active                         ║
+║                                                     ║
+║  Watching:  /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md
+║  Interval:  1000ms                          ║
+║  Backups:   /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/.paraclau_backups
+║  Logs:      /Users/victoria.serrano/.paraclau_sync.log
+╚═════════════════════════════════════════════════════╝
+
+[36m[INFO][0m Paraclau watcher started {
+  file: '/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md',
+  interval: 1000
+}
+[36m[INFO][0m Initial file hash computed { hash: 'f0ffa3c82a9018cde3557c1249fc4319' }
+
+╔═════════════════════════════════════════════════════╗
+║  Paraclau Watcher - Active                         ║
+║                                                     ║
+║  Watching:  /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md
+║  Interval:  1000ms                          ║
+║  Backups:   /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/.paraclau_backups
+║  Logs:      /Users/victoria.serrano/.paraclau_sync.log
+╚═════════════════════════════════════════════════════╝
+
+[36m[INFO][0m Paraclau watcher started {
+  file: '/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md',
+  interval: 1000
+}
+[36m[INFO][0m Initial file hash computed { hash: 'f0ffa3c82a9018cde3557c1249fc4319' }
+
+╔═════════════════════════════════════════════════════╗
+║  Paraclau Watcher - Active                         ║
+║                                                     ║
+║  Watching:  /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md
+║  Interval:  1000ms                          ║
+║  Backups:   /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/.paraclau_backups
+║  Logs:      /Users/victoria.serrano/.paraclau_sync.log
+╚═════════════════════════════════════════════════════╝
+
+[36m[INFO][0m Paraclau watcher started {
+  file: '/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/paraclau_1.md',
+  interval: 1000
+}
+[36m[INFO][0m Initial file hash computed { hash: 'f0ffa3c82a9018cde3557c1249fc4319' }

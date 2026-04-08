@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Level Comparison — All Sources</title>
+  <style>
+    :root { --bg:#0f172a; --surface:#1e293b; --border:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#0ea5e9; --green:#10b981; --red:#ef4444; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",system-ui,sans-serif; background:var(--bg); color:var(--text); padding:24px; }
+    h1 { color:var(--accent); font-size:26px; margin:0 0 4px; }
+    .subtitle { color:var(--muted); margin:0 0 16px; font-size:14px; }
+
+    /* Nav bar */
+    .nav { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; position:sticky; top:0; z-index:10; background:var(--bg); padding:8px 0; border-bottom:1px solid var(--border); }
+    .nav a { color:var(--accent); text-decoration:none; padding:6px 14px; border-radius:8px; font-size:13px; font-weight:600; background:var(--surface); border:1px solid var(--border); transition:all .15s; }
+    .nav a:hover { background:#0ea5e920; border-color:var(--accent); }
+    .nav .count { color:var(--muted); font-size:11px; margin-left:4px; }
+
+    .section-title { color:var(--accent); font-size:20px; font-weight:700; margin:28px 0 12px; padding:8px 0; border-bottom:2px solid var(--border); scroll-margin-top:60px; }
+    .section-subtitle { color:var(--muted); font-size:13px; margin:-8px 0 16px; }
+
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(520px,1fr)); gap:16px; margin-bottom:24px; }
+    .card { border:1px solid var(--border); border-radius:14px; background:var(--surface); padding:16px; transition:border-color .2s; }
+    .card:hover { border-color:var(--accent); }
+    .card-title { font-size:15px; font-weight:700; color:var(--accent); margin-bottom:2px; }
+    .card-author { font-size:12px; color:var(--green); margin-bottom:4px; font-weight:600; }
+    .card-meta { font-size:12px; color:var(--muted); margin-bottom:10px; }
+
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .compare-col { text-align:center; }
+    .compare-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+    .compare-label.original { color:var(--green); }
+    .compare-label.reconstructed { color:var(--accent); }
+    .compare img, .compare canvas { width:100%; max-width:280px; height:auto; border-radius:8px; border:1px solid var(--border); display:block; margin:0 auto; }
+    img.missing { opacity:0.3; filter:grayscale(1); }
+
+    .tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; justify-content:center; }
+    .tag { padding:3px 7px; border-radius:999px; font-size:10px; font-weight:600; }
+    .tag-ok { background:#166534; color:#86efac; }
+    .tag-warn { background:#92400e; color:#fde68a; }
+    .tag-hard { background:#991b1b; color:#fca5a5; }
+    .tag-info { background:#1e3a5f; color:#7dd3fc; }
+    .tag-pattern { background:#312e81; color:#c4b5fd; }
+    .tag-author { background:#4c1d95; color:#ddd6fe; }
+
+    #status { color:var(--muted); font-size:13px; margin-bottom:16px; }
+    .back-top { text-align:right; margin:8px 0 0; }
+    .back-top a { color:var(--muted); font-size:12px; text-decoration:none; }
+    .back-top a:hover { color:var(--accent); }
+
+    @media (max-width: 640px) {
+      .grid { grid-template-columns:1fr; }
+      .compare { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Level Comparison — All Sources</h1>
+  <p class="subtitle">Original screenshots vs reconstructed JSONs. Compare endpoints, blockers and board layout.</p>
+
+  <div class="nav" id="nav">
+    <a href="#sec-workshop">Workshop</a>
+    <a href="#sec-editor">Editor Images</a>
+    <a href="#sec-timestamped">Timestamped</a>
+    <a href="#sec-benchmark">Benchmark Flow Free</a>
+  </div>
+
+  <div id="status">Loading...</div>
+
+  <!-- Workshop section -->
+  <div class="section-title" id="sec-workshop">Workshop — Susanne, Chloe, Karina, Andrea</div>
+  <p class="section-subtitle">Levels created during playtest workshops. Original screenshots from participants vs JSON reconstructions.</p>
+  <div id="grid-workshop" class="grid"></div>
+  <div class="back-top"><a href="#nav">&uarr; Top</a></div>
+
+  <!-- Editor Images section -->
+  <div class="section-title" id="sec-editor">Editor Images (image11 – image28)</div>
+  <p class="section-subtitle">Levels reconstructed from level editor screenshots.</p>
+  <div id="grid-editor" class="grid"></div>
+  <div class="back-top"><a href="#nav">&uarr; Top</a></div>
+
+  <!-- Timestamped section -->
+  <div class="section-title" id="sec-timestamped">Timestamped Variants</div>
+  <p class="section-subtitle">Levels with timestamp suffixes reconstructed from screenshots.</p>
+  <div id="grid-timestamped" class="grid"></div>
+  <div class="back-top"><a href="#nav">&uarr; Top</a></div>
+
+  <!-- Benchmark Flow Free section -->
+  <div class="section-title" id="sec-benchmark">Benchmark — Flow Free</div>
+  <p class="section-subtitle">16 Flow Free reference levels from mobile screenshots + 6 extra large boards.</p>
+  <div id="grid-benchmark" class="grid"></div>
+  <div class="back-top"><a href="#nav">&uarr; Top</a></div>
+
+  <script>
+    const COLORS = {
+      blue:'#0EA5E9', green:'#10B981', orange:'#F97316', cyan:'#0891B2',
+      yellow:'#FBBF24', red:'#EF4444', purple:'#A855F7', pink:'#EC4899',
+      maroon:'#9F1239', teal:'#14B8A6', white:'#F8FAFC'
+    };
+    const COLOR_KEYS = Object.keys(COLORS);
+
+    // ── Data: Workshop levels ──
+    const WORKSHOP = [
+      { file:'workshop_susanne_1.json', dir:'workshop/', author:'Susanne', screenshot:'workshop_susanne_1' },
+      { file:'workshop_susanne_2.json', dir:'workshop/', author:'Susanne', screenshot:'workshop_susanne_2' },
+      { file:'workshop_susanne_3.json', dir:'workshop/', author:'Susanne', screenshot:'workshop_susanne_3' },
+      { file:'workshop_susanne_5.json', dir:'workshop/', author:'Susanne', screenshot:'workshop_susanne_5' },
+      { file:'susanne_level_1_manager_ok.json', dir:'workshop/', author:'Susanne', screenshot:'susanne_level_1_manager_ok' },
+      { file:'workshop_chloe_1.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_1' },
+      { file:'workshop_chloe_2.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_2' },
+      { file:'workshop_chloe_3.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_3' },
+      { file:'workshop_chloe_4.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_4' },
+      { file:'workshop_chloe_5.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_5' },
+      { file:'workshop_chloe_6.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_6' },
+      { file:'workshop_chloe_7.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_7' },
+      { file:'workshop_chloe_8.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_8' },
+      { file:'workshop_chloe_10.json', dir:'workshop/', author:'Chloe', screenshot:'workshop_chloe_10' },
+      { file:'workshop_karina_3.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_3' },
+      { file:'workshop_karina_4.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_4' },
+      { file:'workshop_karina_5.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_5' },
+      { file:'workshop_karina_6.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_6' },
+      { file:'workshop_karina_7.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_7' },
+      { file:'workshop_karina_8.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_8' },
+      { file:'workshop_karina_9.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_9' },
+      { file:'workshop_karina_10.json', dir:'workshop/', author:'Karina', screenshot:'workshop_karina_10' },
+      { file:'andrea_level_1v2.json', dir:'workshop/', author:'Andrea', screenshot:'andrea_level_1v2' },
+      { file:'andrea_level_2.json', dir:'workshop/', author:'Andrea', screenshot:'andrea_level_2' },
+    ];
+
+    // ── Data: Editor images ──
+    const EDITOR_FILES = [
+      'image11_level_editor','image19_level_editor','image20_level_editor',
+      'image21_level_editor','image24_level_editor','image25_level_editor',
+      'image28_level_editor'
+    ];
+
+    // ── Data: Timestamped ──
+    const TIMESTAMPED_FILES = [
+      'p_2_4_new_20260310165931','p_2_5_new_20260310170335',
+      'p_2_6_new_20260310170645','p_2_9_new_20260310195328',
+      'p_4_c_new_20260311075908','level_2'
+    ];
+
+    // ── Data: Benchmark Flow Free ──
+    const BENCHMARK_FILES = [
+      'ff_nivel3_8x8','ff_nivel4_8x8','ff_nivel5_8x8',
+      'ff_nivel5_9x9','ff_nivel6_8x8','ff_nivel6v2_8x8',
+      'ff_nivel7a_8x8','ff_nivel7b_8x8',
+      'ff_nivel9a_8x8','ff_nivel9b_9x9',
+      'ff_nivel11_9x9','ff_nivel13_8x8',
+      'ff_nivel15_9x9','ff_nivel16_8x8',
+      'ff_nivel32_8x8','ff_nivel34_8x8'
+    ];
+
+    // ── Drawing ──
+    function drawBoard(canvas, level, darkBg) {
+      const cols = level.gridSize.cols;
+      const rows = level.gridSize.rows;
+      const size = 270;
+      const cellW = size / cols;
+      const cellH = size / rows;
+      canvas.width = size;
+      canvas.height = (size / cols) * rows;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = darkBg ? '#1a1a2e' : '#f7fbff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = darkBg ? '#2d2d4a' : '#cbd5e1';
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= cols; x++) {
+        ctx.beginPath(); ctx.moveTo(x*cellW, 0); ctx.lineTo(x*cellW, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y <= rows; y++) {
+        ctx.beginPath(); ctx.moveTo(0, y*cellH); ctx.lineTo(canvas.width, y*cellH); ctx.stroke();
+      }
+
+      // Blockers
+      const blockers = level.blockers || [];
+      ctx.fillStyle = darkBg ? '#0f0f1a' : '#334155';
+      for (const b of blockers) {
+        ctx.fillRect(b.x*cellW+2, b.y*cellH+2, cellW-4, cellH-4);
+      }
+
+      // Pairs
+      const pairs = level.pairs || [];
+      pairs.forEach((pair, i) => {
+        const color = COLORS[pair.type] || COLORS[COLOR_KEYS[i % COLOR_KEYS.length]];
+        const r = Math.min(cellW, cellH) * 0.35;
+
+        // Ghost line between endpoints
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = 0.2;
+        ctx.beginPath();
+        ctx.moveTo(pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2);
+        ctx.lineTo(pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        // Start (square)
+        ctx.fillStyle = color;
+        ctx.fillRect(pair.a.x*cellW + cellW/2 - r, pair.a.y*cellH + cellH/2 - r, r*2, r*2);
+
+        // End (circle)
+        ctx.beginPath();
+        ctx.arc(pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2, r, 0, Math.PI*2);
+        ctx.fill();
+
+        // Labels
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold ' + Math.floor(r*0.9) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const label = String.fromCharCode(65 + i);
+        ctx.fillText(label, pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2);
+        ctx.fillText(label, pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2);
+      });
+    }
+
+    // ── Image fallback ──
+    function setImgFallback(img, urls) {
+      let idx = 0;
+      function tryNext() {
+        if (idx >= urls.length) {
+          img.classList.add('missing');
+          img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">' +
+            '<rect width="280" height="280" fill="#0b1222"/>' +
+            '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="sans-serif">No screenshot</text></svg>'
+          );
+          img.removeEventListener('error', tryNext);
+          return;
+        }
+        img.src = urls[idx++];
+      }
+      img.addEventListener('error', tryNext);
+      tryNext();
+    }
+
+    function screenshotUrls(stem, extraDirs) {
+      const dirs = ['../levels/screenshots/', ...(extraDirs || [])];
+      const exts = ['png','PNG','jpg','JPG','jpeg','webp'];
+      const urls = [];
+      for (const ext of exts) {
+        for (const dir of dirs) {
+          urls.push(dir + stem + '.' + ext);
+        }
+      }
+      return urls;
+    }
+
+    function createTag(text, cls) {
+      const span = document.createElement('span');
+      span.className = 'tag ' + cls;
+      span.textContent = text;
+      return span;
+    }
+
+    // ── Card builder ──
+    function buildCard(level, stem, opts) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = level.id || stem;
+      card.appendChild(title);
+
+      if (opts.author) {
+        const author = document.createElement('div');
+        author.className = 'card-author';
+        author.textContent = opts.author;
+        card.appendChild(author);
+      }
+
+      const pairCount = (level.pairs || []).length;
+      const blockerCount = (level.blockers || []).length;
+      const meta = document.createElement('div');
+      meta.className = 'card-meta';
+      meta.textContent = level.gridSize.cols + '\u00d7' + level.gridSize.rows + ' \u00b7 ' + pairCount + ' pairs \u00b7 ' + blockerCount + ' blockers';
+      card.appendChild(meta);
+
+      const compare = document.createElement('div');
+      compare.className = 'compare';
+
+      // Left: original
+      const leftCol = document.createElement('div');
+      leftCol.className = 'compare-col';
+      const leftLabel = document.createElement('div');
+      leftLabel.className = 'compare-label original';
+      leftLabel.textContent = 'ORIGINAL';
+      leftCol.appendChild(leftLabel);
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = stem;
+      setImgFallback(img, screenshotUrls(opts.screenshot || stem, opts.extraImgDirs));
+      leftCol.appendChild(img);
+      compare.appendChild(leftCol);
+
+      // Right: reconstructed
+      const rightCol = document.createElement('div');
+      rightCol.className = 'compare-col';
+      const rightLabel = document.createElement('div');
+      rightLabel.className = 'compare-label reconstructed';
+      rightLabel.textContent = 'RECONSTRUCTED';
+      rightCol.appendChild(rightLabel);
+      const canvas = document.createElement('canvas');
+      rightCol.appendChild(canvas);
+      compare.appendChild(rightCol);
+      card.appendChild(compare);
+
+      // Tags
+      const tags = document.createElement('div');
+      tags.className = 'tags';
+      tags.appendChild(createTag(level.gridSize.cols + '\u00d7' + level.gridSize.rows, 'tag-info'));
+      tags.appendChild(createTag(pairCount + 'p', 'tag-info'));
+      tags.appendChild(createTag(blockerCount + 'b', 'tag-info'));
+      if (opts.author) tags.appendChild(createTag(opts.author, 'tag-author'));
+      const diff = (level.meta && level.meta.manual_difficulty) || (level.difficultyTier === 1 ? 'EASY' : level.difficultyTier === 2 ? 'MEDIUM' : 'HARD');
+      tags.appendChild(createTag(diff, diff === 'EASY' ? 'tag-ok' : diff === 'MEDIUM' ? 'tag-warn' : 'tag-hard'));
+      const patterns = (level.meta && level.meta.benchmark_patterns) || [];
+      patterns.forEach(p => tags.appendChild(createTag(p, 'tag-pattern')));
+      card.appendChild(tags);
+
+      return { card, canvas };
+    }
+
+    // ── Loaders ──
+    let totalLoaded = 0;
+
+    async function loadWorkshop() {
+      const grid = document.getElementById('grid-workshop');
+      for (const item of WORKSHOP) {
+        try {
+          const resp = await fetch('../levels/' + item.dir + item.file);
+          if (!resp.ok) continue;
+          const level = await resp.json();
+          const result = buildCard(level, item.file.replace('.json',''), {
+            author: item.author,
+            screenshot: item.screenshot
+          });
+          grid.appendChild(result.card);
+          requestAnimationFrame(() => drawBoard(result.canvas, level, false));
+          totalLoaded++;
+        } catch(e) { console.error('Workshop fail:', item.file, e); }
+      }
+    }
+
+    async function loadSimpleGroup(files, gridId, basePath) {
+      const grid = document.getElementById(gridId);
+      for (const stem of files) {
+        try {
+          const resp = await fetch(basePath + stem + '.json');
+          if (!resp.ok) continue;
+          const level = await resp.json();
+          const result = buildCard(level, stem, { screenshot: stem });
+          grid.appendChild(result.card);
+          requestAnimationFrame(() => drawBoard(result.canvas, level, false));
+          totalLoaded++;
+        } catch(e) { console.error('Fail:', stem, e); }
+      }
+    }
+
+    async function loadBenchmark() {
+      const grid = document.getElementById('grid-benchmark');
+      for (const stem of BENCHMARK_FILES) {
+        try {
+          const resp = await fetch('../levels/benchmark_flow_free/' + stem + '.json');
+          if (!resp.ok) continue;
+          const level = await resp.json();
+          const result = buildCard(level, stem, {
+            screenshot: stem,
+            extraImgDirs: ['../levels/benchmark_flow_free/screenshots/', '../benchmark_flow_free/screenshots/']
+          });
+          grid.appendChild(result.card);
+          requestAnimationFrame(() => drawBoard(result.canvas, level, true));
+          totalLoaded++;
+        } catch(e) { console.error('Benchmark fail:', stem, e); }
+      }
+    }
+
+    async function main() {
+      const status = document.getElementById('status');
+      await loadWorkshop();
+      await loadSimpleGroup(EDITOR_FILES, 'grid-editor', '../levels/');
+      await loadSimpleGroup(TIMESTAMPED_FILES, 'grid-timestamped', '../levels/');
+      await loadBenchmark();
+      status.textContent = 'Loaded ' + totalLoaded + ' levels across all sections.';
+
+      // Update nav counts
+      document.querySelectorAll('.grid').forEach(g => {
+        const count = g.children.length;
+        const id = g.id.replace('grid-','sec-');
+        const link = document.querySelector('.nav a[href="#' + id + '"]');
+        if (link && count) {
+          const span = document.createElement('span');
+          span.className = 'count';
+          span.textContent = '(' + count + ')';
+          link.appendChild(span);
+        }
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>

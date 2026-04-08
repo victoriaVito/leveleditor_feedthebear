@@ -1,0 +1,185 @@
+{
+  "id": "progresion2_level8",
+  "difficultyTier": 8,
+  "gridSize": {
+    "cols": 8,
+    "rows": 8
+  },
+  "moves": 0,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 7,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 1
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 7,
+        "y": 1
+      },
+      "b": {
+        "x": 6,
+        "y": 6
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 6
+      },
+      "b": {
+        "x": 5,
+        "y": 7
+      }
+    },
+    {
+      "type": "green_striped",
+      "a": {
+        "x": 7,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 5
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 5,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 5
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        7
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "D": [
+      [
+        1,
+        7
+      ],
+      [
+        6,
+        6
+      ]
+    ],
+    "E": [
+      [
+        6,
+        1
+      ],
+      [
+        7,
+        5
+      ]
+    ],
+    "F": [
+      [
+        2,
+        7
+      ],
+      [
+        5,
+        1
+      ]
+    ],
+    "G": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "progresion2_level8.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

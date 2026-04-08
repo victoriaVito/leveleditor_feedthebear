@@ -1,0 +1,65 @@
+{
+  "expectations": [
+    {
+      "text": "Blank line before every list",
+      "passed": false,
+      "evidence": "10 list(s) missing blank line before first item"
+    },
+    {
+      "text": "Blank line around every code fence",
+      "passed": true,
+      "evidence": "0 code fence(s) missing blank line"
+    },
+    {
+      "text": "Blank line after every heading",
+      "passed": true,
+      "evidence": "0 heading(s) missing blank line after"
+    },
+    {
+      "text": "No double blank lines",
+      "passed": true,
+      "evidence": "0 double blank line(s) found"
+    },
+    {
+      "text": "Uses canonical term 'Original Progressions'",
+      "passed": true,
+      "evidence": "'Original Progression' found, 12 bare uses"
+    },
+    {
+      "text": "Uses canonical term 'Tutorial'",
+      "passed": true,
+      "evidence": "'Tutorial' found, bad terms: yes"
+    },
+    {
+      "text": "Uses 'toolkit' for the editor",
+      "passed": true,
+      "evidence": "'toolkit' found"
+    },
+    {
+      "text": "Contains [VERIFY] flags for uncertain info",
+      "passed": true,
+      "evidence": "4 [VERIFY] flag(s) found"
+    },
+    {
+      "text": "All paths relative (no absolute macOS paths)",
+      "passed": true,
+      "evidence": "0 absolute path(s) found"
+    },
+    {
+      "text": "No lines over 500 characters",
+      "passed": true,
+      "evidence": "0 line(s) over 500 chars"
+    },
+    {
+      "text": "Cross-references to related docs",
+      "passed": true,
+      "evidence": "10 cross-reference(s) found"
+    }
+  ],
+  "summary": {
+    "passed": 10,
+    "failed": 1,
+    "total": 11,
+    "pass_rate": 0.91
+  }
+}

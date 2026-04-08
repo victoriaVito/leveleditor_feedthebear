@@ -1,0 +1,1 @@
+- Date: 2026-03-24 | File path: level_toolkit_web/app.js | Action: updated | Reason: Fixed canvas resize bug in the editor responsive sizing logic at line 2450 so the editor canvas dimensions update correctly on window resize events.

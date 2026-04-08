@@ -1,0 +1,183 @@
+{
+  "id": "procedural_medium_5x5_001",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 16,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 4,
+        "y": 1
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 4,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "solutionCount": 3,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "B": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "C": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "D": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "procedural_medium_5x5_001.json",
+    "generated_by": "scripts/generate_medium_levels_by_size.mjs",
+    "generated_at": "2026-03-27T20:00:15.750Z"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

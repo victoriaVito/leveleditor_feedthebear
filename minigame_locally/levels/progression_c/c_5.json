@@ -1,0 +1,202 @@
+{
+  "level": 5,
+  "board_size": 6,
+  "board_width": 6,
+  "board_height": 6,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_A2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "NODE_C1",
+      "BLOCKED",
+      "NODE_C2",
+      "NODE_D1",
+      "BLOCKED",
+      "NODE_D2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        2,
+        0
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        2,
+        5
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "C",
+      "start": [
+        5,
+        0
+      ],
+      "end": [
+        5,
+        2
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "D",
+      "start": [
+        5,
+        3
+      ],
+      "end": [
+        5,
+        5
+      ],
+      "color": "#7DD3FC",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    }
+  ],
+  "blockers": [
+    [
+      5,
+      1
+    ],
+    [
+      4,
+      1
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      4,
+      4
+    ]
+  ],
+  "decal": false,
+  "moves": 5,
+  "solution_count": 0,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "D": [
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "position": {
+    "progression": "progressionC",
+    "slot": 9
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "c_5.json",
+    "curated_for_progression": "progression_c",
+    "curated_slot": 5
+  },
+  "id": "c_5"
+}

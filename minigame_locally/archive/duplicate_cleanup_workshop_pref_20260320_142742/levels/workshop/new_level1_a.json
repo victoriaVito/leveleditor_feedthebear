@@ -1,0 +1,109 @@
+{
+  "id": "new_level1_a",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "new_level1_a.json",
+    "cloned_from": "levels/standalone/tutorial_level.json",
+    "cloned_from_progression": "progressionA_afterTewak",
+    "cloned_slot": 1,
+    "display_slot": 1
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

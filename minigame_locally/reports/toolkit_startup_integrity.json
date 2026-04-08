@@ -1,6 +1,7 @@
 {
-  "generatedAt": "2026-03-12T18:10:48.127Z",
-  "checkedPresets": [
+  "generatedAt": "2026-04-07T09:12:34.563Z",
+  "checkedPresets": [],
+  "skippedOptionalPresets": [
     {
       "key": "workshop",
       "path": "./workshop_progressions/workshop_workspace.json"
@@ -22,7 +23,7 @@
       "path": "./workshop_progressions/progressionImportedClean_workspace.json"
     }
   ],
-  "checkedLevelRefs": 105,
+  "checkedLevelRefs": 0,
   "missingCount": 0,
   "missing": [],
   "reportPath": "/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/reports/toolkit_startup_integrity.md",

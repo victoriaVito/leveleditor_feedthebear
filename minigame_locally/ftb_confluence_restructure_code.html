@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>FTB — Código para Reestructurar Confluence</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, system-ui, 'Segoe UI', sans-serif; background: #f4f5f7; color: #172b4d; line-height: 1.6; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  .subtitle { color: #6b778c; margin-bottom: 24px; font-size: 14px; }
+  h2 { font-size: 18px; margin: 28px 0 12px; color: #0747a6; border-bottom: 2px solid #36b37e; padding-bottom: 6px; display: inline-block; }
+  h3 { font-size: 15px; margin: 16px 0 8px; color: #0369a1; }
+
+  .card { background: #fff; border: 1px solid #dfe1e6; border-radius: 8px; padding: 20px; margin: 16px 0; }
+  .card.important { border-left: 4px solid #ff5630; }
+  .card.info { border-left: 4px solid #0065ff; }
+  .card.success { border-left: 4px solid #36b37e; }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { counter-increment: step; padding: 12px 0 12px 48px; position: relative; border-bottom: 1px solid #f4f5f7; }
+  .steps li::before { content: counter(step); position: absolute; left: 0; top: 12px; width: 32px; height: 32px; background: #0065ff; color: white; border-radius: 50%; text-align: center; line-height: 32px; font-weight: 700; font-size: 14px; }
+  .steps li:last-child { border-bottom: none; }
+
+  pre { background: #0b1b2a; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 12px; line-height: 1.5; margin: 12px 0; position: relative; }
+  code { background: #f0f6fc; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+  pre code { background: none; padding: 0; }
+
+  .copy-btn { position: absolute; top: 8px; right: 8px; background: #36b37e; color: white; border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: 600; }
+  .copy-btn:hover { background: #2ea86b; }
+
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; }
+  .tag.delete { background: #ffebe6; color: #bf2600; }
+  .tag.add { background: #e3fcef; color: #006644; }
+  .tag.modify { background: #deebff; color: #0747a6; }
+
+  .zone-diagram { display: flex; gap: 4px; margin: 8px 0; }
+  .zone-block { padding: 8px; border-radius: 4px; text-align: center; font-size: 11px; font-weight: 600; }
+</style>
+<script>
+function copyCode(id) {
+  const el = document.getElementById(id);
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    const btn = el.parentElement.querySelector('.copy-btn');
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 2000);
+  });
+}
+</script>
+</head>
+<body>
+<div class="container">
+
+<h1>Feed the Bear — Reestructuración de Confluence</h1>
+<p class="subtitle">Código listo para pegar en el editor de código fuente de Confluence Server</p>
+
+<!-- ============================================ -->
+<h2>Instrucciones paso a paso</h2>
+<!-- ============================================ -->
+
+<div class="card info">
+<ol class="steps">
+  <li><strong>Abre la página</strong> en Confluence → Click <code>Edit</code> (o tecla <code>E</code>)</li>
+  <li><strong>Abre el editor de código fuente:</strong> en la toolbar, click el icono <code>&lt;&gt;</code> (Source editor) o usa el atajo <code>Ctrl+Shift+D</code></li>
+  <li><strong>Selecciona TODO</strong> el contenido actual (<code>Ctrl+A</code>)</li>
+  <li><strong>Pega el código</strong> del Bloque A (abajo) — esto reemplaza toda la página</li>
+  <li><strong>Adapta el contenido:</strong> reemplaza los placeholders <code>[TU CONTENIDO AQUÍ]</code> con tu texto real. Puedes copiar secciones del código fuente original antes de reemplazar</li>
+  <li><strong>Guarda</strong> con <code>Ctrl+S</code> o click en <code>Save</code></li>
+</ol>
+</div>
+
+<div class="card important">
+<p><strong>⚠️ Consejo importante:</strong> Antes de reemplazar, copia el código fuente actual en un archivo de texto como backup. Así puedes volver atrás si algo no queda bien.</p>
+</div>
+
+<!-- ============================================ -->
+<h2>Bloque A: Página completa reestructurada</h2>
+<!-- ============================================ -->
+
+<p>Este es el código completo. Copia todo el bloque y pégalo en el editor de código fuente.</p>
+
+<div style="position:relative">
+<button class="copy-btn" onclick="copyCode('full-code')">Copiar</button>
+<pre><code id="full-code">&lt;!-- ============================== --&gt;
+&lt;!-- ZONA 1: HEADER --&gt;
+&lt;!-- ============================== --&gt;
+
+&lt;div style="background: linear-gradient(135deg, #0b1b2a 0%, #0f3460 50%, #0369a1 100%); color: #ffffff; padding: 32px 40px; border-radius: 12px; margin-bottom: 24px;"&gt;
+  &lt;h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 28px;"&gt;Feed the Bear — Level Design&lt;/h1&gt;
+  &lt;p style="color: #94a3b8; margin: 0; font-size: 15px;"&gt;Minigame design document • Last updated: March 2026&lt;/p&gt;
+  &lt;div style="margin-top: 16px; display: flex; gap: 8px;"&gt;
+    &lt;span style="background: #2fbb69; color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;"&gt;Active&lt;/span&gt;
+    &lt;span style="background: rgba(255,255,255,0.15); color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px;"&gt;Level Design&lt;/span&gt;
+    &lt;span style="background: rgba(255,255,255,0.15); color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px;"&gt;Minigame&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- ============================== --&gt;
+&lt;!-- ZONA 2: OVERVIEW + QUICK FACTS (layout 30/70) --&gt;
+&lt;!-- ============================== --&gt;
+
+&lt;ac:layout&gt;
+  &lt;ac:layout-section ac:type="two_left_sidebar"&gt;
+
+    &lt;!-- SIDEBAR IZQUIERDA (30%) --&gt;
+    &lt;ac:layout-cell&gt;
+
+      &lt;!-- Quick Facts Panel --&gt;
+      &lt;ac:structured-macro ac:name="panel"&gt;
+        &lt;ac:parameter ac:name="title"&gt;Quick Facts&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderColor"&gt;#d8e5f0&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="bgColor"&gt;#f8fafc&lt;/ac:parameter&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;table&gt;
+            &lt;tbody&gt;
+              &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Game&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Feed the Bear&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Type&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Minigame&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Designer&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;Victoria Serrano&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Status&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;ac:structured-macro ac:name="status"&gt;&lt;ac:parameter ac:name="title"&gt;Active&lt;/ac:parameter&gt;&lt;ac:parameter ac:name="colour"&gt;Green&lt;/ac:parameter&gt;&lt;/ac:structured-macro&gt;&lt;/td&gt;&lt;/tr&gt;
+              &lt;tr&gt;&lt;td&gt;&lt;strong&gt;Levels&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;[TU DATO]&lt;/td&gt;&lt;/tr&gt;
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+
+      &lt;!-- Navigation Links --&gt;
+      &lt;ac:structured-macro ac:name="panel"&gt;
+        &lt;ac:parameter ac:name="title"&gt;On This Page&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderColor"&gt;#d8e5f0&lt;/ac:parameter&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;ac:structured-macro ac:name="toc"&gt;
+            &lt;ac:parameter ac:name="maxLevel"&gt;2&lt;/ac:parameter&gt;
+            &lt;ac:parameter ac:name="style"&gt;none&lt;/ac:parameter&gt;
+          &lt;/ac:structured-macro&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+
+    &lt;/ac:layout-cell&gt;
+
+    &lt;!-- CONTENIDO PRINCIPAL (70%) --&gt;
+    &lt;ac:layout-cell&gt;
+
+      &lt;h2&gt;What is Feed the Bear?&lt;/h2&gt;
+      &lt;ac:structured-macro ac:name="info"&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;p&gt;[TU CONTENIDO AQUÍ — pega tu descripción de "What is FTB?" del original]&lt;/p&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+
+      &lt;h2&gt;How It Works&lt;/h2&gt;
+      &lt;p&gt;[TU CONTENIDO AQUÍ — pega la sección "How it works" del original]&lt;/p&gt;
+
+    &lt;/ac:layout-cell&gt;
+
+  &lt;/ac:layout-section&gt;
+&lt;/ac:layout&gt;
+
+&lt;!-- ============================== --&gt;
+&lt;!-- ZONA 3: DESIGN DIMENSIONS (3 columnas) --&gt;
+&lt;!-- ============================== --&gt;
+
+&lt;h2&gt;Design Dimensions&lt;/h2&gt;
+
+&lt;ac:layout&gt;
+  &lt;ac:layout-section ac:type="three_equal"&gt;
+
+    &lt;ac:layout-cell&gt;
+      &lt;ac:structured-macro ac:name="panel"&gt;
+        &lt;ac:parameter ac:name="title"&gt;Difficulty Model&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderColor"&gt;#2fbb69&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="bgColor"&gt;#f0fdf4&lt;/ac:parameter&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;p&gt;[TU CONTENIDO — resumen del modelo de dificultad]&lt;/p&gt;
+          &lt;p&gt;&lt;a href="#difficulty-detail"&gt;→ Ver detalle completo&lt;/a&gt;&lt;/p&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+    &lt;/ac:layout-cell&gt;
+
+    &lt;ac:layout-cell&gt;
+      &lt;ac:structured-macro ac:name="panel"&gt;
+        &lt;ac:parameter ac:name="title"&gt;Progression&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderColor"&gt;#0369a1&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="bgColor"&gt;#f0f9ff&lt;/ac:parameter&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;p&gt;[TU CONTENIDO — resumen de curvas de progresión]&lt;/p&gt;
+          &lt;p&gt;&lt;a href="#progression-detail"&gt;→ Ver detalle completo&lt;/a&gt;&lt;/p&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+    &lt;/ac:layout-cell&gt;
+
+    &lt;ac:layout-cell&gt;
+      &lt;ac:structured-macro ac:name="panel"&gt;
+        &lt;ac:parameter ac:name="title"&gt;Procedural Generation&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="borderColor"&gt;#f59e0b&lt;/ac:parameter&gt;
+        &lt;ac:parameter ac:name="bgColor"&gt;#fffbeb&lt;/ac:parameter&gt;
+        &lt;ac:rich-text-body&gt;
+          &lt;p&gt;[TU CONTENIDO — resumen de generación procedural]&lt;/p&gt;
+          &lt;p&gt;&lt;a href="#procedural-detail"&gt;→ Ver detalle completo&lt;/a&gt;&lt;/p&gt;
+        &lt;/ac:rich-text-body&gt;
+      &lt;/ac:structured-macro&gt;
+    &lt;/ac:layout-cell&gt;
+
+  &lt;/ac:layout-section&gt;
+&lt;/ac:layout&gt;
+
+&lt;!-- ============================== --&gt;
+&lt;!-- ZONA 4: SECCIONES DETALLADAS (con Expand) --&gt;
+&lt;!-- ============================== --&gt;
+
+&lt;h2&gt;Detailed Sections&lt;/h2&gt;
+
+&lt;!-- Difficulty Detail --&gt;
+&lt;ac:structured-macro ac:name="anchor"&gt;
+  &lt;ac:parameter ac:name=""&gt;difficulty-detail&lt;/ac:parameter&gt;
+&lt;/ac:structured-macro&gt;
+&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;📊 Difficulty Model — Full Detail&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;[TU CONTENIDO AQUÍ — pega toda la sección de Difficulty del original]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;!-- Progression Detail --&gt;
+&lt;ac:structured-macro ac:name="anchor"&gt;
+  &lt;ac:parameter ac:name=""&gt;progression-detail&lt;/ac:parameter&gt;
+&lt;/ac:structured-macro&gt;
+&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;📈 Progression Curves — Full Detail&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;[TU CONTENIDO AQUÍ — pega toda la sección de Curves/Progression del original]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;!-- Procedural Detail --&gt;
+&lt;ac:structured-macro ac:name="anchor"&gt;
+  &lt;ac:parameter ac:name=""&gt;procedural-detail&lt;/ac:parameter&gt;
+&lt;/ac:structured-macro&gt;
+&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;🎲 Procedural Generation — Full Detail&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;[TU CONTENIDO AQUÍ — pega toda la sección de Procedural del original]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;!-- Game Section --&gt;
+&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;🎮 Game Details&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;[TU CONTENIDO AQUÍ — pega la sección de Game del original]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;!-- Level Data --&gt;
+&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;🗂️ Level Data &amp;amp; Spreadsheets&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;[TU CONTENIDO AQUÍ — pega tablas de datos de niveles, enlaces a spreadsheets, etc.]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;!-- ============================== --&gt;
+&lt;!-- ZONA 5: FOOTER --&gt;
+&lt;!-- ============================== --&gt;
+
+&lt;hr /&gt;
+&lt;ac:structured-macro ac:name="note"&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;&lt;strong&gt;Page owner:&lt;/strong&gt; Victoria Serrano | &lt;strong&gt;Last restructured:&lt;/strong&gt; March 2026 | &lt;strong&gt;Related:&lt;/strong&gt; [enlaza aquí a otras páginas relevantes]&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;</code></pre>
+</div>
+
+<!-- ============================================ -->
+<h2>Qué cambió vs la página actual</h2>
+<!-- ============================================ -->
+
+<div class="card">
+<table>
+<thead>
+  <tr><th>Cambio</th><th>Antes</th><th>Después</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td><span class="tag delete">Eliminado</span></td>
+    <td>Tabla de "tabs" falsa que no hacía nada</td>
+    <td>Eliminada completamente</td>
+  </tr>
+  <tr>
+    <td><span class="tag add">Nuevo</span></td>
+    <td>Sin header visual</td>
+    <td>Header gradient con badges de estado</td>
+  </tr>
+  <tr>
+    <td><span class="tag add">Nuevo</span></td>
+    <td>Todo en una columna</td>
+    <td>Layout 30/70 con sidebar de Quick Facts + TOC</td>
+  </tr>
+  <tr>
+    <td><span class="tag add">Nuevo</span></td>
+    <td>Secciones apiladas verticalmente</td>
+    <td>3 columnas para Design Dimensions (resumen visual)</td>
+  </tr>
+  <tr>
+    <td><span class="tag modify">Mejorado</span></td>
+    <td>Secciones largas siempre abiertas</td>
+    <td>Secciones en Expand macros (colapsables)</td>
+  </tr>
+  <tr>
+    <td><span class="tag add">Nuevo</span></td>
+    <td>Sin navegación interna</td>
+    <td>Anchors + links desde las cards de 3 columnas al detalle</td>
+  </tr>
+  <tr>
+    <td><span class="tag add">Nuevo</span></td>
+    <td>Sin footer</td>
+    <td>Footer con owner, fecha y enlaces relacionados</td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============================================ -->
+<h2>Bloques individuales (si prefieres ir paso a paso)</h2>
+<!-- ============================================ -->
+
+<p>Si no quieres reemplazar toda la página de golpe, puedes ir insertando estos bloques uno a uno.</p>
+
+<h3>Bloque 1: Solo el Header</h3>
+<div style="position:relative">
+<button class="copy-btn" onclick="copyCode('header-code')">Copiar</button>
+<pre><code id="header-code">&lt;div style="background: linear-gradient(135deg, #0b1b2a 0%, #0f3460 50%, #0369a1 100%); color: #ffffff; padding: 32px 40px; border-radius: 12px; margin-bottom: 24px;"&gt;
+  &lt;h1 style="color: #ffffff; margin: 0 0 8px 0; font-size: 28px;"&gt;Feed the Bear — Level Design&lt;/h1&gt;
+  &lt;p style="color: #94a3b8; margin: 0; font-size: 15px;"&gt;Minigame design document • Last updated: March 2026&lt;/p&gt;
+  &lt;div style="margin-top: 16px; display: flex; gap: 8px;"&gt;
+    &lt;span style="background: #2fbb69; color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;"&gt;Active&lt;/span&gt;
+    &lt;span style="background: rgba(255,255,255,0.15); color: white; padding: 3px 10px; border-radius: 12px; font-size: 12px;"&gt;Level Design&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+</div>
+
+<h3>Bloque 2: Wrap cualquier sección en Expand</h3>
+<div style="position:relative">
+<button class="copy-btn" onclick="copyCode('expand-code')">Copiar</button>
+<pre><code id="expand-code">&lt;ac:structured-macro ac:name="expand"&gt;
+  &lt;ac:parameter ac:name="title"&gt;📊 TU TÍTULO DE SECCIÓN&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;Tu contenido aquí...&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;</code></pre>
+</div>
+
+<h3>Bloque 3: Panel con color de borde</h3>
+<div style="position:relative">
+<button class="copy-btn" onclick="copyCode('panel-code')">Copiar</button>
+<pre><code id="panel-code">&lt;ac:structured-macro ac:name="panel"&gt;
+  &lt;ac:parameter ac:name="title"&gt;Tu Título&lt;/ac:parameter&gt;
+  &lt;ac:parameter ac:name="borderStyle"&gt;solid&lt;/ac:parameter&gt;
+  &lt;ac:parameter ac:name="borderColor"&gt;#2fbb69&lt;/ac:parameter&gt;
+  &lt;ac:parameter ac:name="bgColor"&gt;#f0fdf4&lt;/ac:parameter&gt;
+  &lt;ac:rich-text-body&gt;
+    &lt;p&gt;Contenido del panel...&lt;/p&gt;
+  &lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;</code></pre>
+</div>
+
+<h3>Bloque 4: Layout 3 columnas (para Design Dimensions)</h3>
+<div style="position:relative">
+<button class="copy-btn" onclick="copyCode('three-col-code')">Copiar</button>
+<pre><code id="three-col-code">&lt;ac:layout&gt;
+  &lt;ac:layout-section ac:type="three_equal"&gt;
+    &lt;ac:layout-cell&gt;
+      &lt;p&gt;&lt;strong&gt;Columna 1&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Contenido...&lt;/p&gt;
+    &lt;/ac:layout-cell&gt;
+    &lt;ac:layout-cell&gt;
+      &lt;p&gt;&lt;strong&gt;Columna 2&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Contenido...&lt;/p&gt;
+    &lt;/ac:layout-cell&gt;
+    &lt;ac:layout-cell&gt;
+      &lt;p&gt;&lt;strong&gt;Columna 3&lt;/strong&gt;&lt;/p&gt;
+      &lt;p&gt;Contenido...&lt;/p&gt;
+    &lt;/ac:layout-cell&gt;
+  &lt;/ac:layout-section&gt;
+&lt;/ac:layout&gt;</code></pre>
+</div>
+
+<!-- ============================================ -->
+<h2>Paleta de colores FTB (referencia rápida)</h2>
+<!-- ============================================ -->
+
+<div class="card">
+<table>
+<thead><tr><th>Color</th><th>Hex</th><th>Uso</th></tr></thead>
+<tbody>
+  <tr><td style="width:40px;height:24px;background:#0b1b2a;border-radius:4px"></td><td><code>#0b1b2a</code></td><td>Header dark</td></tr>
+  <tr><td style="width:40px;height:24px;background:#0f3460;border-radius:4px"></td><td><code>#0f3460</code></td><td>Header mid</td></tr>
+  <tr><td style="width:40px;height:24px;background:#0369a1;border-radius:4px"></td><td><code>#0369a1</code></td><td>Header light / info accent</td></tr>
+  <tr><td style="width:40px;height:24px;background:#2fbb69;border-radius:4px"></td><td><code>#2fbb69</code></td><td>Success / primary accent</td></tr>
+  <tr><td style="width:40px;height:24px;background:#f59e0b;border-radius:4px"></td><td><code>#f59e0b</code></td><td>Warning / amber</td></tr>
+  <tr><td style="width:40px;height:24px;background:#d8e5f0;border-radius:4px"></td><td><code>#d8e5f0</code></td><td>Borders</td></tr>
+  <tr><td style="width:40px;height:24px;background:#f8fafc;border-radius:4px;border:1px solid #ddd"></td><td><code>#f8fafc</code></td><td>Panel background</td></tr>
+</tbody>
+</table>
+</div>
+
+</div>
+</body>
+</html>

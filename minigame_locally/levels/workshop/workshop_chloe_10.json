@@ -1,0 +1,151 @@
+{
+  "id": "workshop_chloe_10",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 9,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 6,
+        "y": 6
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "purple_striped",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 6
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 6
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 5
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "C": [
+      [
+        6,
+        6
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "workshop_chloe_10.json",
+    "failed_checks": [],
+    "workshop_creator": "chloe",
+    "workshop_index": 10,
+    "workshop_source_file": "levels/progression_level10_Hard.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

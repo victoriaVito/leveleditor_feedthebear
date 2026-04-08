@@ -1,0 +1,222 @@
+{
+  "id": "procedular_reference_large_001",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 14,
+  "pairs": [
+    {
+      "type": "green",
+      "a": {
+        "x": 4,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 6
+      }
+    },
+    {
+      "type": "green_striped",
+      "a": {
+        "x": 0,
+        "y": 2
+      },
+      "b": {
+        "x": 5,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 6,
+        "y": 5
+      },
+      "b": {
+        "x": 4,
+        "y": 6
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 1
+    },
+    {
+      "x": 4,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 2,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 6
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "LOW-MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        6,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        6,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "generated_for_large_board_pack": true,
+    "not_supported_in_current_web_editor": true,
+    "canonical_id": "lvl_002",
+    "canonical_file": "lvl_002_hard_large_01_7x7.json",
+    "canonical_slug": "hard_large_01_7x7",
+    "canonicalized_at": "2026-03-12T09:14:58.419Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/hard_large_01_7x7.json",
+      "level_toolkit_web/workshop_jsons_game_unique/hard_large_01_7x7.json",
+      "levels/hard_large_01_7x7.json",
+      "levels/standalone/hard_large_01_7x7.json"
+    ],
+    "generator_family": "procedular_reference_variants_v2",
+    "generated_by": "scripts/generate_large_procedular_pack.py",
+    "generated_at": "2026-03-22T11:52:09.104440+00:00",
+    "reference_source": "lvl_002_hard_large_01_7x7.json",
+    "reference_transform": "rot90",
+    "reference_board_label": "7x7",
+    "board_label": "7x7",
+    "pair_count": 3,
+    "serial": 1,
+    "learning_feedback_tags": {
+      "good_blocker_distribution": 1,
+      "needs_more_pairs": 0,
+      "too_much_space": 2,
+      "bad_blocker_clustering": 1,
+      "good_flow": 1,
+      "needs_more_blockers": 1,
+      "too_easy": 6,
+      "bad_layout": 2,
+      "too_hard": 1
+    },
+    "source_name": "procedular_reference_large_001.json",
+    "manual_feedback_refresh": "Retuned after first 10 review: keep close to levels 5 and 8.",
+    "approved_anchor_levels": [
+      "procedular_reference_large_005",
+      "procedular_reference_large_008"
+    ],
+    "rejected_sibling_levels": [
+      "procedular_reference_large_001",
+      "procedular_reference_large_002",
+      "procedular_reference_large_003",
+      "procedular_reference_large_004",
+      "procedular_reference_large_006",
+      "procedular_reference_large_007",
+      "procedular_reference_large_009",
+      "procedular_reference_large_010"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true,
+    "reference_variant": true
+  },
+  "decal": false
+}

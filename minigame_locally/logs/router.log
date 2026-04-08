@@ -1,0 +1,81 @@
+node:internal/modules/package_json_reader:301
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'express' imported from /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/task-router-server.mjs
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:301:9)
+    at packageResolve (node:internal/modules/esm/resolve:764:81)
+    at moduleResolve (node:internal/modules/esm/resolve:855:18)
+    at defaultResolve (node:internal/modules/esm/resolve:988:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:697:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:714:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:746:52)
+    at #resolve (node:internal/modules/esm/loader:679:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:599:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:160:33) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v25.8.1
+
+╔═════════════════════════════════════════════════════╗
+║  Task Router Server - Active                       ║
+║                                                     ║
+║  Listening on: http://localhost:3001              ║
+║                                                     ║
+║  Endpoints:                                         ║
+║  POST   /task              - Submit task            ║
+║  GET    /task/{id}         - Task status            ║
+║  GET    /tasks             - List tasks             ║
+║  POST   /task/{id}/callback - Agent completion      ║
+║  GET    /stats             - Task statistics        ║
+║  GET    /health            - Health check           ║
+║                                                     ║
+║  Task Types:                                        ║
+║  - code_generation, design_critique, validation    ║
+║  - api_integration, documentation, etc.            ║
+║                                                     ║
+║  Logs: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/task-router.log
+╚═════════════════════════════════════════════════════╝
+    
+Agent routing rules:
+  code_generation: codex (fallback: copilot, claude)
+  design_critique: claude (fallback: copilot)
+  level_validation: copilot (fallback: claude)
+  validation: copilot (fallback: claude)
+  api_integration: codex (fallback: claude, copilot)
+  documentation: claude (fallback: codex, copilot)
+  strategic_planning: claude (fallback: codex, copilot)
+  testing: copilot (fallback: codex)
+  debugging: copilot (fallback: claude, codex)
+
+╔═════════════════════════════════════════════════════╗
+║  Task Router Server - Active                       ║
+║                                                     ║
+║  Listening on: http://localhost:3001              ║
+║                                                     ║
+║  Endpoints:                                         ║
+║  POST   /task              - Submit task            ║
+║  GET    /task/{id}         - Task status            ║
+║  GET    /tasks             - List tasks             ║
+║  POST   /task/{id}/callback - Agent completion      ║
+║  GET    /stats             - Task statistics        ║
+║  GET    /health            - Health check           ║
+║                                                     ║
+║  Task Types:                                        ║
+║  - code_generation, design_critique, validation    ║
+║  - api_integration, documentation, etc.            ║
+║                                                     ║
+║  Logs: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/task-router.log
+╚═════════════════════════════════════════════════════╝
+    
+Agent routing rules:
+  code_generation: codex (fallback: copilot, claude)
+  design_critique: claude (fallback: copilot)
+  level_validation: copilot (fallback: claude)
+  validation: copilot (fallback: claude)
+  api_integration: codex (fallback: claude, copilot)
+  documentation: claude (fallback: codex, copilot)
+  strategic_planning: claude (fallback: codex, copilot)
+  testing: copilot (fallback: codex)
+  debugging: copilot (fallback: claude, codex)

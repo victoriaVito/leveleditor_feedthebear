@@ -1,0 +1,82 @@
+{
+  "id": "lvl_082_play_session_level_1_validate_4_level",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 9,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        1
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_082",
+    "canonical_file": "lvl_082_play_session_level_1_validate_4_level.json",
+    "canonical_slug": "play_session_level_1_validate_4_level",
+    "canonicalized_at": "2026-03-12T09:14:58.433Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/new_level9_a.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_1_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/susanne_level_1_manager_ok.json",
+      "levels/new_level9_a.json",
+      "levels/play_session_level_1_validate_4_level.json",
+      "levels/standalone/play_session_level_1_validate_4_level.json",
+      "levels/standalone/susanne_level_1_manager_ok.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

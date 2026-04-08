@@ -1,0 +1,127 @@
+{
+  "id": "workshop_karina_8",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 5
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 4
+      }
+    },
+    {
+      "type": "purple_striped",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 3
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "D": [
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "workshop_karina_8.json",
+    "failed_checks": [],
+    "workshop_creator": "karina",
+    "workshop_index": 8,
+    "workshop_source_file": "levels/progression_b_slot_8.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

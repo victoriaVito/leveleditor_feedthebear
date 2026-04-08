@@ -1,0 +1,294 @@
+{
+  "level": 9,
+  "board_size": 8,
+  "board_width": 8,
+  "board_height": 8,
+  "grid": [
+    [
+      "BLOCKED",
+      "NODE_G1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "NODE_D1"
+    ],
+    [
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_E2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_G2",
+      "NODE_E1",
+      "BLOCKED",
+      "EMPTY",
+      "BLOCKED"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_B1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2",
+      "NODE_D2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        2,
+        3
+      ],
+      "end": [
+        0,
+        6
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "B",
+      "start": [
+        7,
+        1
+      ],
+      "end": [
+        7,
+        6
+      ],
+      "color": "#7DD3FC",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        0
+      ],
+      "end": [
+        6,
+        4
+      ],
+      "color": "#0891B2",
+      "fish_color_id": "fish_cyan",
+      "color_letter": "M"
+    },
+    {
+      "id": "D",
+      "start": [
+        0,
+        7
+      ],
+      "end": [
+        7,
+        7
+      ],
+      "color": "#67E8F9",
+      "fish_color_id": "fish_cyan_striped",
+      "color_letter": "N"
+    },
+    {
+      "id": "E",
+      "start": [
+        4,
+        4
+      ],
+      "end": [
+        1,
+        4
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "G",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        4,
+        3
+      ],
+      "color": "#FBBF24",
+      "fish_color_id": "fish_yellow",
+      "color_letter": "G"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      4
+    ],
+    [
+      5,
+      0
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      7
+    ]
+  ],
+  "decal": false,
+  "moves": 7,
+  "solution_count": 0,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "B": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        6
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        7
+      ],
+      [
+        7,
+        7
+      ]
+    ],
+    "E": [
+      [
+        4,
+        4
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "G": [
+      [
+        0,
+        1
+      ],
+      [
+        4,
+        3
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "position": {
+    "progression": "progressionB",
+    "slot": 9
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "b_9.json",
+    "curated_for_progression": "progression_b",
+    "curated_slot": 9
+  },
+  "id": "b_9"
+}

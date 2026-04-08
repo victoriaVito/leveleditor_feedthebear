@@ -1,112 +1,63 @@
 {
-  "level": 1,
-  "board_size": 6,
-  "grid": [
-    [
-      "NODE_A1",
-      "EMPTY",
-      "BLOCKED",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "BLOCKED",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "BLOCKED",
-      "EMPTY",
-      "NODE_A2"
-    ],
-    [
-      "NODE_B1",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "NODE_B2"
-    ],
-    [
-      "EMPTY",
-      "NODE_C1",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "NODE_C2"
-    ]
-  ],
+  "id": "new_level1_a",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
   "pairs": [
     {
-      "id": "A",
-      "start": [
-        0,
-        0
-      ],
-      "end": [
-        2,
-        5
-      ],
-      "color": "#0EA5E9"
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
     },
     {
-      "id": "B",
-      "start": [
-        3,
-        0
-      ],
-      "end": [
-        4,
-        5
-      ],
-      "color": "#0284C7"
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
     },
     {
-      "id": "C",
-      "start": [
-        5,
-        1
-      ],
-      "end": [
-        5,
-        5
-      ],
-      "color": "#0891B2"
+      "type": "yellow",
+      "a": {
+        "x": 1,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
     }
   ],
   "blockers": [
-    [
-      1,
-      0
-    ],
-    [
-      2,
-      3
-    ],
-    [
-      0,
-      2
-    ]
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
   ],
-  "moves": 8,
-  "solution_count": 0,
-  "target_density": "HIGH",
-  "golden_path": {
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
     "A": [
       [
         0,
@@ -138,21 +89,18 @@
       ]
     ]
   },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "new_level1_a.json"
+  },
   "validation": {
     "solvable": false,
-    "density_match": true,
+    "density_match": false,
     "early_mistake_detection": true,
     "no_isolated_pairs": true,
     "no_late_dead_ends": true,
     "curve_integrity": true
-  },
-  "meta": {
-    "generation_attempts": 1,
-    "failed_checks": [],
-    "source_name": "new_level1_a.json",
-    "cloned_from": "levels/standalone/tutorial_level.json",
-    "cloned_from_progression": "progressionA_afterTewak",
-    "cloned_slot": 1,
-    "display_slot": 1
   }
 }

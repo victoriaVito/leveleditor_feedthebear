@@ -1,0 +1,96 @@
+{
+  "id": "procedural_2_level_1_new_20260322234743",
+  "difficultyTier": 10,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 15,
+  "pairs": [
+    {
+      "type": "orange_striped",
+      "a": {
+        "x": 6,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 6
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 5,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 2,
+      "y": 5
+    },
+    {
+      "x": 5,
+      "y": 5
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "B": [
+      [
+        4,
+        6
+      ],
+      [
+        6,
+        1
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "Procedural 2 · Level 1.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

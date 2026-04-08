@@ -1,0 +1,115 @@
+{
+  "id": "lvl_026_image17_level_editor",
+  "difficultyTier": 7,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 16,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 4
+    }
+  ],
+  "solutionCount": 16,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "C": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "D": [
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_026",
+    "canonical_file": "lvl_026_image17_level_editor.json",
+    "canonical_slug": "image17_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.424Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image17_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image17_level_editor.json",
+      "levels/image17_level_editor.json",
+      "levels/standalone/image17_level_editor.json",
+      "niveles_workshop/jsons/image17_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

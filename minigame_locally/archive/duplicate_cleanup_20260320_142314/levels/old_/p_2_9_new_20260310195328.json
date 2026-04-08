@@ -1,0 +1,131 @@
+{
+  "id": "p_2_9_new_20260310195328",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 8,
+    "rows": 8
+  },
+  "moves": 5,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 7
+      },
+      "b": {
+        "x": 6,
+        "y": 7
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 7,
+        "y": 0
+      },
+      "b": {
+        "x": 7,
+        "y": 7
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 4,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 5
+    },
+    {
+      "x": 2,
+      "y": 7
+    },
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "B": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        6
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        7
+      ],
+      [
+        7,
+        7
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "p_2_9.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

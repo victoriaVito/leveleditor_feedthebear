@@ -1,0 +1,181 @@
+{
+  "level": 1,
+  "board_size": 5,
+  "board_width": 5,
+  "board_height": 5,
+  "grid": [
+    [
+      "NODE_A1",
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2"
+    ],
+    [
+      "EMPTY",
+      "BLOCKED",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_D2",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_D1",
+      "BLOCKED",
+      "NODE_B2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        4,
+        4
+      ],
+      "color": "#DC2626",
+      "fish_color_id": "fish_red",
+      "color_letter": "A"
+    },
+    {
+      "id": "B",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        3,
+        4
+      ],
+      "color": "#0F766E",
+      "fish_color_id": "fish_red_striped",
+      "color_letter": "B"
+    },
+    {
+      "id": "C",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        0,
+        4
+      ],
+      "color": "#2563EB",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "D",
+      "start": [
+        3,
+        2
+      ],
+      "end": [
+        2,
+        3
+      ],
+      "color": "#D97706",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    }
+  ],
+  "blockers": [
+    [
+      1,
+      1
+    ],
+    [
+      3,
+      3
+    ]
+  ],
+  "decal": false,
+  "moves": 5,
+  "solution_count": 16,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "B": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "C": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "D": [
+      [
+        3,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "position": {
+    "progression": "progression_4_1",
+    "slot": 1
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "d_3.json",
+    "curated_for_progression": "progression_d",
+    "curated_slot": 3
+  },
+  "id": "d_3"
+}

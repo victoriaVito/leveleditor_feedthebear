@@ -1,0 +1,113 @@
+{
+  "id": "image33_level_editor",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 17,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 4,
+        "y": 4
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 0,
+        "y": 4
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        4,
+        4
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "C": [
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "D": [
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [
+      "unsolvable_layout"
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "skill_name": "ftb-doc-writer",
+    "skill_path": "/sessions/bold-affectionate-fermi/mnt/minigame_locally/.claude/skills/ftb-doc-writer",
+    "executor_model": "claude-sonnet-4-20250514",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-03-24T12:00:00Z",
+    "evals_run": [1, 2, 3],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "Difficulty Model Doc",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.89,
+        "passed": 8,
+        "failed": 1,
+        "total": 9,
+        "time_seconds": 82.0,
+        "tokens": 113833,
+        "tool_calls": 9,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Blank line before every list", "passed": false, "evidence": "1 list(s) missing blank line before first item"},
+        {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"},
+        {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"},
+        {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"},
+        {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found, 0 bare uses"},
+        {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"},
+        {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"},
+        {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"},
+        {"text": "Cross-references to related docs", "passed": true, "evidence": "3 cross-reference(s) found"}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "Difficulty Model Doc",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.44,
+        "passed": 4,
+        "failed": 5,
+        "total": 9,
+        "time_seconds": 80.9,
+        "tokens": 108268,
+        "tool_calls": 12,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Blank line before every list", "passed": false, "evidence": "22 list(s) missing blank line before first item"},
+        {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"},
+        {"text": "Blank line after every heading", "passed": false, "evidence": "3 heading(s) missing blank line after"},
+        {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"},
+        {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found"},
+        {"text": "Uses canonical term 'Tutorial'", "passed": false, "evidence": "'Tutorial' NOT found"},
+        {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"},
+        {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"},
+        {"text": "Cross-references to related docs", "passed": false, "evidence": "0 cross-reference(s) found"}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Memoria Entry Update",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 62.8,
+        "tokens": 99051,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Dated entry (2026-XX-XX)", "passed": true, "evidence": "Date found"},
+        {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 171 chars"},
+        {"text": "Relative paths only (memoria)", "passed": true, "evidence": "0 absolute path(s)"},
+        {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "6 non-empty lines"},
+        {"text": "Relative paths only (changes)", "passed": true, "evidence": "0 absolute path(s)"}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "Memoria Entry Update",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 5,
+        "failed": 0,
+        "total": 5,
+        "time_seconds": 60.9,
+        "tokens": 104512,
+        "tool_calls": 7,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Dated entry (2026-XX-XX)", "passed": true, "evidence": "Date found"},
+        {"text": "Entry under 300 characters", "passed": true, "evidence": "Longest line: 233 chars"},
+        {"text": "Relative paths only (memoria)", "passed": true, "evidence": "0 absolute path(s)"},
+        {"text": "Changes file has detail (3+ lines)", "passed": true, "evidence": "4 non-empty lines"},
+        {"text": "Relative paths only (changes)", "passed": true, "evidence": "0 absolute path(s)"}
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "Onboarding Level Design Guide",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.91,
+        "passed": 10,
+        "failed": 1,
+        "total": 11,
+        "time_seconds": 100.1,
+        "tokens": 116119,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Blank line before every list", "passed": false, "evidence": "10 list(s) missing blank line before first item"},
+        {"text": "Blank line around every code fence", "passed": true, "evidence": "0 code fence(s) missing blank line"},
+        {"text": "Blank line after every heading", "passed": true, "evidence": "0 heading(s) missing blank line after"},
+        {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"},
+        {"text": "Uses canonical term 'Original Progressions'", "passed": true, "evidence": "'Original Progression' found"},
+        {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"},
+        {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"},
+        {"text": "Contains [VERIFY] flags for uncertain info", "passed": true, "evidence": "4 [VERIFY] flag(s) found"},
+        {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"},
+        {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"},
+        {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}
+      ]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "Onboarding Level Design Guide",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.55,
+        "passed": 6,
+        "failed": 5,
+        "total": 11,
+        "time_seconds": 106.9,
+        "tokens": 118354,
+        "tool_calls": 16,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Blank line before every list", "passed": false, "evidence": "7 list(s) missing blank line before first item"},
+        {"text": "Blank line around every code fence", "passed": false, "evidence": "4 code fence(s) missing blank line"},
+        {"text": "Blank line after every heading", "passed": false, "evidence": "9 heading(s) missing blank line after"},
+        {"text": "No double blank lines", "passed": true, "evidence": "0 double blank line(s) found"},
+        {"text": "Uses canonical term 'Original Progressions'", "passed": false, "evidence": "'Original Progression' NOT found"},
+        {"text": "Uses canonical term 'Tutorial'", "passed": true, "evidence": "'Tutorial' found"},
+        {"text": "Uses 'toolkit' for the editor", "passed": true, "evidence": "'toolkit' found"},
+        {"text": "Contains [VERIFY] flags for uncertain info", "passed": false, "evidence": "0 [VERIFY] flag(s) found"},
+        {"text": "All paths relative", "passed": true, "evidence": "0 absolute path(s) found"},
+        {"text": "No lines over 500 characters", "passed": true, "evidence": "0 line(s) over 500 chars"},
+        {"text": "Cross-references to related docs", "passed": true, "evidence": "10 cross-reference(s) found"}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 0.93, "stddev": 0.06, "min": 0.89, "max": 1.0},
+      "time_seconds": {"mean": 81.6, "stddev": 18.7, "min": 62.8, "max": 100.1},
+      "tokens": {"mean": 109668, "stddev": 8822, "min": 99051, "max": 116119}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.66, "stddev": 0.30, "min": 0.44, "max": 1.0},
+      "time_seconds": {"mean": 82.9, "stddev": 23.1, "min": 60.9, "max": 106.9},
+      "tokens": {"mean": 110378, "stddev": 7120, "min": 104512, "max": 118354}
+    },
+    "delta": {
+      "pass_rate": "+0.27",
+      "time_seconds": "-1.3",
+      "tokens": "-710"
+    }
+  },
+  "notes": [
+    "Skill improves pass rate by +27% on average (0.93 vs 0.66) with no time or token penalty",
+    "Biggest skill impact: terminology compliance (Original Progressions, Tutorial) and markdown formatting",
+    "Eval 2 (memoria entry) passes 100% both with and without skill - assertions may not be discriminating enough",
+    "Blank line before lists remains the hardest assertion: fails even WITH skill (1 violation in eval 1, 10 in eval 3)",
+    "[VERIFY] flags only appear with skill - strong discriminating assertion for eval 3",
+    "Cross-references pass in eval 3 without skill (10 refs) - this project's existing docs may be guiding the model"
+  ]
+}

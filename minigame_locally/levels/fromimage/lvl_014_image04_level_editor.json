@@ -1,0 +1,123 @@
+{
+  "id": "lvl_014_image04_level_editor",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 18,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 4
+    },
+    {
+      "x": 1,
+      "y": 4
+    }
+  ],
+  "solutionCount": 2,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "C": [
+      [
+        0,
+        0
+      ],
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_014",
+    "canonical_file": "lvl_014_image04_level_editor.json",
+    "canonical_slug": "image04_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.422Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image04_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image04_level_editor.json",
+      "levels/image04_level_editor.json",
+      "levels/standalone/image04_level_editor.json",
+      "niveles_workshop/jsons/image04_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

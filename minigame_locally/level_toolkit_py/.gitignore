@@ -1,9 +1,0 @@
-.venv-build/
-__pycache__/
-*.pyc
-
-build/
-dist/
-out/
-
-FeedTheBearToolkit.spec

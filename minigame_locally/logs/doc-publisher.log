@@ -1,0 +1,30 @@
+{"timestamp":"2026-03-24T17:33:47.267Z","level":"INFO","message":"Documentation publisher started","watch_dir":"/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally","files":["memoria.md","FEED_THE_BEAR_GDD.md","PROCEDURAL_ML_DESIGN.md","docs/LEVEL_DESIGN.md","AGENTS.md","AGENT_CHEATSHEET.md"],"interval":5000}
+{"timestamp":"2026-03-24T17:33:47.273Z","level":"INFO","message":"Publishing memoria.md","targets":["confluence"],"size":43031}
+{"timestamp":"2026-03-24T17:33:47.274Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373627274","file":"memoria.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:33:47.277Z","level":"INFO","message":"No publish targets for FEED_THE_BEAR_GDD.md"}
+{"timestamp":"2026-03-24T17:33:47.282Z","level":"INFO","message":"Publishing PROCEDURAL_ML_DESIGN.md","targets":["confluence"],"size":15999}
+{"timestamp":"2026-03-24T17:33:47.284Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373627284","file":"PROCEDURAL_ML_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:33:47.287Z","level":"INFO","message":"Publishing docs/LEVEL_DESIGN.md","targets":["confluence"],"size":9415}
+{"timestamp":"2026-03-24T17:33:47.302Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373627302","file":"docs/LEVEL_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:33:47.309Z","level":"INFO","message":"No publish targets for AGENTS.md"}
+{"timestamp":"2026-03-24T17:33:47.314Z","level":"INFO","message":"No publish targets for AGENT_CHEATSHEET.md"}
+{"timestamp":"2026-03-24T17:34:23.003Z","level":"INFO","message":"Documentation publisher started","watch_dir":"/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally","files":["memoria.md","FEED_THE_BEAR_GDD.md","PROCEDURAL_ML_DESIGN.md","docs/LEVEL_DESIGN.md","AGENTS.md","AGENT_CHEATSHEET.md"],"interval":5000}
+{"timestamp":"2026-03-24T17:34:23.009Z","level":"INFO","message":"Publishing memoria.md","targets":["confluence"],"size":43031}
+{"timestamp":"2026-03-24T17:34:23.015Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373663015","file":"memoria.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:34:23.019Z","level":"INFO","message":"No publish targets for FEED_THE_BEAR_GDD.md"}
+{"timestamp":"2026-03-24T17:34:23.024Z","level":"INFO","message":"Publishing PROCEDURAL_ML_DESIGN.md","targets":["confluence"],"size":15999}
+{"timestamp":"2026-03-24T17:34:23.028Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373663028","file":"PROCEDURAL_ML_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:34:23.033Z","level":"INFO","message":"Publishing docs/LEVEL_DESIGN.md","targets":["confluence"],"size":9415}
+{"timestamp":"2026-03-24T17:34:23.038Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373663038","file":"docs/LEVEL_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:34:23.042Z","level":"INFO","message":"No publish targets for AGENTS.md"}
+{"timestamp":"2026-03-24T17:34:23.048Z","level":"INFO","message":"No publish targets for AGENT_CHEATSHEET.md"}
+{"timestamp":"2026-03-24T17:35:02.221Z","level":"INFO","message":"Documentation publisher started","watch_dir":"/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally","files":["memoria.md","FEED_THE_BEAR_GDD.md","PROCEDURAL_ML_DESIGN.md","docs/LEVEL_DESIGN.md","AGENTS.md","AGENT_CHEATSHEET.md"],"interval":5000}
+{"timestamp":"2026-03-24T17:35:02.228Z","level":"INFO","message":"Publishing memoria.md","targets":["confluence"],"size":43031}
+{"timestamp":"2026-03-24T17:35:02.231Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373702231","file":"memoria.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:35:02.234Z","level":"INFO","message":"No publish targets for FEED_THE_BEAR_GDD.md"}
+{"timestamp":"2026-03-24T17:35:02.238Z","level":"INFO","message":"Publishing PROCEDURAL_ML_DESIGN.md","targets":["confluence"],"size":15999}
+{"timestamp":"2026-03-24T17:35:02.241Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373702241","file":"PROCEDURAL_ML_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:35:02.244Z","level":"INFO","message":"Publishing docs/LEVEL_DESIGN.md","targets":["confluence"],"size":9415}
+{"timestamp":"2026-03-24T17:35:02.247Z","level":"SUCCESS","message":"Document published","task_id":"DOC-1774373702247","file":"docs/LEVEL_DESIGN.md","targets":["confluence"]}
+{"timestamp":"2026-03-24T17:35:02.250Z","level":"INFO","message":"No publish targets for AGENTS.md"}
+{"timestamp":"2026-03-24T17:35:02.255Z","level":"INFO","message":"No publish targets for AGENT_CHEATSHEET.md"}

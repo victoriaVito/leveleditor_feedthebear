@@ -4,12 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Feed the Bear - Web Toolkit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230f172a'/%3E%3Ccircle cx='22' cy='24' r='8' fill='%23f59e0b'/%3E%3Ccircle cx='42' cy='24' r='8' fill='%2310b981'/%3E%3Cpath d='M18 42c4 6 10 9 14 9s10-3 14-9' stroke='%23e2e8f0' stroke-width='6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <header class="topbar">
-    <h1>Feed the Bear · Web Toolkit</h1>
-    <p>Generate, edit, play-test, validate, and manage level JSON in the browser.</p>
+    <div class="topbar-copy">
+      <h1>Feed the Bear · Web Toolkit</h1>
+      <p>Generate, edit, play-test, validate, and manage level JSON in the browser.</p>
+    </div>
+    <div class="topbar-actions">
+      <button id="reload-page-btn" class="btn-muted" title="Reload the entire page and refresh state">↻ Reload</button>
+      <button id="force-sync-btn" class="btn-muted" title="Force synchronization with server">⟳ Force Sync</button>
+    </div>
   </header>
 
   <main class="layout">
@@ -17,6 +24,7 @@
       <button class="nav-btn active" data-view="main">Procedural</button>
       <button class="nav-btn" data-view="editor">Level Editor + Play</button>
       <button class="nav-btn" data-view="sessions">Play Sessions</button>
+      <button class="nav-btn" data-view="vitobot">VitoBot</button>
       <button class="nav-btn" data-view="manager">Level Manager</button>
       <button class="nav-btn" data-view="settings">Settings</button>
     </aside>
@@ -29,52 +37,47 @@
 
       <section id="view-main" class="view card active">
         <h2>Procedural Playground</h2>
-        <p class="section-copy">Use this area to generate one level, build a full episode curve, or export workshop packs without going into the editor first.</p>
+        <p class="section-copy">Use this area to pick one good reference, steer generation with clear intent, and review variants before sending them to the editor or saving them.</p>
 
         <div class="playground-block">
-          <h3>Episode Builder</h3>
-          <p class="section-copy">Generate a full 10-level episode in memory and export it for review.</p>
+          <h3>Reference Generator</h3>
+          <p class="section-copy">Pick one existing level JSON, generate 3 reference-driven variants, review their solution overlay, then keep, discard, rename, or save the ones worth keeping.</p>
           <div class="grid-actions">
-            <button id="btn-generate-progression">Generate Episode 1-10</button>
-            <button id="btn-download-progression-json">Download Episode JSON</button>
+            <button id="btn-procedural-base-file">Choose Base Level JSON</button>
+            <button id="btn-procedural-generate-variants" class="btn-primary">Generate 3 Variants</button>
+            <button id="btn-procedural-clear-variants" class="btn-muted">Clear Variants</button>
           </div>
-        </div>
-
-        <div class="playground-block">
-          <h3>Level Generator</h3>
-          <p class="section-copy">Create a single level for the editor or a whole procedural batch using the range below.</p>
-          <div class="grid-actions">
-            <button id="btn-generate-current">Generate One Level to Editor</button>
-            <button id="btn-generate-procedural-batch">Generate Procedural Batch</button>
-            <button id="btn-download-procedural-json">Download Batch JSON</button>
+          <input id="procedural-base-input" type="file" accept="application/json" hidden />
+          <div class="procedural-reference-controls">
+            <label>Pairs intent
+              <select id="main-reference-pairs-intent">
+                <option value="less">Less pairs</option>
+                <option value="same" selected>Same pairs</option>
+                <option value="more">More pairs</option>
+              </select>
+            </label>
+            <label>Blockers intent
+              <select id="main-reference-blockers-intent">
+                <option value="less">Less blockers</option>
+                <option value="same" selected>Same blockers</option>
+                <option value="more">More blockers</option>
+              </select>
+            </label>
+            <label>Board intent
+              <select id="main-reference-board-intent">
+                <option value="smaller">Smaller board</option>
+                <option value="same" selected>Same board</option>
+                <option value="bigger">Bigger board</option>
+              </select>
+            </label>
           </div>
-        </div>
-
-        <div class="playground-block">
-          <h3>Workshop Extras</h3>
-          <p class="section-copy">Download the tutorial and the workshop progressions you already prepared.</p>
-          <div class="grid-actions">
-            <button id="btn-download-workshop-tutorial">Download Tutorial JSON</button>
-            <button id="btn-download-workshop-a">Download Workshop A Bundle</button>
-            <button id="btn-download-workshop-b">Download Workshop B Bundle</button>
-            <button id="btn-download-workshop-c">Download Workshop C Bundle</button>
-            <button id="btn-download-workshop-extra">Download Workshop Extra Bundle</button>
+          <div id="main-reference-summary" class="procedural-reference-summary">
+            <span id="main-reference-file" class="tag">No base level selected</span>
+            <span id="main-reference-stats" class="tag">Pick a JSON to start.</span>
+            <span id="main-reference-intent" class="tag">Intent: keep pairs, blockers, and board close to the base level.</span>
+            <span id="main-reference-learning" class="tag">Learning will use keep, discard, save, and solved play sessions.</span>
           </div>
-        </div>
-
-        <div class="inline-controls">
-          <label>Single Level
-            <input id="main-level-number" type="number" min="1" max="10" value="1" />
-          </label>
-          <label>Batch Start Level
-            <input id="main-batch-start" type="number" min="1" max="10" value="1" />
-          </label>
-          <label>Batch End Level
-            <input id="main-batch-end" type="number" min="1" max="10" value="10" />
-          </label>
-          <label>Batch Size
-            <input id="main-batch-count" type="number" min="1" max="100" value="20" />
-          </label>
+          <div id="main-reference-grid" class="procedural-reference-grid"></div>
         </div>
 
         <pre id="main-log" class="log"></pre>
@@ -84,82 +87,161 @@
         <h2>Level Editor + Play</h2>
 
         <div class="toolbar">
-          <label>Level
-            <input id="ed-level" type="number" min="1" max="10" value="1" />
-          </label>
-          <label>Level Name
-            <input id="ed-name" type="text" value="level_1.json" />
-          </label>
-          <label>Board Width
-            <input id="ed-board-width" type="number" min="4" max="8" value="5" />
-          </label>
-          <label>Board Height
-            <input id="ed-board-height" type="number" min="4" max="8" value="5" />
-          </label>
-          <label>Difficulty
-            <select id="ed-difficulty">
-              <option>EASY</option>
-              <option selected>MEDIUM</option>
-              <option>HARD</option>
-            </select>
-          </label>
-          <label>Moves
-            <input id="ed-moves" type="number" min="0" value="0" />
-          </label>
-          <label class="checkbox-label">Decal
-            <input id="ed-decal" type="checkbox" />
-          </label>
-          <button id="ed-auto-moves">Auto Moves</button>
+          <span class="toolbar-group">
+            <label>Level
+              <input id="ed-level" type="number" min="1" max="10" value="1" />
+            </label>
+            <label>Level Name
+              <input id="ed-name" type="text" value="level_1.json" />
+            </label>
+            <label>Board Width
+              <input id="ed-board-width" type="number" min="4" max="7" value="5" />
+            </label>
+            <label>Board Height
+              <input id="ed-board-height" type="number" min="4" max="8" value="5" />
+            </label>
+            <label>Difficulty
+              <select id="ed-difficulty">
+                <option>EASY</option>
+                <option selected>MEDIUM</option>
+                <option>HARD</option>
+              </select>
+            </label>
+            <label>Moves
+              <input id="ed-moves" type="number" min="0" value="0" />
+            </label>
+          </span>
+          <span class="toolbar-group">
+            <label class="checkbox-label">Decal
+              <input id="ed-decal" type="checkbox" />
+            </label>
+            <button id="ed-auto-moves">Auto Moves</button>
+            <div id="editor-slot-info" style="display: inline-block; padding: 8px 12px; background: rgba(10, 165, 233, 0.08); border: 1px solid rgba(10, 165, 233, 0.2); border-radius: 6px; font-size: 12px; color: #0b1b2a; user-select: none;"></div>
+          </span>
         </div>
 
         <div class="toolbar">
-          <label>Mode
-            <select id="ed-mode">
-              <option value="blocker">Blocker</option>
-              <option value="node">Node</option>
-              <option value="debug">Debug Mark</option>
-              <option value="erase">Erase</option>
-            </select>
-          </label>
-          <label>Pair
-            <select id="ed-pair-id">
-              <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
-            </select>
-          </label>
-          <span id="ed-pair-color" class="tag">Pair A color</span>
-          <label>Endpoint
-            <select id="ed-endpoint">
-              <option value="start">Start</option>
-              <option value="end">End</option>
-            </select>
-          </label>
-          <button id="ed-save">Save Changes</button>
-          <button id="ed-save-as-new">Save As New</button>
-          <button id="ed-validate">Validate</button>
-          <button id="ed-import">Import JSON</button>
-          <button id="ed-export">Export JSON</button>
-          <button id="ed-screenshot">Screenshot</button>
-          <button id="ed-reset">Reset</button>
+          <span class="toolbar-group">
+            <label>Mode
+              <select id="ed-mode">
+                <option value="blocker">Blocker</option>
+                <option value="node">Node</option>
+                <option value="trace">Reference Trail</option>
+                <option value="debug">Debug Mark</option>
+                <option value="erase">Erase</option>
+              </select>
+            </label>
+            <label>Pair
+              <select id="ed-pair-id">
+                <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option>
+              </select>
+            </label>
+            <span id="ed-pair-color" class="tag">Pair A color</span>
+            <span id="ed-pair-placement" class="tag">Auto place point 1 then point 2</span>
+          </span>
+          <span class="toolbar-group">
+            <button id="ed-save" class="btn-primary">Update</button>
+            <button id="ed-save-as-new">New</button>
+            <button id="ed-validate" class="btn-primary">Validate</button>
+          </span>
+          <span class="toolbar-group">
+            <button id="ed-import">Import JSON</button>
+            <button id="ed-export">Save...</button>
+            <button id="ed-screenshot">Screenshot</button>
+          </span>
+          <span class="toolbar-group">
+            <button id="ed-send-knowledge" class="btn-muted">Send Knowledge</button>
+            <button id="ed-send-antipattern" class="btn-muted">Send Anti-Pattern</button>
+            <button id="ed-clear-trails" class="btn-muted">Clear Trails</button>
+            <button id="ed-reset" class="btn-muted">Reset</button>
+          </span>
         </div>
 
         <div class="toolbar">
-          <button id="play-start">Play Mode ON</button>
-          <button id="play-reset">Reset Play</button>
-          <button id="play-export-session">Export Play Session</button>
-          <span id="play-status" class="tag">Play OFF</span>
+          <span class="toolbar-group">
+            <button id="play-start" class="btn-primary">Start Play</button>
+            <button id="play-reset" class="btn-muted">Reset Play</button>
+            <button id="play-export-session">Export Play Session</button>
+            <span id="play-status" class="tag">Play OFF</span>
+          </span>
         </div>
 
-        <div class="toolbar">
-          <span id="editor-save-status" class="tag">Saved</span>
-          <span id="editor-debug-status" class="tag">Debug marks: 0</span>
-          <span id="learning-status" class="tag">Learning: 0 approved / 0 rejected</span>
-        </div>
+        <details class="editor-status-bar" open>
+          <summary>Status</summary>
+          <div class="toolbar">
+            <span id="editor-save-status" class="tag">Saved</span>
+            <span id="editor-debug-status" class="tag">Debug marks: 0</span>
+            <span id="editor-reference-status" class="tag">Reference trails: 0</span>
+            <span id="learning-status" class="tag">Learning: 0 approved / 0 rejected</span>
+            <span id="editor-session-link" class="tag">Standalone level</span>
+          </div>
+        </details>
 
-        <div class="toolbar">
-          <span id="editor-session-link" class="tag">Standalone level</span>
-        </div>
+        <div class="editor-workspace">
+          <div class="editor-board-column">
+            <div class="canvas-frame editor-canvas-frame">
+              <canvas id="board-canvas" width="560" height="560"></canvas>
+            </div>
+          </div>
 
-        <canvas id="board-canvas" width="560" height="560"></canvas>
+          <aside class="editor-side-panel">
+            <section class="editor-inspector-section">
+              <h3 class="section-header">Pair Builder</h3>
+              <p class="section-copy">Pick a pair, place one point, then the editor will auto-complete point 2 on the next click. Both endpoints stay visually equal so you do not need to think in start/end terms.</p>
+              <div class="editor-side-summary">
+                <span id="editor-pair-summary" class="tag">Pair A</span>
+                <span id="editor-play-summary" class="tag">Play path ready to mark</span>
+              </div>
+              <div id="editor-pair-list" class="editor-pair-list"></div>
+            </section>
+
+            <section class="editor-inspector-section">
+              <h3 class="section-header">Guide Painter</h3>
+              <p class="section-copy">While you play, capture the route you drew as a colored guide so it stays visible when you go back to editing.</p>
+              <div class="editor-play-actions">
+                <button id="play-mark-selected">Mark Selected Pair</button>
+                <button id="play-mark-all" class="btn-primary">Mark All Paths</button>
+                <button id="play-clear-guides" class="btn-muted">Clear Guides</button>
+              </div>
+            </section>
+
+            <section class="editor-inspector-section">
+              <h3 class="section-header">Variant Studio</h3>
+              <p class="section-copy">Generate three close variants from the current level, review them here, and keep or discard them with learning attached to each decision.</p>
+              <div class="procedural-reference-controls editor-variant-controls">
+                <label>Pairs intent
+                  <select id="ed-reference-pairs-intent">
+                    <option value="less">Less pairs</option>
+                    <option value="same" selected>Same pairs</option>
+                    <option value="more">More pairs</option>
+                  </select>
+                </label>
+                <label>Blockers intent
+                  <select id="ed-reference-blockers-intent">
+                    <option value="less">Less blockers</option>
+                    <option value="same" selected>Same blockers</option>
+                    <option value="more">More blockers</option>
+                  </select>
+                </label>
+                <label>Board intent
+                  <select id="ed-reference-board-intent">
+                    <option value="smaller">Smaller board</option>
+                    <option value="same" selected>Same board</option>
+                    <option value="bigger">Bigger board</option>
+                  </select>
+                </label>
+              </div>
+              <div class="grid-actions editor-variant-actions">
+                <button id="ed-generate-variants" class="btn-primary">Generate 3 Variants</button>
+                <button id="ed-clear-variants" class="btn-muted">Clear Variants</button>
+              </div>
+              <div class="editor-side-summary">
+                <span id="editor-variant-intent" class="tag">Intent: same pairs · same blockers · same board</span>
+              </div>
+              <div id="editor-variant-grid" class="editor-variant-grid"></div>
+            </section>
+          </aside>
+        </div>
         <input id="ed-import-input" type="file" accept="application/json" hidden />
 
         <section class="editor-progression-strip">
@@ -170,8 +252,8 @@
             <label>Slot
               <select id="ed-progression-slot"></select>
             </label>
-            <button id="ed-save-to-progression">Save To Slot</button>
-            <button id="ed-save-new-level">Save + New Level</button>
+            <button id="ed-save-to-progression" class="btn-primary">Save To This Slot</button>
+            <button id="ed-save-new-level">Save + Next Slot</button>
           </div>
           <div id="ed-progression-slots" class="editor-progression-slots"></div>
         </section>
@@ -190,9 +272,10 @@
             <select id="session-progression-select"></select>
           </label>
           <button id="session-load-progression">Load Progression</button>
-          <button id="session-play-next">Play Next</button>
-          <button id="session-validate-selected">Validate Selected</button>
-          <button id="session-clear">Clear Queue</button>
+          <button id="session-load-procedural-100">Load Procedural 100</button>
+          <button id="session-play-next" class="btn-primary">Play Next</button>
+          <button id="session-validate-selected" class="btn-primary">Validate Selected</button>
+          <button id="session-clear" class="btn-muted">Clear Queue</button>
         </div>
 
         <div class="inline-controls">
@@ -205,9 +288,17 @@
           <label>Learned Count
             <input id="session-batch-count" type="number" min="1" max="50" value="12" />
           </label>
-          <button id="session-generate-learned">Generate Learned Batch</button>
+          <button id="session-generate-learned" class="btn-primary">Generate Learned Batch</button>
           <button id="session-export-queue">Export Queue JSON</button>
         </div>
+
+        <section id="session-loading" class="manager-loading" hidden aria-live="polite">
+          <div class="manager-loading-row">
+            <strong id="session-loading-label">Loading play sessions...</strong>
+            <span id="session-loading-value">0%</span>
+          </div>
+          <progress id="session-loading-bar" max="100" value="0"></progress>
+        </section>
 
         <div id="session-preview-grid" class="preview-grid"></div>
 
@@ -222,36 +313,169 @@
 
         <section id="session-play-panel" class="session-play-panel" hidden>
           <div class="toolbar">
-            <button id="session-play-reset">Reset Session Play</button>
+            <button id="session-play-reset" class="btn-muted">Reset Session Play</button>
             <button id="session-play-export">Export Session Play</button>
             <span id="session-play-status" class="tag">Play OFF</span>
           </div>
 
-          <canvas id="session-board-canvas" width="560" height="560"></canvas>
+          <div class="session-play-layout">
+            <div class="session-play-board-wrap">
+              <div class="canvas-frame">
+                <canvas id="session-board-canvas" width="560" height="560"></canvas>
+              </div>
+            </div>
+
+            <aside id="session-feedback-panel" class="session-feedback-panel" aria-live="polite">
+              <div class="session-feedback-header">
+                <h3>Review Feedback</h3>
+                <span id="session-feedback-target" class="tag">No level selected</span>
+              </div>
+              <p class="session-feedback-copy">This board is for play review only. Use <strong>Edit</strong> if you want to tweak the layout or move endpoints.</p>
+
+              <div class="session-feedback-block">
+                <div class="session-feedback-label">Review Signal</div>
+                <div id="session-feedback-signal" class="session-feedback-signal session-feedback-placeholder">Select a session level to inspect validation, solution pressure, and the recommended review action.</div>
+              </div>
+
+              <div class="session-feedback-block">
+                <div class="session-feedback-label">Keep Tags</div>
+                <div id="session-keep-tags" class="procedural-discard-reasons"></div>
+              </div>
+
+              <div class="session-feedback-block">
+                <div class="session-feedback-label">Reject Reason</div>
+                <div id="session-reject-tags" class="procedural-discard-reasons"></div>
+              </div>
+
+              <div class="session-feedback-block">
+                <div class="session-feedback-label">Pairs Involved</div>
+                <div id="session-feedback-pairs" class="procedural-discard-pairs"></div>
+              </div>
+
+              <div class="session-feedback-block">
+                <div class="session-feedback-label">Learning Note</div>
+                <textarea id="session-feedback-note" class="procedural-discard-note" rows="3" placeholder="Write a short learning note for future generation."></textarea>
+              </div>
+
+              <div class="session-feedback-actions procedural-discard-actions">
+                <button id="session-feedback-approve" class="btn-primary" type="button">Keep Level</button>
+                <button id="session-feedback-reject" class="btn-muted" type="button">Reject Level</button>
+                <button id="session-feedback-send" class="btn-primary" type="button">Send Feedback</button>
+              </div>
+              <div id="session-feedback-last-sent" class="session-feedback-last-sent">Nothing sent yet.</div>
+            </aside>
+          </div>
         </section>
 
         <input id="session-import-input" type="file" accept="application/json" multiple hidden />
         <pre id="session-log" class="log"></pre>
       </section>
 
+      <section id="view-vitobot" class="view card">
+        <h2>VitoBot</h2>
+        <p class="section-copy">Run synthetic player passes on one level or many levels and compare time, error rate, and success rate before moving content forward.</p>
+        <div class="toolbar vitobot-toolbar">
+          <label>Source
+            <select id="vitobot-source">
+              <option value="folder">Folder</option>
+              <option value="editor">Current Editor</option>
+              <option value="sessions">Play Sessions Queue</option>
+              <option value="procedural_manager">Procedural 100 Catalog</option>
+            </select>
+          </label>
+          <label>Folder
+            <input id="vitobot-folder" type="text" value="levels/otherLevels" />
+          </label>
+          <label>Pattern
+            <input id="vitobot-pattern" type="text" value="procedular_reference_large_*.json" />
+          </label>
+          <label>Profile
+            <select id="vitobot-profile">
+              <option value="average">Average</option>
+              <option value="novice">Novice</option>
+              <option value="focused">Focused</option>
+              <option value="expert">Expert</option>
+            </select>
+          </label>
+          <label>Persona
+            <select id="vitobot-persona">
+              <option value="balanced">Balanced</option>
+              <option value="cautious">Cautious</option>
+              <option value="explorer">Explorer</option>
+              <option value="perfectionist">Perfectionist</option>
+              <option value="speedrunner">Speedrunner</option>
+            </select>
+          </label>
+          <label>Intelligence
+            <input id="vitobot-intelligence" type="range" min="5" max="95" step="1" value="55" />
+            <span id="vitobot-intelligence-value" class="tag">55</span>
+          </label>
+          <label>Runs
+            <input id="vitobot-runs" type="number" min="1" max="500" value="25" />
+          </label>
+          <button id="vitobot-load" class="btn-primary" type="button">Load Source</button>
+          <button id="vitobot-run" class="btn-primary" type="button">Run VitoBot</button>
+          <button id="vitobot-clear" class="btn-muted" type="button">Clear Results</button>
+        </div>
+        <p id="vitobot-source-hint" class="section-copy">Default source is the checked-in procedural pack in <code>levels/otherLevels/procedular_reference_large_*.json</code>.</p>
+        <div class="manager-insights vitobot-insights">
+          <section class="manager-insight-card">
+            <h4>Loaded Levels</h4>
+            <div id="vitobot-loaded-summary" class="vitobot-summary-value">0 levels loaded</div>
+          </section>
+          <section class="manager-insight-card">
+            <h4>Run Summary</h4>
+            <div id="vitobot-run-summary" class="vitobot-summary-value">No runs yet.</div>
+          </section>
+          <section class="manager-insight-card">
+            <h4>Tuning Signal</h4>
+            <div id="vitobot-tuning-summary" class="vitobot-summary-value">Run a batch to see the hardest or noisiest levels first.</div>
+          </section>
+        </div>
+        <table id="vitobot-table">
+          <thead>
+            <tr>
+              <th>Level</th><th>Source</th><th>Runs</th><th>Solutions</th><th>Ambiguity</th><th>Success</th><th>Avg Solve</th><th>Avg Session</th><th>Avg Errors</th><th>Avg Misreads</th><th>Avg Dead Ends</th><th>Avg Restarts</th><th>Abandon</th><th>Signal</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="manager-insights vitobot-insights">
+          <section class="manager-insight-card">
+            <h4>Selected Level Detail</h4>
+            <div id="vitobot-detail-summary" class="vitobot-summary-value">Select a row to inspect sample puzzle solutions and ambiguity.</div>
+          </section>
+          <section class="manager-insight-card">
+            <h4>Sample Solutions</h4>
+            <pre id="vitobot-detail-solutions" class="log">No sample solutions loaded yet.</pre>
+          </section>
+        </div>
+        <pre id="vitobot-log" class="log"></pre>
+      </section>
+
       <section id="view-manager" class="view card">
         <h2>Level Manager</h2>
-        <p class="section-copy">Build a 10-level progression visually. Drag levels to reorder them, swap occupied slots, or pull replacements from the pool below.</p>
+        <p class="section-copy">Build each progression visually. Drag levels to reorder them, add or remove slots, keep side buckets like Extras or Discarded, and clean duplicated saved levels when needed.</p>
         <div class="toolbar">
-          <input id="mgr-import-input" type="file" accept="application/json" multiple />
+          <button id="mgr-import">Import JSON</button>
           <button id="mgr-add-progression">New Progression</button>
-          <button id="mgr-rename-progression">Rename Progression</button>
-          <button id="mgr-duplicate-progression">Duplicate Progression</button>
-          <button id="mgr-autofill">Auto-fill Empty Slots</button>
-          <button id="mgr-generate-from-refs">Generate From References</button>
-          <button id="mgr-clear">Clear</button>
-          <button id="mgr-export-csv">Export CSV</button>
-          <button id="mgr-export-progression-csv">Export Progression CSV</button>
-          <button id="mgr-export-curve-png">Export Curve PNG</button>
-          <button id="mgr-export-progression-png">Export Progression PNG</button>
-          <button id="mgr-export-progression-json">Download Progression ZIP</button>
-          <button id="mgr-sync-spreadsheet">Sync Spreadsheet DB</button>
+          <button id="mgr-rename-progression">Rename Active Progression</button>
+          <button id="mgr-duplicate-progression">Duplicate Active Progression</button>
+          <button id="mgr-toggle-liveops-lock">Lock Active LiveOps</button>
+          <button id="mgr-add-slot">Add Level Slot</button>
+          <button id="mgr-remove-slot" class="btn-muted">Remove Last Slot</button>
+          <button id="mgr-autofill" class="btn-primary">Fill Empty Slots</button>
+          <button id="mgr-generate-from-refs" class="btn-primary">Generate From Refs</button>
+          <button id="mgr-clear" class="btn-muted">Clear</button>
+          <button id="mgr-export-csv">Export Catalog CSV</button>
+          <button id="mgr-export-progression-csv">Export Active CSV</button>
+          <button id="mgr-export-curve-png">Export Difficulty PNG</button>
+          <button id="mgr-export-progression-png">Export Layout PNG</button>
+          <button id="mgr-export-progression-json">Export Active ZIP</button>
+          <button id="mgr-sync-spreadsheet" class="btn-primary">Sync Spreadsheet</button>
+          <button id="mgr-apply-sheet-renames">Apply Sheet Renames</button>
         </div>
+        <input id="mgr-import-input" type="file" accept="application/json" multiple hidden />
         <section class="manager-filter-bar">
           <label>Name
             <input id="mgr-filter-name" type="search" placeholder="Search by file or notes" />
@@ -298,9 +522,22 @@
               <option value="No">No</option>
             </select>
           </label>
-          <button id="mgr-filter-reset" type="button">Reset Filters</button>
+          <button id="mgr-filter-reset" class="btn-muted" type="button">Reset Filters</button>
         </section>
         <pre id="mgr-paths" class="log"></pre>
+
+        <section id="mgr-sheet-embed-panel" class="manager-embed-panel" hidden>
+          <h3 class="section-header">Spreadsheet (Embedded)</h3>
+          <p class="section-copy">Optional: embed your online spreadsheet (Google Sheets publish URL or Office/OneDrive embed link). If the provider blocks iframes, use Open Spreadsheet instead.</p>
+          <div class="toolbar">
+            <button id="mgr-sheet-open" type="button">Open Spreadsheet</button>
+            <button id="mgr-sheet-reload" class="btn-muted" type="button">Reload Embed</button>
+          </div>
+          <div class="manager-embed-frame">
+            <iframe id="mgr-sheet-embed" title="Embedded spreadsheet" loading="lazy"></iframe>
+          </div>
+          <div id="mgr-sheet-embed-note" class="manager-embed-note"></div>
+        </section>
 
         <div id="mgr-tabs" class="manager-tabs"></div>
         <section id="mgr-loading" class="manager-loading" hidden aria-live="polite">
@@ -312,7 +549,7 @@
         </section>
 
         <section id="mgr-progression-panel">
-          <h3 id="mgr-progress-title">Progression Order</h3>
+          <h3 id="mgr-progress-title" class="section-header">Progression Order</h3>
           <div class="manager-insights">
             <section class="manager-insight-card">
               <h4>Difficulty Curve</h4>
@@ -325,12 +562,12 @@
             </section>
           </div>
           <div id="mgr-slot-grid" class="manager-slot-grid"></div>
-          <h3>Available For Progressions</h3>
+          <h3 class="section-header">Available For Progressions</h3>
           <div id="mgr-pool-grid" class="manager-pool-grid"></div>
         </section>
 
         <section id="mgr-all-levels-panel" hidden>
-          <h3 id="mgr-list-title">All Levels</h3>
+          <h3 id="mgr-list-title" class="section-header">All Levels</h3>
           <p id="mgr-list-copy" class="section-copy">Levels that are not currently placed in any progression.</p>
           <div class="toolbar">
             <button id="mgr-page-prev" type="button">Prev Page</button>
@@ -341,7 +578,7 @@
         </section>
 
         <section id="mgr-csv-panel" hidden>
-          <h3>CSV Review</h3>
+          <h3 class="section-header">CSV Review</h3>
           <table id="mgr-table">
             <thead>
               <tr>
@@ -370,11 +607,13 @@
           <label>Google Sheet ID
             <input id="settings-spreadsheet-id" type="text" />
           </label>
+          <label>Spreadsheet Embed URL
+            <input id="settings-spreadsheet-web-url" type="url" placeholder="Google embed: https://docs.google.com/spreadsheets/.../pubhtml?widget=true&amp;headers=false" />
+          </label>
           <label>Google Sync Method
             <select id="settings-google-sync-method">
               <option value="workbook_only">Workbook Only</option>
               <option value="sheets_api">Google Sheets API</option>
-              <option value="apps_script">Apps Script</option>
             </select>
           </label>
           <label>OAuth Client JSON Path
@@ -382,9 +621,6 @@
           </label>
           <label>OAuth Token Path
             <input id="settings-google-token-path" type="text" />
-          </label>
-          <label>Apps Script URL (Legacy Fallback)
-            <input id="settings-sheet-webapp-url" type="text" />
           </label>
           <label>Auto Sync Sheet DB
             <input id="settings-auto-sync-sheet" type="checkbox" />
@@ -437,10 +673,14 @@
               <option value="3">3</option>
               <option value="4">4</option>
               <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
             </select>
           </label>
           <label>Default Width
-            <input id="settings-default-width" type="number" min="4" max="8" />
+            <input id="settings-default-width" type="number" min="4" max="7" />
           </label>
           <label>Default Height
             <input id="settings-default-height" type="number" min="4" max="8" />
@@ -469,12 +709,24 @@
           <label>Pair E
             <input id="settings-pair-e" type="color" />
           </label>
-          <button id="settings-save">Save Settings</button>
+          <label>Pair F
+            <input id="settings-pair-f" type="color" />
+          </label>
+          <label>Pair G
+            <input id="settings-pair-g" type="color" />
+          </label>
+          <label>Pair H
+            <input id="settings-pair-h" type="color" />
+          </label>
+          <label>Pair I
+            <input id="settings-pair-i" type="color" />
+          </label>
+          <button id="settings-save" class="btn-primary">Save Settings</button>
           <button id="settings-sync-sheet">Sync Workbook Now</button>
-          <button id="settings-connect-sheet-api">Connect Google Sheets API</button>
+          <button id="settings-connect-sheet-api" class="btn-primary">Connect Google Sheets API</button>
           <button id="settings-check-sheet-api">Check Google Sheets API</button>
-          <button id="settings-disconnect-sheet-api">Disconnect Google Sheets API</button>
-          <button id="settings-clear-cache">Clear Page Cache</button>
+          <button id="settings-disconnect-sheet-api" class="btn-muted">Disconnect Google Sheets API</button>
+          <button id="settings-clear-cache" class="btn-muted">Clear Page Cache</button>
         </div>
         <div class="toolbar">
           <span id="settings-status" class="tag">Project save mode enabled</span>

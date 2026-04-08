@@ -1,0 +1,106 @@
+{
+  "id": "lvl_108_tune_large_01_7x7",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 6,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 6
+      },
+      "b": {
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 6,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 6,
+      "y": 5
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "B": [
+      [
+        6,
+        2
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        0,
+        5
+      ],
+      [
+        2,
+        6
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "tune_large_01_7x7.json",
+    "canonical_id": "lvl_108",
+    "canonical_file": "lvl_108_tune_large_01_7x7.json",
+    "canonical_slug": "tune_large_01_7x7",
+    "canonicalized_at": "2026-03-12T09:14:58.437Z",
+    "previous_files": [
+      "levels/standalone/tune_large_01_7x7.json",
+      "levels/tune_large_01_7x7.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

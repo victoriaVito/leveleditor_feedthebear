@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "memoria-entry-update",
+  "prompt": "Añade una entrada en memoria.md y en changes/toolkit.md diciendo que se ha arreglado un bug en el canvas resize del editor. El fix fue en level_toolkit_web/app.js línea 2450.",
+  "assertions": []
+}

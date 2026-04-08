@@ -1,0 +1,146 @@
+═══════════════════════════════════════════════════════════════════════════════
+  ZAPIER MULTI-AGENT AUTOMATION - CHEATSHEET
+═══════════════════════════════════════════════════════════════════════════════
+
+📋 QUICK REFERENCE
+
+SERVICES TO RUN
+  npm run zapier:all                    ← Run all 5 at once
+  npm run start:zapier-webhook          ← Central hub (:3000)
+  npm run start:task-router             ← Task intake (:3001)
+  npm run watch:paraclau-zapier         ← File watcher
+  npm run process:learning-batch        ← ML pipeline
+  npm run publish:docs-zapier           ← Doc sync
+
+IMPORTANT PORTS
+  :3000  Webhook Receiver (POST /webhook/zapier)
+  :3001  Task Router (POST /task, GET /task/{id}, etc)
+
+API ENDPOINTS
+  POST /task                 ← Submit new task
+  GET /task/{id}             ← Get task status
+  GET /tasks                 ← List all tasks
+  GET /tasks?status=pending  ← Filter by status
+  GET /stats                 ← Task statistics
+  GET /health                ← Service health
+
+QUICK TESTS
+  curl http://localhost:3000/health
+  curl http://localhost:3001/health
+  
+  curl -X POST http://localhost:3001/task \
+    -H "Content-Type: application/json" \
+    -d '{"type":"code_generation","title":"Test"}'
+  
+  curl "http://localhost:3001/tasks?status=pending"
+  curl http://localhost:3001/stats | jq
+
+MONITOR LOGS
+  tail -f logs/zapier-*.log              ← All events
+  tail -f logs/task-router.log           ← Task routing
+  tail -f logs/learning-batch-processor.log
+  tail -f logs/doc-publisher.log
+  tail -f ~/.paraclau_sync.log           ← File changes
+
+ENVIRONMENT SETUP
+  cp .env.example .env                   ← Create .env
+  # Edit .env and add Zapier webhook URLs
+  # Get URLs from zapier.com after creating Zaps
+
+KEY FILES
+  AGENTS_ZAPIER_INTEGRATION.md           ← Full architecture
+  ZAPIER_QUICK_START.md                  ← Setup guide
+  ZAPIER_IMPLEMENTATION_SUMMARY.md       ← Overview
+  .env.example                           ← Env template
+  package.json                           ← npm commands
+
+FIVE AUTOMATION FLOWS
+  1. Paraclau Sync      → File changes → Agent actions
+  2. Task Routing       → Slack/GitHub → Intelligent routing
+  3. Learning Pipeline  → Feedback → ML improvements
+  4. Doc Publishing     → Docs → Confluence/Sheets
+  5. Agent Handoffs     → Blockers → Context transfer
+
+TASK TYPES (for routing)
+  code_generation       → CODEX
+  design_critique       → CLAUDE
+  validation            → COPILOT
+  level_validation      → COPILOT
+  api_integration       → CODEX
+  documentation         → CLAUDE
+  strategic_planning    → CLAUDE (+ fallbacks)
+  testing               → COPILOT
+  debugging             → COPILOT
+
+PRIORITY LEVELS
+  low                   → scheduled later
+  normal                → standard queue
+  high                  → prioritized
+  urgent                → immediate
+
+WATCH THESE FILES
+  docs/PROJECT_MASTER_HANDOFF.md → Coordination changes
+  memoria.md            → Auto-publish to Confluence
+  PROCEDURAL_ML_DESIGN.md
+  AGENTS.md
+  AGENT_CHEATSHEET.md
+
+ZAPIER ZAP SETUP (create these in zapier.com)
+  1. Paraclau File Watcher
+     Trigger: Webhooks by Zapier
+     Then: Slack notification, Google Sheets update
+     
+  2. Task Router
+     Trigger: Webhooks by Zapier
+     Then: Send to Slack, Google Sheets
+     
+  3. Learning Pipeline
+     Trigger: Webhooks by Zapier
+     Then: Send to Claude, Codex for ML updates
+     
+  4. Doc Publisher
+     Trigger: Webhooks by Zapier
+     Then: POST to Confluence API
+     
+  5. Agent Handoffs
+     Trigger: Webhooks by Zapier
+     Then: Route to next agent
+
+EXAMPLE WORKFLOW
+  1. Edit docs/PROJECT_MASTER_HANDOFF.md
+     └→ watcher detects change
+     └→ sends to Zapier
+     └→ Zapier notifies agents
+     └→ Claude analyzes, Codex implements, Copilot validates
+     └→ docs/PROJECT_MASTER_HANDOFF.md updated with completion
+
+  2. Submit task via Slack
+     └→ Task Router receives via Zapier
+     └→ Routes to appropriate agent
+     └→ Tracks in Google Sheets
+     └→ Agent completes, sends callback
+     └→ Status updates, Slack notification sent
+
+TROUBLESHOOTING
+  Port conflict?            → Change port in .env
+  Webhook not firing?       → Check .env webhook URLs
+  Agent not receiving?      → Verify Zapier Zap is active
+  Logs not appearing?       → Check logs/ directory exists
+  Service won't start?      → npm install, check Node version
+
+FILES CREATED
+  ✓ AGENTS_ZAPIER_INTEGRATION.md (26KB)
+  ✓ ZAPIER_QUICK_START.md (11KB)
+  ✓ ZAPIER_IMPLEMENTATION_SUMMARY.md (8KB)
+  ✓ scripts/zapier-webhook-receiver.mjs (9.4KB)
+  ✓ scripts/paraclau-watcher-zapier.js (11KB)
+  ✓ scripts/task-router-server.mjs (11KB)
+  ✓ scripts/learning-batch-processor.mjs (10KB)
+  ✓ scripts/doc-publisher-zapier.mjs (9.3KB)
+  ✓ .env.example (4.5KB)
+  ✓ memoria.md (updated with changes)
+  ✓ package.json (6 new npm commands)
+
+═══════════════════════════════════════════════════════════════════════════════
+READY TO GO! Start with: npm run zapier:all
+═══════════════════════════════════════════════════════════════════════════════

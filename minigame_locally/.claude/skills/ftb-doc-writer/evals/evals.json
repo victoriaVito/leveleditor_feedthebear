@@ -1,0 +1,23 @@
+{
+  "skill_name": "ftb-doc-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Escríbeme un doc que explique cómo funciona el sistema de dificultad del juego, con las 5 dimensiones que usamos. Guárdalo en docs/DIFFICULTY_MODEL.md",
+      "expected_output": "A markdown file with correct blank lines around all headings, lists, and code fences. Uses 'Original Progressions' not 'progressions'. References the Notion Level Design page's difficulty model. Updates memoria.md and changes/documentation.md.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Añade una entrada en memoria.md y en changes/toolkit.md diciendo que se ha arreglado un bug en el canvas resize del editor. El fix fue en level_toolkit_web/app.js línea 2450.",
+      "expected_output": "Both files updated with relative paths only. Dated entry in memoria.md under 'Recent structural changes'. Detail in changes/toolkit.md. No absolute macOS paths anywhere.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Crea una guía paso a paso para un nuevo diseñador que se une al equipo y necesita entender cómo crear un nivel en el editor, testearlo, y meterlo en una progresión. Ponla en docs/ONBOARDING_LEVEL_DESIGN.md",
+      "expected_output": "Step-by-step workflow doc with numbered steps, code fences for commands (with blank lines around them), correct terminology throughout ('Tutorial' for slot 0, 'Original Progressions' for A/B/C, 'toolkit' for the editor). Updates memoria.md. No invented commands — uses [VERIFY] for uncertain steps.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+flowchart TD
+    A["Pick target level"] --> B["Load difficulty profile<br/>board size, pair range, blocker range, target density"]
+    B --> C["Place pair endpoints"]
+    C --> D["Build initial route scaffold"]
+    D --> E["Add blockers iteratively"]
+    E --> F["Recalculate solvability and solution count"]
+    F --> G{"Still valid and closer to target?"}
+    G -- "Yes" --> H["Keep blocker change"]
+    G -- "No" --> I["Reject blocker change"]
+    H --> J{"More blocker tuning needed?"}
+    I --> J
+    J -- "Yes" --> E
+    J -- "No" --> K["Save one candidate"]
+
+    K --> L{"More candidates needed?"}
+    L -- "Yes" --> C
+    L -- "No" --> M["Score all candidates"]
+
+    M --> N["Apply penalties<br/>too much space, too few pairs, meaningless blockers, weak coverage, messy paths"]
+    M --> O["Apply rewards<br/>useful blockers, blocker spread, pair pressure, strong coverage, cleaner paths"]
+    M --> P["Compare with approved and rejected historical examples"]
+
+    N --> Q["Rank candidates"]
+    O --> Q
+    P --> Q
+
+    Q --> R["Select best candidate"]
+    R --> S["Final procedural level"]
+
+    S --> T["Designer review"]
+    T --> U["Approve, reject, or tweak"]
+    U --> V["Store learning data"]
+    V --> B

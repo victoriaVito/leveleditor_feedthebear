@@ -1,0 +1,100 @@
+{
+  "id": "progression_c_slot_5",
+  "difficultyTier": 10,
+  "gridSize": {
+    "cols": 4,
+    "rows": 5
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 3
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 1
+    }
+  ],
+  "solutionCount": 19,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        0
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "C": [
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "imported_from_legacy": true,
+    "source_name": "4_c_medium",
+    "failed_checks": []
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

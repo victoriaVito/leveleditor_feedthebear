@@ -1,0 +1,170 @@
+{
+  "level": 6,
+  "board_size": 5,
+  "grid": [
+    [
+      "NODE_D1",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "BLOCKED"
+    ],
+    [
+      "EMPTY",
+      "NODE_C1",
+      "EMPTY",
+      "NODE_A1",
+      "NODE_C2"
+    ],
+    [
+      "EMPTY",
+      "NODE_D2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        3
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "B"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        1
+      ],
+      "end": [
+        1,
+        4
+      ],
+      "color": "#0891B2",
+      "fish_color_id": "fish_cyan",
+      "color_letter": "C"
+    },
+    {
+      "id": "D",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        2,
+        1
+      ],
+      "color": "#0369A1"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      4,
+      0
+    ]
+  ],
+  "moves": 12,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "C": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_025",
+    "canonical_file": "lvl_025_image16_level_editor.json",
+    "canonical_slug": "image16_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.424Z",
+    "previous_files": [
+      "bundles/progression_c/jsons/image16_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image16_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image16_level_editor.json",
+      "levels/image16_level_editor.json",
+      "levels/standalone/image16_level_editor.json",
+      "niveles_workshop/jsons/image16_level_editor.json"
+    ]
+  },
+  "color_manifest": {
+    "#0EA5E9": {
+      "fish_color_id": "fish_blue",
+      "pairs": [
+        "A"
+      ]
+    },
+    "#0891B2": {
+      "fish_color_id": "fish_cyan",
+      "pairs": [
+        "C"
+      ]
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "id": "image19_level_editor",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 15,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "B": [
+      [
+        1,
+        3
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "C": [
+      [
+        0,
+        4
+      ],
+      [
+        4,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": []
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

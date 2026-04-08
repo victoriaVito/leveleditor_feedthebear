@@ -1,0 +1,54 @@
+[36m[INFO][0m Learning batch processor started { interval: 60000, batch_size: 5 }
+
+╔═════════════════════════════════════════════════════╗
+║  Learning Batch Processor - Active                 ║
+║                                                     ║
+║  Polling interval: 60000ms              ║
+║  Batch size: 5                          ║
+║  Log: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/learning-batch-processor.log
+║                                                     ║
+║  Workflow:                                          ║
+║  1. Poll for learning entries                      ║
+║  2. Calculate statistics                           ║
+║  3. Send to Zapier → Claude                        ║
+║  4. Claude analyzes patterns                       ║
+║  5. Codex updates ML configs                       ║
+╚═════════════════════════════════════════════════════╝
+  
+[36m[INFO][0m No learning entries to process { batch_size: 5 }
+[36m[INFO][0m Learning batch processor started { interval: 60000, batch_size: 5 }
+
+╔═════════════════════════════════════════════════════╗
+║  Learning Batch Processor - Active                 ║
+║                                                     ║
+║  Polling interval: 60000ms              ║
+║  Batch size: 5                          ║
+║  Log: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/learning-batch-processor.log
+║                                                     ║
+║  Workflow:                                          ║
+║  1. Poll for learning entries                      ║
+║  2. Calculate statistics                           ║
+║  3. Send to Zapier → Claude                        ║
+║  4. Claude analyzes patterns                       ║
+║  5. Codex updates ML configs                       ║
+╚═════════════════════════════════════════════════════╝
+  
+[36m[INFO][0m No learning entries to process { batch_size: 5 }
+[36m[INFO][0m Learning batch processor started { interval: 60000, batch_size: 5 }
+
+╔═════════════════════════════════════════════════════╗
+║  Learning Batch Processor - Active                 ║
+║                                                     ║
+║  Polling interval: 60000ms              ║
+║  Batch size: 5                          ║
+║  Log: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/learning-batch-processor.log
+║                                                     ║
+║  Workflow:                                          ║
+║  1. Poll for learning entries                      ║
+║  2. Calculate statistics                           ║
+║  3. Send to Zapier → Claude                        ║
+║  4. Claude analyzes patterns                       ║
+║  5. Codex updates ML configs                       ║
+╚═════════════════════════════════════════════════════╝
+  
+[36m[INFO][0m No learning entries to process { batch_size: 5 }

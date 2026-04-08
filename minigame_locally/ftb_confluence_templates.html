@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>FTB Confluence Templates — Installation Guide + Code</title>
+<style>
+  body { font-family: system-ui, 'Segoe UI', sans-serif; color: #0b1b2a; max-width: 900px; margin: 0 auto; padding: 24px; line-height: 1.6; background: #f3f7fb; }
+  h1 { font-size: 28px; margin: 0 0 8px; }
+  h2 { font-size: 20px; margin: 32px 0 12px; color: #0f3460; border-bottom: 2px solid #2fbb69; padding-bottom: 6px; display: inline-block; }
+  h3 { font-size: 16px; margin: 20px 0 8px; color: #0369a1; }
+  .card { background: #fff; border: 1px solid #d8e5f0; border-radius: 12px; padding: 20px 24px; margin: 16px 0; }
+  .warn { border-left: 4px solid #f59e0b; }
+  .info { border-left: 4px solid #0369a1; }
+  pre { background: #0b1b2a; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.5; }
+  code { background: #f0f6fc; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  pre code { background: none; padding: 0; }
+  .step { display: inline-block; background: #2fbb69; color: white; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 13px; font-weight: 700; margin-right: 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; margin: 12px 0; }
+  th { background: linear-gradient(180deg, #f0f6fc, #e8f0f8); padding: 10px 12px; border: 1px solid #d8e5f0; text-transform: uppercase; letter-spacing: 0.04em; color: #5a748e; font-size: 12px; text-align: left; }
+  td { padding: 10px 12px; border: 1px solid #d8e5f0; }
+</style>
+</head>
+<body>
+
+<h1>Feed the Bear — Confluence Templates</h1>
+<p style="color:#5a748e;margin:0 0 24px">Two reusable templates for Confluence: a User Macro for styled sections, and a full Page Template for new design docs.</p>
+
+<!-- ============================================================ -->
+<h2>Option A: User Macro (Admin required)</h2>
+<!-- ============================================================ -->
+
+<div class="card info">
+<p><strong>What is it?</strong> A User Macro is a reusable widget you insert into any Confluence page with <code>{ftb-section}</code>. It wraps your content in the FTB visual style (white card, green underline, correct colors).</p>
+<p><strong>Requirement:</strong> Confluence Server/Data Center with admin access. On Confluence Cloud, use the Page Template instead (Option B).</p>
+</div>
+
+<div class="card">
+<h3><span class="step">1</span>Go to Admin → User Macros → Create</h3>
+
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Macro Name</td><td><code>ftb-section</code></td></tr>
+<tr><td>Title</td><td>FTB Styled Section</td></tr>
+<tr><td>Description</td><td>Renders a content section in the Feed the Bear visual style</td></tr>
+<tr><td>Categories</td><td>Formatting</td></tr>
+<tr><td>Macro Body Processing</td><td><strong>Rendered</strong></td></tr>
+<tr><td>Output Format</td><td>HTML</td></tr>
+</table>
+
+<h3><span class="step">2</span>Parameters</h3>
+<pre><code>## @param Title:title=Section Title|type=string|required=true|desc=The heading text
+## @param Style:title=Style|type=enum|enumValues=standard,warning,info|default=standard|desc=Visual style variant
+## @param Id:title=Section ID|type=string|required=false|desc=Anchor ID for navigation links</code></pre>
+
+<h3><span class="step">3</span>Template (Velocity + HTML)</h3>
+<pre><code>#set($sectionId = $paramId)
+#if(!$sectionId || $sectionId == "")
+  #set($sectionId = $paramTitle.toLowerCase().replaceAll("[^a-z0-9]+", "-"))
+#end
+
+#set($borderColor = "#2fbb69")
+#set($extraStyle = "")
+#if($paramStyle == "warning")
+  #set($borderColor = "#f59e0b")
+  #set($extraStyle = "border-left:4px solid #f59e0b;")
+#elseif($paramStyle == "info")
+  #set($borderColor = "#0369a1")
+  #set($extraStyle = "border-left:4px solid #0369a1;")
+#end
+
+&lt;section id="$sectionId" style="margin-top:32px;background:#ffffff;border:1px solid #d8e5f0;border-radius:12px;padding:20px 24px;${extraStyle}"&gt;
+  &lt;h2 style="margin:0 0 12px 0;font-size:18px;color:#0b1b2a;border-bottom:2px solid ${borderColor};padding-bottom:8px;display:inline-block"&gt;${paramTitle}&lt;/h2&gt;
+  $body
+&lt;/section&gt;</code></pre>
+</div>
+
+<div class="card">
+<h3>Usage in any Confluence page</h3>
+<pre><code>{ftb-section:Title=Difficulty Model|Style=standard|Id=difficulty}
+Your content here. Tables, lists, images — anything.
+{ftb-section}
+
+{ftb-section:Title=Pending VERIFY Flags|Style=warning}
+- [VERIFY] Emotional curve needs approval
+- [VERIFY] Tutorial file shipping status
+{ftb-section}</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>Option A+: Header Macro</h2>
+<!-- ============================================================ -->
+
+<div class="card">
+<p>A companion macro for the gradient hero header. Install the same way as above.</p>
+
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Macro Name</td><td><code>ftb-header</code></td></tr>
+<tr><td>Macro Body Processing</td><td><strong>No macro body</strong></td></tr>
+</table>
+
+<h3>Parameters</h3>
+<pre><code>## @param Title:title=Page Title|type=string|required=true
+## @param Subtitle:title=Subtitle|type=string|required=false|desc=Middot-separated subtitle
+## @param Updated:title=Last Updated|type=string|required=false|default=today</code></pre>
+
+<h3>Template</h3>
+<pre><code>#if(!$paramUpdated || $paramUpdated == "" || $paramUpdated == "today")
+  #set($paramUpdated = $action.dateFormatter.formatGivenString("yyyy-MM-dd", $content.lastModificationDate))
+#end
+
+&lt;div style="background:linear-gradient(135deg, #0b1b2a 0%, #0f3460 50%, #0369a1 100%);padding:36px 32px 28px;border-radius:0 0 16px 16px;margin-bottom:24px"&gt;
+  &lt;h1 style="font-size:32px;margin:0 0 6px 0;color:#ffffff;font-weight:800;letter-spacing:-0.02em"&gt;${paramTitle}&lt;/h1&gt;
+  #if($paramSubtitle &amp;&amp; $paramSubtitle != "")
+    &lt;p style="color:rgba(255,255,255,0.75);margin:0 0 4px 0;font-size:15px"&gt;${paramSubtitle}&lt;/p&gt;
+  #end
+  &lt;p style="color:rgba(255,255,255,0.45);font-size:12px;margin:0"&gt;Last updated: &lt;strong style="color:rgba(255,255,255,0.65)"&gt;${paramUpdated}&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>Option A+: Table Macro</h2>
+<!-- ============================================================ -->
+
+<div class="card">
+<p>Wraps any table in the FTB styled header gradient. Apply to existing Confluence tables.</p>
+
+<table>
+<tr><th>Field</th><th>Value</th></tr>
+<tr><td>Macro Name</td><td><code>ftb-table</code></td></tr>
+<tr><td>Macro Body Processing</td><td><strong>Rendered</strong></td></tr>
+</table>
+
+<h3>Parameters</h3>
+<pre><code>## @noparams</code></pre>
+
+<h3>Template</h3>
+<pre><code>&lt;div class="ftb-table-wrap" style="margin:0 0 16px 0"&gt;
+  &lt;style&gt;
+    .ftb-table-wrap table { border-collapse:collapse; width:100%; font-size:13px; border-radius:8px; overflow:hidden; }
+    .ftb-table-wrap th { background:linear-gradient(180deg, #f0f6fc 0%, #e8f0f8 100%); padding:10px 12px; border:1px solid #d8e5f0; font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:0.04em; color:#5a748e; text-align:left; }
+    .ftb-table-wrap td { padding:10px 12px; border:1px solid #d8e5f0; }
+  &lt;/style&gt;
+  $body
+&lt;/div&gt;</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>Option B: Page Template (No admin required)</h2>
+<!-- ============================================================ -->
+
+<div class="card info">
+<p><strong>What is it?</strong> A page template that any space admin can add. When someone creates a new page, they pick "FTB Design Doc" from the template list and get the full structure pre-filled.</p>
+<p><strong>Works on:</strong> Confluence Cloud and Server/Data Center.</p>
+</div>
+
+<div class="card">
+<h3><span class="step">1</span>Go to Space Settings → Content Tools → Templates → Create Template</h3>
+<h3><span class="step">2</span>Name it: <code>FTB Design Doc</code></h3>
+<h3><span class="step">3</span>Switch to the source editor (< > icon) and paste this:</h3>
+
+<pre><code>&lt;!-- FTB Design Doc Template --&gt;
+&lt;!-- Paste into Confluence's source editor --&gt;
+
+&lt;ac:structured-macro ac:name="html"&gt;
+&lt;ac:plain-text-body&gt;&lt;![CDATA[
+&lt;div style="background:linear-gradient(135deg, #0b1b2a 0%, #0f3460 50%, #0369a1 100%);padding:36px 32px 28px;border-radius:0 0 16px 16px;margin-bottom:24px"&gt;
+  &lt;h1 style="font-size:32px;margin:0 0 6px 0;color:#ffffff;font-weight:800;letter-spacing:-0.02em"&gt;[Page Title]&lt;/h1&gt;
+  &lt;p style="color:rgba(255,255,255,0.75);margin:0 0 4px 0;font-size:15px"&gt;[Subtitle · with middot separators]&lt;/p&gt;
+  &lt;p style="color:rgba(255,255,255,0.45);font-size:12px;margin:0"&gt;Last updated: &lt;strong style="color:rgba(255,255,255,0.65)"&gt;[DATE]&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+]]&gt;&lt;/ac:plain-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;ac:structured-macro ac:name="toc"&gt;
+  &lt;ac:parameter ac:name="printable"&gt;true&lt;/ac:parameter&gt;
+  &lt;ac:parameter ac:name="style"&gt;disc&lt;/ac:parameter&gt;
+  &lt;ac:parameter ac:name="maxLevel"&gt;2&lt;/ac:parameter&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;[What this document covers and who it's for.]&lt;/p&gt;
+
+&lt;h2&gt;Context&lt;/h2&gt;
+&lt;p&gt;[Background information. Why does this document exist? What problem does it address?]&lt;/p&gt;
+
+&lt;h2&gt;Design&lt;/h2&gt;
+&lt;p&gt;[The main design content. Use tables for structured comparisons.]&lt;/p&gt;
+
+&lt;ac:structured-macro ac:name="info"&gt;
+&lt;ac:rich-text-body&gt;
+&lt;p&gt;&lt;strong&gt;Design principle:&lt;/strong&gt; The player should feel clever, not punished.&lt;/p&gt;
+&lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;h2&gt;Technical Details&lt;/h2&gt;
+&lt;p&gt;[Implementation notes, data formats, tooling references.]&lt;/p&gt;
+
+&lt;h2&gt;Open Questions&lt;/h2&gt;
+&lt;ac:structured-macro ac:name="warning"&gt;
+&lt;ac:rich-text-body&gt;
+&lt;p&gt;[VERIFY] [List unresolved items here]&lt;/p&gt;
+&lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;h2&gt;Related Docs&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;ac:link&gt;&lt;ri:page ri:content-title="[Related Page 1]"/&gt;&lt;/ac:link&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;ac:link&gt;&lt;ri:page ri:content-title="[Related Page 2]"/&gt;&lt;/ac:link&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>Option B+: Playtest Feedback Page Template</h2>
+<!-- ============================================================ -->
+
+<div class="card">
+<p>A second template specifically for documenting playtest rounds and their results.</p>
+
+<pre><code>&lt;!-- FTB Playtest Report Template --&gt;
+
+&lt;ac:structured-macro ac:name="html"&gt;
+&lt;ac:plain-text-body&gt;&lt;![CDATA[
+&lt;div style="background:linear-gradient(135deg, #0b1b2a 0%, #0f3460 50%, #0369a1 100%);padding:36px 32px 28px;border-radius:0 0 16px 16px;margin-bottom:24px"&gt;
+  &lt;h1 style="font-size:32px;margin:0 0 6px 0;color:#ffffff;font-weight:800;letter-spacing:-0.02em"&gt;Playtest Round [#]&lt;/h1&gt;
+  &lt;p style="color:rgba(255,255,255,0.75);margin:0 0 4px 0;font-size:15px"&gt;Feed the Bear · [Date range] · [# testers]&lt;/p&gt;
+&lt;/div&gt;
+]]&gt;&lt;/ac:plain-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;ac:structured-macro ac:name="toc" /&gt;
+
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;[High-level findings: how many levels tested, overall pass rate, key surprises.]&lt;/p&gt;
+
+&lt;h2&gt;Testers&lt;/h2&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Levels Played&lt;/th&gt;&lt;th&gt;Completion Rate&lt;/th&gt;&lt;th&gt;Notes&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;[Name]&lt;/td&gt;&lt;td&gt;[#]&lt;/td&gt;&lt;td&gt;[%]&lt;/td&gt;&lt;td&gt;[Notes]&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;Levels Flagged for Action&lt;/h2&gt;
+&lt;ac:structured-macro ac:name="warning"&gt;
+&lt;ac:rich-text-body&gt;
+&lt;p&gt;These levels scored &gt;50% on "Would Drop" or "Too Hard":&lt;/p&gt;
+&lt;/ac:rich-text-body&gt;
+&lt;/ac:structured-macro&gt;
+
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;th&gt;Level&lt;/th&gt;&lt;th&gt;Progression&lt;/th&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;% Flagged&lt;/th&gt;&lt;th&gt;Action&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;[filename]&lt;/td&gt;&lt;td&gt;[Prog X]&lt;/td&gt;&lt;td&gt;[Too Hard / Boring / etc.]&lt;/td&gt;&lt;td&gt;[%]&lt;/td&gt;&lt;td&gt;[SWAP / TWEAK / KEEP]&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;Levels That Worked Well&lt;/h2&gt;
+&lt;p&gt;[Levels with high "Fun!" scores and good solve rates. What made them work?]&lt;/p&gt;
+
+&lt;h2&gt;Progression Flow&lt;/h2&gt;
+&lt;p&gt;[Did the difficulty curve feel right? Where did testers get stuck or bored?]&lt;/p&gt;
+
+&lt;h2&gt;Changes Made&lt;/h2&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;&lt;th&gt;Slot&lt;/th&gt;&lt;th&gt;Old Level&lt;/th&gt;&lt;th&gt;New Level&lt;/th&gt;&lt;th&gt;Change Type&lt;/th&gt;&lt;th&gt;Reason&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;[#]&lt;/td&gt;&lt;td&gt;[old.json]&lt;/td&gt;&lt;td&gt;[new.json]&lt;/td&gt;&lt;td&gt;[SWAP]&lt;/td&gt;&lt;td&gt;[from feedback]&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;Next Steps&lt;/h2&gt;
+&lt;ac:task-list&gt;
+&lt;ac:task&gt;&lt;ac:task-body&gt;[Action item 1]&lt;/ac:task-body&gt;&lt;/ac:task&gt;
+&lt;ac:task&gt;&lt;ac:task-body&gt;[Action item 2]&lt;/ac:task-body&gt;&lt;/ac:task&gt;
+&lt;/ac:task-list&gt;
+
+&lt;h2&gt;Spreadsheet&lt;/h2&gt;
+&lt;p&gt;Full data: &lt;ac:link&gt;&lt;ri:attachment ri:filename="[feedback_spreadsheet.xlsx]"/&gt;&lt;/ac:link&gt;&lt;/p&gt;</code></pre>
+</div>
+
+<!-- ============================================================ -->
+<h2>Quick Reference: What to Use When</h2>
+<!-- ============================================================ -->
+
+<div class="card">
+<table>
+<tr><th>Situation</th><th>Use</th><th>Requires Admin?</th></tr>
+<tr><td>New design doc page</td><td>Page Template "FTB Design Doc"</td><td>Space admin only</td></tr>
+<tr><td>New playtest report</td><td>Page Template "FTB Playtest Report"</td><td>Space admin only</td></tr>
+<tr><td>Styled section in any page</td><td><code>{ftb-section}</code> macro</td><td>Yes (instance admin)</td></tr>
+<tr><td>Hero header in any page</td><td><code>{ftb-header}</code> macro</td><td>Yes (instance admin)</td></tr>
+<tr><td>Styled table in any page</td><td><code>{ftb-table}</code> macro</td><td>Yes (instance admin)</td></tr>
+<tr><td>Full HTML page (no Confluence)</td><td>Use the <code>ftb-confluence-doc</code> Claude skill</td><td>No</td></tr>
+<tr><td>Feedback spreadsheet</td><td>Use the <code>ftb-feedback-sheet</code> Claude skill</td><td>No</td></tr>
+</table>
+</div>
+
+<div class="card warn">
+<h3>Confluence Cloud Note</h3>
+<p>User Macros (<code>ftb-section</code>, <code>ftb-header</code>, <code>ftb-table</code>) are <strong>not available on Confluence Cloud</strong>. On Cloud, use the Page Templates (Option B) or paste the full HTML into an HTML macro on each page. If your team is on Cloud and wants reusable macros, you'd need to build a Forge app — which is a bigger lift. The Page Templates are the practical choice for Cloud.</p>
+</div>
+
+<div style="background:#0b1b2a;padding:20px 32px;border-radius:16px 16px 0 0;margin-top:32px;text-align:center">
+  <p style="color:rgba(255,255,255,0.5);font-size:12px;margin:0">
+    Feed the Bear · Confluence Templates · Generated 2026-03-26
+  </p>
+</div>
+
+</body>
+</html>

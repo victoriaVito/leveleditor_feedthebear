@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "terminal-automatization": {
+      "type": "sse",
+      "url": "http://localhost:6070/sse"
+    },
+    "vscode-terminal-mcp": {
+      "type": "sse",
+      "url": "http://localhost:6070/sse"
+    }
+  }
+}

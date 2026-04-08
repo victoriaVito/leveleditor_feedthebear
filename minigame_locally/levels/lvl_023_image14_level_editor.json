@@ -1,99 +1,63 @@
 {
-  "level": 4,
-  "board_size": 5,
-  "grid": [
-    [
-      "NODE_C1",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "NODE_D1",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "NODE_C2",
-      "BLOCKED",
-      "NODE_A1",
-      "BLOCKED"
-    ],
-    [
-      "EMPTY",
-      "NODE_D2",
-      "NODE_A2",
-      "EMPTY",
-      "BLOCKED"
-    ]
-  ],
+  "id": "lvl_023_image14_level_editor",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 13,
   "pairs": [
     {
-      "id": "A",
-      "start": [
-        3,
-        3
-      ],
-      "end": [
-        4,
-        2
-      ],
-      "color": "#0EA5E9"
+      "type": "red",
+      "a": {
+        "x": 3,
+        "y": 3
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
     },
     {
-      "id": "C",
-      "start": [
-        0,
-        0
-      ],
-      "end": [
-        3,
-        1
-      ],
-      "color": "#0891B2"
+      "type": "yellow",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
     },
     {
-      "id": "D",
-      "start": [
-        1,
-        2
-      ],
-      "end": [
-        4,
-        1
-      ],
-      "color": "#0369A1"
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
     }
   ],
   "blockers": [
-    [
-      3,
-      2
-    ],
-    [
-      3,
-      4
-    ],
-    [
-      4,
-      4
-    ]
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 4
+    }
   ],
-  "moves": 13,
-  "solution_count": 20,
-  "target_density": "HIGH",
-  "golden_path": {
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
     "A": [
       [
         3,
@@ -125,14 +89,6 @@
       ]
     ]
   },
-  "validation": {
-    "solvable": true,
-    "density_match": true,
-    "early_mistake_detection": true,
-    "no_isolated_pairs": true,
-    "no_late_dead_ends": true,
-    "curve_integrity": true
-  },
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
@@ -147,6 +103,15 @@
       "levels/image14_level_editor.json",
       "levels/standalone/image14_level_editor.json",
       "niveles_workshop/jsons/image14_level_editor.json"
-    ]
+    ],
+    "manual_difficulty": "EASY"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
   }
 }

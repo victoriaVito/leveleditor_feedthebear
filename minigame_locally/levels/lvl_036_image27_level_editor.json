@@ -1,63 +1,38 @@
 {
-  "level": 9,
-  "board_size": 4,
-  "grid": [
-    [
-      "NODE_A1",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "NODE_B1",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "NODE_B2",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "NODE_A2"
-    ]
-  ],
+  "id": "lvl_036_image27_level_editor",
+  "difficultyTier": 9,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 8,
   "pairs": [
     {
-      "id": "A",
-      "start": [
-        0,
-        0
-      ],
-      "end": [
-        3,
-        3
-      ],
-      "color": "#0EA5E9"
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
     },
     {
-      "id": "B",
-      "start": [
-        1,
-        1
-      ],
-      "end": [
-        2,
-        2
-      ],
-      "color": "#0284C7"
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
     }
   ],
-  "blockers": [],
-  "moves": 8,
-  "solution_count": 20,
-  "target_density": "HIGH",
-  "golden_path": {
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
     "A": [
       [
         0,
@@ -79,14 +54,6 @@
       ]
     ]
   },
-  "validation": {
-    "solvable": true,
-    "density_match": true,
-    "early_mistake_detection": true,
-    "no_isolated_pairs": true,
-    "no_late_dead_ends": true,
-    "curve_integrity": true
-  },
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
@@ -102,6 +69,15 @@
       "levels/new_level7_a.json",
       "levels/standalone/image27_level_editor.json",
       "niveles_workshop/jsons/image27_level_editor.json"
-    ]
+    ],
+    "manual_difficulty": "EASY"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
   }
 }

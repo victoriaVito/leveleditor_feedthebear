@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Benchmark Comparison — Flow Free vs FtB</title>
+  <style>
+    :root { --bg:#0f172a; --surface:#1e293b; --border:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#0ea5e9; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",system-ui,sans-serif; background:var(--bg); color:var(--text); padding:24px; }
+    h1 { color:var(--accent); font-size:24px; margin:0 0 8px; }
+    .subtitle { color:var(--muted); margin:0 0 24px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(480px,1fr)); gap:16px; }
+    .card { border:1px solid var(--border); border-radius:14px; background:var(--surface); padding:16px; }
+    .card-title { font-size:16px; font-weight:700; color:var(--accent); margin-bottom:4px; }
+    .card-meta { font-size:12px; color:var(--muted); margin-bottom:12px; }
+    canvas { width:100%; height:auto; border-radius:8px; border:1px solid var(--border); background:#1a1a2e; display:block; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .compare-col { display:flex; flex-direction:column; gap:8px; }
+    .compare-label { font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); }
+    .compare-hint { font-size:12px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    img.original { width:100%; height:auto; border-radius:8px; border:1px solid var(--border); background:#1a1a2e; display:block; }
+    img.original.missing { opacity:0.35; filter:grayscale(1); }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .tag { padding:4px 8px; border-radius:999px; font-size:11px; font-weight:600; }
+    .tag-easy { background:#166534; color:#86efac; }
+    .tag-medium { background:#92400e; color:#fde68a; }
+    .tag-hard { background:#991b1b; color:#fca5a5; }
+    .tag-pattern { background:#1e3a5f; color:#7dd3fc; }
+    .tag-stat { background:#312e81; color:#c4b5fd; }
+    #status { color:var(--muted); font-size:14px; margin-bottom:16px; }
+    @media (max-width: 640px) {
+      .grid { grid-template-columns:1fr; }
+      .compare { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Benchmark Comparison</h1>
+  <p class="subtitle">Feed the Bear reconstructions of Flow Free reference levels. Each card shows the original screenshot next to the reconstructed JSON render.</p>
+  <div id="status">Loading...</div>
+  <div id="grid" class="grid"></div>
+
+  <script>
+    const COLORS = {
+      blue:'#0EA5E9', green:'#10B981', orange:'#F97316', cyan:'#0891B2',
+      yellow:'#FBBF24', red:'#EF4444', purple:'#A855F7', pink:'#EC4899',
+      maroon:'#9F1239', teal:'#14B8A6', white:'#F8FAFC'
+    };
+
+    const FILES = [
+      'ff_nivel3_8x8.json','ff_nivel4_8x8.json','ff_nivel5_8x8.json',
+      'ff_nivel5_9x9.json','ff_nivel6_8x8.json','ff_nivel6v2_8x8.json',
+      'ff_nivel7a_8x8.json','ff_nivel7b_8x8.json',
+      'ff_nivel9a_8x8.json','ff_nivel9b_9x9.json',
+      'ff_nivel11_9x9.json','ff_nivel13_8x8.json',
+      'ff_nivel15_9x9.json','ff_nivel16_8x8.json',
+      'ff_nivel32_8x8.json','ff_nivel34_8x8.json',
+      'ff_nivel3_6_8x8.json','ff_nivel4_6_8x8.json',
+      'ff_nivel1_10x12.json','ff_nivel4_10x12.json',
+      'ff_nivel2_5_9x9.json','ff_nivel2_3_12x12.json'
+    ];
+
+    function drawBoard(canvas, level) {
+      const cols = level.gridSize.cols;
+      const rows = level.gridSize.rows;
+      const size = 280;
+      const cellW = size / cols;
+      const cellH = size / rows;
+      canvas.width = size;
+      canvas.height = (size / cols) * rows;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = '#2d2d4a';
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= cols; x++) {
+        ctx.beginPath(); ctx.moveTo(x*cellW, 0); ctx.lineTo(x*cellW, canvas.height); ctx.stroke();
+      }
+      for (let y = 0; y <= rows; y++) {
+        ctx.beginPath(); ctx.moveTo(0, y*cellH); ctx.lineTo(canvas.width, y*cellH); ctx.stroke();
+      }
+
+      if (level.blockers) {
+        ctx.fillStyle = '#0f0f1a';
+        for (const b of level.blockers) {
+          ctx.fillRect(b.x*cellW+1, b.y*cellH+1, cellW-2, cellH-2);
+        }
+      }
+
+      const pairs = level.pairs || [];
+      pairs.forEach((pair, i) => {
+        const color = COLORS[pair.type] || COLORS[Object.keys(COLORS)[i % Object.keys(COLORS).length]];
+        const r = Math.min(cellW, cellH) * 0.35;
+
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.globalAlpha = 0.3;
+        ctx.beginPath();
+        ctx.moveTo(pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2);
+        ctx.lineTo(pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2, r, 0, Math.PI*2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2, r, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold ' + Math.floor(r) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const label = String.fromCharCode(65 + i);
+        ctx.fillText(label, pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2);
+        ctx.fillText(label, pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2);
+      });
+    }
+
+    function createTag(text, cls) {
+      const span = document.createElement('span');
+      span.className = 'tag ' + cls;
+      span.textContent = text;
+      return span;
+    }
+
+    function setImgWithFallback(img, urls) {
+      let idx = 0;
+      function onError() {
+        if (idx >= urls.length) {
+          img.classList.add('missing');
+          img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+            '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">' +
+              '<rect width="640" height="360" fill="#0b1222"/>' +
+              '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, system-ui, sans-serif" font-size="18">' +
+                'Missing screenshot' +
+              '</text>' +
+            '</svg>'
+          );
+          img.removeEventListener('error', onError);
+          return;
+        }
+        img.src = urls[idx++];
+      }
+      img.addEventListener('error', onError);
+      onError();
+    }
+
+    function originalImageUrls(level, file) {
+      const base = file.replace(/\.json$/i, '');
+      const sourceName = level && level.meta && level.meta.source_name ? String(level.meta.source_name) : '';
+      const dirs = ['../benchmark_flow_free/screenshots/', '../levels/benchmark_flow_free/screenshots/', '../levels/screenshots/'];
+      const urls = [];
+
+      if (sourceName) {
+        dirs.forEach((dir) => { urls.push(dir + sourceName); });
+      }
+
+      const exts = ['png', 'jpg', 'jpeg', 'webp', 'PNG', 'JPG', 'JPEG', 'WEBP'];
+      exts.forEach((ext) => {
+        dirs.forEach((dir) => { urls.push(dir + base + '.' + ext); });
+      });
+
+      return urls;
+    }
+
+    function createCard(level, file) {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = level.id;
+      card.appendChild(title);
+
+      const pairCount = (level.pairs || []).length;
+      const blockerCount = (level.blockers || []).length;
+      const meta = document.createElement('div');
+      meta.className = 'card-meta';
+      meta.textContent = level.gridSize.cols + '\u00d7' + level.gridSize.rows + ' \u00b7 ' + pairCount + ' pairs \u00b7 ' + blockerCount + ' blockers';
+      card.appendChild(meta);
+
+      const compare = document.createElement('div');
+      compare.className = 'compare';
+
+      const originalCol = document.createElement('div');
+      originalCol.className = 'compare-col';
+      const originalLabel = document.createElement('div');
+      originalLabel.className = 'compare-label';
+      originalLabel.textContent = 'Original';
+      originalCol.appendChild(originalLabel);
+      const expected = (level && level.meta && level.meta.source_name) ? String(level.meta.source_name) : (file.replace(/\.json$/i, '') + '.png');
+      const originalHint = document.createElement('div');
+      originalHint.className = 'compare-hint';
+      originalHint.textContent = expected;
+      originalCol.appendChild(originalHint);
+      const img = document.createElement('img');
+      img.className = 'original';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.alt = 'Original screenshot';
+      setImgWithFallback(img, originalImageUrls(level, file));
+      originalCol.appendChild(img);
+      compare.appendChild(originalCol);
+
+      const renderCol = document.createElement('div');
+      renderCol.className = 'compare-col';
+      const renderLabel = document.createElement('div');
+      renderLabel.className = 'compare-label';
+      renderLabel.textContent = 'Reconstruction';
+      renderCol.appendChild(renderLabel);
+      const canvas = document.createElement('canvas');
+      renderCol.appendChild(canvas);
+      compare.appendChild(renderCol);
+      card.appendChild(compare);
+
+      const stats = document.createElement('div');
+      stats.className = 'tags';
+      const tierMap = {1:'EASY',2:'MEDIUM',3:'HARD'};
+      const tierCls = {1:'tag-easy',2:'tag-medium',3:'tag-hard'};
+      stats.appendChild(createTag(tierMap[level.difficultyTier] || 'HARD', tierCls[level.difficultyTier] || 'tag-hard'));
+      stats.appendChild(createTag(level.gridSize.cols + '\u00d7' + level.gridSize.rows, 'tag-stat'));
+      stats.appendChild(createTag(pairCount + 'p', 'tag-stat'));
+      stats.appendChild(createTag(blockerCount + 'b', 'tag-stat'));
+      card.appendChild(stats);
+
+      const patterns = (level.meta && level.meta.benchmark_patterns) || [];
+      if (patterns.length > 0) {
+        const tagRow = document.createElement('div');
+        tagRow.className = 'tags';
+        patterns.forEach(function(p) {
+          tagRow.appendChild(createTag(p, 'tag-pattern'));
+        });
+        card.appendChild(tagRow);
+      }
+
+      return { card: card, canvas: canvas };
+    }
+
+    async function loadAll() {
+      const grid = document.getElementById('grid');
+      const status = document.getElementById('status');
+      let loaded = 0;
+
+      for (const file of FILES) {
+        try {
+          const resp = await fetch('../levels/benchmark_flow_free/' + file);
+          if (!resp.ok) continue;
+          const level = await resp.json();
+          const result = createCard(level, file);
+          grid.appendChild(result.card);
+          requestAnimationFrame(function() { drawBoard(result.canvas, level); });
+          loaded++;
+        } catch (e) {
+          console.error('Failed: ' + file, e);
+        }
+      }
+
+      status.textContent = loaded > 0
+        ? 'Loaded ' + loaded + ' benchmark levels. Screenshot lookup: ../benchmark_flow_free/screenshots/ (preferred), ../levels/benchmark_flow_free/screenshots/, or ../levels/screenshots/.'
+        : 'No levels found. Start the server first: node server.mjs';
+    }
+
+    loadAll();
+  </script>
+</body>
+</html>

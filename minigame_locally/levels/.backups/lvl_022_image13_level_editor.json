@@ -1,0 +1,109 @@
+{
+  "id": "lvl_022_image13_level_editor",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 13,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 3
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [
+      "unsolvable_layout"
+    ],
+    "canonical_id": "lvl_022",
+    "canonical_file": "lvl_022_image13_level_editor.json",
+    "canonical_slug": "image13_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.423Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image13_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image13_level_editor.json",
+      "levels/image13_level_editor.json",
+      "levels/standalone/image13_level_editor.json",
+      "niveles_workshop/jsons/image13_level_editor.json"
+    ]
+  }
+}

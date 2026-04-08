@@ -1,0 +1,80 @@
+{
+  "id": "andrea_level_2",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 4,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 0,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 0
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "andrea_level_2.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

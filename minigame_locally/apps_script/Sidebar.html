@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root {
+        --bg: #f7f8fa;
+        --panel: #ffffff;
+        --ink: #1f2933;
+        --muted: #6b7785;
+        --border: #d8dee6;
+        --blue: #4e79a7;
+        --green: #59a14f;
+        --orange: #f28e2b;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 13px/1.45 Arial, sans-serif;
+      }
+
+      .shell {
+        padding: 12px;
+      }
+
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+      }
+
+      .eyebrow {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+
+      .title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .meta {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .tag {
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .tag.read { background: var(--blue); }
+      .tag.interactive { background: var(--green); }
+      .tag.data { background: var(--orange); }
+
+      .tabbar {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .feedback-tester-input {
+        display: flex;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .feedback-tester-input input {
+        flex: 1;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px 10px;
+        font: inherit;
+      }
+
+      .feedback-tester-input button {
+        white-space: nowrap;
+      }
+
+      .tabbar button,
+      .actions button,
+      .links button,
+      #refresh-model {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 8px;
+        padding: 8px 10px;
+        font: inherit;
+        cursor: pointer;
+        text-align: left;
+      }
+
+      .tabbar button.active {
+        background: #edf4fb;
+        border-color: #bfd2ea;
+      }
+
+      .tabbar button:hover,
+      .actions button:hover,
+      .links button:hover,
+      #refresh-model:hover {
+        background: #f2f6fa;
+      }
+
+      .panel-title {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+
+      .panel-copy {
+        color: var(--muted);
+        margin: 0 0 12px;
+      }
+
+      .section-title {
+        margin: 14px 0 8px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      li + li {
+        margin-top: 6px;
+      }
+
+      .actions,
+      .links,
+      .sheet-list {
+        display: grid;
+        gap: 8px;
+      }
+
+      .sheet-row {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        padding: 8px 10px;
+      }
+
+      .sheet-row strong {
+        display: block;
+      }
+
+      .sheet-row small,
+      .hint {
+        color: var(--muted);
+      }
+
+      .dynamic-block {
+        margin-top: 14px;
+      }
+
+      .status-line {
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+
+      .metric-grid,
+      .progression-grid {
+        display: grid;
+        gap: 8px;
+      }
+
+      .metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .metric-card,
+      .progression-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        padding: 10px;
+      }
+
+      .metric-card strong,
+      .progression-card strong {
+        display: block;
+      }
+
+      .metric-card span,
+      .progression-meta,
+      .inline-note {
+        color: var(--muted);
+      }
+
+      .progression-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .progression-actions button {
+        flex: 1 1 120px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div class="card" id="app"></div>
+    </div>
+    <script>
+      const bootstrapModel = JSON.parse(<?= bootstrapModel ?>);
+      let model = bootstrapModel;
+
+      function render() {
+        const app = document.getElementById('app');
+        const panel = model.panels[model.selectedPanel];
+        const tabs = Object.keys(model.panels);
+
+        app.innerHTML = `
+          <div class="eyebrow">Feed the Bear</div>
+          <h1 class="title">Spreadsheet Control Panel</h1>
+          <div class="meta">Active sheet: <strong>${escapeHtml(model.activeSheetName || 'Unknown')}</strong></div>
+          <div class="meta">Context tab: <strong>${escapeHtml(model.contextPanel)}</strong></div>
+          <div class="tags">
+            <span class="tag read">Read</span>
+            <span class="tag interactive">Interactive</span>
+            <span class="tag data">Generated Data</span>
+          </div>
+          <div class="section-title">Panels</div>
+          <div class="tabbar">
+            ${tabs.map((tabId) => `
+              <button class="${tabId === model.selectedPanel ? 'active' : ''}" data-panel="${tabId}">
+                ${escapeHtml(model.panels[tabId].label)}
+              </button>
+            `).join('')}
+          </div>
+          <div class="section-title">Current Panel</div>
+          <h2 class="panel-title">${escapeHtml(panel.title)}</h2>
+          <p class="panel-copy">${escapeHtml(panel.description || '')}</p>
+          ${panel.steps ? `
+            <div class="section-title">Steps</div>
+            <ul>${panel.steps.map((step) => `<li>${escapeHtml(step)}</li>`).join('')}</ul>
+          ` : ''}
+          ${panel.actions ? `
+            <div class="section-title">Actions</div>
+            <div class="actions">
+              ${panel.actions.map(renderActionButton).join('')}
+            </div>
+          ` : ''}
+          ${panel.links ? `
+            <div class="section-title">Links</div>
+            <div class="links">
+              ${panel.links.map(renderActionButton).join('')}
+            </div>
+          ` : ''}
+          ${panel.planned ? `
+            <div class="section-title">Planned</div>
+            <ul>${panel.planned.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+          ` : ''}
+          ${renderDynamicShell()}
+          <div class="section-title">Sheet Contract</div>
+          <div class="sheet-list">
+            ${model.sheets.map((sheet) => `
+              <div class="sheet-row">
+                <strong>${escapeHtml(sheet.name)}</strong>
+                <small>${escapeHtml(sheet.group)} · ${escapeHtml(sheet.editRule)}</small>
+              </div>
+            `).join('')}
+          </div>
+          <div class="section-title">Refresh</div>
+          <button id="refresh-model">Refresh panel state</button>
+          <p class="hint">Google Sheets may still let a user close the sidebar. Reopen it from the custom menu if needed.</p>
+        `;
+
+        Array.from(app.querySelectorAll('[data-panel]')).forEach((button) => {
+          button.addEventListener('click', () => {
+            google.script.run.withSuccessHandler((nextModel) => {
+              model = nextModel;
+              render();
+            }).setPreferredPanel(button.dataset.panel);
+          });
+        });
+
+        Array.from(app.querySelectorAll('[data-sheet]')).forEach((button) => {
+          button.addEventListener('click', () => {
+            google.script.run.withSuccessHandler((nextModel) => {
+              model = nextModel;
+              render();
+            }).openSheetByName(button.dataset.sheet);
+          });
+        });
+
+        Array.from(app.querySelectorAll('[data-url]')).forEach((button) => {
+          button.addEventListener('click', () => {
+            window.open(button.dataset.url, '_blank');
+          });
+        });
+
+        document.getElementById('refresh-model').addEventListener('click', () => {
+          google.script.run.withSuccessHandler((nextModel) => {
+            model = nextModel;
+            render();
+          }).getSidebarModel();
+        });
+
+        hydrateDynamicPanel();
+      }
+
+      function renderActionButton(action) {
+        if (action.mode === 'sheet') {
+          return `<button data-sheet="${escapeHtml(action.sheetName)}">${escapeHtml(action.label)}</button>`;
+        }
+        if (action.mode === 'prompt-tester') {
+          return '';
+        }
+        return `<button data-url="${escapeHtml(action.url)}">${escapeHtml(action.label)}</button>`;
+      }
+
+      function renderDynamicShell() {
+        if (model.selectedPanel === 'PROGRESSION') {
+          return `
+            <div class="section-title">Progression Exports</div>
+            <div class="dynamic-block" id="dynamic-progression-block">
+              <p class="status-line">Loading progression inventory from the local toolkit server.</p>
+            </div>
+          `;
+        }
+        if (model.selectedPanel === 'PLAYTEST') {
+          return `
+            <div class="section-title">Live Summary</div>
+            <div class="dynamic-block" id="dynamic-playtest-block">
+              <p class="status-line">Loading playtest summary from the local toolkit server.</p>
+            </div>
+          `;
+        }
+        if (model.selectedPanel === 'FEEDBACK') {
+          return `
+            <div class="section-title">Create Tester Sheet</div>
+            <div class="feedback-tester-input">
+              <input type="text" id="tester-name-input" placeholder="Tester name (e.g. Ana)" />
+              <button id="create-tester-sheet">Create</button>
+            </div>
+            <div class="section-title">Feedback Summary</div>
+            <div class="dynamic-block" id="dynamic-feedback-block">
+              <p class="status-line">Loading feedback summary from the local toolkit server.</p>
+            </div>
+          `;
+        }
+        return '';
+      }
+
+      function hydrateDynamicPanel() {
+        if (model.selectedPanel === 'PROGRESSION') {
+          hydrateProgressions();
+        }
+        if (model.selectedPanel === 'PLAYTEST') {
+          hydratePlaytestSummary();
+        }
+        if (model.selectedPanel === 'FEEDBACK') {
+          hydrateFeedbackPanel();
+        }
+      }
+
+      async function hydrateProgressions() {
+        const mount = document.getElementById('dynamic-progression-block');
+        if (!mount) return;
+        try {
+          const response = await fetch(`${model.localServerBaseUrl}/api/progressions`);
+          const payload = await response.json();
+          if (!payload.ok || !Array.isArray(payload.progressions) || payload.progressions.length === 0) {
+            mount.innerHTML = `<p class="status-line">No progressions were returned by the local toolkit server.</p>`;
+            return;
+          }
+          mount.innerHTML = `
+            <p class="inline-note">These buttons call the local export helper. They do not mutate the sheet.</p>
+            <div class="progression-grid">
+              ${payload.progressions.map(renderProgressionCard).join('')}
+            </div>
+          `;
+          Array.from(mount.querySelectorAll('[data-export-progression]')).forEach((button) => {
+            button.addEventListener('click', () => {
+              const progressionName = button.dataset.exportProgression;
+              window.open(`${model.localServerBaseUrl}/api/action/export-progression?name=${encodeURIComponent(progressionName)}`, '_blank');
+            });
+          });
+          Array.from(mount.querySelectorAll('[data-open-json]')).forEach((button) => {
+            button.addEventListener('click', () => {
+              window.open(`${model.localServerBaseUrl}/${button.dataset.openJson}`, '_blank');
+            });
+          });
+        } catch (_error) {
+          mount.innerHTML = `<p class="status-line">Local toolkit server unreachable. Start the server, then refresh the panel.</p>`;
+        }
+      }
+
+      async function hydratePlaytestSummary() {
+        const mount = document.getElementById('dynamic-playtest-block');
+        if (!mount) return;
+        try {
+          const response = await fetch(`${model.localServerBaseUrl}/api/playtest-summary`);
+          const payload = await response.json();
+          if (!payload.ok || !payload.summary) {
+            mount.innerHTML = `<p class="status-line">No canonical playtest summary is available yet. Generate or refresh it locally, then reopen this panel.</p>`;
+            return;
+          }
+          const summary = payload.summary;
+          const counts = summary.counts || {};
+          const latest = summary.latest_record || summary.latest_session || {};
+          const tweakCount = Array.isArray(summary.tweak_candidates) ? summary.tweak_candidates.length : 0;
+          mount.innerHTML = `
+            <div class="metric-grid">
+              <div class="metric-card"><strong>${escapeHtml(String(counts.total || 0))}</strong><span>Total records</span></div>
+              <div class="metric-card"><strong>${escapeHtml(String(counts.invalid_solved || 0))}</strong><span>Invalid solved</span></div>
+              <div class="metric-card"><strong>${escapeHtml(String(counts.solved || 0))}</strong><span>Solved</span></div>
+              <div class="metric-card"><strong>${escapeHtml(String(tweakCount))}</strong><span>Tweak candidates</span></div>
+            </div>
+            <div class="progression-card" style="margin-top: 10px;">
+              <strong>${escapeHtml(latest.level_name || 'No latest level')}</strong>
+              <div class="progression-meta">
+                ${escapeHtml(latest.board || 'Unknown board')} · ${escapeHtml(String(latest.validation_status || 'Unknown'))} · ${escapeHtml(String(latest.history_length || 0))} steps
+              </div>
+            </div>
+          `;
+        } catch (_error) {
+          mount.innerHTML = `<p class="status-line">Local toolkit server unreachable. Start the server, then refresh the panel.</p>`;
+        }
+      }
+
+      function hydrateFeedbackPanel() {
+        var createBtn = document.getElementById('create-tester-sheet');
+        var nameInput = document.getElementById('tester-name-input');
+        if (createBtn && nameInput) {
+          createBtn.addEventListener('click', function() {
+            var name = nameInput.value.trim();
+            if (!name) {
+              nameInput.style.borderColor = '#dc2626';
+              return;
+            }
+            nameInput.style.borderColor = '';
+            createBtn.disabled = true;
+            createBtn.textContent = 'Creating...';
+            google.script.run.withSuccessHandler(function(nextModel) {
+              model = nextModel;
+              render();
+            }).withFailureHandler(function(err) {
+              createBtn.disabled = false;
+              createBtn.textContent = 'Create';
+              alert('Error: ' + (err.message || err));
+            }).duplicateTemplateForTester(name);
+          });
+          nameInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') createBtn.click();
+          });
+        }
+
+        var mount = document.getElementById('dynamic-feedback-block');
+        if (!mount) return;
+        try {
+          var spreadsheet = model.spreadsheetUrl || '';
+          var sheets = model.sheets || [];
+          var feedbackSheets = sheets.filter(function(s) {
+            return s.name && s.name.indexOf('Feedback') >= 0;
+          });
+          if (feedbackSheets.length === 0) {
+            mount.innerHTML = '<p class="status-line">No feedback tabs found. Run "Sync feedback tabs" first.</p>';
+            return;
+          }
+          var testerSheets = feedbackSheets.filter(function(s) {
+            return s.name.indexOf('Feedback - ') === 0;
+          });
+          mount.innerHTML =
+            '<div class="metric-grid">' +
+              '<div class="metric-card"><strong>' + feedbackSheets.length + '</strong><span>Feedback tabs</span></div>' +
+              '<div class="metric-card"><strong>' + testerSheets.length + '</strong><span>Tester sheets</span></div>' +
+            '</div>' +
+            (testerSheets.length > 0 ? (
+              '<div class="section-title">Tester Sheets</div>' +
+              '<div class="sheet-list">' +
+              testerSheets.map(function(s) {
+                return '<div class="sheet-row"><strong>' + escapeHtml(s.name) + '</strong>' +
+                       '<small>' + escapeHtml(s.group) + ' · ' + escapeHtml(s.editRule || 'Tester fills YES/NO answers') + '</small></div>';
+              }).join('') +
+              '</div>'
+            ) : '');
+        } catch (_error) {
+          mount.innerHTML = '<p class="status-line">Could not load feedback summary.</p>';
+        }
+      }
+
+      function renderProgressionCard(progression) {
+        const slotCount = progression.slotCount == null ? 'Unknown slots' : `${progression.slotCount} slots`;
+        const bundleState = progression.bundleZipExists
+          ? `ZIP ready: ${progression.bundleZipPath}`
+          : (progression.bundleFolderExists ? `Bundle folder: ${progression.bundleFolderPath}` : 'JSON-only progression');
+        return `
+          <div class="progression-card">
+            <strong>${escapeHtml(progression.name || progression.fileName || 'Unnamed progression')}</strong>
+            <div class="progression-meta">${escapeHtml(slotCount)} · ${escapeHtml(bundleState)}</div>
+            <div class="progression-actions">
+              <button data-export-progression="${escapeHtml(progression.fileName || progression.name || '')}">Export ZIP</button>
+              <button data-open-json="${escapeHtml(progression.jsonPath || '')}">Open JSON</button>
+            </div>
+          </div>
+        `;
+      }
+
+      function escapeHtml(value) {
+        return String(value || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      render();
+    </script>
+  </body>
+</html>

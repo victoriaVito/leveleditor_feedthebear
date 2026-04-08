@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reconstruction Comparison — Original vs Reconstructed</title>
+  <style>
+    :root { --bg:#0f172a; --surface:#1e293b; --border:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#0ea5e9; --green:#10b981; --red:#ef4444; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",system-ui,sans-serif; background:var(--bg); color:var(--text); padding:24px; }
+    h1 { color:var(--accent); font-size:24px; margin:0 0 4px; }
+    .subtitle { color:var(--muted); margin:0 0 20px; font-size:14px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(580px,1fr)); gap:16px; }
+    .card { border:1px solid var(--border); border-radius:14px; background:var(--surface); padding:16px; }
+    .card-title { font-size:15px; font-weight:700; color:var(--accent); margin-bottom:4px; }
+    .card-meta { font-size:12px; color:var(--muted); margin-bottom:12px; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .compare-col { text-align:center; }
+    .compare-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+    .compare-label.original { color:var(--green); }
+    .compare-label.reconstructed { color:var(--accent); }
+    .compare img, .compare canvas { width:100%; max-width:260px; height:auto; border-radius:8px; border:1px solid var(--border); display:block; margin:0 auto; }
+    .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; justify-content:center; }
+    .tag { padding:3px 7px; border-radius:999px; font-size:10px; font-weight:600; }
+    .tag-ok { background:#166534; color:#86efac; }
+    .tag-warn { background:#92400e; color:#fde68a; }
+    .tag-info { background:#1e3a5f; color:#7dd3fc; }
+    #status { color:var(--muted); font-size:13px; margin-bottom:16px; }
+    .section-title { color:var(--muted); font-size:18px; font-weight:700; margin:24px 0 12px; border-bottom:1px solid var(--border); padding-bottom:8px; }
+  </style>
+</head>
+<body>
+  <h1>Reconstruction Comparison</h1>
+  <p class="subtitle">Original screenshots (left) vs reconstructed JSONs rendered on canvas (right). Verify that endpoints, blockers, and board size match.</p>
+  <div id="status">Loading...</div>
+
+  <div class="section-title">Editor Images (image11 - image28)</div>
+  <div id="grid-editor" class="grid"></div>
+
+  <div class="section-title">Timestamped Variants</div>
+  <div id="grid-timestamped" class="grid"></div>
+
+  <script>
+    var COLORS = {
+      blue:'#0EA5E9', green:'#10B981', orange:'#F97316', cyan:'#0891B2',
+      yellow:'#FBBF24', red:'#EF4444', purple:'#A855F7', pink:'#EC4899',
+      maroon:'#9F1239', teal:'#14B8A6', white:'#F8FAFC'
+    };
+
+    var EDITOR_FILES = [
+      'image11_level_editor','image19_level_editor','image20_level_editor',
+      'image21_level_editor','image24_level_editor','image25_level_editor',
+      'image28_level_editor'
+    ];
+
+    var TIMESTAMPED_FILES = [
+      'p_2_4_new_20260310165931','p_2_5_new_20260310170335',
+      'p_2_6_new_20260310170645','p_2_9_new_20260310195328',
+      'p_4_c_new_20260311075908','level_2'
+    ];
+
+    function drawBoard(canvas, level) {
+      var cols = level.gridSize.cols;
+      var rows = level.gridSize.rows;
+      var size = 250;
+      var cellW = size / cols;
+      var cellH = size / rows;
+      canvas.width = size;
+      canvas.height = (size / cols) * rows;
+      var ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#f7fbff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1;
+      for (var x = 0; x <= cols; x++) {
+        ctx.beginPath(); ctx.moveTo(x*cellW, 0); ctx.lineTo(x*cellW, canvas.height); ctx.stroke();
+      }
+      for (var y = 0; y <= rows; y++) {
+        ctx.beginPath(); ctx.moveTo(0, y*cellH); ctx.lineTo(canvas.width, y*cellH); ctx.stroke();
+      }
+
+      var blockers = level.blockers || [];
+      ctx.fillStyle = '#334155';
+      for (var i = 0; i < blockers.length; i++) {
+        var b = blockers[i];
+        ctx.fillRect(b.x*cellW+2, b.y*cellH+2, cellW-4, cellH-4);
+      }
+
+      var pairs = level.pairs || [];
+      for (var p = 0; p < pairs.length; p++) {
+        var pair = pairs[p];
+        var color = COLORS[pair.type] || COLORS[Object.keys(COLORS)[p % Object.keys(COLORS).length]];
+        var r = Math.min(cellW, cellH) * 0.35;
+
+        // Start endpoint (square)
+        ctx.fillStyle = color;
+        ctx.fillRect(pair.a.x*cellW + cellW/2 - r, pair.a.y*cellH + cellH/2 - r, r*2, r*2);
+
+        // End endpoint (circle)
+        ctx.beginPath();
+        ctx.arc(pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2, r, 0, Math.PI*2);
+        ctx.fill();
+
+        // Labels
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold ' + Math.floor(r*0.9) + 'px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        var label = String.fromCharCode(65 + p);
+        ctx.fillText(label, pair.a.x*cellW+cellW/2, pair.a.y*cellH+cellH/2);
+        ctx.fillText(label, pair.b.x*cellW+cellW/2, pair.b.y*cellH+cellH/2);
+      }
+    }
+
+    function createTag(text, cls) {
+      var span = document.createElement('span');
+      span.className = 'tag ' + cls;
+      span.textContent = text;
+      return span;
+    }
+
+    function buildCard(stem, level) {
+      var card = document.createElement('div');
+      card.className = 'card';
+
+      var title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = stem;
+      card.appendChild(title);
+
+      var pairCount = (level.pairs || []).length;
+      var blockerCount = (level.blockers || []).length;
+      var meta = document.createElement('div');
+      meta.className = 'card-meta';
+      meta.textContent = level.gridSize.cols + '\u00d7' + level.gridSize.rows + ' \u00b7 ' + pairCount + ' pairs \u00b7 ' + blockerCount + ' blockers';
+      card.appendChild(meta);
+
+      var compare = document.createElement('div');
+      compare.className = 'compare';
+
+      // Left: original screenshot
+      var leftCol = document.createElement('div');
+      leftCol.className = 'compare-col';
+      var leftLabel = document.createElement('div');
+      leftLabel.className = 'compare-label original';
+      leftLabel.textContent = 'ORIGINAL';
+      leftCol.appendChild(leftLabel);
+      var img = document.createElement('img');
+      img.src = '../levels/screenshots/' + stem + '.png';
+      img.alt = stem;
+      img.onerror = function() { this.style.display = 'none'; };
+      leftCol.appendChild(img);
+      compare.appendChild(leftCol);
+
+      // Right: reconstructed canvas
+      var rightCol = document.createElement('div');
+      rightCol.className = 'compare-col';
+      var rightLabel = document.createElement('div');
+      rightLabel.className = 'compare-label reconstructed';
+      rightLabel.textContent = 'RECONSTRUCTED';
+      rightCol.appendChild(rightLabel);
+      var canvas = document.createElement('canvas');
+      rightCol.appendChild(canvas);
+      compare.appendChild(rightCol);
+
+      card.appendChild(compare);
+
+      var tags = document.createElement('div');
+      tags.className = 'tags';
+      tags.appendChild(createTag(level.gridSize.cols + '\u00d7' + level.gridSize.rows, 'tag-info'));
+      tags.appendChild(createTag(pairCount + ' pairs', 'tag-info'));
+      tags.appendChild(createTag(blockerCount + ' blockers', 'tag-info'));
+      var diff = (level.meta && level.meta.manual_difficulty) || (level.difficultyTier === 1 ? 'EASY' : level.difficultyTier === 2 ? 'MEDIUM' : 'HARD');
+      tags.appendChild(createTag(diff, diff === 'EASY' ? 'tag-ok' : 'tag-warn'));
+      card.appendChild(tags);
+
+      return { card: card, canvas: canvas };
+    }
+
+    async function loadGroup(files, gridId, basePath) {
+      var grid = document.getElementById(gridId);
+      var loaded = 0;
+      for (var i = 0; i < files.length; i++) {
+        var stem = files[i];
+        try {
+          var resp = await fetch(basePath + stem + '.json');
+          if (!resp.ok) continue;
+          var level = await resp.json();
+          var result = buildCard(stem, level);
+          grid.appendChild(result.card);
+          (function(canvas, lvl) {
+            requestAnimationFrame(function() { drawBoard(canvas, lvl); });
+          })(result.canvas, level);
+          loaded++;
+        } catch (e) {
+          console.error('Failed: ' + stem, e);
+        }
+      }
+      return loaded;
+    }
+
+    async function main() {
+      var status = document.getElementById('status');
+      var total = 0;
+      total += await loadGroup(EDITOR_FILES, 'grid-editor', '../levels/');
+      total += await loadGroup(TIMESTAMPED_FILES, 'grid-timestamped', '../levels/');
+      status.textContent = 'Loaded ' + total + ' levels. Compare original (left) vs reconstructed (right).';
+    }
+
+    main();
+  </script>
+</body>
+</html>

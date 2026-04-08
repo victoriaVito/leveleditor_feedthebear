@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "difficulty-model-doc",
+  "prompt": "Escríbeme un doc que explique cómo funciona el sistema de dificultad del juego, con las 5 dimensiones que usamos. Guárdalo en docs/DIFFICULTY_MODEL.md",
+  "assertions": []
+}

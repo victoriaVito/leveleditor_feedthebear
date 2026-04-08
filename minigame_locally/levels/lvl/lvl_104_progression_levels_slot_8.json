@@ -1,0 +1,139 @@
+{
+  "id": "lvl_104_progression_levels_slot_8",
+  "difficultyTier": 8,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 3
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 4,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan_striped",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 1
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "VERY-LOW",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "B": [
+      [
+        3,
+        3
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "C": [
+      [
+        1,
+        4
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "D": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [
+      "progression_monotonicity"
+    ],
+    "canonical_id": "lvl_104",
+    "canonical_file": "lvl_104_progression_levels_slot_8.json",
+    "canonical_slug": "progression_levels_slot_8",
+    "canonicalized_at": "2026-03-12T09:14:58.437Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/progression_levels_slot_8.json",
+      "level_toolkit_web/workshop_jsons_game_unique/progression_levels_slot_8.json",
+      "levels/progression_levels_slot_8.json",
+      "levels/standalone/progression_levels_slot_8.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "id": "lvl_034_image25_level_editor",
+  "difficultyTier": 7,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 11,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "C": [
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_034",
+    "canonical_file": "lvl_034_image25_level_editor.json",
+    "canonical_slug": "image25_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.425Z",
+    "previous_files": [
+      "bundles/progression_b/jsons/image25_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image25_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image25_level_editor.json",
+      "levels/image25_level_editor.json",
+      "levels/standalone/image25_level_editor.json",
+      "niveles_workshop/jsons/image25_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

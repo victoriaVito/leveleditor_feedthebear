@@ -1,0 +1,87 @@
+{
+  "id": "lvl_057_new_level3_a",
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 5,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "new_level3_a.json",
+    "cloned_from": "levels/standalone/from_downloads_fixed/susanne_level_2_manager_ok.json",
+    "cloned_from_progression": "progressionA_afterTewak",
+    "cloned_slot": 3,
+    "display_slot": 3,
+    "canonical_id": "lvl_057",
+    "canonical_file": "lvl_057_new_level3_a.json",
+    "canonical_slug": "new_level3_a",
+    "canonicalized_at": "2026-03-12T09:14:58.429Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/new_level3_a.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_2_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/susanne_level_2_manager_ok.json",
+      "levels/new_level3_a.json",
+      "levels/standalone/susanne_level_2_manager_ok.json",
+      "levels/susanne_level_2_manager_ok.json"
+    ],
+    "manual_difficulty": "MEDIUM"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}
