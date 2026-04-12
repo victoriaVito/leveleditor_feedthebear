@@ -23,6 +23,8 @@ class SpreadsheetCommandSpec:
     command: tuple[str, ...]
     description: str
     interactive: bool = False
+    available: bool = True
+    issues: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -73,6 +75,10 @@ class SpreadsheetAdapterStatus:
     auth: SpreadsheetAuthStatus
     toolchain: SpreadsheetToolchainStatus
     commands: tuple[SpreadsheetCommandSpec, ...]
+    workbook_path: Path
+    workbook_exists: bool
+    payload_path: Path
+    payload_exists: bool
     ready: bool
     health: str
     messages: tuple[str, ...] = ()
@@ -87,6 +93,69 @@ class SpreadsheetLocalActionResult:
     message: str = ""
 
 
+@dataclass(frozen=True)
+class SpreadsheetRenameRow:
+    occurrence_id: str
+    progression: str
+    current_name: str
+    target_name: str
+    planned_file: str
+    rename_pending: bool
+    apply_status: str
+    notes: str
+
+
+@dataclass(frozen=True)
+class SpreadsheetRenamePlan:
+    payload_path: Path
+    payload_exists: bool
+    headers: tuple[str, ...]
+    rows: tuple[SpreadsheetRenameRow, ...]
+    total_rows: int
+    pending_count: int
+    applied_count: int
+    error_count: int
+
+
+def _resolve_root_path(root: Path, path_text: str | Path) -> Path:
+    path = Path(path_text)
+    return (root / path).resolve() if not path.is_absolute() else path.resolve()
+
+
+def _load_package_scripts(root: Path) -> dict[str, str]:
+    package_json = root / "package.json"
+    if not package_json.exists():
+        return {}
+    try:
+        payload = json.loads(package_json.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    scripts = payload.get("scripts")
+    if not isinstance(scripts, dict):
+        return {}
+    return {str(key): str(value) for key, value in scripts.items()}
+
+
+def _command_issues(spec: SpreadsheetCommandSpec, root: Path, package_scripts: dict[str, str]) -> tuple[str, ...]:
+    issues: list[str] = []
+    command = spec.command
+    executable = command[0]
+    if shutil.which(executable) is None:
+        issues.append(f"missing executable: {executable}")
+        return tuple(issues)
+
+    if command[:2] == ("npm", "run") and len(command) >= 3:
+        script_name = command[2]
+        if script_name not in package_scripts:
+            issues.append(f"package.json missing script: {script_name}")
+    elif executable == "bash" and len(command) >= 2:
+        script_path = _resolve_root_path(root, command[1])
+        if not script_path.exists():
+            issues.append(f"missing script: {script_path}")
+
+    return tuple(issues)
+
+
 def _load_json_file(path: Path) -> dict[str, object]:
     if not path.exists():
         return {}
@@ -95,6 +164,15 @@ def _load_json_file(path: Path) -> dict[str, object]:
     if not isinstance(parsed, dict):
         raise ValueError(f"Expected JSON object in {path}")
     return parsed
+
+
+def _truthy(value: object) -> bool:
+    text = str(value or "").strip().lower()
+    return text in {"1", "true", "yes", "y", "pending", "x"}
+
+
+def _normalize_apply_status(value: object) -> str:
+    return str(value or "").strip().upper()
 
 
 def _credential_payload(payload: dict[str, object]) -> tuple[str, str, str, str]:
@@ -133,8 +211,8 @@ def inspect_spreadsheet_auth(
     token_path: str | Path = DEFAULT_GOOGLE_TOKEN_PATH,
 ) -> SpreadsheetAuthStatus:
     root_path = find_project_root(root)
-    credentials_file = (root_path / Path(credentials_path)).resolve() if not Path(credentials_path).is_absolute() else Path(credentials_path).resolve()
-    token_file = (root_path / Path(token_path)).resolve() if not Path(token_path).is_absolute() else Path(token_path).resolve()
+    credentials_file = _resolve_root_path(root_path, credentials_path)
+    token_file = _resolve_root_path(root_path, token_path)
 
     credentials_exists = credentials_file.exists()
     token_exists = token_file.exists()
@@ -222,8 +300,9 @@ def inspect_spreadsheet_auth(
 
 
 def build_spreadsheet_command_specs(root: Path | None = None) -> tuple[SpreadsheetCommandSpec, ...]:
-    _ = find_project_root(root)
-    return (
+    root_path = find_project_root(root)
+    package_scripts = _load_package_scripts(root_path)
+    raw_specs = (
         SpreadsheetCommandSpec(
             key="sync_local",
             label="sync:sheets:local",
@@ -280,6 +359,56 @@ def build_spreadsheet_command_specs(root: Path | None = None) -> tuple[Spreadshe
             description="Validate the local runtime environment required by the toolkit.",
         ),
     )
+    return tuple(
+        SpreadsheetCommandSpec(
+            key=spec.key,
+            label=spec.label,
+            command=spec.command,
+            description=spec.description,
+            interactive=spec.interactive,
+            available=not bool(_command_issues(spec, root_path, package_scripts)),
+            issues=_command_issues(spec, root_path, package_scripts),
+        )
+        for spec in raw_specs
+    )
+
+
+def spreadsheet_command_choices(root: Path | None = None) -> tuple[str, ...]:
+    return tuple(spec.key for spec in build_spreadsheet_command_specs(root))
+
+
+def format_spreadsheet_command_help(root: Path | None = None) -> str:
+    lines = ["Spreadsheet commands:"]
+    for spec in build_spreadsheet_command_specs(root):
+        availability = "available" if spec.available else "blocked"
+        lines.append(f"- {spec.key} [{availability}] :: {spec.description}")
+        for issue in spec.issues:
+            lines.append(f"  issue: {issue}")
+    return "\n".join(lines)
+
+
+def recommend_spreadsheet_action_keys(status: SpreadsheetAdapterStatus) -> tuple[str, ...]:
+    command_map = {spec.key: spec for spec in status.commands if spec.available}
+    recommendations: list[str] = []
+
+    def add(key: str) -> None:
+        if key in command_map and key not in recommendations:
+            recommendations.append(key)
+
+    if not status.auth.connected:
+        add("oauth_setup")
+    if not status.workbook_exists or not status.payload_exists:
+        add("sync_local")
+    if not status.ready:
+        add("check_env")
+    if status.ready:
+        add("sync_push")
+        add("apply_sheet_renames")
+        add("sync_all")
+    add("validate_env_local")
+    add("sync_drive_sheets")
+    add("sync_apis")
+    return tuple(recommendations)
 
 
 def disconnect_spreadsheet_token(
@@ -287,7 +416,7 @@ def disconnect_spreadsheet_token(
     token_path: str | Path = DEFAULT_GOOGLE_TOKEN_PATH,
 ) -> SpreadsheetLocalActionResult:
     root_path = find_project_root(root)
-    token_file = (root_path / Path(token_path)).resolve() if not Path(token_path).is_absolute() else Path(token_path).resolve()
+    token_file = _resolve_root_path(root_path, token_path)
     if token_file.exists():
         token_file.unlink()
         return SpreadsheetLocalActionResult(
@@ -359,11 +488,29 @@ def inspect_spreadsheet_status(
     auth = inspect_spreadsheet_auth(root_path, credentials_path=credentials_path, token_path=token_path)
     toolchain = inspect_spreadsheet_toolchain()
     commands = build_spreadsheet_command_specs(root_path)
+    workbook_path = root_path / "output" / "spreadsheet" / "Levels_feed_the_bear_after_feedback_sync.xlsx"
+    payload_path = root_path / "output" / "spreadsheet" / "Levels_feed_the_bear_after_feedback_sync_payload.json"
+    workbook_exists = workbook_path.exists()
+    payload_exists = payload_path.exists()
+    command_map = {spec.key: spec for spec in commands}
+    required_command_keys = ("sync_local", "sync_push", "check_env", "validate_env_local")
+    commands_ready = all(command_map[key].available for key in required_command_keys if key in command_map)
     messages = list(auth.messages) + list(toolchain.issues)
-    ready = auth.connected and toolchain.node_available and toolchain.npm_available and toolchain.bash_available
+    messages.extend(f"{spec.key}: {issue}" for spec in commands for issue in spec.issues)
+    if not workbook_exists:
+        messages.append(f"Missing canonical workbook: {workbook_path}")
+    if not payload_exists:
+        messages.append(f"Missing canonical sync payload: {payload_path}")
+    ready = (
+        auth.connected
+        and toolchain.node_available
+        and toolchain.npm_available
+        and toolchain.bash_available
+        and commands_ready
+    )
     if ready:
         health = "ready"
-    elif auth.connected or auth.credentials_exists or auth.token_exists:
+    elif auth.connected or auth.credentials_exists or auth.token_exists or workbook_exists or payload_exists:
         health = "degraded"
     else:
         health = "blocked"
@@ -374,10 +521,137 @@ def inspect_spreadsheet_status(
         auth=auth,
         toolchain=toolchain,
         commands=commands,
+        workbook_path=workbook_path,
+        workbook_exists=workbook_exists,
+        payload_path=payload_path,
+        payload_exists=payload_exists,
         ready=ready,
         health=health,
         messages=tuple(messages),
     )
+
+
+def inspect_spreadsheet_rename_plan(
+    root: Path | None = None,
+    payload_path: str | Path | None = None,
+    *,
+    progression_filter: str = "",
+) -> SpreadsheetRenamePlan:
+    root_path = find_project_root(root)
+    resolved_payload = (
+        _resolve_root_path(root_path, payload_path)
+        if payload_path is not None
+        else root_path / "output" / "spreadsheet" / "Levels_feed_the_bear_after_feedback_sync_payload.json"
+    )
+    if not resolved_payload.exists():
+        return SpreadsheetRenamePlan(
+            payload_path=resolved_payload,
+            payload_exists=False,
+            headers=(),
+            rows=(),
+            total_rows=0,
+            pending_count=0,
+            applied_count=0,
+            error_count=0,
+        )
+    try:
+        payload = _load_json_file(resolved_payload)
+    except Exception:
+        return SpreadsheetRenamePlan(
+            payload_path=resolved_payload,
+            payload_exists=True,
+            headers=(),
+            rows=(),
+            total_rows=0,
+            pending_count=0,
+            applied_count=0,
+            error_count=0,
+        )
+    headers = tuple(str(item) for item in (payload.get("renameHeaders") or []) if str(item).strip())
+    source_rows = payload.get("renameRows") or []
+    if not isinstance(source_rows, list):
+        source_rows = []
+    progression_filter_text = str(progression_filter or "").strip().lower()
+    parsed_rows: list[SpreadsheetRenameRow] = []
+    for raw_row in source_rows:
+        if not isinstance(raw_row, list):
+            continue
+        row_values = [str(item or "") for item in raw_row]
+        row_by_header = {
+            headers[index]: row_values[index] if index < len(row_values) else ""
+            for index in range(len(headers))
+        }
+        progression_name = str(row_by_header.get("Progression") or "").strip()
+        if progression_filter_text and progression_filter_text not in progression_name.lower():
+            continue
+        current_name = str(row_by_header.get("Current Name") or "").strip()
+        target_name = str(row_by_header.get("Target Name") or "").strip()
+        apply_status = _normalize_apply_status(row_by_header.get("Apply Status"))
+        explicit_pending = _truthy(row_by_header.get("Rename Pending"))
+        inferred_pending = (
+            bool(target_name)
+            and target_name != current_name
+            and apply_status not in {"APPLIED", "DONE", "RENAMED", "ERROR", "FAILED", "CONFLICT"}
+        )
+        rename_pending = explicit_pending or inferred_pending
+        parsed_rows.append(
+            SpreadsheetRenameRow(
+                occurrence_id=str(row_by_header.get("Occurrence ID") or "").strip(),
+                progression=progression_name,
+                current_name=current_name,
+                target_name=target_name,
+                planned_file=str(row_by_header.get("Planned File") or "").strip(),
+                rename_pending=rename_pending,
+                apply_status=apply_status,
+                notes=str(row_by_header.get("Notes") or "").strip(),
+            )
+        )
+    pending_count = sum(1 for row in parsed_rows if row.rename_pending)
+    applied_count = sum(1 for row in parsed_rows if row.apply_status in {"APPLIED", "DONE", "RENAMED"})
+    error_count = sum(1 for row in parsed_rows if row.apply_status in {"ERROR", "FAILED", "CONFLICT"})
+    return SpreadsheetRenamePlan(
+        payload_path=resolved_payload,
+        payload_exists=True,
+        headers=headers,
+        rows=tuple(parsed_rows),
+        total_rows=len(parsed_rows),
+        pending_count=pending_count,
+        applied_count=applied_count,
+        error_count=error_count,
+    )
+
+
+def format_spreadsheet_rename_plan(
+    plan: SpreadsheetRenamePlan,
+    *,
+    limit: int = 30,
+) -> str:
+    lines = [
+        "Spreadsheet rename plan",
+        f"Payload: {plan.payload_path}",
+        f"Payload exists: {'yes' if plan.payload_exists else 'no'}",
+        f"Rows: {plan.total_rows}",
+        f"Pending: {plan.pending_count}",
+        f"Applied: {plan.applied_count}",
+        f"Errors: {plan.error_count}",
+    ]
+    if not plan.rows:
+        lines.append("No rename rows available.")
+        return "\n".join(lines)
+    lines.append("")
+    lines.append("Top rows:")
+    for row in plan.rows[: max(1, limit)]:
+        lines.append(
+            " - "
+            f"{row.occurrence_id or '-'} | {row.progression or '-'} | "
+            f"{row.current_name or '-'} -> {row.target_name or '-'} | "
+            f"pending={'yes' if row.rename_pending else 'no'} | "
+            f"status={row.apply_status or '-'}"
+        )
+    hidden = max(0, len(plan.rows) - max(1, limit))
+    if hidden > 0:
+        lines.append(f"... ({hidden} more row(s))")
+    return "\n".join(lines)
 
 
 def build_spreadsheet_command_env(
@@ -388,8 +662,8 @@ def build_spreadsheet_command_env(
     extra_env: dict[str, str] | None = None,
 ) -> dict[str, str]:
     root_path = find_project_root(root)
-    credentials_file = (root_path / Path(credentials_path)).resolve() if not Path(credentials_path).is_absolute() else Path(credentials_path).resolve()
-    token_file = (root_path / Path(token_path)).resolve() if not Path(token_path).is_absolute() else Path(token_path).resolve()
+    credentials_file = _resolve_root_path(root_path, credentials_path)
+    token_file = _resolve_root_path(root_path, token_path)
     env = dict(extra_env or {})
     env.update(
         {
@@ -415,6 +689,15 @@ def run_spreadsheet_command(
     if key not in spec_map:
         raise KeyError(f"Unknown spreadsheet command: {key}")
     spec = spec_map[key]
+    if not spec.available:
+        return SpreadsheetCommandResult(
+            key=key,
+            command=spec.command,
+            cwd=root_path,
+            ok=False,
+            returncode=-1,
+            error="; ".join(spec.issues),
+        )
     command = (*spec.command, *(tuple(args) if args else ()))
     merged_env = dict(os.environ)
     merged_env.update(
@@ -468,6 +751,8 @@ def run_spreadsheet_command(
 
 
 def format_spreadsheet_status(status: SpreadsheetAdapterStatus) -> str:
+    recommendations = recommend_spreadsheet_action_keys(status)
+    command_map = {spec.key: spec for spec in status.commands}
     lines = [
         "Google Sheets adapter boundary",
         f"Root: {status.root}",
@@ -479,6 +764,10 @@ def format_spreadsheet_status(status: SpreadsheetAdapterStatus) -> str:
         f"Connected: {'yes' if status.auth.connected else 'no'}",
         f"Client JSON: {status.auth.credentials_path}",
         f"Token file: {status.auth.token_path}",
+        f"Workbook: {'present' if status.workbook_exists else 'missing'}",
+        f"Workbook path: {status.workbook_path}",
+        f"Payload: {'present' if status.payload_exists else 'missing'}",
+        f"Payload path: {status.payload_path}",
     ]
     if status.auth.client_id:
         lines.append(f"Client ID: {status.auth.client_id}")
@@ -491,7 +780,17 @@ def format_spreadsheet_status(status: SpreadsheetAdapterStatus) -> str:
     if status.messages:
         lines.append("Messages:")
         lines.extend(f"- {message}" for message in status.messages)
+    if recommendations:
+        lines.append("Recommended actions:")
+        for key in recommendations:
+            spec = command_map.get(key)
+            if spec is None:
+                continue
+            lines.append(f"- {spec.key}: {spec.label} — {spec.description}")
     lines.append("Commands:")
     for spec in status.commands:
-        lines.append(f"- {spec.key}: {' '.join(spec.command)}")
+        availability = "available" if spec.available else "blocked"
+        lines.append(f"- {spec.key}: {' '.join(spec.command)} [{availability}]")
+        for issue in spec.issues:
+            lines.append(f"  issue: {issue}")
     return "\n".join(lines)

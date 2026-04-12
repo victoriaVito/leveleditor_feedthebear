@@ -11,6 +11,9 @@ if str(SRC_DIR) not in sys.path:
 from feed_the_bear_toolkit.domain.procedural import (
     analyze_solution_guide,
     classify_discard_reason,
+    extract_pair_feedback,
+    guide_trust_level,
+    has_critical_guide_issue,
     learning_driven_generation_adjustments,
     normalize_learning_buckets,
     normalize_learning_entry,
@@ -122,6 +125,20 @@ class ProceduralDomainTests(unittest.TestCase):
         self.assertTrue(guide["isClean"])
         self.assertEqual(guide["missingPaths"], 0)
         self.assertEqual(guide["issues"], [])
+        self.assertFalse(has_critical_guide_issue(guide))
+        self.assertEqual(guide_trust_level(guide), "HIGH")
+
+    def test_extract_pair_feedback_returns_pair_metrics(self) -> None:
+        feedback = extract_pair_feedback(sample_level())
+        self.assertEqual(len(feedback), 2)
+        self.assertEqual(feedback[0]["pair_id"], "A")
+        self.assertIn("manhattan", feedback[0])
+        self.assertIn("midpoint_r", feedback[0])
+
+    def test_guide_trust_level_downgrades_critical_issues(self) -> None:
+        guide = {"issues": ["paths_cross"], "missingPaths": 0, "overlaps": [], "isClean": False}
+        self.assertTrue(has_critical_guide_issue(guide))
+        self.assertEqual(guide_trust_level(guide), "LOW")
 
     def test_classify_discard_reason_handles_basic_cases(self) -> None:
         self.assertEqual(classify_discard_reason("too easy"), "too_easy")

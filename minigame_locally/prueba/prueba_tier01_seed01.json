@@ -1,0 +1,104 @@
+{
+  "id": "procedural_level_1_1",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        3,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "path_coverage": 0.5,
+    "path_straightness": 0.75,
+    "excess_bends_per_pair": 1.0,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "source_name": "procedural_level_1_1.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "path_coverage": 0.5,
+    "path_straightness": 0.75,
+    "excess_bends_per_pair": 1.0,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "full_path_area": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

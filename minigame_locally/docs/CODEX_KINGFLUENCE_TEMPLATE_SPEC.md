@@ -274,6 +274,6 @@ verify_page(961710850, {
 ## Files to reference
 
 - `docs/PROJECT_MASTER_HANDOFF.md` — full history, ROUTE-005/006/007
-- `ftb_confluence_restructure_code.html` — original template visual reference
-- `ftb_confluence_layout_guide.html` — before/after visual comparison
+- `docs/reference/confluence/ftb_confluence_restructure_code.html` — original template visual reference
+- `docs/reference/confluence/ftb_confluence_layout_guide.html` — before/after visual comparison
 - `scripts/update_kingfluence_recon.py` — existing Python script with auth pattern to copy from

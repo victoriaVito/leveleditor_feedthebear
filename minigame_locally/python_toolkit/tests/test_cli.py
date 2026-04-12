@@ -173,6 +173,26 @@ class ToolkitCliTests(unittest.TestCase):
                 (0, 1),
             )
 
+    @patch("feed_the_bear_toolkit.cli.launch_native_app")
+    def test_sessions_ui_command_launches_native_app_on_sessions_tab(self, mock_launch) -> None:
+        mock_launch.return_value = 0
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(["sessions-ui", "--play-session-path", "playtest/latest_play_session.json"]), 0)
+        mock_launch.assert_called_once()
+        args, kwargs = mock_launch.call_args
+        self.assertEqual(kwargs["initial_tab"], "sessions")
+        self.assertEqual(kwargs["play_session_path"], "playtest/latest_play_session.json")
+        self.assertEqual(kwargs["sessions_state_path"], ".local/toolkit_state/play_sessions_state.json")
+
+    @patch("feed_the_bear_toolkit.cli.launch_native_app")
+    def test_spreadsheet_ui_command_launches_native_app_on_spreadsheet_tab(self, mock_launch) -> None:
+        mock_launch.return_value = 0
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(["spreadsheet-ui"]), 0)
+        mock_launch.assert_called_once()
+        args, kwargs = mock_launch.call_args
+        self.assertEqual(kwargs["initial_tab"], "spreadsheet")
+
     def test_cli_mutating_commands_run_in_temp_repo(self) -> None:
         actual_root = find_project_root()
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -225,8 +245,23 @@ class ToolkitCliTests(unittest.TestCase):
             stdout="env ok\n",
         )
         with redirect_stdout(StringIO()):
-            self.assertEqual(main(["spreadsheet-run", "check_env"]), 0)
+            self.assertEqual(
+                main(
+                    [
+                        "spreadsheet-run",
+                        "check_env",
+                        "--credentials-path",
+                        ".local/custom_client.json",
+                        "--token-path",
+                        ".local/custom_token.json",
+                    ]
+                ),
+                0,
+            )
         mock_run.assert_called_once()
+        _args, kwargs = mock_run.call_args
+        self.assertEqual(kwargs["credentials_path"], ".local/custom_client.json")
+        self.assertEqual(kwargs["token_path"], ".local/custom_token.json")
 
     @patch("feed_the_bear_toolkit.cli.create_server")
     def test_serve_ui_command_creates_server_once(self, mock_create_server) -> None:
@@ -250,6 +285,55 @@ class ToolkitCliTests(unittest.TestCase):
         mock_create_server.assert_called_once()
         self.assertEqual(server.forever_called, 1)
         self.assertEqual(server.close_called, 1)
+
+    @patch("feed_the_bear_toolkit.cli.launch_native_app")
+    def test_native_ui_command_launches_native_app(self, mock_launch_native_app) -> None:
+        mock_launch_native_app.return_value = 0
+        with redirect_stdout(StringIO()):
+            self.assertEqual(
+                main(
+                    [
+                        "native-ui",
+                        "--tab",
+                        "pack",
+                        "--level-path",
+                        "levels/Progression B · Level 2.json",
+                        "--progression-path",
+                        "progressions/progression_g.json",
+                        "--pack-folder",
+                        "levels/progression_g",
+                        "--play-session-path",
+                        "playtest/latest_play_session.json",
+                        "--sessions-state-path",
+                        ".local/toolkit_state/play_sessions_state.json",
+                    ]
+                ),
+                0,
+            )
+        mock_launch_native_app.assert_called_once_with(
+            find_project_root(),
+            initial_tab="pack",
+            level_path="levels/Progression B · Level 2.json",
+            progression_path="progressions/progression_g.json",
+            pack_folder="levels/progression_g",
+            play_session_path="playtest/latest_play_session.json",
+            sessions_state_path=".local/toolkit_state/play_sessions_state.json",
+        )
+
+    @patch("feed_the_bear_toolkit.cli.launch_native_app")
+    def test_native_ui_manager_tab_launches_native_app(self, mock_launch_native_app) -> None:
+        mock_launch_native_app.return_value = 0
+        with redirect_stdout(StringIO()):
+            self.assertEqual(main(["native-ui", "--tab", "manager"]), 0)
+        mock_launch_native_app.assert_called_once_with(
+            find_project_root(),
+            initial_tab="manager",
+            level_path=None,
+            progression_path=None,
+            pack_folder=None,
+            play_session_path=None,
+            sessions_state_path=None,
+        )
 
     def _copy_fixture(self, source: Path, target: Path) -> None:
         target.parent.mkdir(parents=True, exist_ok=True)

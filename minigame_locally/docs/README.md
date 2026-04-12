@@ -1,8 +1,32 @@
 # Documentation Index
 
-This file is the canonical index of the project's documentation set. It lists the active docs, the supporting change logs, the coordination prompts, and the small number of historical references that still matter.
+This file is the canonical index of the project's documentation set. It lists the active docs, the supporting change logs, and the coordination prompts that still matter operationally.
 
 For a single resumable project context across chat threads, start with `docs/PROJECT_MASTER_HANDOFF.md`.
+
+## Recommended Reading Order
+
+Use this order when you need to understand the project quickly without reading the whole documentation tree.
+
+| If you need to... | Read this first | Then read |
+|---|---|---|
+| Understand the product, player experience, and design intent | `FEED_THE_BEAR_GDD.md` | `docs/LEVEL_DESIGN.md` |
+| Resume active project work after a gap or a new chat thread | `docs/PROJECT_MASTER_HANDOFF.md` | `memoria.md` |
+| Understand how the toolkit is structured technically | `docs/TOOLKIT_ARCHITECTURE.md` | `docs/SERVER_API_REFERENCE.md` |
+| Edit or validate level files safely | `docs/LEVEL_JSON_SCHEMA.md` | `docs/WORKFLOWS.md` |
+| Understand playtests, session exports, and learning data | `docs/PLAYTEST_SYSTEM.md` | `docs/PROCEDURAL_ML_DESIGN.md` |
+| Work on spreadsheet sync, control surfaces, or reporting | `docs/SPREADSHEET_CONTROL_PANEL.md` | `docs/NPM_SCRIPTS_REFERENCE.md` |
+| Work on bundles, mixes, and progression materialization | `docs/BUNDLES_AND_MIXES.md` | `docs/CURVE_BUILDER.md` |
+| Publish or coordinate documentation work across tools | `docs/README.md` | `docs/PROJECT_MASTER_HANDOFF.md` |
+
+## Fast Orientation
+
+If you only have 10 minutes, read these four files in order:
+
+1. `docs/PROJECT_MASTER_HANDOFF.md`
+2. `FEED_THE_BEAR_GDD.md`
+3. `docs/TOOLKIT_ARCHITECTURE.md`
+4. `docs/WORKFLOWS.md`
 
 ## External Design Source
 
@@ -60,7 +84,6 @@ For a single resumable project context across chat threads, start with `docs/PRO
 | `docs/agents/CODEX_PORTABLE_WRAPPER.md` | Thin Codex-specific wrapper that reuses the cross-model portable core without forking project rules. |
 | `docs/agents/COPILOT_PORTABLE_WRAPPER.md` | Thin GitHub Copilot-specific wrapper that reuses the cross-model portable core without forking project rules. |
 | `docs/agents/GEMINI_PORTABLE_WRAPPER.md` | Thin Gemini-specific wrapper that reuses the cross-model portable core without forking project rules. |
-| `archive/COPILOT_DOC_COMPLETION_2026-03-24.md` | Coordination prompt used for the 2026-03-24 documentation completion pass (archived). |
 
 ## Zapier Integration Docs
 
@@ -87,16 +110,13 @@ All Zapier-related documentation lives in `docs/zapier/`.
 | `changes/procedural.md` | Procedural generation and learning changes. |
 | `changes/documentation.md` | Documentation-specific changes and consolidation outcomes. |
 | `changes/coordination.md` | Coordination and cross-agent process changes. |
-| `changes/archive/memoria_full_2026-03-21.md` | Archived full memory log from before the short-index model. |
 
-## Historical And Archive Docs
+## Reference And Template Assets
 
 | File | Purpose |
 |---|---|
-| `archive/HANDOFF_2026-03-24.md` | Summary of the 2026-03-24 documentation pass: 7 new docs, 8 gaps closed, 31 VERIFY flags. |
-| `archive/progress.md` | Historical implementation narrative; useful as context, but not the canonical project design source of truth. |
-| `archive/procedural_playground_removed_ui_20260318.md` | Archived note about removed procedural playground UI. |
-| `archive/procedural_reference_generator_followup_20260318.md` | Archived procedural follow-up note from the March 18 cleanup cycle. |
+| `docs/reference/confluence/` | Legacy visual/reference HTML assets used to preserve Confluence structure experiments without keeping them in the repo root. |
+| `docs/templates/FTB_Level_Feedback_Template.xlsx` | Canonical spreadsheet template asset for playtest feedback capture. |
 
 ## Housekeeping Proposals
 
@@ -105,8 +125,16 @@ These changes are proposed only. They are not executed by this pass.
 - [x] ~~Move `PROJECT_AGENT_API_GUARDIAN.md` to `docs/agents/API_GUARDIAN.md`.~~ Done 2026-03-24. References updated in `AGENT_CHEATSHEET.md`, `docs/PROJECT_MASTER_HANDOFF.md`, and `docs/README.md`.
 - [x] ~~Move `PROJECT_AGENT_CONTENT_RECOVERY.md` to `docs/agents/CONTENT_RECOVERY.md`.~~ Done 2026-03-24.
 - [x] ~~Move `PROJECT_AGENT_PROCEDURAL_DESIGN_CRITIC.md` to `docs/agents/PROCEDURAL_DESIGN_CRITIC.md`.~~ Done 2026-03-24.
-- [x] ~~Move `progress.md` to `archive/progress.md`.~~ Done 2026-03-24. References in `docs/PROJECT_MASTER_HANDOFF.md` updated.
+- [x] ~~Move `progress.md` out of the active root-level docs.~~ Done 2026-03-24. The old path was later removed during the archive cleanup pass.
 - [x] ~~Add `*.old-format` to `.gitignore`.~~ Done 2026-03-24.
 - [x] ~~Add repo-wide `__pycache__/` to `.gitignore`.~~ Done 2026-03-24.
+- [x] ~~Move loose Confluence HTML references out of the repo root.~~ Done 2026-04-10 to `docs/reference/confluence/`.
+- [x] ~~Remove unused root `.skill` artifacts from the active repo layout.~~ Done 2026-04-10.
+- [x] ~~Move `playtest.zip` out of the repo root.~~ Done 2026-04-10 to `output/download_ready/playtest.zip`.
+- [x] ~~Consolidate root `screenshots/` into `levels/screenshots/`.~~ Done 2026-04-10.
+- [x] ~~Remove the duplicate `levels/benchmark_flow_free/screenshots/` mirror.~~ Done 2026-04-10.
+- [x] ~~Add `logs/`, `test-results/`, and `*.code-workspace` to `.gitignore`.~~ Done 2026-04-10.
+- [x] ~~Move `FTB_Level_Feedback_Template.xlsx` to a canonical templates folder.~~ Done 2026-04-10 to `docs/templates/FTB_Level_Feedback_Template.xlsx`.
+- [x] ~~Take `semanticworkbench/` out of the repo root active layout.~~ Done 2026-04-10.
 
-Already covered in `.gitignore`: `.env`, `credentials.json`, `.DS_Store`, `node_modules/`, `.local/`, `tmp/`, `output/`.
+Already covered in `.gitignore`: `.env`, `credentials.json`, `.DS_Store`, `node_modules/`, `.local/`, `tmp/`, `output/`, `logs/`, `test-results/`, and `*.code-workspace`.

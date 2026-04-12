@@ -49,3 +49,14 @@
 
 - Moved the canonical Claude/Codex handoff from the repo root to `docs/PROJECT_MASTER_HANDOFF.md` so the master project context now lives inside the documentation set.
 - Updated active coordination docs, prompts, watchers, router code, and test payloads to use `docs/PROJECT_MASTER_HANDOFF.md` as the canonical path.
+
+## 2026-04-09
+
+- Cleaned `docs/PROJECT_MASTER_HANDOFF.md` so `Router Queue` is now the only canonical actionable todo list in the file.
+- Rewrote `Immediate next actions` to mirror the still-active routes instead of stale historical blockers.
+- Re-labeled older TODO-style sections (`Coordination TODO`, session next steps, and TODO status snapshots) as historical context so they no longer compete with the live backlog.
+
+## 2026-04-10
+
+- Finished the repo-simplification housekeeping backlog that was previously tracked as proposed cleanup, including root artifact moves, screenshot path consolidation, template relocation, and removal of the unrelated `semanticworkbench/` subproject from the active repo workflow.
+- Updated `docs/README.md` so the canonical documentation index now records the simplified root layout and the final completed housekeeping state instead of leaving those items as open proposals.

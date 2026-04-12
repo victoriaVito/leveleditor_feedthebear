@@ -105,6 +105,19 @@ LEARNING_TEXT_TAG_PATTERNS = (
     ("bad_layout", (r"bad\s*layout", r"better\s*layout", r"ugly", r"feo", r"layout\s*issue", r"mal\s*diseno", r"mala\s*distribucion")),
 )
 
+CRITICAL_GUIDE_ISSUES = frozenset(
+    {
+        "missing_solution_path",
+        "paths_cross",
+        "path_wrong_endpoints",
+        "invalid_path_step",
+        "path_hits_blocker",
+        "path_out_of_bounds",
+        "path_through_foreign_endpoint",
+        "invalid_path_cell",
+    }
+)
+
 
 @dataclass(slots=True, frozen=True)
 class ProceduralCandidateScore:
@@ -457,16 +470,38 @@ def _feature_row(value: Any) -> dict[str, float | int]:
 
 
 def mean_feature(rows: Iterable[Any]) -> dict[str, float] | None:
-    valid_rows = [row for row in rows if row and math.isfinite(_feature_row(row)["boardWidth"]) and math.isfinite(_feature_row(row)["boardHeight"])]
+    valid_rows = []
+    for row in rows:
+        if not row:
+            continue
+        feature_row = _feature_row(row)
+        if not math.isfinite(feature_row["boardWidth"]) or not math.isfinite(feature_row["boardHeight"]):
+            continue
+        valid_rows.append((_mapping(row), feature_row))
     if not valid_rows:
         return None
     totals = {"boardWidth": 0.0, "boardHeight": 0.0, "pairs": 0.0, "blockers": 0.0, "moves": 0.0, "solutions": 0.0}
-    for row in valid_rows:
-        feature_row = _feature_row(row)
+    counts = {key: 0 for key in totals}
+    extras_totals: dict[str, float] = {}
+    extras_counts: dict[str, int] = {}
+    for row, feature_row in valid_rows:
         for key in totals:
             totals[key] += float(feature_row[key])
-    count = float(len(valid_rows))
-    return {key: value / count for key, value in totals.items()}
+            counts[key] += 1
+        for key, value in row.items():
+            parsed = _as_float(value)
+            if parsed is None:
+                continue
+            if key in totals:
+                continue
+            extras_totals[key] = extras_totals.get(key, 0.0) + parsed
+            extras_counts[key] = extras_counts.get(key, 0) + 1
+    result = {key: (totals[key] / counts[key]) for key in totals if counts[key]}
+    for key, total in extras_totals.items():
+        count = extras_counts.get(key, 0)
+        if count:
+            result[key] = total / count
+    return result
 
 
 def feature_distance(left: Any, right: Any) -> float:
@@ -570,6 +605,24 @@ def analyze_solution_guide(level: Any) -> dict[str, Any]:
     if overlaps:
         issues.add("paths_cross")
     return {"issues": sorted(issues), "overlaps": overlaps, "missingPaths": missing_paths, "isClean": not issues}
+
+
+def has_critical_guide_issue(guide: Any) -> bool:
+    issues = _mapping(guide).get("issues")
+    if not isinstance(issues, list):
+        return False
+    return any(str(issue) in CRITICAL_GUIDE_ISSUES for issue in issues)
+
+
+def guide_trust_level(guide: Any) -> str:
+    if not guide:
+        return "LOW"
+    if has_critical_guide_issue(guide):
+        return "LOW"
+    issues = _mapping(guide).get("issues")
+    if isinstance(issues, list) and issues:
+        return "MED"
+    return "HIGH"
 
 
 def _adjacent_blocker_count(blocker_set: set[tuple[int, int]], width: int, height: int, cell: tuple[int, int]) -> int:
@@ -1059,6 +1112,10 @@ def _extract_pair_feedback(level: Any, pair_ids: Iterable[str] | None = None) ->
     return result
 
 
+def extract_pair_feedback(level: Any, pair_ids: Iterable[str] | None = None) -> list[dict[str, float]]:
+    return _extract_pair_feedback(level, pair_ids)
+
+
 def _pair_feedback_distance(left: Any, right: Any) -> float:
     if not left or not right:
         return math.inf
@@ -1073,4 +1130,3 @@ def _pair_feedback_distance(left: Any, right: Any) -> float:
         + abs((left_map.get("midpoint_r") or 0) - (right_map.get("midpoint_r") or 0)) * 5
         + abs((left_map.get("midpoint_c") or 0) - (right_map.get("midpoint_c") or 0)) * 5
     )
-

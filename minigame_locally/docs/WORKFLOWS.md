@@ -4,11 +4,12 @@ This guide turns the repo's real scripts, server actions, and toolkit flows into
 
 ## A. I designed a new level in the editor - now what?
 
-1. Save the level from the `Level Editor + Play` view.
-   - Use the toolkit `Save` or `Save As New` button.
-   - The browser UI writes the level JSON through `server.mjs` to `levels/`.
-   - The screenshot button writes a PNG to `levels/screenshots/`.
+1. Save the level from the Python desktop editor.
+   - Launch: `python3 python_toolkit/start_desktop.py --tab editor`
+   - Use the `Save` or `Save As New` button in the native editor.
+   - The desktop shell writes the level JSON directly to `levels/` and the screenshot to `levels/screenshots/`.
    - Expected result: the editor log shows the saved JSON path and screenshot path.
+   - **Fallback only** (if desktop shell unavailable): open `level_toolkit_web/index.html` via `npm run sync:all` — the browser UI writes through `server.mjs`.
 
 2. Verify the files landed in the canonical repo folders.
    - Check that the level file exists under `levels/<name>.json`.

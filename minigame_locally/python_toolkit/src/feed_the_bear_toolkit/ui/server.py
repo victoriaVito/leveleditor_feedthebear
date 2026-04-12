@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import time
 from dataclasses import asdict, is_dataclass
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -16,6 +17,10 @@ from feed_the_bear_toolkit.domain.levels import (
     summarize_level_pack,
 )
 from feed_the_bear_toolkit.domain.procedural import (
+    analyze_solution_guide,
+    extract_features,
+    infer_learning_source_family,
+    normalize_learning_entry,
     learning_driven_generation_adjustments,
     normalize_learning_buckets,
     procedural_reference_intent_text,
@@ -31,6 +36,8 @@ from feed_the_bear_toolkit.domain.progressions import (
     validate_progression_levels,
 )
 from feed_the_bear_toolkit.domain.sessions import (
+    PlaySessionsState,
+    append_generated_levels_to_sessions_state,
     append_playtest_dataset_record,
     load_play_session_file,
     load_play_sessions_state,
@@ -109,6 +116,9 @@ def _level_details(path: Path) -> dict[str, Any]:
             "blocker_count": len(level.blockers),
             "solution_count": level.solution_count,
             "target_density": level.target_density,
+            "golden_path": _jsonify(level.golden_path),
+            "validation": _jsonify(level.validation),
+            "meta": _jsonify(level.meta),
             "blockers": [[cell.y, cell.x] for cell in level.blockers],
             "cells": cells,
             "pairs": [
@@ -192,6 +202,9 @@ def _editor_preview(payload: dict[str, Any], root: Path) -> dict[str, Any]:
     target_density = str(payload.get("target_density") or "").strip() or None
     pairs = _parse_json_text(payload.get("pairs_json"), base_raw.get("pairs") or [])
     blockers = _parse_json_text(payload.get("blockers_json"), base_raw.get("blockers") or [])
+    golden_path = _parse_json_text(payload.get("golden_path_json"), base_raw.get("goldenPath", base_raw.get("golden_path") or {}))
+    validation_blob = _parse_json_text(payload.get("validation_json"), base_raw.get("validation") or {})
+    meta_blob = _parse_json_text(payload.get("meta_json"), base_raw.get("meta") or {})
 
     raw = dict(base_raw)
     raw["id"] = level_id
@@ -209,6 +222,19 @@ def _editor_preview(payload: dict[str, Any], root: Path) -> dict[str, Any]:
         raw.pop("targetDensity", None)
     else:
         raw["targetDensity"] = target_density
+    if isinstance(golden_path, dict) and golden_path:
+        raw["goldenPath"] = golden_path
+    else:
+        raw.pop("goldenPath", None)
+        raw.pop("golden_path", None)
+    if isinstance(validation_blob, dict) and validation_blob:
+        raw["validation"] = validation_blob
+    else:
+        raw.pop("validation", None)
+    if isinstance(meta_blob, dict) and meta_blob:
+        raw["meta"] = meta_blob
+    else:
+        raw.pop("meta", None)
 
     level = parse_level_dict(raw)
     canonical_dict = serialize_level_to_canonical_dict(level, preferred_name)
@@ -259,6 +285,9 @@ def _level_details_from_level(level: Any) -> dict[str, Any]:
         "blocker_count": len(level.blockers),
         "solution_count": level.solution_count,
         "target_density": level.target_density,
+        "golden_path": _jsonify(level.golden_path),
+        "validation": _jsonify(level.validation),
+        "meta": _jsonify(level.meta),
         "blockers": [[cell.y, cell.x] for cell in level.blockers],
         "cells": cells,
         "pairs": [
@@ -271,6 +300,55 @@ def _level_details_from_level(level: Any) -> dict[str, Any]:
             for pair in level.pairs
         ],
     }
+
+
+def _build_learning_record(level: Any, decision: str, context: str, extra: dict[str, Any] | None = None) -> dict[str, Any]:
+    validation = validate_level_structure(level)
+    features = dict(extract_features(level))
+    features["solutions"] = validation.solution_count
+    features["solution_count"] = validation.solution_count
+    features["stored_solution_count"] = level.solution_count
+    guide = analyze_solution_guide(level)
+    raw = {
+        **dict(extra or {}),
+        "timestamp": int(time.time() * 1000),
+        "context": context,
+        "source_family": infer_learning_source_family(context, extra or {}),
+        "auto_recorded": bool(dict(extra or {}).get("auto_recorded")),
+        "level": level.difficulty_tier or 1,
+        "validation": {
+            "valid": validation.valid,
+            "solution_count": validation.solution_count,
+            "stored_solution_count": level.solution_count,
+            "solution_count_mismatch": (
+                level.solution_count is not None and validation.solution_count != level.solution_count
+            ),
+        },
+        "guide_issues": list(guide.get("issues") or []),
+        "features": features,
+    }
+    return normalize_learning_entry(raw, decision)
+
+
+def _save_learning_record(
+    *,
+    level: Any,
+    decision: str,
+    context: str,
+    project_root: Path,
+    learning_path: Path,
+    extra: dict[str, Any] | None = None,
+) -> tuple[Path, dict[str, Any], dict[str, Any]]:
+    buckets = normalize_learning_buckets(_load_optional_json(learning_path))
+    bucket_name = "approved" if decision == "approve" else "rejected"
+    record = _build_learning_record(level, decision, context, extra)
+    buckets[bucket_name].append(record)
+    saved = save_text_file(
+        str(learning_path.relative_to(project_root)),
+        json.dumps(buckets, indent=2, ensure_ascii=False),
+        project_root,
+    )
+    return saved.path, buckets, record
 
 
 def _play_session_summary() -> dict[str, Any]:
@@ -499,11 +577,98 @@ def dispatch_request(
             state = load_play_sessions_state(resolve_repo_path(Path(".local/toolkit_state/play_sessions_state.json"), project_root))
             saved = save_play_sessions_state(state, output, project_root)
             return HTTPStatus.OK, {"ok": True, "path": str(saved), "queue_count": len(state.queue)}
+        if method == "POST" and path == "/api/session-import-generated-batch":
+            sessions_path_value = Path(str(payload.get("sessions_path") or ".local/toolkit_state/play_sessions_state.json"))
+            sessions_path = sessions_path_value.resolve() if sessions_path_value.is_absolute() else (project_root / sessions_path_value).resolve()
+            state = (
+                load_play_sessions_state(sessions_path)
+                if sessions_path.exists()
+                else PlaySessionsState(
+                    queue=[],
+                    raw={"queue": [], "selectedId": None, "activeId": None, "editingId": None, "nextId": 1},
+                )
+            )
+            entries_payload = payload.get("levels") or []
+            if not isinstance(entries_payload, list) or not entries_payload:
+                raise ValueError("levels payload must be a non-empty JSON list")
+            parsed_entries: list[tuple[str, dict[str, Any]]] = []
+            for index, entry in enumerate(entries_payload):
+                if not isinstance(entry, dict):
+                    continue
+                name = str(entry.get("name") or f"learned_batch_{index + 1:02d}.json").strip()
+                canonical_json = str(entry.get("canonical_json") or "").strip()
+                if not canonical_json:
+                    continue
+                parsed = json.loads(canonical_json)
+                if not isinstance(parsed, dict):
+                    raise ValueError(f"Generated batch entry {index + 1} is not a JSON object")
+                parsed_entries.append((name, parsed))
+            if not parsed_entries:
+                raise ValueError("No valid generated batch entries were provided")
+            created = append_generated_levels_to_sessions_state(
+                state,
+                parsed_entries,
+                source=str(payload.get("source") or "learned"),
+            )
+            saved = save_play_sessions_state(
+                state,
+                str(sessions_path.relative_to(project_root)),
+                project_root,
+            )
+            return HTTPStatus.OK, {
+                "ok": True,
+                "path": str(saved),
+                "imported_count": len(created),
+                "queue_count": len(state.queue),
+                "first_id": created[0].id if created else None,
+            }
         if method == "POST" and path == "/api/append-playtest-record":
             origin = str(payload.get("origin", "python_ui"))
             session = load_play_session_file(resolve_repo_path(Path("playtest/latest_play_session.json"), project_root))
             saved = append_playtest_dataset_record(session, origin=origin, root=project_root)
             return HTTPStatus.OK, {"ok": True, "path": str(saved), "origin": origin}
+        if method == "POST" and path == "/api/procedural-learning-record":
+            canonical_json = str(payload.get("canonical_json") or "").strip()
+            if not canonical_json:
+                raise ValueError("Missing canonical_json for learning record")
+            parsed = json.loads(canonical_json)
+            if not isinstance(parsed, dict):
+                raise ValueError("Learning record canonical_json must decode to a JSON object")
+            level = parse_level_dict(parsed)
+            decision = str(payload.get("decision") or "").strip().lower()
+            if decision not in {"approve", "reject"}:
+                raise ValueError("decision must be approve or reject")
+            context = str(payload.get("context") or "python_ui").strip() or "python_ui"
+            learning_path_value = Path(str(payload.get("learning_path") or ".local/toolkit_state/learning_state.json"))
+            learning_path = learning_path_value.resolve() if learning_path_value.is_absolute() else (project_root / learning_path_value).resolve()
+            extra = {
+                "reason_code": str(payload.get("reason_code") or "").strip(),
+                "note_text": str(payload.get("note_text") or "").strip(),
+                "pair_ids": [str(item) for item in list(payload.get("pair_ids") or [])],
+                "keep_tags": [str(item) for item in list(payload.get("keep_tags") or [])],
+                "reference_intent": payload.get("reference_intent") if isinstance(payload.get("reference_intent"), dict) else {},
+                "candidate_name": str(payload.get("candidate_name") or "").strip(),
+                "base_file": str(payload.get("base_file") or "").strip(),
+                "source_name": str(payload.get("source_name") or "").strip(),
+                "auto_recorded": bool(payload.get("auto_recorded")),
+            }
+            saved_path, buckets, record = _save_learning_record(
+                level=level,
+                decision=decision,
+                context=context,
+                project_root=project_root,
+                learning_path=learning_path,
+                extra=extra,
+            )
+            return HTTPStatus.OK, {
+                "ok": True,
+                "path": str(saved_path),
+                "decision": decision,
+                "context": context,
+                "approved_count": len(buckets["approved"]),
+                "rejected_count": len(buckets["rejected"]),
+                "record": _jsonify(record),
+            }
         if method == "POST" and path == "/api/spreadsheet-run":
             key = str(payload.get("key") or "").strip()
             args = payload.get("args") or []

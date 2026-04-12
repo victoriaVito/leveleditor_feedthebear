@@ -1,0 +1,161 @@
+{
+  "id": "procedural_level_5_2",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 16,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 0,
+        "y": 4
+      },
+      "b": {
+        "x": 3,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 5
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "B": [
+      [
+        4,
+        0
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        2
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "path_coverage": 0.4722222222222222,
+    "path_straightness": 1.0,
+    "excess_bends_per_pair": 0.0,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "source_name": "procedural_level_5_2.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "path_coverage": 0.4722222222222222,
+    "path_straightness": 1.0,
+    "excess_bends_per_pair": 0.0,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "full_path_area": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

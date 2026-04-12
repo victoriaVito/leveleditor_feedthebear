@@ -29,7 +29,7 @@ graph TD
   C --> D[levelFromEditor / serializeLevelToDeveloperFormat / serializePlaySession]
   D --> E[saveLevelArtifactsToProject / saveSolvedSession / appendPlaytestDatasetRecord]
   E --> F[/api/save-file /api/save-data-url /api/append-file /api/create-zip]
-  F --> G[levels/ screenshots/ playtest/ bundles/ progressions/manager_state/]
+  F --> G[levels/ levels/screenshots/ playtest/ bundles/ progressions/manager_state/]
   C --> H[updateManagerTable / scheduleManagerMetadataSnapshot / materializeManagerProgressionsToRepo]
   H --> I[/api/sync-levels-workbook /api/apply-sheet-renames]
   C --> J[pushBrowserStateToLocalStore / hydrateBrowserStateFromLocalStore]
@@ -40,7 +40,7 @@ graph TD
 
 The important point is that the app has two parallel persistence paths:
 
-1. Canonical repo outputs such as `levels/`, `screenshots/`, `playtest/`, and `progressions/manager_state/`.
+1. Canonical repo outputs such as `levels/`, `levels/screenshots/`, `playtest/`, and `progressions/manager_state/`.
 2. Browser-local workspace snapshots in `localStorage` plus `.local/browser_state_exports/`.
 
 ## Key State Objects

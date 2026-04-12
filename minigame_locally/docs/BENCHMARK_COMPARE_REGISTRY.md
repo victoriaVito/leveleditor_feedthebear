@@ -32,12 +32,13 @@ node server.mjs
 
 - Source screenshots drop folder: `benchmark_flow_free/screenshots/`
 - Reconstructed JSONs: `levels/benchmark_flow_free/*.json`
-- Optional mirrored screenshots: `levels/benchmark_flow_free/screenshots/` (when present)
+- Benchmark screenshots now live only in the source drop folder above; the mirrored copy under `levels/benchmark_flow_free/screenshots/` was removed during repo simplification.
 
 **Compare UI**
 
 - `level_toolkit_web/benchmark_compare.html`
   - Each card shows the original screenshot next to the reconstructed JSON render.
+  - Original screenshot lookup now reads from `benchmark_flow_free/screenshots/` and falls back to `levels/screenshots/` only for level-preview images.
   - Screenshot lookup falls back across multiple directories (see the code in the page).
 
 **Analysis**
@@ -100,4 +101,3 @@ Cleanup actions taken:
 
 - Deleted the JSON + screenshot assets under `levels/` and `levels/screenshots/`.
 - Removed any remaining references from manager/progression snapshots so they do not reappear in the Level Manager after reload.
-

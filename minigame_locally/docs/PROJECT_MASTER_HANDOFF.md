@@ -29,9 +29,11 @@ Use this file as the default coordination layer between Codex and Claude for doc
 
 ### Immediate next actions
 
-- Keep gameplay and solver fixes flowing into `level_toolkit_web/app.js`, especially remaining target-directed DFS follow-ups noted later in this file.
-- Continue benchmark-level cleanup in the editor before the next benchmark re-analysis and Kingfluence update.
-- Retry live spreadsheet sync only after quota/session blockers have cooled down or been refreshed.
+This is the short human-readable summary of the live backlog. For ownership, status, and routing, use the `Router Queue` below as the canonical actionable list.
+
+- Continue `ROUTE-002`: ship the next gameplay-facing improvement in `level_toolkit_web/app.js`, prioritizing progression-level repair and validation clarity over more documentation work.
+- Unblock `ROUTE-008`: make toolkit bootstrap honor the canonical `progression_a` through `progression_i` set instead of restoring stale manager/workspace snapshots first.
+- Keep Kingfluence publish state honest: the local HTML is current, but live re-publish should happen only when the Chrome/Okta session is available again.
 - Route durable documentation changes through the canonical chain: `FEED_THE_BEAR_GDD.md` -> `docs/*.md` -> generated Kingfluence HTML -> this handoff.
 
 ## Current Status
@@ -42,8 +44,9 @@ Use this file as the default coordination layer between Codex and Claude for doc
 - On 2026-03-25 the canonical Kingfluence HTML was regenerated to remove the `Status` column from the `Original Progressions` tables while keeping the separate `Difficulty Curves` section, including `Progression C`.
 - On 2026-03-31 the spreadsheet live sync succeeded again with `npm run sync:sheets:local` after the canonical progression reorder. The workbook and payload regenerated cleanly and pushed to spreadsheet `1MIHkR4uePd7y8nSu1YGwiN2AGpvj-u8bRqzY-OXo86c`, refreshing `README`, `All Progressions`, `Level Manager state`, `Level Catalog`, `Procedural learning`, `Mix Planner`, `Level Renames`, and `Curve Builder`.
 - On 2026-03-31 the Confluence HTML was regenerated again at `output/confluence/feed_the_bear_full_page_confluence_safe.html`, but the live publish is still blocked locally: `publish_bear_confluence_report_live_chrome.mjs` now has the correct `KINGFLUENCE_PAGE_URL`, yet Chrome is not exposing DevTools on `127.0.0.1:9222`, so the publisher cannot attach to the signed-in session.
+- On 2026-04-09 the canonical Confluence HTML was regenerated again after the GDD product-vision expansion, so the publishable artifact is back in sync with `FEED_THE_BEAR_GDD.md`. The local output file is current; only live publish state remains dependent on Chrome session/debug availability.
 - The live re-publish attempt on 2026-03-25 was blocked by an expired Kingfluence/Okta session in Chrome. Next recovery step: sign in to Kingfluence in Chrome and re-run `KINGFLUENCE_PAGE_URL='https://kingfluence.com/display/~victoria.serrano/Feed+the+bear+-+level+design#reporting' node scripts/publish_bear_confluence_report_live_chrome.mjs`.
-- Codex attempted the image-to-level reconstruction pass on 2026-03-25. Local `screenshots/` sources are already materialized, but the additional images referenced in chat are currently blocked because they are not attached in this thread and were not found as new source files in the workspace. Canonical tracker: `docs/IMAGE_RECONSTRUCTION_TRACKER.md`.
+- Codex attempted the image-to-level reconstruction pass on 2026-03-25. Local screenshot sources are already materialized in the canonical repo paths, but the additional images referenced in chat are currently blocked because they are not attached in this thread and were not found as new source files in the workspace. Canonical tracker: `docs/IMAGE_RECONSTRUCTION_TRACKER.md`.
 - Kingfluence follow-up rule: preserve the existing expand/collapse behavior, including the page-level `Expand all` / `Collapse all` controls, in the next structure and publish pass.
 - Kingfluence page is publish-ready and already published.
 - Kingfluence live page was re-synced on 2026-03-24 after hardening the publisher for pretty `display/...` URLs and TinyMCE-backed edit pages. The live target remains `Feed the bear - level design`.
@@ -112,7 +115,7 @@ Use this file as the default coordination layer between Codex and Claude for doc
   - `FISH_COLORS_SYSTEM.md`
   - `PARALLEL_APIS_README.md`
   - `memoria.md`
-  - `archive/progress.md` as history, not as the main design doc
+  - removed historical progress dump; active coordination now lives only in the canonical docs listed above
 - If documentation changes affect spreadsheet, procedural design, or source-of-truth rules, reflect that in the GDD and only then propagate to other surfaces.
 - Tone rule: all design docs should explain the "why" (player experience, design intent) before the "what" (parameters, structures, paths). A new team member should understand what makes this game interesting before they understand how the repo is organized.
 
@@ -131,7 +134,9 @@ Use this file as the default coordination layer between Codex and Claude for doc
 - Procedural quality, discard reasoning, generation critique: `docs/agents/PROCEDURAL_DESIGN_CRITIC.md`
 - Documentation and publish coordination: `docs/PROJECT_MASTER_HANDOFF.md`
 
-## Pending publish checks
+## Publish State And Standing Rules
+
+These are standing publish notes and guardrails, not the canonical task backlog.
 
 - `FEED_THE_BEAR_GDD.md` is complete.
 - `docs/PLAYTEST_SYSTEM.md` now includes the operational `How To Read Results` section and should stay aligned with the Kingfluence trust caveat.
@@ -151,6 +156,7 @@ Use this file as the default coordination layer between Codex and Claude for doc
 ## Router Queue
 
 Use this section as the default machine-readable coordination queue for Claude, Codex, and Copilot work.
+This is the only canonical actionable todo list in this file. Other TODO-like sections below are historical notes unless they explicitly say otherwise.
 
 One task card per heading:
 
@@ -281,16 +287,16 @@ Changes made this session:
 6. **Generator overhaul**: Curve expanded (boards 4-8, pairs 2-8), mutation improved (+2 pairs, +3 clustered blockers, board up to 9x9), learning rebalanced (pairBias [-1,+4], boardDelta [-1,+2], blockerBias [-2,+4] penalizes meaningless_blockers).
 7. **Flow Free benchmark**: 16 levels analyzed, 7 patterns extracted, 16 JSONs in `levels/benchmark_flow_free/`, analysis in `docs/FLOW_FREE_BENCHMARK_ANALYSIS.md`.
 8. **ROUTE-004 completed**: 13 levels reconstructed from images, 23 mapped to existing JSONs.
-9. **22 benchmark screenshots** saved to `levels/benchmark_flow_free/screenshots/` and mapped to JSON names. 6 extra levels discovered (10x12, 12x12 boards).
+9. **22 benchmark screenshots** saved to `benchmark_flow_free/screenshots/` and mapped to JSON names. 6 extra levels discovered (10x12, 12x12 boards).
 10. **Comparison page**: `level_toolkit_web/benchmark_compare.html` shows original vs reconstructed side-by-side.
 11. **`vito` menu** recreated at `~/Documents/my_scripts/main_menu.py` with FtB tools + utilities.
 
-### What needs to happen next
+### Historical next steps from this session
 
 1. **Victoria will tweak benchmark JSONs in the Level Editor** — the endpoint positions don't match the originals well. Load each `ff_nivel*.json` in the editor, compare with the screenshot, fix positions, and save.
 2. **After tweaking**: Re-analyze the corrected levels to verify patterns still hold. Run validation on each.
 3. **DFS solver fix**: Apply target-directed DFS to `findOneSolutionPaths`, `findSampleSolutions`, `hasFullCoverSolution` in app.js. Only `countSolutions` has the fix so far.
-4. **6 new benchmark levels** need JSONs: `ff_nivel1_10x12`, `ff_nivel4_10x12`, `ff_nivel2_3_12x12`, `ff_nivel3_6_8x8`, `ff_nivel4_6_8x8`, `ff_nivel2_5_9x9`. Screenshots are in `levels/benchmark_flow_free/screenshots/`.
+4. **6 new benchmark levels** need JSONs: `ff_nivel1_10x12`, `ff_nivel4_10x12`, `ff_nivel2_3_12x12`, `ff_nivel3_6_8x8`, `ff_nivel4_6_8x8`, `ff_nivel2_5_9x9`. Screenshots are in `benchmark_flow_free/screenshots/`.
 5. **Spreadsheet sync**: Re-run `npm run sync:sheets:local` after the Level Editor tweaks to refresh screenshots and data.
 6. **Kingfluence update**: After benchmark levels are corrected, update the Kingfluence page with final benchmark data.
 
@@ -311,7 +317,7 @@ Changes made this session:
 - Codex lane: shipped code and toolkit behavior. Immediate owned work is the session-review improvement for invalid-but-solved levels, then the first level repair pass once the review surface is clearer.
 - Copilot lane: validation and tweak prioritization. Immediate owned outputs are already in: fix `progression_3_level3` first, then `progression_3_level7_v2`, then tighten `progression_3_level10_v2`.
 
-## What Remains Right Now
+## Current Gameplay Focus
 
 - Gameplay code: finish the session review signal so invalid solved levels stop looking deceptively healthy in the playtest flow.
 - Gameplay code: validate the new straightness rule against a few generated outputs and tune its weight if it over-favors trivial layouts.
@@ -320,7 +326,7 @@ Changes made this session:
 - Gameplay content: resume image-to-level reconstruction only after the missing chat-provided source images are reattached or copied into the workspace; current blocker is tracked in `docs/IMAGE_RECONSTRUCTION_TRACKER.md`.
 - Documentation: add the three must-add doc clarifications from `ROUTE-001`, then resolve the highest-value `[VERIFY]` items around early curve, pair ranges, and playtest metric interpretation.
 
-## Coordination TODO (2026-03-24)
+## Historical Coordination Notes (2026-03-24)
 
 - Imported the Copilot coordination roadmap from `~/.copilot/session-state/4267ce1a-25c8-42e0-a41e-e49f888ae0a1/plan.md` into the active handoff queue.
 - Keep the Copilot plan as the current reference for multi-model routing until its rules are materialized in a repo-level canonical doc.
@@ -1012,7 +1018,7 @@ Do not stop at “make this page nicer.” The more durable job is to make the d
      - `hasFullCoverSolution`
    - No extra patch required in this session for that specific item.
 
-### TODO status after this run
+### Historical TODO status after this run
 
 - [x] Remove >7x7 / 7x8 levels.
 - [ ] Manual benchmark endpoint tweaks in editor (requires visual side-by-side editing).
@@ -1021,7 +1027,7 @@ Do not stop at “make this page nicer.” The more durable job is to make the d
 - [ ] Sheets live sync retry after OAuth token refresh.
 - [ ] Kingfluence live publish after final benchmark decisions and active Chrome/Okta session.
 
-### Next concrete actions
+### Historical next concrete actions
 
 1. Refresh Google OAuth token used by `google_sheets_api.mjs`.
 2. Re-run `npm run sync:sheets:local`.
@@ -1264,7 +1270,7 @@ v70 change: the H1 + subtitle + badge row before the layout was wrapped in a mat
 
 ### Why no gradient
 
-Confluence Server at kingfluence.com strips `style` attributes from raw `<div>` elements. The gradient header approach from `ftb_confluence_restructure_code.html` (which used `div style="background: linear-gradient(...)"`) does not survive the content sanitiser. The `panel` macro with `bgColor` parameter is the correct Confluence-native substitute.
+Confluence Server at kingfluence.com strips `style` attributes from raw `<div>` elements. The gradient header approach from `docs/reference/confluence/ftb_confluence_restructure_code.html` (which used `div style="background: linear-gradient(...)"`) does not survive the content sanitiser. The `panel` macro with `bgColor` parameter is the correct Confluence-native substitute.
 
 ### For Codex
 

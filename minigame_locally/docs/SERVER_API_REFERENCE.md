@@ -26,7 +26,7 @@ The server is intentionally simple:
 - `/` maps to `/index.html`
 - requests under these prefixes are rooted at the matching project directory:
   - `/levels/` -> `levels/`
-  - `/screenshots/` -> `screenshots/`
+  - `/screenshots/` -> `levels/screenshots/`
   - `/progressions/` -> `progressions/`
   - `/playtest/` -> `playtest/`
   - `/bundles/` -> `bundles/`
@@ -127,7 +127,7 @@ Paths read or written by `server.mjs` itself:
 
 - `level_toolkit_web/` - default static UI root
 - `levels/` - static level files
-- `screenshots/` - static screenshots
+- `levels/screenshots/` - static level screenshots served through the legacy `/screenshots/` URL prefix
 - `progressions/` - static progression files
 - `playtest/` - static playtest data
 - `bundles/` - static bundle files and level validation input

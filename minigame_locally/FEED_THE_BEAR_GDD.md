@@ -10,6 +10,81 @@ The north star is "Lo logre yo": the player should feel that the solution was th
 
 This document is the canonical high-level design reference for the project. It explains the experience first, then the workflow and data model behind it.
 
+### Product Vision
+
+Feed the Bear should feel immediately understandable, visually inviting, and quietly smart.
+
+The product promise is not "look how hard this puzzle is." The product promise is "this game respects the player's intelligence." The board should read quickly, the rules should stay stable, and the challenge should come from meaningful route pressure rather than from noise, surprise punishment, or hidden rules.
+
+In product terms, the game sits in the space between comfort and mastery:
+
+- comfortable enough to enter in seconds
+- structured enough to support repeat play
+- deep enough to reward better reading and cleaner planning
+
+That combination matters because this is not only a level-design exercise. It is a lightweight, repeatable player experience that needs to hold attention without demanding a long tutorial or a heavy cognitive reset every time the player returns.
+
+### Player Promise
+
+Every level should make a simple promise to the player:
+
+- the board is readable
+- the rules are fair
+- the tension is intentional
+- the answer is discoverable
+
+If any of those fail, the player stops feeling clever and starts feeling managed. That is the line the product should avoid.
+
+### Intended Audience
+
+The primary audience is a casual mobile puzzle player who wants a clean mental challenge, not a punishing abstract logic exam.
+
+This player is willing to think, retry, and improve, but they are not here to decode an opaque system. They should be able to enter a board quickly, form a plan, test it, and understand why a level felt easy, tight, or satisfying.
+
+The game should therefore reward:
+
+- fast visual parsing
+- route planning
+- growing confidence across a progression
+
+It should avoid leaning on:
+
+- hidden-state complexity
+- rule exceptions
+- clutter that reads as difficulty but does not create better decisions
+
+### Why This Product Exists
+
+Within the broader ecosystem, Feed the Bear should provide a compact puzzle loop that is easy to enter, cheap to resume, and scalable through authored progressions plus curated recombinations.
+
+That makes the product strategically useful in three ways:
+
+1. It has a clear one-level session loop.
+2. It supports both handcrafted quality and content scalability.
+3. It creates a design space where readability, progression, and replayable variation can all be tuned without changing the core rules.
+
+The product does not need constant mechanic novelty to stay interesting. It needs strong board craft, trustworthy difficulty shaping, and a reliable feeling of earned success.
+
+### Product Pillars
+
+The current product direction can be summarized in four pillars.
+
+#### 1. Readable at a glance
+
+The player should understand the board's visual problem quickly. Endpoints, blockers, open lanes, and likely pressure zones should be legible before the player starts drawing.
+
+#### 2. Fair under pressure
+
+The board can be tight, but it should not feel arbitrary. Tension should come from route competition, sequencing, and purposeful constraint.
+
+#### 3. Rewarding to solve
+
+The solved state should feel earned. The player should be able to look back and feel that the answer made sense once seen.
+
+#### 4. Sustainable to produce
+
+The product should support an editorial pipeline where authored content, playtest evidence, synthetic review, and procedural assistance reinforce each other instead of fighting for authority.
+
 ## 2. How It Plays
 
 The core move is simple:
@@ -31,6 +106,31 @@ A . . B
 In this example, pair `A` reads as a short, direct connection, while pair `B` has to fight for the center space. The blockers turn a simple connect-the-dots board into a route-planning puzzle.
 
 The board should communicate its tension quickly. If the player cannot tell where the pressure is, the puzzle feels arbitrary instead of intentional.
+
+### Core Player Loop
+
+The core session loop is deliberately compact:
+
+1. Read the board.
+2. Form a route hypothesis.
+3. Commit paths in an order.
+4. Notice where the board pushes back.
+5. Adjust until the full layout resolves cleanly.
+
+That loop should feel brisk on easy boards and more deliberate on harder ones, but it should always remain understandable. The player should lose because the board asked for better planning, not because the product hid the problem.
+
+### Session Shape
+
+A good Feed the Bear session is short, clean, and mentally satisfying.
+
+In the ideal product rhythm:
+
+- the player opens a level and understands the board in seconds
+- the first route choices reveal the real tension
+- retries teach something visible
+- success feels like clarity, not brute force
+
+This makes the game suitable for repeat mobile play. The product should support short sessions naturally, while still allowing deeper engagement through progression arcs, replay, and comparison across boards.
 
 ### Move Budget and Extra Moves
 
@@ -69,6 +169,18 @@ The design principles are consistent across authored and procedural work:
 - Visual design and puzzle design are linked.
 
 If a board is dense but does not create tradeoffs, it is usually too flat.
+
+### Success Criteria
+
+At product level, a strong board should satisfy most of these conditions at once:
+
+- the player understands the problem quickly
+- the board creates real route tradeoffs
+- retries feel informative rather than random
+- the solved board looks coherent in hindsight
+- the level earns its slot in the progression
+
+Those criteria matter more than any single raw metric. Solution count, blocker count, or board size can support a good board, but they do not define one on their own.
 
 ## 4. Difficulty Model
 
@@ -127,6 +239,18 @@ A practical player-facing curve for levels `1` to `10` should read like this:
 | `10` | Close the arc with a synthesis board that feels earned. | `I solved something meaningful.` |
 
 The curve should step up in pulses, not rise linearly. The lighter slots matter because they make the later tests feel fair instead of merely dense.
+
+### Product Role Of Progression
+
+Progression is not just content ordering. It is the main product tool for building trust.
+
+When the curve is working:
+
+- early levels teach the visual language
+- middle levels prove that the game can surprise without becoming messy
+- later levels deliver earned pressure because the player already understands the contract
+
+When the curve is weak, even strong individual boards can feel wrong. A good level in the wrong slot still creates a bad product experience.
 
 `Progression C` still needs one explicit editorial confirmation. If `progression3_level1_v2.json` remains the opening board, then the family is intentionally sharper from slot `1`. If that is not the intent, the opening slot should move to a cleaner board and the current candidate should shift later in the arc.
 
@@ -302,6 +426,8 @@ How should levels 1 through 10 feel in player terms - linear, stepped, or S-shap
 Which levels teach, which reinforce, and which surprise?
 
 Those questions matter more than the raw number ranges, because the player experiences a curve, not a table.
+
+Another open product question is how strongly the game should lean into "calm clarity" versus "tight pressure" as its primary identity. Both can work, but the progression, move budgets, and blocker philosophy should eventually express one clearer product stance.
 
 ## 12. Related Docs
 

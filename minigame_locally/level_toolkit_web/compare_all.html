@@ -372,7 +372,7 @@
           const level = await resp.json();
           const result = buildCard(level, stem, {
             screenshot: stem,
-            extraImgDirs: ['../levels/benchmark_flow_free/screenshots/', '../benchmark_flow_free/screenshots/']
+            extraImgDirs: ['../benchmark_flow_free/screenshots/']
           });
           grid.appendChild(result.card);
           requestAnimationFrame(() => drawBoard(result.canvas, level, true));

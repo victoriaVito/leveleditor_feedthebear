@@ -700,8 +700,9 @@ function makeGrid(width, height, pairs, blockers) {
   return grid;
 }
 
-function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
+function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20, requireFullCoverage = false) {
   const blockedSet = new Set(blockers.map(([r, c]) => coordKey(r, c)));
+  const requiredOccupiedCells = boardWidth * boardHeight;
   const baseDirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
   const memo = new Map();
   const deadline = Date.now() + 5000; // 5 s time-limit to avoid browser hang
@@ -753,7 +754,7 @@ function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
   }
 
   function dfs(idx, occ) {
-    if (idx === pairs.length) return 1;
+    if (idx === pairs.length) return requireFullCoverage ? (occ.size === requiredOccupiedCells ? 1 : 0) : 1;
     const hash = `${idx}|${Array.from(occ).sort().join(";")}`;
     if (memo.has(hash)) return memo.get(hash);
 
@@ -769,7 +770,7 @@ function countSolutions(boardWidth, boardHeight, pairs, blockers, cap = 20) {
       const nextOcc = new Set(occ);
       path.forEach(([r, c]) => {
         const k = coordKey(r, c);
-        if (k !== endK) nextOcc.add(k);
+        if (requireFullCoverage || k !== endK) nextOcc.add(k);
       });
       total += dfs(idx + 1, nextOcc);
       if (total >= cap) {
@@ -3111,6 +3112,7 @@ function generateLevelRaw(levelNumber, seedOffset = 0) {
   });
 
   let currentCount = countSolutions(boardWidth, boardHeight, pairs, blockers, 20);
+  if (currentCount === 0) return null; // scaffold is unsolvable; caller should retry with a different seed
   while (pool.length) {
     pool.sort((left, right) => blockerPressureScore(right, scaffoldPath, boardWidth, boardHeight, next, blockers, learningAdjustments) - blockerPressureScore(left, scaffoldPath, boardWidth, boardHeight, next, blockers, learningAdjustments));
     const cell = pool.shift();
@@ -3217,13 +3219,20 @@ function generateLevel(levelNumber) {
   let bestScore = Number.NEGATIVE_INFINITY;
   for (let i = 0; i < attempts; i++) {
     const candidate = generateLevelRaw(levelNumber, i);
+    if (!candidate) continue;
     const score = scoreCandidateWithLearning(candidate);
     if (best === null || score > bestScore) {
       best = candidate;
       bestScore = score;
     }
   }
-  return best || generateLevelRaw(levelNumber, 0);
+  if (best) return best;
+  // Fallback: try extra seeds in case all initial scaffolds were unsolvable (very rare)
+  for (let i = 50; i < 62; i++) {
+    const fb = generateLevelRaw(levelNumber, i);
+    if (fb) return fb;
+  }
+  return generateLevelRaw(levelNumber, 0);
 }
 
 function generateProgression() {
@@ -3306,59 +3315,142 @@ function buildMutatedReferenceCandidate(baseLevel, baseFileName, adjustments, va
 
   let width = levelWidth(candidate);
   let height = levelHeight(candidate);
+  const syncBoardSize = () => {
+    candidate.board_size = width;
+    candidate.board_width = width;
+    candidate.board_height = height;
+  };
+  const snapshot = () => ({
+    width,
+    height,
+    pairs: (candidate.pairs || []).map((pair) => clonePair(pair)),
+    blockers: (candidate.blockers || []).map((cell) => [...cell])
+  });
+  const restore = (saved) => {
+    width = saved.width;
+    height = saved.height;
+    candidate.pairs = saved.pairs;
+    candidate.blockers = saved.blockers;
+    syncBoardSize();
+  };
+  const currentSolutionCount = () => countSolutions(width, height, candidate.pairs || [], candidate.blockers || [], 20);
+  const applyMutation = (mutator) => {
+    const saved = snapshot();
+    const result = mutator();
+    syncBoardSize();
+    if (result === false || currentSolutionCount() < 1) {
+      restore(saved);
+      return false;
+    }
+    return true;
+  };
+  const occupiedKeys = () => {
+    const occupied = new Set();
+    (candidate.pairs || []).forEach((pair) => {
+      occupied.add(coordKey(pair.start[0], pair.start[1]));
+      occupied.add(coordKey(pair.end[0], pair.end[1]));
+    });
+    return occupied;
+  };
+  const freeCellsForCandidate = () => {
+    const occupied = occupiedKeys();
+    const blockerSet = new Set((candidate.blockers || []).map(([r, c]) => coordKey(r, c)));
+    return allCells(width, height).filter(([r, c]) => !occupied.has(coordKey(r, c)) && !blockerSet.has(coordKey(r, c)));
+  };
+  const pickPairCells = (cells, pairVariantIndex) => {
+    if (cells.length < 2) return null;
+    let startIdx = pairVariantIndex % cells.length;
+    let endIdx = (cells.length - 1 - startIdx) % cells.length;
+    if (startIdx === endIdx) endIdx = (endIdx - 1 + cells.length) % cells.length;
+    const first = cells[startIdx];
+    const second = cells[endIdx];
+    if (!first || !second || (first[0] === second[0] && first[1] === second[1])) return null;
+    return [first, second];
+  };
 
+  syncBoardSize();
   if (normalized.board === "bigger" && width < 9 && height < 9) {
-    width += 1;
-    height += 1;
+    applyMutation(() => {
+      width += 1;
+      height += 1;
+    });
   } else if (normalized.board === "smaller" && canShrinkReferenceBoard(candidate)) {
-    width -= 1;
-    height -= 1;
+    applyMutation(() => {
+      width -= 1;
+      height -= 1;
+    });
   }
 
-  candidate.board_size = width;
-  candidate.board_width = width;
-  candidate.board_height = height;
-
-  const occupied = new Set();
-  (candidate.pairs || []).forEach((pair) => {
-    occupied.add(coordKey(pair.start[0], pair.start[1]));
-    occupied.add(coordKey(pair.end[0], pair.end[1]));
-  });
-
-  const maxPairsForBoard = Math.min(PAIR_IDS.length, Math.floor(width * height / 6));
+  let maxPairsForBoard = Math.min(PAIR_IDS.length, Math.floor(width * height / 6));
+  if (normalized.pairs === "more" && (candidate.pairs || []).length >= maxPairsForBoard && width < 9 && height < 9) {
+    applyMutation(() => {
+      width += 1;
+      height += 1;
+    });
+    maxPairsForBoard = Math.min(PAIR_IDS.length, Math.floor(width * height / 6));
+  }
   if (normalized.pairs === "more" && (candidate.pairs || []).length < maxPairsForBoard) {
     const addCount = Math.min(2, maxPairsForBoard - candidate.pairs.length);
     for (let a = 0; a < addCount; a++) {
-      const next = rng(7000 + variantIndex * 101 + a * 37);
-      const newPairId = String.fromCharCode(65 + candidate.pairs.length);
-      const nodes = chooseNodes(width, height, 1, next);
-      if (nodes[0]) {
-        candidate.pairs.push({ id: newPairId, start: nodes[0].start, end: nodes[0].end });
-        occupied.add(coordKey(nodes[0].start[0], nodes[0].start[1]));
-        occupied.add(coordKey(nodes[0].end[0], nodes[0].end[1]));
+      const cells = freeCellsForCandidate();
+      let added = false;
+      for (let attempt = 0; attempt < cells.length; attempt++) {
+        const pairCells = pickPairCells(cells, variantIndex + a + attempt);
+        if (!pairCells) break;
+        const newPairId = String.fromCharCode(65 + candidate.pairs.length);
+        if (applyMutation(() => {
+          candidate.pairs.push({ id: newPairId, start: pairCells[0], end: pairCells[1] });
+        })) {
+          added = true;
+          break;
+        }
       }
+      if (!added) continue;
     }
   } else if (normalized.pairs === "less" && (candidate.pairs || []).length > 2) {
-    candidate.pairs = candidate.pairs.slice(0, candidate.pairs.length - 1);
+    applyMutation(() => {
+      candidate.pairs = candidate.pairs.slice(0, candidate.pairs.length - 1);
+    });
   }
 
-  const blockerSet = new Set((candidate.blockers || []).map(([r, c]) => coordKey(r, c)));
-  const freeCells = allCells(width, height).filter(([r, c]) => !occupied.has(coordKey(r, c)) && !blockerSet.has(coordKey(r, c)));
-  if (normalized.blockers === "more" && freeCells.length > 2) {
-    const clusterSize = Math.min(3, freeCells.length);
-    const startIdx = variantIndex % freeCells.length;
+  if (normalized.blockers === "more") {
+    const clusterSize = Math.min(3, freeCellsForCandidate().length);
     for (let b = 0; b < clusterSize; b++) {
-      const idx = (startIdx + b) % freeCells.length;
-      candidate.blockers.push(freeCells[idx]);
+      const cells = freeCellsForCandidate();
+      if (!cells.length) break;
+      const startIdx = (variantIndex + b) % cells.length;
+      let added = false;
+      for (let attempt = 0; attempt < cells.length; attempt++) {
+        const blocker = cells[(startIdx + attempt) % cells.length];
+        if (applyMutation(() => {
+          candidate.blockers.push(blocker);
+        })) {
+          added = true;
+          break;
+        }
+      }
+      if (!added) continue;
     }
   } else if (normalized.blockers === "less" && candidate.blockers.length > 1) {
     const removeCount = Math.min(2, candidate.blockers.length - 1);
-    candidate.blockers = candidate.blockers.slice(0, candidate.blockers.length - removeCount);
+    for (let i = 0; i < removeCount; i++) {
+      let removed = false;
+      for (let index = candidate.blockers.length - 1; index >= 0; index--) {
+        if (applyMutation(() => {
+          candidate.blockers = candidate.blockers.filter((_, blockerIndex) => blockerIndex !== index);
+        })) {
+          removed = true;
+          break;
+        }
+      }
+      if (!removed) break;
+    }
   }
 
   const solved = findOneSolutionPaths(width, height, candidate.pairs || [], candidate.blockers || []);
   candidate.golden_path = solved || candidate.golden_path || {};
   candidate.solution_count = countSolutions(width, height, candidate.pairs || [], candidate.blockers || [], 20);
+  if (candidate.solution_count < 1) return null;
   candidate.moves = solved
     ? Object.values(solved).reduce((acc, path) => acc + Math.max(0, (path || []).length - 1), 0)
     : Number(candidate.moves || 0);
@@ -8408,6 +8500,7 @@ function generateFromReferenceLevels() {
     let bestDistance = Number.POSITIVE_INFINITY;
     for (let attempt = 0; attempt < 10; attempt++) {
       const candidate = generateLevelRaw(ref.level.level || 1, refIndex * 100 + attempt);
+      if (!candidate) continue;
       const report = validateLevel(candidate);
       if (!report.valid) continue;
       candidate.difficulty = levelDifficulty(ref.level);

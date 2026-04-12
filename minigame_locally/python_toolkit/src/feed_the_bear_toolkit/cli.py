@@ -57,6 +57,7 @@ from feed_the_bear_toolkit.services.spreadsheet import (
     run_spreadsheet_command,
 )
 from feed_the_bear_toolkit.ui.app import app_status
+from feed_the_bear_toolkit.ui.native_app import launch_native_app
 from feed_the_bear_toolkit.ui.server import create_server
 
 
@@ -69,6 +70,38 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers.add_parser("status", help="Show scaffold status")
     subparsers.add_parser("ui-status", help="Show Python UI shell status")
+    native_ui_parser = subparsers.add_parser("native-ui", help="Run the native Python desktop UI without a local server")
+    native_ui_parser.add_argument(
+        "--tab",
+        default="status",
+        choices=("status", "editor", "levels", "manager", "progressions", "pack", "sessions", "procedural", "spreadsheet"),
+        help="Initial native UI tab to open",
+    )
+    native_ui_parser.add_argument("--level-path", default=None, help="Initial level path")
+    native_ui_parser.add_argument("--progression-path", default=None, help="Initial progression path")
+    native_ui_parser.add_argument("--pack-folder", default=None, help="Initial pack folder")
+    native_ui_parser.add_argument("--play-session-path", default=None, help="Initial play session path")
+    native_ui_parser.add_argument("--sessions-state-path", default=None, help="Initial sessions state path")
+    sessions_ui_parser = subparsers.add_parser("sessions-ui", help="Open the native desktop UI focused on the Sessions review queue")
+    sessions_ui_parser.add_argument("--level-path", default=None, help="Initial level path")
+    sessions_ui_parser.add_argument("--progression-path", default=None, help="Initial progression path")
+    sessions_ui_parser.add_argument("--pack-folder", default=None, help="Initial pack folder")
+    sessions_ui_parser.add_argument("--play-session-path", default="playtest/latest_play_session.json", help="Initial play session path")
+    sessions_ui_parser.add_argument(
+        "--sessions-state-path",
+        default=".local/toolkit_state/play_sessions_state.json",
+        help="Initial sessions state path",
+    )
+    spreadsheet_ui_parser = subparsers.add_parser("spreadsheet-ui", help="Open the native desktop UI focused on the Spreadsheet control panel")
+    spreadsheet_ui_parser.add_argument("--level-path", default=None, help="Initial level path")
+    spreadsheet_ui_parser.add_argument("--progression-path", default=None, help="Initial progression path")
+    spreadsheet_ui_parser.add_argument("--pack-folder", default=None, help="Initial pack folder")
+    spreadsheet_ui_parser.add_argument("--play-session-path", default=None, help="Initial play session path")
+    spreadsheet_ui_parser.add_argument(
+        "--sessions-state-path",
+        default=None,
+        help="Initial sessions state path",
+    )
     serve_ui_parser = subparsers.add_parser("serve-ui", help="Run the Python-hosted local UI shell")
     serve_ui_parser.add_argument("--host", default="127.0.0.1", help="Bind host")
     serve_ui_parser.add_argument("--port", default=8765, type=int, help="Bind port")
@@ -248,6 +281,16 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Optional timeout in seconds",
     )
+    spreadsheet_run_parser.add_argument(
+        "--credentials-path",
+        default=".local/google_oauth_client.json",
+        help="Repo-relative or absolute credentials JSON path",
+    )
+    spreadsheet_run_parser.add_argument(
+        "--token-path",
+        default=".local/google_sheets_token.json",
+        help="Repo-relative or absolute token JSON path",
+    )
     spreadsheet_disconnect_parser = subparsers.add_parser("spreadsheet-disconnect", help="Remove the saved Google Sheets API token")
     spreadsheet_disconnect_parser.add_argument(
         "--token-path",
@@ -322,8 +365,8 @@ def build_parser() -> argparse.ArgumentParser:
 
 def handle_status() -> int:
     print("Feed the Bear Python toolkit scaffold is installed.")
-    print("Status: domain, pack QA, repo I/O, progression read/write, playtest/session persistence, procedural scoring boundary, and spreadsheet adapter boundary are available.")
-    print("Next target: wire procedural and spreadsheet flows deeper into the Python UI shell and push parity further against the web toolkit.")
+    print("Status: domain, pack QA, repo I/O, progression read/write, sessions/review, procedural parity, spreadsheet adapters, and Python UI shell are available.")
+    print("Operational mode: Python toolkit is the default path; web toolkit remains documented fallback.")
     return 0
 
 
@@ -332,10 +375,40 @@ def handle_ui_status() -> int:
     return 0
 
 
-def handle_serve_ui(host: str, port: int) -> int:
-    print(f"Serving Feed the Bear Python UI on http://{host}:{port}")
-    serve_ui(host=host, port=port, root=find_project_root())
-    return 0
+def handle_native_ui(args: argparse.Namespace) -> int:
+    return launch_native_app(
+        find_project_root(),
+        initial_tab=args.tab,
+        level_path=args.level_path,
+        progression_path=args.progression_path,
+        pack_folder=args.pack_folder,
+        play_session_path=args.play_session_path,
+        sessions_state_path=args.sessions_state_path,
+    )
+
+
+def handle_sessions_ui(args: argparse.Namespace) -> int:
+    return launch_native_app(
+        find_project_root(),
+        initial_tab="sessions",
+        level_path=args.level_path,
+        progression_path=args.progression_path,
+        pack_folder=args.pack_folder,
+        play_session_path=args.play_session_path,
+        sessions_state_path=args.sessions_state_path,
+    )
+
+
+def handle_spreadsheet_ui(args: argparse.Namespace) -> int:
+    return launch_native_app(
+        find_project_root(),
+        initial_tab="spreadsheet",
+        level_path=args.level_path,
+        progression_path=args.progression_path,
+        pack_folder=args.pack_folder,
+        play_session_path=args.play_session_path,
+        sessions_state_path=args.sessions_state_path,
+    )
 
 
 def handle_paths(root: Path) -> int:
@@ -644,8 +717,21 @@ def handle_spreadsheet_status(credentials_path: str, token_path: str) -> int:
     return 0 if status.ready else 1
 
 
-def handle_spreadsheet_run(key: str, args: list[str], timeout: float | None) -> int:
-    result = run_spreadsheet_command(key, find_project_root(), args=args, timeout=timeout)
+def handle_spreadsheet_run(
+    key: str,
+    args: list[str],
+    timeout: float | None,
+    credentials_path: str,
+    token_path: str,
+) -> int:
+    result = run_spreadsheet_command(
+        key,
+        find_project_root(),
+        args=args,
+        timeout=timeout,
+        credentials_path=credentials_path,
+        token_path=token_path,
+    )
     print(f"ok={str(result.ok).lower()}")
     print(f"key={result.key}")
     print(f"command={' '.join(result.command)}")
@@ -820,6 +906,12 @@ def main(argv: list[str] | None = None) -> int:
         return handle_status()
     if args.command == "ui-status":
         return handle_ui_status()
+    if args.command == "native-ui":
+        return handle_native_ui(args)
+    if args.command == "sessions-ui":
+        return handle_sessions_ui(args)
+    if args.command == "spreadsheet-ui":
+        return handle_spreadsheet_ui(args)
     if args.command == "serve-ui":
         return handle_serve_ui(args.host, args.port)
     if args.command == "paths":
@@ -875,7 +967,13 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "spreadsheet-status":
         return handle_spreadsheet_status(args.credentials_path, args.token_path)
     if args.command == "spreadsheet-run":
-        return handle_spreadsheet_run(args.key, args.args, args.timeout)
+        return handle_spreadsheet_run(
+            args.key,
+            args.args,
+            args.timeout,
+            args.credentials_path,
+            args.token_path,
+        )
     if args.command == "spreadsheet-disconnect":
         return handle_spreadsheet_disconnect(args.token_path)
     if args.command == "spreadsheet-clear-cache":

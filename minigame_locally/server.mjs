@@ -213,7 +213,7 @@ async function serveStatic(req, res) {
   const staticRoots = [
     { prefix: "/levels/", dir: path.join(ROOT_DIR, "levels") },
     { prefix: "/benchmark_flow_free/", dir: path.join(ROOT_DIR, "benchmark_flow_free") },
-    { prefix: "/screenshots/", dir: path.join(ROOT_DIR, "screenshots") },
+    { prefix: "/screenshots/", dir: path.join(ROOT_DIR, "levels", "screenshots") },
     { prefix: "/progressions/", dir: path.join(ROOT_DIR, "progressions") },
     { prefix: "/playtest/", dir: path.join(ROOT_DIR, "playtest") },
     { prefix: "/bundles/", dir: path.join(ROOT_DIR, "bundles") },

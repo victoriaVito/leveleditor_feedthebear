@@ -4,10 +4,11 @@ import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Iterable
 
-from feed_the_bear_toolkit.domain.levels import level_height, level_tier, level_width
+from feed_the_bear_toolkit.domain.levels import level_height, level_tier, level_width, parse_level_dict
 from feed_the_bear_toolkit.domain.models import MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, MIN_BOARD_SIZE
+from feed_the_bear_toolkit.domain.validation import validate_level_structure
 from feed_the_bear_toolkit.services.config import find_project_root, resolve_repo_path
 from feed_the_bear_toolkit.services.repo_io import append_text_file, save_text_file
 
@@ -70,6 +71,117 @@ def _level_difficulty(level: dict[str, Any]) -> str:
     if tier <= 7:
         return "MEDIUM"
     return "HARD"
+
+
+def _pair_color(index: int) -> str:
+    palette = (
+        "#0EA5E9",
+        "#0284C7",
+        "#0891B2",
+        "#06B6D4",
+        "#10B981",
+        "#84CC16",
+        "#EAB308",
+        "#F97316",
+        "#EF4444",
+    )
+    return palette[index % len(palette)]
+
+
+def _build_runtime_grid(level: dict[str, Any]) -> list[list[str]]:
+    width = level_width(level) or 0
+    height = level_height(level) or 0
+    grid = [["EMPTY" for _ in range(width)] for _ in range(height)]
+    blockers = level.get("blockers") or []
+    for blocker in blockers:
+        if isinstance(blocker, (list, tuple)) and len(blocker) == 2:
+            row = _as_int(blocker[0])
+            col = _as_int(blocker[1])
+            if row is not None and col is not None and 0 <= row < height and 0 <= col < width:
+                grid[row][col] = "BLOCKED"
+    for pair in level.get("pairs") or []:
+        if not isinstance(pair, dict):
+            continue
+        pair_id = str(pair.get("id") or "").strip() or "A"
+        for suffix, key in (("1", "start"), ("2", "end")):
+            cell = pair.get(key)
+            if isinstance(cell, (list, tuple)) and len(cell) == 2:
+                row = _as_int(cell[0])
+                col = _as_int(cell[1])
+                if row is not None and col is not None and 0 <= row < height and 0 <= col < width:
+                    grid[row][col] = f"NODE_{pair_id}{suffix}"
+    return grid
+
+
+def level_to_session_level_dict(level: dict[str, Any], preferred_name: str = "") -> dict[str, Any]:
+    normalized = _clone_json(level)
+    width = level_width(normalized)
+    height = level_height(normalized)
+    pairs: list[dict[str, Any]] = []
+    for index, raw_pair in enumerate(list(normalized.get("pairs") or [])):
+        if not isinstance(raw_pair, dict):
+            continue
+        pair_id = str(raw_pair.get("id") or "").strip() or chr(65 + index)
+        start = raw_pair.get("start")
+        end = raw_pair.get("end")
+        if not isinstance(start, (list, tuple)) and isinstance(raw_pair.get("a"), dict):
+            start = [raw_pair["a"].get("y"), raw_pair["a"].get("x")]
+        if not isinstance(end, (list, tuple)) and isinstance(raw_pair.get("b"), dict):
+            end = [raw_pair["b"].get("y"), raw_pair["b"].get("x")]
+        pairs.append(
+            {
+                "id": pair_id,
+                "start": [int(_as_int(start[0]) or 0), int(_as_int(start[1]) or 0)] if isinstance(start, (list, tuple)) and len(start) == 2 else [0, 0],
+                "end": [int(_as_int(end[0]) or 0), int(_as_int(end[1]) or 0)] if isinstance(end, (list, tuple)) and len(end) == 2 else [0, 0],
+                "color": raw_pair.get("color") or _pair_color(index),
+                "type": str(raw_pair.get("type") or "").strip(),
+            }
+        )
+    blockers: list[list[int]] = []
+    for raw_blocker in list(normalized.get("blockers") or []):
+        if isinstance(raw_blocker, dict):
+            row = _as_int(raw_blocker.get("y"))
+            col = _as_int(raw_blocker.get("x"))
+        elif isinstance(raw_blocker, (list, tuple)) and len(raw_blocker) == 2:
+            row = _as_int(raw_blocker[0])
+            col = _as_int(raw_blocker[1])
+        else:
+            continue
+        if row is None or col is None:
+            continue
+        blockers.append([row, col])
+
+    runtime = normalized
+    runtime["level"] = _as_int(runtime.get("level")) or _as_int(runtime.get("difficultyTier")) or 1
+    runtime["board_size"] = width
+    runtime["board_width"] = width
+    runtime["board_height"] = height
+    runtime["pairs"] = pairs
+    runtime["blockers"] = blockers
+    runtime["grid"] = runtime.get("grid") if isinstance(runtime.get("grid"), list) else _build_runtime_grid(runtime)
+    runtime["moves"] = _as_int(runtime.get("moves")) or 0
+    solution_count = _as_int(runtime.get("solution_count"))
+    if solution_count is None:
+        solution_count = _as_int(runtime.get("solutionCount"))
+    runtime["solution_count"] = solution_count or 0
+    target_density = runtime.get("target_density")
+    if target_density in {None, ""}:
+        target_density = runtime.get("targetDensity")
+    if isinstance(target_density, str):
+        runtime["target_density"] = target_density
+    runtime["difficulty"] = _level_difficulty(runtime)
+    golden_path = runtime.get("golden_path")
+    if not isinstance(golden_path, dict):
+        golden_path = runtime.get("goldenPath")
+    runtime["golden_path"] = _clone_json(golden_path) if isinstance(golden_path, dict) else {}
+    runtime["validation"] = dict(runtime.get("validation") or {})
+    runtime["meta"] = dict(runtime.get("meta") or {})
+    if preferred_name:
+        runtime["meta"].setdefault("source_name", preferred_name)
+        runtime.setdefault("name", Path(preferred_name).stem)
+    if runtime.get("id"):
+        runtime.setdefault("name", str(runtime["id"]))
+    return runtime
 
 
 @dataclass(slots=True)
@@ -135,6 +247,104 @@ class SessionQueueItem:
 class PlaySessionsState:
     queue: list[SessionQueueItem] = field(default_factory=list)
     raw: dict[str, Any] = field(default_factory=dict)
+
+
+SESSION_REVIEW_STATUSES = ("PENDING", "APPROVED", "REJECTED")
+
+
+def _normalize_text_list(values: Iterable[Any] | None) -> list[str]:
+    normalized: list[str] = []
+    for item in list(values or []):
+        text = str(item).strip()
+        if text:
+            normalized.append(text)
+    return normalized
+
+
+def find_session_queue_item(state: PlaySessionsState, item_id: int | str | None) -> SessionQueueItem | None:
+    target = _as_int(item_id)
+    if target is None:
+        return None
+    for item in state.queue:
+        if item.id == target:
+            return item
+    return None
+
+
+def session_queue_item_label(item: SessionQueueItem) -> str:
+    return (
+        f"id={item.id if item.id is not None else '-'}"
+        f" | file={item.file or 'unnamed'}"
+        f" | source={item.source or 'unknown'}"
+        f" | review={item.review_status or 'PENDING'}"
+        f" | validation={item.validation_status or 'UNKNOWN'}"
+        f" | changed={'yes' if item.changed else 'no'}"
+    )
+
+
+def summarize_play_sessions_state(state: PlaySessionsState) -> dict[str, Any]:
+    review_counts = {status: 0 for status in SESSION_REVIEW_STATUSES}
+    for item in state.queue:
+        status = (item.review_status or "PENDING").strip().upper()
+        if status not in review_counts:
+            review_counts[status] = 0
+        review_counts[status] += 1
+    selected_id = _as_int(state.raw.get("selectedId"))
+    selected_item = find_session_queue_item(state, selected_id)
+    active_id = _as_int(state.raw.get("activeId"))
+    editing_id = _as_int(state.raw.get("editingId"))
+    return {
+        "queue_count": len(state.queue),
+        "pending_count": review_counts.get("PENDING", 0),
+        "approved_count": review_counts.get("APPROVED", 0),
+        "rejected_count": review_counts.get("REJECTED", 0),
+        "changed_count": sum(1 for item in state.queue if item.changed),
+        "selected_id": selected_id,
+        "selected_label": session_queue_item_label(selected_item) if selected_item else "",
+        "active_id": active_id,
+        "editing_id": editing_id,
+        "review_counts": review_counts,
+    }
+
+
+def select_session_queue_item(state: PlaySessionsState, item_id: int | str | None) -> SessionQueueItem | None:
+    item = find_session_queue_item(state, item_id)
+    if item is None:
+        if item_id is None:
+            state.raw["selectedId"] = None
+            state.raw["activeId"] = None
+            state.raw["editingId"] = None
+        return None
+    state.raw["selectedId"] = item.id
+    state.raw["activeId"] = item.id
+    state.raw["editingId"] = item.id
+    return item
+
+
+def update_session_queue_item_feedback(
+    item: SessionQueueItem,
+    *,
+    review_status: str | None = None,
+    feedback_decision: str | None = None,
+    feedback_reason_code: str | None = None,
+    feedback_keep_tags: Iterable[Any] | None = None,
+    feedback_pair_ids: Iterable[Any] | None = None,
+    feedback_note: str | None = None,
+    changed: bool = True,
+) -> SessionQueueItem:
+    normalized_status = str(review_status or "").strip().upper()
+    normalized_decision = str(feedback_decision or "").strip().lower()
+    if normalized_status:
+        item.review_status = normalized_status
+    elif normalized_decision in {"approve", "reject"}:
+        item.review_status = "APPROVED" if normalized_decision == "approve" else "REJECTED"
+    item.feedback_decision = normalized_decision
+    item.feedback_reason_code = str(feedback_reason_code or "").strip()
+    item.feedback_keep_tags = _normalize_text_list(feedback_keep_tags)
+    item.feedback_pair_ids = _normalize_text_list(feedback_pair_ids)
+    item.feedback_note = str(feedback_note or "").strip()
+    item.changed = changed
+    return item
 
 
 def parse_play_session_dict(raw: dict[str, Any]) -> PlaySessionSnapshot:
@@ -268,9 +478,9 @@ def parse_session_queue_item(raw: dict[str, Any]) -> SessionQueueItem:
         manager_item_id=_as_int(raw.get("managerItemId")),
         saved_path=str(raw.get("savedPath") or ""),
         screenshot_path=str(raw.get("screenshotPath") or ""),
-        review_status=str(raw.get("reviewStatus") or "").strip() or None,
+        review_status=str(raw.get("reviewStatus") or "").strip().upper() or None,
         validation_status=str(raw.get("validationStatus") or "").strip() or None,
-        feedback_decision=str(raw.get("feedbackDecision") or ""),
+        feedback_decision=str(raw.get("feedbackDecision") or "").strip().lower(),
         feedback_reason_code=str(raw.get("feedbackReasonCode") or ""),
         feedback_keep_tags=[str(item) for item in list(raw.get("feedbackKeepTags") or [])],
         feedback_pair_ids=[str(item) for item in list(raw.get("feedbackPairIds") or [])],
@@ -364,3 +574,68 @@ def save_play_sessions_state(
     project_root = root.resolve() if root is not None else find_project_root()
     result = save_text_file(relative_path, serialize_play_sessions_state_json(state), project_root)
     return result.path
+
+
+def append_generated_levels_to_sessions_state(
+    state: PlaySessionsState,
+    entries: Iterable[tuple[str, dict[str, Any]]],
+    *,
+    source: str = "learned",
+) -> list[SessionQueueItem]:
+    next_id = _as_int(state.raw.get("nextId")) or max((item.id or 0 for item in state.queue), default=0) + 1
+    created: list[SessionQueueItem] = []
+    for name, level in entries:
+        runtime_level = level_to_session_level_dict(level, name)
+        validation = validate_level_structure(parse_level_dict(_clone_json(level)))
+        item = SessionQueueItem(
+            id=next_id,
+            file=Path(name).stem or name,
+            source=source,
+            changed=False,
+            manager_item_id=None,
+            saved_path="",
+            screenshot_path="",
+            review_status="PENDING",
+            validation_status="OK" if validation.valid else "INVALID",
+            feedback_decision="",
+            feedback_reason_code="",
+            feedback_keep_tags=[],
+            feedback_pair_ids=[],
+            feedback_note="",
+            level=runtime_level,
+            original_level=_clone_json(runtime_level),
+            raw={},
+        )
+        state.queue.append(item)
+        created.append(item)
+        next_id += 1
+    if created and state.raw.get("selectedId") is None:
+        select_session_queue_item(state, created[0].id)
+    state.raw["nextId"] = next_id
+    return created
+
+
+def append_play_session_to_sessions_state(
+    state: PlaySessionsState,
+    session: PlaySessionSnapshot,
+    *,
+    source: str = "play_session",
+    name: str = "latest_play_session.json",
+    saved_path: str = "playtest/latest_play_session.json",
+) -> SessionQueueItem:
+    created = append_generated_levels_to_sessions_state(
+        state,
+        [
+            (
+                name,
+                _clone_json(session.level),
+            )
+        ],
+        source=source,
+    )
+    item = created[0]
+    item.saved_path = saved_path
+    item.raw["saved_path"] = saved_path
+    if session.saved_at:
+        item.raw["session_saved_at"] = session.saved_at
+    return item

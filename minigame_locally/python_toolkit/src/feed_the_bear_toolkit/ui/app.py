@@ -26,9 +26,9 @@ PROGRESS_STEPS = (
     ("repo I/O", "done"),
     ("progressions read/write", "done"),
     ("sessions + playtest", "done"),
-    ("procedural parity", "in_progress"),
-    ("spreadsheet adapters", "in_progress"),
-    ("Python UI shell", "in_progress"),
+    ("procedural parity", "done"),
+    ("spreadsheet adapters", "done"),
+    ("Python UI shell", "done"),
 )
 
 
@@ -716,6 +716,15 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
                   <label class="full">Blockers JSON
                     <textarea name="blockers_json">[]</textarea>
                   </label>
+                  <label class="full">Golden path JSON
+                    <textarea name="golden_path_json">{{}}</textarea>
+                  </label>
+                  <label class="full">Validation JSON
+                    <textarea name="validation_json">{{}}</textarea>
+                  </label>
+                  <label class="full">Meta JSON
+                    <textarea name="meta_json">{{}}</textarea>
+                  </label>
                   <label class="full">Output path
                     <input name="output" value="{html.escape(defaults['editor_output'])}">
                   </label>
@@ -1048,6 +1057,9 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         solution_count: level.solution_count ?? '',
         target_density: level.target_density || '',
         decal: Boolean(level.decal),
+        golden_path: level.golden_path || level.goldenPath || {{}},
+        validation: level.validation || {{}},
+        meta: level.meta || {{}},
         pairs: (level.pairs || []).map((pair) => ({{
           id: pair.id,
           type: pair.type || 'blue',
@@ -1077,6 +1089,9 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         end: pair.end,
       }})), null, 2);
       form.elements.blockers_json.value = JSON.stringify(level.blockers || [], null, 2);
+      form.elements.golden_path_json.value = JSON.stringify(level.golden_path || {{}}, null, 2);
+      form.elements.validation_json.value = JSON.stringify(level.validation || {{}}, null, 2);
+      form.elements.meta_json.value = JSON.stringify(level.meta || {{}}, null, 2);
     }}
 
     function renderEditorPairSelect() {{
@@ -1190,9 +1205,7 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     function loadLevelIntoEditor(level, sourcePath = '') {{
       if (!level) return;
       editorState.level = cloneLevelForEditor(level);
-      if (sourcePath) {{
-        document.getElementById('level-editor-form').elements.source_path.value = sourcePath;
-      }}
+      document.getElementById('level-editor-form').elements.source_path.value = sourcePath || '';
       renderEditorPairSelect();
       syncFormFromEditorState();
       renderEditorBoard();
@@ -1438,13 +1451,27 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       const learningPath = automationFormData('procedural-form').learning_path || {json.dumps(defaults['learning_path'])};
       const payload = await requestJson(`/api/procedural-generate-batch?start_level=${{encodeURIComponent(data.start_level || {json.dumps(defaults['session_batch_start'])})}}&end_level=${{encodeURIComponent(data.end_level || {json.dumps(defaults['session_batch_end'])})}}&count=${{encodeURIComponent(data.count || {json.dumps(defaults['session_batch_count'])})}}&learning_path=${{encodeURIComponent(learningPath)}}`);
       learnedBatchLevels = (payload.levels || []).map((entry, index) => hydrateVariantEntry(entry, 'batch', index));
+      const importPayload = learnedBatchLevels.length
+        ? await requestJson('/api/session-import-generated-batch', {{
+            method: 'POST',
+            headers: {{ 'Content-Type': 'application/json' }},
+            body: JSON.stringify({{
+              source: 'learned',
+              levels: learnedBatchLevels.map((entry) => ({{
+                name: entry.name,
+                canonical_json: entry.canonical_json,
+              }})),
+            }})
+          }})
+        : null;
       renderVariantList('session-batch-list', learnedBatchLevels, 'batch');
       renderStats('state-summary-stats', [
         {{ label: 'Requested', value: payload.requested_count }},
         {{ label: 'Produced', value: payload.produced_count }},
         {{ label: 'Attempts', value: payload.attempts }},
+        {{ label: 'Queued', value: importPayload?.imported_count ?? 0 }},
       ]);
-      document.getElementById('state-output').textContent = JSON.stringify(payload, null, 2);
+      document.getElementById('state-output').textContent = JSON.stringify({{ generation: payload, imported: importPayload }}, null, 2);
     }}
 
     function automationFormData(formId) {{
@@ -1506,6 +1533,7 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
 
     async function saveVariant(entry) {{
+      await persistLearningDecision(entry, entry.sourceKind || 'procedural', 'save');
       const payload = await requestJson('/api/save-procedural-candidate', {{
         method: 'POST',
         headers: {{ 'Content-Type': 'application/json' }},
@@ -1520,6 +1548,43 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
 
     function variantPool(kind) {{
       return kind === 'batch' ? learnedBatchLevels : proceduralVariants;
+    }}
+
+    function variantContext(kind, action) {{
+      if (kind === 'batch') {{
+        return {{
+          open: 'python_ui_batch_open',
+          keep: 'python_ui_batch_keep',
+          save: 'python_ui_batch_save',
+          discard: 'python_ui_batch_discard',
+        }}[action] || 'python_ui_batch';
+      }}
+      return {{
+        open: 'python_ui_editor_variant_open',
+        keep: 'python_ui_reference_keep',
+        save: 'python_ui_reference_save',
+        discard: 'python_ui_reference_discard',
+      }}[action] || 'python_ui_reference';
+    }}
+
+    async function persistLearningDecision(entry, kind, action, extra = {{}}) {{
+      if (!entry?.canonical_json) return null;
+      return requestJson('/api/procedural-learning-record', {{
+        method: 'POST',
+        headers: {{ 'Content-Type': 'application/json' }},
+        body: JSON.stringify({{
+          decision: action === 'discard' ? 'reject' : 'approve',
+          context: variantContext(kind, action),
+          canonical_json: entry.canonical_json,
+          reason_code: entry.discardReason || '',
+          note_text: entry.discardNote || '',
+          pair_ids: entry.discardPairs || [],
+          reference_intent: entry.reference_intent || {{}},
+          candidate_name: entry.name || '',
+          learning_path: automationFormData('procedural-form').learning_path || {json.dumps(defaults['learning_path'])},
+          ...extra,
+        }})
+      }});
     }}
 
     async function spreadsheetLocalAction(kind) {{
@@ -1617,7 +1682,8 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       const pool = sourceKind === 'batch' ? learnedBatchLevels : proceduralVariants;
       const entry = pool[index];
       if (!entry?.level) return;
-      loadLevelIntoEditor(entry.level, entry.name || '');
+      persistLearningDecision(entry, sourceKind, 'open').catch(showError);
+      loadLevelIntoEditor(entry.level, '');
       document.querySelector('[data-view="inspector"]')?.click();
     }});
     document.body.addEventListener('change', (event) => {{
@@ -1660,8 +1726,13 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         const pool = variantPool(keepTarget.dataset.keepVariant);
         const entry = pool[Number(keepTarget.dataset.index || 0)];
         if (entry) {{
-          entry.status = 'kept';
-          renderVariantList(keepTarget.dataset.keepVariant === 'batch' ? 'session-batch-list' : 'procedural-variant-list', pool, keepTarget.dataset.keepVariant);
+          persistLearningDecision(entry, keepTarget.dataset.keepVariant, 'keep')
+            .then((payload) => {{
+              entry.status = 'kept';
+              renderVariantList(keepTarget.dataset.keepVariant === 'batch' ? 'session-batch-list' : 'procedural-variant-list', pool, keepTarget.dataset.keepVariant);
+              document.getElementById('procedural-output').textContent = JSON.stringify(payload, null, 2);
+            }})
+            .catch(showError);
         }}
         return;
       }}
@@ -1681,15 +1752,13 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         const pool = variantPool(discardTarget.dataset.discardVariant);
         const entry = pool[Number(discardTarget.dataset.index || 0)];
         if (entry) {{
-          entry.status = 'discarded';
-          renderVariantList(discardTarget.dataset.discardVariant === 'batch' ? 'session-batch-list' : 'procedural-variant-list', pool, discardTarget.dataset.discardVariant);
-          document.getElementById('procedural-output').textContent = JSON.stringify({{
-            action: 'discard',
-            name: entry.name,
-            reason: entry.discardReason,
-            note: entry.discardNote,
-            pairs: entry.discardPairs,
-          }}, null, 2);
+          persistLearningDecision(entry, discardTarget.dataset.discardVariant, 'discard')
+            .then((payload) => {{
+              entry.status = 'discarded';
+              renderVariantList(discardTarget.dataset.discardVariant === 'batch' ? 'session-batch-list' : 'procedural-variant-list', pool, discardTarget.dataset.discardVariant);
+              document.getElementById('procedural-output').textContent = JSON.stringify(payload, null, 2);
+            }})
+            .catch(showError);
         }}
       }}
     }});

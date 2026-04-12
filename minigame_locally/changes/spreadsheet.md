@@ -7,6 +7,33 @@
 - canonical local-first sync command in `package.json`: `npm run sync:sheets:local`
 - lower-level push-only command in `package.json`: `npm run sync:sheets:push`
 
+## One-page strategy summary
+
+This project uses a local-first spreadsheet strategy.
+
+Repo files are canonical:
+- levels in `levels/`
+- progression and bundle outputs in `progressions/` and `bundles/`
+
+Google Sheets is an operational mirror for planning and review, not the authoring source of truth.
+
+How it works:
+1. Regenerate workbook and payload from canonical local data.
+2. Push that payload to the live Google Sheet.
+3. Keep generated fields protected and allow edits only in explicit editorial columns/tabs.
+4. Apply staged spreadsheet actions (for example renames) only through named local actions, never silently.
+
+Canonical run command:
+- `npm run sync:sheets:local`
+
+Operational boundary:
+- The spreadsheet can stage work (`Mix Planner`, `Level Renames`, review fields).
+- Canonical file changes happen in the repo via toolkit/server scripts.
+
+Control-panel direction:
+- Apps Script sidebar is the UX layer on top of the same local toolkit actions.
+- It should guide workflows and trigger named actions, not replace canonical ownership.
+
 ## 2026-03-24 — Curve Builder tab
 
 New "Curve Builder" tab added to the spreadsheet for visual difficulty curve design.

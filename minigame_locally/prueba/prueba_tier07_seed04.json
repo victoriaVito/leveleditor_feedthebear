@@ -1,0 +1,178 @@
+{
+  "id": "procedural_level_7_4",
+  "difficultyTier": 7,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 16,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 6
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 6,
+        "y": 4
+      },
+      "b": {
+        "x": 5,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 3
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        6,
+        1
+      ],
+      [
+        5,
+        1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "B": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        4
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "C": [
+      [
+        4,
+        6
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "D": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        5
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 2,
+    "failed_checks": [],
+    "path_coverage": 0.40816326530612246,
+    "path_straightness": 0.9,
+    "excess_bends_per_pair": 0.5,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "source_name": "procedural_level_7_4.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "path_coverage": 0.40816326530612246,
+    "path_straightness": 0.9,
+    "excess_bends_per_pair": 0.5,
+    "engaged_blocker_ratio": 0.0,
+    "dead_blocker_ratio": 0.0,
+    "pair_pressure_coverage": 0.0,
+    "multi_pair_blocker_ratio": 0.0,
+    "full_path_area": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

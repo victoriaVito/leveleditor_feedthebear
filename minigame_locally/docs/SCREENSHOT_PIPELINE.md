@@ -49,7 +49,6 @@ There is also a workbook-oriented renderer:
 
 - `levels/screenshots/` is the main canonical screenshot folder for level PNGs
 - `bundles/<bundle_name>/screenshots/` stores the screenshots mirrored into a progression or live ops bundle
-- `screenshots/` is a secondary repository-level screenshot folder used by some reporting and legacy paths
 - `artifacts/level_screenshots/` contains captured UI screenshots and editor artifacts that are useful for review, but are not the main level-authoring source of truth [VERIFY: this folder is used as a screenshot artifact store, but the exact capture policy is not explicit in code]
 
 ### Naming convention
@@ -77,7 +76,7 @@ Spreadsheet sync consumes screenshot files from the repo and uses them for revie
 
 The main touchpoints are:
 
-- `scripts/sync_levels_spreadsheet.py` looks up screenshots from `levels/screenshots/` and, if needed, `screenshots/`
+- `scripts/sync_levels_spreadsheet.py` looks up screenshots from `levels/screenshots/`
 - the local workbook export includes screenshot columns and embedded preview images
 - `scripts/create_screenshot_workbook.py` can build a dedicated workbook with inline previews from a screenshot directory
 - `scripts/import_excel_into_google_sheet.mjs` imports the generated workbook into Google Sheets as a sheet of screenshots
@@ -103,7 +102,7 @@ Use this as the quick reference for file placement:
 - browser preview export for a specific level: `levels/screenshots/<stem>.png`
 - progression bundle mirror: `bundles/<bundle_name>/screenshots/<stem>.png`
 - batch prerender output from Python: `levels/screenshots/<stem>.png`
-- workbook preview source: `levels/screenshots/` or `screenshots/`
+- workbook preview source: `levels/screenshots/`
 - Confluence report input: `bundles/<bundle_name>/screenshots/<stem>.png`
 - artifact review captures: `artifacts/level_screenshots/<name>.png` [VERIFY: exact producer varies]
 

@@ -155,6 +155,9 @@ class UiServerTests(unittest.TestCase):
                     ]
                 ),
                 "blockers_json": json.dumps([[2, 2]]),
+                "golden_path_json": json.dumps({"A": [[0, 0], [0, 1], [0, 4]]}),
+                "validation_json": json.dumps({"solvable": True, "curve_integrity": True}),
+                "meta_json": json.dumps({"source_name": "edited_preview_level.json", "manual_difficulty": "MEDIUM"}),
             },
             root=root,
         )
@@ -162,6 +165,8 @@ class UiServerTests(unittest.TestCase):
         self.assertTrue(preview_payload["ok"])
         self.assertEqual(preview_payload["level"]["id"], "edited_preview_level")
         self.assertIn('"difficultyTier": 4', preview_payload["canonical_json"])
+        self.assertIn('"goldenPath"', preview_payload["canonical_json"])
+        self.assertIn('"manual_difficulty": "MEDIUM"', preview_payload["canonical_json"])
 
         with tempfile.TemporaryDirectory() as tmp_dir:
             temp_root = Path(tmp_dir)
@@ -191,6 +196,9 @@ class UiServerTests(unittest.TestCase):
                         ]
                     ),
                     "blockers_json": json.dumps([[2, 2]]),
+                    "golden_path_json": json.dumps({"A": [[0, 0], [0, 1], [0, 4]]}),
+                    "validation_json": json.dumps({"solvable": True, "curve_integrity": True}),
+                    "meta_json": json.dumps({"source_name": "saved_preview_level.json", "manual_difficulty": "HARD"}),
                     "output": "output/edited_level.json",
                 },
                 root=temp_root,
@@ -202,6 +210,8 @@ class UiServerTests(unittest.TestCase):
             self.assertTrue(written.exists())
             saved_text = written.read_text(encoding="utf-8")
             self.assertIn('"id": "saved_preview_level"', saved_text)
+            self.assertIn('"goldenPath"', saved_text)
+            self.assertIn('"manual_difficulty": "HARD"', saved_text)
 
     def test_dispatch_save_procedural_candidate(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -215,6 +225,69 @@ class UiServerTests(unittest.TestCase):
             self.assertEqual(status, 200)
             self.assertTrue(payload["ok"])
             self.assertTrue((temp_root / "output/candidate.json").exists())
+
+    def test_dispatch_learning_record_and_generated_batch_import(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            temp_root = Path(tmp_dir)
+            canonical_json = json.dumps(
+                {
+                    "id": "learned_batch_test",
+                    "difficultyTier": 4,
+                    "gridSize": {"cols": 5, "rows": 5},
+                    "moves": 8,
+                    "pairs": [
+                        {"id": "A", "type": "blue", "a": {"x": 0, "y": 0}, "b": {"x": 4, "y": 0}},
+                        {"id": "B", "type": "green", "a": {"x": 0, "y": 4}, "b": {"x": 4, "y": 4}},
+                    ],
+                    "blockers": [{"x": 2, "y": 2}],
+                    "solutionCount": 1,
+                    "targetDensity": "MEDIUM",
+                    "goldenPath": {"A": [[0, 0], [0, 1], [0, 4]]},
+                    "validation": {"solvable": True, "curve_integrity": True},
+                    "meta": {"source_name": "learned_batch_test.json"},
+                }
+            )
+            learning_status, learning_payload = dispatch_request(
+                "POST",
+                "/api/procedural-learning-record",
+                payload={
+                    "decision": "reject",
+                    "context": "python_ui_reference_discard",
+                    "canonical_json": canonical_json,
+                    "reason_code": "paths_cross",
+                    "note_text": "crosses in the middle",
+                    "pair_ids": ["A"],
+                },
+                root=temp_root,
+            )
+            self.assertEqual(learning_status, 200)
+            self.assertTrue(learning_payload["ok"])
+            self.assertEqual(learning_payload["decision"], "reject")
+            self.assertEqual(learning_payload["rejected_count"], 1)
+            learning_file = temp_root / ".local/toolkit_state/learning_state.json"
+            self.assertTrue(learning_file.exists())
+            learning_saved = json.loads(learning_file.read_text(encoding="utf-8"))
+            self.assertEqual(len(learning_saved["rejected"]), 1)
+            self.assertEqual(learning_saved["rejected"][0]["reason_code"], "paths_cross")
+
+            batch_status, batch_payload = dispatch_request(
+                "POST",
+                "/api/session-import-generated-batch",
+                payload={
+                    "source": "learned",
+                    "levels": [{"name": "learned_batch_01.json", "canonical_json": canonical_json}],
+                },
+                root=temp_root,
+            )
+            self.assertEqual(batch_status, 200)
+            self.assertTrue(batch_payload["ok"])
+            self.assertEqual(batch_payload["imported_count"], 1)
+            sessions_file = temp_root / ".local/toolkit_state/play_sessions_state.json"
+            self.assertTrue(sessions_file.exists())
+            sessions_saved = json.loads(sessions_file.read_text(encoding="utf-8"))
+            self.assertEqual(len(sessions_saved["queue"]), 1)
+            self.assertEqual(sessions_saved["queue"][0]["source"], "learned")
+            self.assertEqual(sessions_saved["queue"][0]["validationStatus"], "OK")
 
     def test_build_snapshot_tolerates_invalid_learning_json(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

@@ -11,7 +11,10 @@ package-lock.json.bak
 
 tmp/
 output/
+logs/
+test-results/
 
 .DS_Store
 __pycache__/
 *.old-format
+*.code-workspace

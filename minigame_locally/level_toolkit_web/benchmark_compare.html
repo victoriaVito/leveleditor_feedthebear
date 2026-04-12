@@ -153,7 +153,7 @@
     function originalImageUrls(level, file) {
       const base = file.replace(/\.json$/i, '');
       const sourceName = level && level.meta && level.meta.source_name ? String(level.meta.source_name) : '';
-      const dirs = ['../benchmark_flow_free/screenshots/', '../levels/benchmark_flow_free/screenshots/', '../levels/screenshots/'];
+      const dirs = ['../benchmark_flow_free/screenshots/', '../levels/screenshots/'];
       const urls = [];
 
       if (sourceName) {
@@ -261,7 +261,7 @@
       }
 
       status.textContent = loaded > 0
-        ? 'Loaded ' + loaded + ' benchmark levels. Screenshot lookup: ../benchmark_flow_free/screenshots/ (preferred), ../levels/benchmark_flow_free/screenshots/, or ../levels/screenshots/.'
+        ? 'Loaded ' + loaded + ' benchmark levels. Screenshot lookup: ../benchmark_flow_free/screenshots/ (preferred), then ../levels/screenshots/.'
         : 'No levels found. Start the server first: node server.mjs';
     }
 

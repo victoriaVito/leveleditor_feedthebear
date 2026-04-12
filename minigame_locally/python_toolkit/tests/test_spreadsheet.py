@@ -20,10 +20,15 @@ from feed_the_bear_toolkit.services.spreadsheet import (
     build_spreadsheet_command_specs,
     clear_spreadsheet_ui_cache,
     disconnect_spreadsheet_token,
+    format_spreadsheet_rename_plan,
+    format_spreadsheet_command_help,
     format_spreadsheet_status,
     inspect_spreadsheet_auth,
+    inspect_spreadsheet_rename_plan,
     inspect_spreadsheet_status,
+    recommend_spreadsheet_action_keys,
     run_spreadsheet_command,
+    spreadsheet_command_choices,
 )
 
 
@@ -55,6 +60,13 @@ class SpreadsheetServiceTests(unittest.TestCase):
         self.assertEqual(specs[6].command, ("npm", "run", "oauth:setup"))
         self.assertEqual(specs[7].command, ("bash", "scripts/check_google_sheets_env.sh"))
         self.assertEqual(specs[8].command, ("npm", "run", "validate:env:local"))
+
+    def test_command_choices_and_help_follow_specs(self) -> None:
+        specs = build_spreadsheet_command_specs(Path.cwd())
+        self.assertEqual(spreadsheet_command_choices(Path.cwd()), tuple(spec.key for spec in specs))
+        rendered = format_spreadsheet_command_help(Path.cwd())
+        self.assertIn("Spreadsheet commands:", rendered)
+        self.assertIn("- sync_local", rendered)
 
     def test_auth_status_detects_oauth_client_and_token(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -106,9 +118,14 @@ class SpreadsheetServiceTests(unittest.TestCase):
             self.assertEqual(auth.project_id, "proj-1")
 
     @patch("feed_the_bear_toolkit.services.spreadsheet.subprocess.run")
-    def test_run_spreadsheet_command_uses_subprocess_with_root_cwd(self, mock_run) -> None:
+    @patch("feed_the_bear_toolkit.services.spreadsheet.shutil.which", side_effect=lambda name: "/usr/bin/" + name)
+    def test_run_spreadsheet_command_uses_subprocess_with_root_cwd(self, _mock_which, mock_run) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
+            (root / "package.json").write_text(
+                json.dumps({"scripts": {"sync:sheets:local": "node scripts/sync_google_sheets_payload.mjs --canonical"}}),
+                encoding="utf-8",
+            )
             mock_run.return_value = __import__("subprocess").CompletedProcess(
                 args=["npm", "run", "sync:sheets:local"],
                 returncode=0,
@@ -158,6 +175,10 @@ class SpreadsheetServiceTests(unittest.TestCase):
                     issues=("node is not available",),
                 ),
                 commands=build_spreadsheet_command_specs(root),
+                workbook_path=root / "output/spreadsheet/Levels_feed_the_bear_after_feedback_sync.xlsx",
+                workbook_exists=False,
+                payload_path=root / "output/spreadsheet/Levels_feed_the_bear_after_feedback_sync_payload.json",
+                payload_exists=False,
                 ready=False,
                 health="blocked",
                 messages=("Missing credentials file", "node is not available"),
@@ -167,13 +188,16 @@ class SpreadsheetServiceTests(unittest.TestCase):
 
             self.assertIn("Google Sheets adapter boundary", rendered)
             self.assertIn("Health: blocked", rendered)
-            self.assertIn("sync_local: npm run sync:sheets:local", rendered)
+            self.assertIn("sync_local: npm run sync:sheets:local [available]", rendered)
+            self.assertIn("Workbook: missing", rendered)
 
     def test_inspect_status_combines_auth_and_toolchain(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
             local_dir = root / ".local"
             local_dir.mkdir()
+            output_dir = root / "output" / "spreadsheet"
+            output_dir.mkdir(parents=True)
             (local_dir / "google_oauth_client.json").write_text(
                 json.dumps({"installed": {"client_id": "client-123"}}),
                 encoding="utf-8",
@@ -182,6 +206,28 @@ class SpreadsheetServiceTests(unittest.TestCase):
                 json.dumps({"refresh_token": "refresh-abc"}),
                 encoding="utf-8",
             )
+            (root / "package.json").write_text(
+                json.dumps(
+                    {
+                        "scripts": {
+                            "sync:sheets:local": "node scripts/sync_google_sheets_payload.mjs --canonical",
+                            "sync:sheets:push": "node scripts/sync_google_sheets_payload.mjs",
+                            "sync:all": "node scripts/sync_spreadsheet_with_ai.mjs",
+                            "sync:drive-sheets": "node scripts/sync_drive_folder_image_sheets.mjs",
+                            "sync:apis": "node scripts/sync_apis_parallel.mjs",
+                            "apply:sheet-renames": "node scripts/apply_sheet_level_renames.mjs",
+                            "oauth:setup": "node scripts/reconnect_google_sheets_loopback.mjs",
+                            "validate:env:local": "node scripts/validate-env.mjs --profile local",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            scripts_dir = root / "scripts"
+            scripts_dir.mkdir()
+            (scripts_dir / "check_google_sheets_env.sh").write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            (output_dir / "Levels_feed_the_bear_after_feedback_sync.xlsx").write_text("xlsx", encoding="utf-8")
+            (output_dir / "Levels_feed_the_bear_after_feedback_sync_payload.json").write_text("{}", encoding="utf-8")
 
             with patch("feed_the_bear_toolkit.services.spreadsheet.find_project_root", return_value=root):
                 with patch("feed_the_bear_toolkit.services.spreadsheet.shutil.which", side_effect=lambda name: "/usr/bin/" + name):
@@ -192,12 +238,64 @@ class SpreadsheetServiceTests(unittest.TestCase):
             self.assertTrue(status.auth.connected)
             self.assertTrue(status.toolchain.node_available)
             self.assertGreaterEqual(len(status.commands), 5)
+            self.assertTrue(status.workbook_exists)
+            self.assertTrue(status.payload_exists)
+
+    def test_status_recommends_operational_next_steps_when_blocked(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            scripts_dir = root / "scripts"
+            scripts_dir.mkdir()
+            (root / "package.json").write_text(
+                json.dumps(
+                    {
+                        "scripts": {
+                            "sync:sheets:local": "node scripts/sync_google_sheets_payload.mjs --canonical",
+                            "sync:sheets:push": "node scripts/sync_google_sheets_payload.mjs",
+                            "sync:all": "node scripts/sync_spreadsheet_with_ai.mjs",
+                            "sync:drive-sheets": "node scripts/sync_drive_folder_image_sheets.mjs",
+                            "sync:apis": "node scripts/sync_apis_parallel.mjs",
+                            "apply:sheet-renames": "node scripts/apply_sheet_level_renames.mjs",
+                            "oauth:setup": "node scripts/reconnect_google_sheets_loopback.mjs",
+                            "validate:env:local": "node scripts/validate-env.mjs --profile local",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (scripts_dir / "check_google_sheets_env.sh").write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+
+            with patch("feed_the_bear_toolkit.services.spreadsheet.find_project_root", return_value=root):
+                with patch("feed_the_bear_toolkit.services.spreadsheet.shutil.which", side_effect=lambda name: "/usr/bin/" + name):
+                    status = inspect_spreadsheet_status(root)
+
+            recommendations = recommend_spreadsheet_action_keys(status)
+            rendered = format_spreadsheet_status(status)
+
+            self.assertFalse(status.ready)
+            self.assertEqual(recommendations[:3], ("oauth_setup", "sync_local", "check_env"))
+            self.assertIn("validate_env_local", recommendations)
+            self.assertIn("Recommended actions:", rendered)
+            self.assertIn("oauth_setup: oauth:setup", rendered)
 
     def test_run_spreadsheet_command_reports_missing_command(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             root = Path(tmp_dir)
             with self.assertRaises(KeyError):
                 run_spreadsheet_command("unknown", root)
+
+    @patch("feed_the_bear_toolkit.services.spreadsheet.shutil.which", return_value="/usr/bin/npm")
+    def test_run_spreadsheet_command_fails_preflight_when_package_script_missing(self, _mock_which) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            (root / "package.json").write_text(json.dumps({"scripts": {}}), encoding="utf-8")
+
+            with patch("feed_the_bear_toolkit.services.spreadsheet.find_project_root", return_value=root):
+                result = run_spreadsheet_command("sync_local", root)
+
+        self.assertFalse(result.ok)
+        self.assertEqual(result.returncode, -1)
+        self.assertIn("package.json missing script: sync:sheets:local", result.error)
 
     def test_disconnect_and_clear_cache_local_actions(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
@@ -220,6 +318,46 @@ class SpreadsheetServiceTests(unittest.TestCase):
             self.assertTrue(clear_result.ok)
             self.assertTrue(clear_result.deleted)
             self.assertFalse(cache_dir.exists())
+
+    def test_inspect_spreadsheet_rename_plan_parses_pending_applied_and_filter(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            root = Path(tmp_dir)
+            payload_dir = root / "output" / "spreadsheet"
+            payload_dir.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "renameHeaders": [
+                    "Occurrence ID",
+                    "Progression",
+                    "Current Name",
+                    "Target Name",
+                    "Planned File",
+                    "Rename Pending",
+                    "Apply Status",
+                    "Notes",
+                ],
+                "renameRows": [
+                    ["pA:01", "Progression A", "a_01", "a_01_new", "a_01_new.json", "TRUE", "", ""],
+                    ["pA:02", "Progression A", "a_02", "a_02", "a_02.json", "FALSE", "APPLIED", ""],
+                    ["pB:01", "Progression B", "b_01", "b_01_new", "b_01_new.json", "FALSE", "ERROR", "collision"],
+                ],
+            }
+            (payload_dir / "Levels_feed_the_bear_after_feedback_sync_payload.json").write_text(
+                json.dumps(payload),
+                encoding="utf-8",
+            )
+            with patch("feed_the_bear_toolkit.services.spreadsheet.find_project_root", return_value=root):
+                plan = inspect_spreadsheet_rename_plan(root)
+                self.assertTrue(plan.payload_exists)
+                self.assertEqual(plan.total_rows, 3)
+                self.assertEqual(plan.pending_count, 1)
+                self.assertEqual(plan.applied_count, 1)
+                self.assertEqual(plan.error_count, 1)
+                filtered = inspect_spreadsheet_rename_plan(root, progression_filter="Progression A")
+                self.assertEqual(filtered.total_rows, 2)
+                self.assertEqual(filtered.pending_count, 1)
+                rendered = format_spreadsheet_rename_plan(plan, limit=2)
+                self.assertIn("Spreadsheet rename plan", rendered)
+                self.assertIn("Pending: 1", rendered)
 
 
 if __name__ == "__main__":

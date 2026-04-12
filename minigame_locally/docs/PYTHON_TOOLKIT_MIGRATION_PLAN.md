@@ -1,9 +1,32 @@
 # PLAN: Feed the Bear Python Toolkit Migration
 **Date**: 2026-04-07 23:05 CEST
-**Status**: EN PROGRESO
+**Status**: COMPLETED (2026-04-10 closeout)
 **Project**: Feed the Bear local toolkit
 
 ---
+
+## 0. 2026-04-10 Closeout Summary
+
+The migration has been closed as operationally complete under the parity-first sequence:
+
+1. parity contract and workflow inventory
+2. fixture-based procedural and native workflow coverage
+3. procedural parity closure against `level_toolkit_web/app.js`
+4. editor/manager/sessions/spreadsheet parity closure
+5. hardening and controlled cutover with rollback contract
+
+Verification evidence captured during closeout:
+
+- `python3 -m unittest discover -s python_toolkit/tests -p 'test_procedural*.py' -v` -> `Ran 32 tests ... OK`
+- `python3 -m unittest discover -s python_toolkit/tests -p 'test_native_app.py' -v` -> `Ran 10 tests ... OK`
+- `python3 -m unittest discover -s python_toolkit/tests -p 'test_sessions.py' -v` -> `Ran 8 tests ... OK`
+- `python3 -m unittest discover -s python_toolkit/tests -p 'test_spreadsheet.py' -v` -> `Ran 12 tests ... OK`
+- `python3 -m unittest discover -s python_toolkit/tests -p 'test_*.py' -v` -> `Ran 102 tests ... OK`
+
+Cutover policy:
+
+- default operating path: Python CLI + native UI
+- fallback path: web toolkit (`npm run sync:all`) when parity regressions are detected
 
 ## 1. Goal
 
@@ -196,11 +219,11 @@ Pending at plan capture time. If the helper returns feedback later, the canonic 
 
 ## 8. Success Criteria
 
-- [ ] Python UI shell supports a safe mini editor flow for basic level fields
-- [ ] Python procedural module exists for learning normalization and deterministic candidate scoring
-- [ ] Python spreadsheet adapter boundary reports readiness and wraps the current local-first sync flows
-- [ ] The active migration status is visible in both repo docs and `app_status()`
-- [ ] New slices land with focused stdlib tests and no dependency on replacing the current web toolkit immediately
+- [x] Python UI shell supports a safe mini editor flow for basic level fields
+- [x] Python procedural module exists for learning normalization and deterministic candidate scoring
+- [x] Python spreadsheet adapter boundary reports readiness and wraps the current local-first sync flows
+- [x] The active migration status is visible in both repo docs and `app_status()`
+- [x] New slices landed with focused stdlib tests and no dependency on a big-bang web replacement
 
 ## 4. Improvements Proposed
 
@@ -267,13 +290,11 @@ The migration is "operationally complete" only when:
 
 ## 7. Immediate Next Step
 
-The next implementation pass should be:
+Migration implementation is closed. The next operational step is maintenance:
 
-1. add `validate-levels-under <folder>`
-2. add `summarize-level-pack <folder>`
-3. add the first canonical level serializer
-
-This is the highest-value next slice because it makes Python useful for real pack-level work immediately and prepares the write path for progressions.
+1. keep parity suites green in CI/local runs
+2. enforce Python-first operation and only use web fallback for regressions
+3. treat any new workflow as parity-gated before rollout
 
 ---
 *This plan is the current master migration plan. It supersedes the earlier “all pending” version by reflecting the actual state of `python_toolkit/` as of 2026-04-07.*
