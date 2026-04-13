@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from enum import Enum
 from pathlib import Path
 from typing import Any
 
@@ -10,6 +11,22 @@ from feed_the_bear_toolkit.domain.levels import level_height, level_tier, level_
 from feed_the_bear_toolkit.domain.models import MAX_BOARD_HEIGHT, MAX_BOARD_WIDTH, MIN_BOARD_SIZE
 from feed_the_bear_toolkit.services.config import find_project_root, resolve_repo_path
 from feed_the_bear_toolkit.services.repo_io import append_text_file, save_text_file
+
+
+class VariantReviewState(str, Enum):
+    """Explicit state machine for variant review workflow.
+
+    Transitions:
+    - PENDING → IN_EDITOR (open for editing)
+    - PENDING → APPROVED (keep without editing)
+    - PENDING → REJECTED (discard)
+    - IN_EDITOR → APPROVED (save from editor)
+    - IN_EDITOR → REJECTED (discard from editor)
+    """
+    PENDING = "pending"
+    IN_EDITOR = "in_editor"
+    APPROVED = "approved"
+    REJECTED = "rejected"
 
 
 def _timestamp_now() -> str:
@@ -111,6 +128,19 @@ class PlaytestDatasetRecord:
 
 
 @dataclass(slots=True)
+class VariantMetadata:
+    """Metadata for a procedurally-generated variant candidate."""
+    similarity: float | None = None
+    learning_bias: float | None = None
+    intent_penalty: float | None = None
+    total_rank: float | None = None
+    source_kind: str | None = None  # "generated_strict", "generated_relaxed", "mutation"
+    reference_intent: dict[str, str] | None = None  # {"pairs": "more", "blockers": "same", ...}
+    generated_at: str | None = None  # ISO timestamp
+    generation_seed: int | None = None
+
+
+@dataclass(slots=True)
 class SessionQueueItem:
     id: int | None
     file: str
@@ -129,6 +159,9 @@ class SessionQueueItem:
     level: dict[str, Any] | None
     original_level: dict[str, Any] | None
     raw: dict[str, Any] = field(default_factory=dict)
+    variant_metadata: VariantMetadata | None = None  # Populated if this is a variant
+    review_state: VariantReviewState = VariantReviewState.PENDING  # Explicit state machine
+    state_transition_log: list[dict[str, Any]] = field(default_factory=list)  # History of state changes
 
 
 @dataclass(slots=True)
@@ -259,7 +292,32 @@ def serialize_playtest_record_dict(record: PlaytestDatasetRecord) -> dict[str, A
     }
 
 
+def parse_variant_metadata(raw: dict[str, Any] | None) -> VariantMetadata | None:
+    """Parse variant metadata from a dictionary."""
+    if raw is None:
+        return None
+    return VariantMetadata(
+        similarity=float(raw.get("similarity")) if raw.get("similarity") is not None else None,
+        learning_bias=float(raw.get("learningBias")) if raw.get("learningBias") is not None else None,
+        intent_penalty=float(raw.get("intentPenalty")) if raw.get("intentPenalty") is not None else None,
+        total_rank=float(raw.get("totalRank")) if raw.get("totalRank") is not None else None,
+        source_kind=str(raw.get("sourceKind") or "").strip() or None,
+        reference_intent=dict(raw.get("referenceIntent") or {}) if isinstance(raw.get("referenceIntent"), dict) else None,
+        generated_at=str(raw.get("generatedAt") or "").strip() or None,
+        generation_seed=_as_int(raw.get("generationSeed")),
+    )
+
+
 def parse_session_queue_item(raw: dict[str, Any]) -> SessionQueueItem:
+    review_state_str = str(raw.get("reviewState") or "").strip().lower() or "pending"
+    try:
+        review_state = VariantReviewState(review_state_str)
+    except ValueError:
+        review_state = VariantReviewState.PENDING
+
+    state_log_raw = raw.get("stateTransitionLog") or []
+    state_log = [dict(item) if isinstance(item, dict) else {} for item in state_log_raw]
+
     return SessionQueueItem(
         id=_as_int(raw.get("id")),
         file=str(raw.get("file") or ""),
@@ -278,7 +336,26 @@ def parse_session_queue_item(raw: dict[str, Any]) -> SessionQueueItem:
         level=dict(raw.get("level") or {}) if isinstance(raw.get("level"), dict) else None,
         original_level=dict(raw.get("originalLevel") or {}) if isinstance(raw.get("originalLevel"), dict) else None,
         raw=raw,
+        variant_metadata=parse_variant_metadata(raw.get("variantMetadata")),
+        review_state=review_state,
+        state_transition_log=state_log,
     )
+
+
+def serialize_variant_metadata_dict(metadata: VariantMetadata | None) -> dict[str, Any] | None:
+    """Serialize variant metadata to a dictionary."""
+    if metadata is None:
+        return None
+    return {
+        "similarity": metadata.similarity,
+        "learningBias": metadata.learning_bias,
+        "intentPenalty": metadata.intent_penalty,
+        "totalRank": metadata.total_rank,
+        "sourceKind": metadata.source_kind,
+        "referenceIntent": dict(metadata.reference_intent) if metadata.reference_intent else None,
+        "generatedAt": metadata.generated_at,
+        "generationSeed": metadata.generation_seed,
+    }
 
 
 def serialize_session_queue_item_dict(item: SessionQueueItem) -> dict[str, Any]:
@@ -299,6 +376,9 @@ def serialize_session_queue_item_dict(item: SessionQueueItem) -> dict[str, Any]:
     serialized["feedbackNote"] = item.feedback_note
     serialized["level"] = _clone_json(item.level) if item.level is not None else None
     serialized["originalLevel"] = _clone_json(item.original_level) if item.original_level is not None else None
+    serialized["reviewState"] = item.review_state.value
+    serialized["variantMetadata"] = serialize_variant_metadata_dict(item.variant_metadata)
+    serialized["stateTransitionLog"] = [dict(log) for log in item.state_transition_log]
     return serialized
 
 
@@ -318,6 +398,74 @@ def serialize_play_sessions_state_dict(state: PlaySessionsState) -> dict[str, An
     serialized = dict(state.raw) if state.raw else {}
     serialized["queue"] = [serialize_session_queue_item_dict(item) for item in state.queue]
     return serialized
+
+
+def transition_variant_review_state(
+    item: SessionQueueItem,
+    new_state: VariantReviewState,
+    reason: str = "",
+) -> SessionQueueItem:
+    """Transition a queue item to a new review state and log the transition.
+
+    Valid transitions:
+    - PENDING → IN_EDITOR, APPROVED, REJECTED
+    - IN_EDITOR → APPROVED, REJECTED
+    - APPROVED, REJECTED → (terminal states, no further transitions)
+
+    Returns a new SessionQueueItem with updated state and transition log.
+    """
+    # Validate transition
+    if item.review_state == VariantReviewState.APPROVED or item.review_state == VariantReviewState.REJECTED:
+        # Terminal states, no further transitions
+        return item
+
+    if item.review_state == VariantReviewState.PENDING and new_state not in [
+        VariantReviewState.IN_EDITOR,
+        VariantReviewState.APPROVED,
+        VariantReviewState.REJECTED,
+    ]:
+        raise ValueError(f"Invalid transition from PENDING to {new_state}")
+
+    if item.review_state == VariantReviewState.IN_EDITOR and new_state not in [
+        VariantReviewState.APPROVED,
+        VariantReviewState.REJECTED,
+    ]:
+        raise ValueError(f"Invalid transition from IN_EDITOR to {new_state}")
+
+    # Log the transition
+    new_log = list(item.state_transition_log)
+    new_log.append(
+        {
+            "from_state": item.review_state.value,
+            "to_state": new_state.value,
+            "reason": reason,
+            "timestamp": _timestamp_now(),
+        }
+    )
+
+    # Create new item with updated state (dataclass with frozen=True, so create a new instance)
+    return SessionQueueItem(
+        id=item.id,
+        file=item.file,
+        source=item.source,
+        changed=item.changed,
+        manager_item_id=item.manager_item_id,
+        saved_path=item.saved_path,
+        screenshot_path=item.screenshot_path,
+        review_status=item.review_status,
+        validation_status=item.validation_status,
+        feedback_decision=item.feedback_decision,
+        feedback_reason_code=item.feedback_reason_code,
+        feedback_keep_tags=list(item.feedback_keep_tags),
+        feedback_pair_ids=list(item.feedback_pair_ids),
+        feedback_note=item.feedback_note,
+        level=item.level,
+        original_level=item.original_level,
+        raw=item.raw,
+        variant_metadata=item.variant_metadata,
+        review_state=new_state,
+        state_transition_log=new_log,
+    )
 
 
 def serialize_play_sessions_state_json(state: PlaySessionsState) -> str:

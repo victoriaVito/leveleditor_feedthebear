@@ -31,11 +31,19 @@ from feed_the_bear_toolkit.domain.progressions import (
     validate_progression_levels,
 )
 from feed_the_bear_toolkit.domain.sessions import (
+    SessionQueueItem,
+    VariantReviewState,
+    _timestamp_now,
     append_playtest_dataset_record,
     load_play_session_file,
     load_play_sessions_state,
+    parse_session_queue_item,
+    parse_variant_metadata,
     save_play_session_snapshot,
     save_play_sessions_state,
+    serialize_session_queue_item_dict,
+    serialize_variant_metadata_dict,
+    transition_variant_review_state,
 )
 from feed_the_bear_toolkit.domain.validation import validate_level_structure
 from feed_the_bear_toolkit.services.config import find_project_root, resolve_repo_path
@@ -296,6 +304,97 @@ def _sessions_state_summary() -> dict[str, Any]:
     }
 
 
+def _get_editor_tool_state(payload: dict[str, Any]) -> dict[str, Any]:
+    """Get the current tool state in the editor (which pair/tool is selected)."""
+    # This returns the current editor state (pair selection, zoom, grid mode, etc.)
+    # The state can be passed in payload or loaded from a session
+    tool = str(payload.get("tool", "pair_a")).strip()  # pair_a, pair_b, blocker, eraser
+    zoom_level = float(payload.get("zoom_level", 1.0))
+    show_grid = bool(payload.get("show_grid", True))
+    undo_stack_size = int(payload.get("undo_stack_size", 0))
+    return {
+        "active_tool": tool,
+        "zoom_level": zoom_level,
+        "show_grid": show_grid,
+        "undo_available": undo_stack_size > 0,
+        "keyboard_shortcuts": {
+            "save": "Ctrl+S (or Cmd+S on Mac)",
+            "validate": "Ctrl+Shift+V (or Cmd+Shift+V)",
+            "undo": "Ctrl+Z (or Cmd+Z)",
+            "redo": "Ctrl+Shift+Z (or Cmd+Shift+Z)",
+            "toggle_tool_blocker": "B",
+            "toggle_tool_pair_a": "1",
+            "toggle_tool_pair_b": "2",
+            "clear_board": "Delete (with confirmation)",
+        },
+    }
+
+
+def _set_editor_tool_state(payload: dict[str, Any]) -> dict[str, Any]:
+    """Set the current tool state in the editor."""
+    tool = str(payload.get("tool", "")).strip()
+    if tool and tool not in {"pair_a", "pair_b", "blocker", "eraser"}:
+        raise ValueError(f"Invalid tool: {tool}. Must be one of: pair_a, pair_b, blocker, eraser")
+    zoom_level = float(payload.get("zoom_level", 1.0)) if payload.get("zoom_level") is not None else None
+    show_grid = bool(payload.get("show_grid")) if payload.get("show_grid") is not None else None
+    return {
+        "tool_changed": bool(tool),
+        "active_tool": tool,
+        "zoom_level": zoom_level,
+        "show_grid": show_grid,
+        "timestamp": _timestamp_now(),
+    }
+
+
+def _load_variant_into_editor(payload: dict[str, Any], root: Path) -> dict[str, Any]:
+    """Load a variant candidate from the queue into the editor context."""
+    queue_item_id = _as_int(payload.get("queue_item_id"))
+    variant_index = _as_int(payload.get("variant_index", 0)) or 0
+    if queue_item_id is None:
+        raise ValueError("Missing queue_item_id")
+
+    # Load the sessions state and find the item
+    state = load_play_sessions_state(resolve_repo_path(Path(".local/toolkit_state/play_sessions_state.json"), root))
+    item = None
+    for q_item in state.queue:
+        if q_item.id == queue_item_id:
+            item = q_item
+            break
+
+    if item is None:
+        raise ValueError(f"Queue item {queue_item_id} not found")
+
+    # Transition the variant to IN_EDITOR state
+    updated_item = transition_variant_review_state(
+        item,
+        VariantReviewState.IN_EDITOR,
+        reason="loaded_into_editor"
+    )
+
+    # Return the variant context for the editor
+    return {
+        "queue_item_id": updated_item.id,
+        "variant_file": updated_item.file,
+        "variant_source": updated_item.source,
+        "review_state": updated_item.review_state.value,
+        "base_level_path": updated_item.original_level,
+        "variant_level": updated_item.level,
+        "variant_metadata": serialize_variant_metadata_dict(updated_item.variant_metadata) if updated_item.variant_metadata else None,
+        "editor_context": {
+            "title": f"Variant {queue_item_id} · {updated_item.file}",
+            "subtitle": f"Editing variant from {updated_item.source}",
+            "variant_similarity": updated_item.variant_metadata.similarity if updated_item.variant_metadata else None,
+            "variant_intent": updated_item.variant_metadata.reference_intent if updated_item.variant_metadata else None,
+            "state_transition_log": updated_item.state_transition_log,
+        },
+        "keyboard_hints": {
+            "save_variant": "Ctrl+S: Save variant edits",
+            "approve_variant": "Ctrl+Enter: Approve variant",
+            "discard_variant": "Escape: Discard changes",
+        },
+    }
+
+
 def dispatch_request(
     method: str,
     path: str,
@@ -313,14 +412,14 @@ def dispatch_request(
         if method == "GET" and path == "/api/snapshot":
             return HTTPStatus.OK, {"ok": True, "snapshot": build_app_snapshot(project_root)}
         if method == "GET" and path == "/api/inspect-level":
-            target = resolve_repo_path(Path(query.get("path", "levels/Progression B · Level 2.json")), project_root)
+            target = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             return HTTPStatus.OK, {"ok": True, **_level_details(target)}
         if method == "GET" and path == "/api/validate-level":
-            target = resolve_repo_path(Path(query.get("path", "levels/Progression B · Level 2.json")), project_root)
+            target = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             level = load_level_file(target)
             return HTTPStatus.OK, {"ok": True, "result": _jsonify(validate_level_structure(level))}
         if method == "GET" and path == "/api/serialize-level":
-            target = resolve_repo_path(Path(query.get("path", "levels/Progression B · Level 2.json")), project_root)
+            target = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             level = load_level_file(target)
             return HTTPStatus.OK, {"ok": True, "canonical_json": serialize_level_to_canonical_json(level, target.name)}
         if method == "GET" and path == "/api/summarize-level-pack":
@@ -358,7 +457,7 @@ def dispatch_request(
         if method == "GET" and path == "/api/inspect-play-sessions-state":
             return HTTPStatus.OK, {"ok": True, "state": _sessions_state_summary()}
         if method == "GET" and path == "/api/procedural-score-level":
-            level_path = resolve_repo_path(Path(query.get("path", "levels/Progression B · Level 2.json")), project_root)
+            level_path = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             learning_path = resolve_repo_path(Path(query.get("learning_path", ".local/toolkit_state/learning_state.json")), project_root)
             level = load_level_file(level_path)
             learning = normalize_learning_buckets(_load_optional_json(learning_path))
@@ -381,7 +480,7 @@ def dispatch_request(
                 "adjustments": _jsonify(adjustments),
             }
         if method == "GET" and path == "/api/procedural-reference-variants":
-            level_path = resolve_repo_path(Path(query.get("path", "levels/Progression B · Level 2.json")), project_root)
+            level_path = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             learning_path = resolve_repo_path(Path(query.get("learning_path", ".local/toolkit_state/learning_state.json")), project_root)
             count = _as_int(query.get("count")) or 3
             adjustments = {
@@ -408,6 +507,16 @@ def dispatch_request(
                         **_jsonify(variant),
                         "level": _level_details_from_level(variant.level),
                         "canonical_json": serialize_level_to_canonical_json(variant.level, variant.name),
+                        "variant_metadata": {
+                            "similarity": variant.similarity,
+                            "learning_bias": variant.learning_bias,
+                            "intent_penalty": variant.intent_penalty,
+                            "total_rank": variant.total_rank,
+                            "source_kind": variant.source_kind,
+                            "reference_intent": variant.reference_intent,
+                            "generated_at": _timestamp_now(),
+                        },
+                        "review_state": "pending",  # Initial state for new variants
                     }
                     for variant in variants
                 ],
@@ -552,6 +661,15 @@ def dispatch_request(
                 "canonical_json": preview["canonical_json"],
                 "validation": preview["validation"],
             }
+        if method == "GET" and path == "/api/editor-tool-state":
+            state = _get_editor_tool_state(payload)
+            return HTTPStatus.OK, {"ok": True, **state}
+        if method == "POST" and path == "/api/editor-tool-state":
+            state = _set_editor_tool_state(payload)
+            return HTTPStatus.OK, {"ok": True, **state}
+        if method == "POST" and path == "/api/load-variant-into-editor":
+            context = _load_variant_into_editor(payload, project_root)
+            return HTTPStatus.OK, {"ok": True, **context}
         return HTTPStatus.NOT_FOUND, {"ok": False, "error": f"Unknown route: {path}"}
     except Exception as err:
         return HTTPStatus.BAD_REQUEST, {"ok": False, "error": str(err)}

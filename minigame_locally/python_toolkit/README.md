@@ -59,14 +59,20 @@ The toolkit now exposes:
 - a first solver-backed `generateLevelRaw` / `generateLevel` Python port for procedural generation
 - a learned-session batch generator that mirrors the web toolkit's range-based batch flow
 - a spreadsheet adapter boundary that reports readiness and wraps the current local-first sync commands
+- explicit partitioning of spreadsheet integration: native Python (auth inspection, toolchain detection, hygiene) vs wrapped (sync/mutation commands) documented in `services/spreadsheet.py`
 - spreadsheet command execution that now forwards the active credentials/token paths into the underlying scripts
 - local spreadsheet hygiene actions for token disconnect and Python UI cache cleanup
 - a Python-hosted web shell with Overview, Level Inspector, Mini Editor, Pack QA, Progressions, Procedural + Spreadsheet, and Sessions views
 - visual board rendering inside the Level Inspector plus table-based pack QA results
-- procedural reference-variant generation, learned-session batch generation, and spreadsheet disconnect/clear-cache actions exposed in the Python UI shell
-- an interactive board editor inside the Python shell with clickable node/blocker editing and direct load-from-variant flows
+- procedural reference-variant generation with three-phase search (strict, relaxed, mutation fallback) and deduplication
+- learned-session batch generation with procedural scoring integration
+- spreadsheet disconnect/clear-cache actions exposed in the Python UI shell
+- an interactive board editor inside the Python shell with clickable node/blocker editing, direct load-from-variant flows, and keyboard shortcuts
+- explicit variant review state machine with transitions (pending → in_editor/approved/rejected), metadata persistence, and state transition logging
+- editor tool state indicator (active tool selection), zoom control, grid visibility toggle, and keyboard shortcut reference
+- variant-to-editor integration enabling direct candidate loading with state machine transitions
 - richer variant review cards with open/keep/save/discard actions for procedural and learned batch candidates
-- stdlib regression coverage for the migrated slices
+- stdlib regression coverage for the migrated slices (procedural, sessions, UI server)
 
 Useful commands:
 
@@ -92,9 +98,10 @@ python3 run_cli.py inspect-play-sessions-state
 python3 run_cli.py save-live-progressions --output 'output/python_toolkit_checks/manager_progressions_live_roundtrip.json'
 ```
 
-Still pending:
+Still pending (Phase 2B and beyond):
 
-- deeper mutation/search orchestration parity against the full `app.js` procedural pipeline
-- stronger variant review workflows beyond load-into-editor cards
-- broader spreadsheet parity beyond the current wrappers and hygiene actions
-- richer canvas/editor ergonomics beyond the current clickable board editor
+- Native Google Sheets API integration (currently wrapped via npm/bash scripts; see `services/spreadsheet.py` module docstring for rationale)
+- Undo/redo support in the board editor
+- Variant drag-and-drop (currently load-via-queue-item)
+- Advanced procedural tuning (seed control, parameter exploration UIs)
+- Full test coverage expansion (target: 90%+ branch coverage across domain and services)

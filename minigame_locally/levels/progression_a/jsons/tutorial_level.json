@@ -1,63 +1,56 @@
 {
   "level": 1,
+  "board_size": 6,
   "board_width": 6,
-  "board_height": 7,
+  "board_height": 6,
   "grid": [
     [
       "NODE_A1",
       "EMPTY",
+      "BLOCKED",
       "EMPTY",
       "EMPTY",
-      "EMPTY",
-      "NODE_D1"
+      "EMPTY"
     ],
     [
       "BLOCKED",
       "EMPTY",
       "EMPTY",
-      "BLOCKED",
-      "NODE_B2",
-      "BLOCKED"
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
     ],
     [
       "EMPTY",
       "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2"
+    ],
+    [
       "EMPTY",
       "NODE_C1",
       "EMPTY",
-      "EMPTY"
-    ],
-    [
       "EMPTY",
       "EMPTY",
-      "NODE_D2",
-      "EMPTY",
-      "BLOCKED",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "NODE_A2",
-      "BLOCKED",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY"
-    ],
-    [
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "BLOCKED"
-    ],
-    [
-      "NODE_C2",
-      "BLOCKED",
-      "EMPTY",
-      "EMPTY",
-      "EMPTY",
-      "NODE_B1"
+      "NODE_C2"
     ]
   ],
   "pairs": [
@@ -68,8 +61,8 @@
         0
       ],
       "end": [
-        4,
-        1
+        2,
+        5
       ],
       "color": "#0EA5E9",
       "fish_color_id": "fish_blue",
@@ -78,44 +71,30 @@
     {
       "id": "B",
       "start": [
-        6,
-        5
+        3,
+        0
       ],
       "end": [
-        1,
-        4
+        4,
+        5
       ],
-      "color": "#10B981",
-      "fish_color_id": "fish_green",
-      "color_letter": "E"
+      "color": "#FCA5A5",
+      "fish_color_id": "fish_red_striped",
+      "color_letter": "B"
     },
     {
       "id": "C",
       "start": [
-        2,
-        3
+        5,
+        1
       ],
       "end": [
-        6,
-        0
-      ],
-      "color": "#FBBF24",
-      "fish_color_id": "fish_yellow",
-      "color_letter": "G"
-    },
-    {
-      "id": "D",
-      "start": [
-        0,
+        5,
         5
       ],
-      "end": [
-        3,
-        2
-      ],
-      "color": "#D8B4FE",
-      "fish_color_id": "fish_purple_striped",
-      "color_letter": "L"
+      "color": "#0891B2",
+      "fish_color_id": "fish_cyan",
+      "color_letter": "M"
     }
   ],
   "blockers": [
@@ -124,35 +103,19 @@
       0
     ],
     [
-      6,
-      1
-    ],
-    [
-      5,
-      5
-    ],
-    [
-      1,
-      5
-    ],
-    [
-      1,
+      2,
       3
     ],
     [
-      4,
+      0,
       2
-    ],
-    [
-      3,
-      4
     ]
   ],
   "decal": false,
-  "moves": 6,
-  "solution_count": 6,
-  "target_density": "LOW",
-  "difficulty": "HARD",
+  "moves": 8,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
   "golden_path": {
     "A": [
       [
@@ -160,43 +123,33 @@
         0
       ],
       [
-        4,
-        1
+        2,
+        5
       ]
     ],
     "B": [
       [
-        6,
-        5
+        3,
+        0
       ],
       [
-        1,
-        4
+        4,
+        5
       ]
     ],
     "C": [
       [
-        2,
-        3
+        5,
+        1
       ],
       [
-        6,
-        0
-      ]
-    ],
-    "D": [
-      [
-        0,
+        5,
         5
-      ],
-      [
-        3,
-        2
       ]
     ]
   },
   "validation": {
-    "solvable": true,
+    "solvable": false,
     "density_match": false,
     "decal_required": false,
     "decal_pass": null,
@@ -206,9 +159,8 @@
     "curve_integrity": true
   },
   "meta": {
-    "source_name": "a_10.json",
+    "source_name": "tutorial_level.json",
     "failed_checks": [],
-    "manual_difficulty": "HARD"
-  },
-  "id": "progression_a_level10"
+    "type": "tutorial"
+  }
 }

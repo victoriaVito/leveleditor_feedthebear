@@ -782,79 +782,161 @@ def generate_reference_variants(
     count: int = 3,
     learning_path: Path | str | None = None,
 ) -> list[ProceduralReferenceCandidate]:
+    """Generate reference-driven variant candidates using 3-phase search.
+
+    Phase 1 (Strict): Generate and rank candidates, filtering by guide issues.
+    Phase 2 (Relaxed): If pool < count, re-generate allowing relaxed guide issues.
+    Phase 3 (Direct Mutation): If still < count, use direct mutations as fallback.
+    """
     root = find_project_root(project_root)
     normalized = normalize_reference_adjustments(adjustments)
     learning = load_procedural_learning_state(root, learning_path)
     preferred_levels = set(ranked_reference_generation_levels(base_level, normalized)[:4])
-    repo_candidates: list[Level] = []
-    for path in _iter_repo_level_paths(root):
-        try:
-            level = load_level_file(path)
-        except Exception:
-            continue
-        if level.id == base_level.id:
-            continue
-        if preferred_levels and _level_number(level) not in preferred_levels:
-            continue
-        level.meta.setdefault("source_name", path.name)
-        level.meta["source_kind"] = "repo"
-        repo_candidates.append(level)
-        if len(repo_candidates) >= max(12, count * 5):
-            break
+    safe_count = max(1, min(100, int(count)))
 
-    generated_candidates: list[Level] = []
-    seed_budget = max(6, count * 4)
+    # Phase 1: Strict search with guide issue filtering
+    pool: list[ProceduralReferenceCandidate] = []
+    seen_signatures: set[str] = set()
+
+    # Build generation/mutation sources
+    max_seeds_strict = 220 if procedural_reference_intent_text(normalized) else 180
+    target_pool_size = max(safe_count * (12 if procedural_reference_intent_text(normalized) else 8), 20)
+
+    # Strict phase: generate candidates with full validation
     generated_levels = list(preferred_levels) or [_level_number(base_level)]
-    for level_number in generated_levels:
-        for seed_offset in range(seed_budget):
+    for seed in range(max_seeds_strict):
+        if len(pool) >= target_pool_size:
+            break
+        for level_number in generated_levels:
+            if len(pool) >= target_pool_size:
+                break
             try:
-                generated = generate_level_raw(level_number, learning, seed_offset=seed_offset)
+                candidate = generate_level_raw(level_number, learning, seed_offset=500 + seed + (level_number * 97))
             except Exception:
                 continue
-            generated.meta["source_name"] = f"procedural_level_{level_number}_{seed_offset}.json"
-            generated.meta["source_kind"] = "generated"
-            generated_candidates.append(generated)
 
-    mutated_candidates: list[Level] = []
-    for variant_index in range(1, count * 4 + 1):
+            # Validate structure
+            validation = validate_level_structure(candidate)
+            if not validation.valid:
+                continue
+
+            # Check guide issues (strict)
+            if _has_critical_guide_issue(candidate):
+                continue
+
+            # Deduplication
+            signature = _level_signature(candidate)
+            if signature in seen_signatures:
+                continue
+            seen_signatures.add(signature)
+
+            # Set candidate metadata
+            candidate.meta["source_name"] = f"procedural_level_{level_number}_{seed}.json"
+            candidate.meta["source_kind"] = "generated_strict"
+
+            # Rank candidate
+            rank = procedural_reference_candidate_rank(base_level, candidate, normalized, learning)
+            pool.append(
+                ProceduralReferenceCandidate(
+                    name=f"variant_{len(pool) + 1}",
+                    source_kind="generated",
+                    level=candidate,
+                    reference_intent=normalized,
+                    similarity=rank.similarity,
+                    learning_bias=rank.learning_bias,
+                    intent_penalty=rank.intent_penalty,
+                    total_rank=rank.total,
+                )
+            )
+
+    # If we have enough candidates, return top N
+    if len(pool) >= safe_count:
+        pool.sort(key=lambda item: item.total_rank)
+        return pool[:safe_count]
+
+    # Phase 2: Relaxed search (allow guide issues)
+    for seed in range(max_seeds_strict):
+        if len(pool) >= safe_count:
+            break
+        for level_number in generated_levels:
+            if len(pool) >= safe_count:
+                break
+            try:
+                candidate = generate_level_raw(level_number, learning, seed_offset=2500 + seed + (level_number * 131))
+            except Exception:
+                continue
+
+            # Validate structure
+            validation = validate_level_structure(candidate)
+            if not validation.valid:
+                continue
+
+            # Deduplication (still required even in relaxed phase)
+            signature = _level_signature(candidate)
+            if signature in seen_signatures:
+                continue
+            seen_signatures.add(signature)
+
+            # Set candidate metadata
+            candidate.meta["source_name"] = f"procedural_level_{level_number}_{seed}_relaxed.json"
+            candidate.meta["source_kind"] = "generated_relaxed"
+
+            # Rank candidate
+            rank = procedural_reference_candidate_rank(base_level, candidate, normalized, learning)
+            pool.append(
+                ProceduralReferenceCandidate(
+                    name=f"variant_relaxed_{len(pool) + 1}",
+                    source_kind="generated_relaxed",
+                    level=candidate,
+                    reference_intent=normalized,
+                    similarity=rank.similarity,
+                    learning_bias=rank.learning_bias,
+                    intent_penalty=rank.intent_penalty,
+                    total_rank=rank.total,
+                )
+            )
+
+    # If we have enough, return
+    if len(pool) >= safe_count:
+        pool.sort(key=lambda item: item.total_rank)
+        return pool[:safe_count]
+
+    # Phase 3: Direct mutation fallback
+    for variant_index in range(1, safe_count * 3 + 1):
+        if len(pool) >= safe_count:
+            break
         mutated = _build_mutated_reference_candidate(base_level, base_file_name, normalized, variant_index)
         if mutated is None:
             continue
+
+        # Deduplication
+        signature = _level_signature(mutated)
+        if signature in seen_signatures:
+            continue
+        seen_signatures.add(signature)
+
+        # Set metadata
         mutated.meta["source_name"] = f"{slugify_file_part(base_file_name or base_level.id or 'reference_level')}_variant_{variant_index}.json"
         mutated.meta["source_kind"] = "mutation"
-        mutated_candidates.append(mutated)
 
-    ranked = rank_procedural_reference_candidates(
-        base_level,
-        [*repo_candidates, *generated_candidates, *mutated_candidates],
-        adjustments=normalized,
-        learning=learning,
-        limit=count,
-    )
-    if len(ranked) >= count:
-        return ranked
+        # Rank candidate
+        rank = procedural_reference_candidate_rank(base_level, mutated, normalized, learning)
+        pool.append(
+            ProceduralReferenceCandidate(
+                name=f"mutation_{variant_index}",
+                source_kind="mutation",
+                level=mutated,
+                reference_intent=normalized,
+                similarity=rank.similarity,
+                learning_bias=rank.learning_bias,
+                intent_penalty=rank.intent_penalty,
+                total_rank=rank.total,
+            )
+        )
 
-    relaxed_candidates: list[Level] = []
-    for path in _iter_repo_level_paths(root):
-        try:
-            level = load_level_file(path)
-        except Exception:
-            continue
-        if level.id == base_level.id:
-            continue
-        level.meta.setdefault("source_name", path.name)
-        level.meta["source_kind"] = "repo_relaxed"
-        relaxed_candidates.append(level)
-        if len(relaxed_candidates) >= max(10, count * 3):
-            break
-
-    return rank_procedural_reference_candidates(
-        base_level,
-        [candidate.level for candidate in ranked] + relaxed_candidates + mutated_candidates,
-        adjustments=normalized,
-        learning=learning,
-        limit=count,
-    )
+    # Final ranking and return
+    pool.sort(key=lambda item: item.total_rank)
+    return pool[:safe_count]
 
 
 def generate_learned_session_batch(

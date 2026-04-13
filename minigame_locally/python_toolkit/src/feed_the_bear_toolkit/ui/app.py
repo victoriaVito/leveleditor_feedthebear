@@ -123,11 +123,11 @@ def build_app_snapshot(root: Path | None = None) -> dict[str, Any]:
             "messages": list(spreadsheet_status.messages),
         },
         "defaults": {
-            "inspect_level_path": "levels/Progression B · Level 2.json",
+            "inspect_level_path": "levels/progression_b/jsons/progression_b_level2.json",
             "editor_output": "output/python_toolkit_checks/edited_level.json",
             "pack_folder": "levels/progression_g",
             "progression_path": "progressions/progression_g.json",
-            "procedural_level_path": "levels/Progression B · Level 2.json",
+            "procedural_level_path": "levels/progression_b/jsons/progression_b_level2.json",
             "procedural_level_number": 4,
             "procedural_reference_count": 3,
             "procedural_reference_pairs": "same",

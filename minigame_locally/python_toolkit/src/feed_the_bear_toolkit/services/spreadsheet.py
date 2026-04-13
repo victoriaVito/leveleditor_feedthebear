@@ -1,3 +1,61 @@
+"""Spreadsheet adapter service: partition between native Python and wrapped shell commands.
+
+ARCHITECTURE:
+============
+
+This module splits Google Sheets integration into two layers:
+- NATIVE (Python): All auth inspection, toolchain detection, status reporting, and hygiene actions
+- WRAPPED (Shell): All data sync, mutation, and orchestration via npm/bash wrappers
+
+NATIVE LAYER (Pure Python)
+--------------------------
+SpreadsheetAuthStatus: Introspects credentials + token files (no I/O mutations)
+SpreadsheetToolchainStatus: Detects node/npm/bash/npx availability
+SpreadsheetAdapterStatus: Aggregates auth + toolchain into unified health status
+- inspect_spreadsheet_auth(): Parse credentials/token, detect auth mode (service_account or oauth_client)
+- inspect_spreadsheet_toolchain(): Check tool availability via shutil.which()
+- inspect_spreadsheet_status(): Aggregate status with ready/degraded/blocked health enum
+- format_spreadsheet_status(): Human-readable status output
+
+HYGIENE ACTIONS (Native Python, Local I/O Only)
+-----------------------------------------------
+SpreadsheetLocalActionResult: Captures disconnect/cache-clear outcomes
+- disconnect_spreadsheet_token(): Delete token file (unlink), no API calls
+- clear_spreadsheet_ui_cache(): Delete .local/python_toolkit_ui directory, no API calls
+
+WRAPPED LAYER (Shell Command Routing)
+-------------------------------------
+SpreadsheetCommandSpec: Defines available npm/bash commands with descriptors
+SpreadsheetCommandResult: Captures command exit code, stdout, stderr, timeouts
+- build_spreadsheet_command_specs(): Enumerate all available wrapped commands (sync_local, sync_push, oauth_setup, etc.)
+- run_spreadsheet_command(): Execute command via subprocess, capture I/O, handle timeouts
+- build_spreadsheet_command_env(): Prepare environment variables for wrapped commands
+
+BOUNDARY ENFORCEMENT:
+====================
+- NO native code reads/writes Sheets data directly (e.g., no direct Sheets API client)
+- NO native code executes package-to-package mutations (npm scripts handle this)
+- auth + status are cheap Python-only introspections; all I/O mutations go through run_spreadsheet_command()
+- Wrapped commands run in subprocess with full stdout/stderr capture (no interactive tty by default)
+  - Exception: oauth_setup is marked interactive=True for user sign-in flow
+
+RATIONALE:
+==========
+- Phase 2A scope: Document boundaries, NOT rewrite native Sheets API integration
+- Web toolkit uses Node.js/TypeScript Sheets SDK; Python duplication would violate DRY
+- Orchestration (sync_all, sync:apis, etc.) is complex multi-step workflow best kept in npm/TypeScript
+- Python's role: UI shell, level domain logic, procedural orchestration, session state — NOT Sheets I/O
+
+MIGRATION PATH (Phase 2B, future):
+=================================
+If native Sheets API integration becomes necessary, create:
+1. python_toolkit/services/sheets_api_client.py: Native Google Sheets API client (google-api-python-client)
+2. Update inspect_spreadsheet_auth() to include direct token validation via API client
+3. Add native data read/write methods (e.g., fetch_sheet_data, write_sheet_rows)
+4. Phase out wrapped sync_ commands once parity verified
+This is NOT planned for Phase 2A per PARITY_CHECKLIST.
+"""
+
 from __future__ import annotations
 
 import json

@@ -1,177 +1,123 @@
 {
-  "id": "progression_a_level3",
-  "difficultyTier": 3,
-  "gridSize": {
-    "cols": 7,
-    "rows": 7
-  },
-  "moves": 8,
+  "level": 1,
+  "board_size": 4,
+  "board_width": 4,
+  "board_height": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B1",
+      "NODE_C1",
+      "NODE_A1"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "NODE_C2",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ]
+  ],
   "pairs": [
     {
-      "type": "blue",
-      "a": {
-        "x": 6,
-        "y": 0
-      },
-      "b": {
-        "x": 2,
-        "y": 5
-      }
+      "id": "A",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
     },
     {
-      "type": "green",
-      "a": {
-        "x": 4,
-        "y": 5
-      },
-      "b": {
-        "x": 1,
-        "y": 0
-      }
+      "id": "B",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        2,
+        0
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
     },
     {
-      "type": "yellow",
-      "a": {
-        "x": 5,
-        "y": 0
-      },
-      "b": {
-        "x": 3,
-        "y": 2
-      }
-    },
-    {
-      "type": "red",
-      "a": {
-        "x": 1,
-        "y": 2
-      },
-      "b": {
-        "x": 1,
-        "y": 4
-      }
-    },
-    {
-      "type": "orange",
-      "a": {
-        "x": 4,
-        "y": 0
-      },
-      "b": {
-        "x": 2,
-        "y": 1
-      }
-    },
-    {
-      "type": "purple",
-      "a": {
-        "x": 5,
-        "y": 3
-      },
-      "b": {
-        "x": 5,
-        "y": 6
-      }
+      "id": "C",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        3,
+        0
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
     }
   ],
   "blockers": [
-    {
-      "x": 1,
-      "y": 1
-    },
-    {
-      "x": 1,
-      "y": 3
-    },
-    {
-      "x": 3,
-      "y": 3
-    },
-    {
-      "x": 5,
-      "y": 4
-    },
-    {
-      "x": 1,
-      "y": 5
-    },
-    {
-      "x": 6,
-      "y": 6
-    }
+    [
+      2,
+      2
+    ]
   ],
-  "solutionCount": 0,
-  "targetDensity": "HIGH",
-  "goldenPath": {
+  "decal": false,
+  "moves": 5,
+  "solution_count": 2,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
     "A": [
       [
-        6,
-        0
-      ],
-      [
-        2,
-        5
-      ]
-    ],
-    "B": [
-      [
-        4,
-        5
-      ],
-      [
-        1,
-        0
-      ]
-    ],
-    "C": [
-      [
-        5,
-        0
+        0,
+        3
       ],
       [
         3,
         2
       ]
     ],
-    "D": [
+    "B": [
       [
-        1,
-        2
-      ],
-      [
-        1,
-        4
-      ]
-    ],
-    "E": [
-      [
-        4,
-        0
+        0,
+        1
       ],
       [
         2,
-        1
+        0
       ]
     ],
-    "I": [
+    "C": [
       [
-        5,
-        3
+        0,
+        2
       ],
       [
-        5,
-        6
+        3,
+        0
       ]
     ]
   },
-  "meta": {
-    "generation_attempts": 1,
-    "failed_checks": [],
-    "manual_difficulty": "EASY",
-    "source_name": "progression1_level7_v2.json"
-  },
   "validation": {
-    "solvable": false,
+    "solvable": true,
     "density_match": false,
     "decal_required": false,
     "decal_pass": null,
@@ -180,5 +126,10 @@
     "no_late_dead_ends": true,
     "curve_integrity": true
   },
-  "decal": false
+  "meta": {
+    "source_name": "a_d_4.json",
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM"
+  },
+  "id": "progression_a_level3"
 }
