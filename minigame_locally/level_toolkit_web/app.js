@@ -30,24 +30,17 @@ const difficultyToDensity = {
 
 const FISH_COLOR_SEQUENCE = [
   { letter: "A", id: "fish_red", hex: "#EF4444" },
-  { letter: "B", id: "fish_red_striped", hex: "#FCA5A5" },
-  { letter: "C", id: "fish_blue", hex: "#0EA5E9" },
-  { letter: "D", id: "fish_blue_striped", hex: "#7DD3FC" },
-  { letter: "E", id: "fish_green", hex: "#10B981" },
-  { letter: "F", id: "fish_green_striped", hex: "#A7F3D0" },
-  { letter: "G", id: "fish_yellow", hex: "#FBBF24" },
-  { letter: "H", id: "fish_yellow_striped", hex: "#FEE2A3" },
-  { letter: "I", id: "fish_orange", hex: "#F97316" },
-  { letter: "J", id: "fish_orange_striped", hex: "#FDBA74" },
-  { letter: "K", id: "fish_purple", hex: "#A855F7" },
-  { letter: "L", id: "fish_purple_striped", hex: "#D8B4FE" },
-  { letter: "M", id: "fish_cyan", hex: "#0891B2" },
-  { letter: "N", id: "fish_cyan_striped", hex: "#67E8F9" }
+  { letter: "B", id: "fish_blue", hex: "#0EA5E9" },
+  { letter: "C", id: "fish_green", hex: "#10B981" },
+  { letter: "D", id: "fish_yellow", hex: "#FBBF24" },
+  { letter: "E", id: "fish_orange", hex: "#F97316" },
+  { letter: "F", id: "fish_purple", hex: "#A855F7" },
+  { letter: "G", id: "fish_cyan", hex: "#0891B2" }
 ];
 const FISH_COLOR_BY_ID = Object.fromEntries(FISH_COLOR_SEQUENCE.map((entry) => [entry.id, entry]));
 const FISH_COLOR_BY_TYPE = Object.fromEntries(FISH_COLOR_SEQUENCE.map((entry) => [entry.id.replace("fish_", ""), entry]));
 const FISH_COLOR_BY_HEX = Object.fromEntries(FISH_COLOR_SEQUENCE.map((entry) => [entry.hex.toUpperCase(), entry]));
-const PAIR_IDS = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+const PAIR_IDS = ["A", "B", "C", "D", "E", "F", "G"];
 const pairColors = FISH_COLOR_SEQUENCE.slice(0, PAIR_IDS.length).map((entry) => entry.hex);
 const MIN_BOARD_SIZE = 4;
 const MAX_BOARD_WIDTH = 7;

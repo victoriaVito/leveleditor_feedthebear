@@ -7,6 +7,10 @@
     "vscode-terminal-mcp": {
       "type": "sse",
       "url": "http://localhost:6070/sse"
+    },
+    "pylon": {
+      "type": "http",
+      "url": "http://127.0.0.1:27681/mcp"
     }
   }
 }
