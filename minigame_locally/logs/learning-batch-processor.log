@@ -1,6 +1,0 @@
-{"timestamp":"2026-03-24T17:33:46.200Z","level":"INFO","message":"Learning batch processor started","interval":60000,"batch_size":5}
-{"timestamp":"2026-03-24T17:33:46.203Z","level":"INFO","message":"No learning entries to process","batch_size":5}
-{"timestamp":"2026-03-24T17:34:21.931Z","level":"INFO","message":"Learning batch processor started","interval":60000,"batch_size":5}
-{"timestamp":"2026-03-24T17:34:21.936Z","level":"INFO","message":"No learning entries to process","batch_size":5}
-{"timestamp":"2026-03-24T17:35:01.190Z","level":"INFO","message":"Learning batch processor started","interval":60000,"batch_size":5}
-{"timestamp":"2026-03-24T17:35:01.199Z","level":"INFO","message":"No learning entries to process","batch_size":5}

@@ -167,134 +167,280 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
   <title>Feed the Bear · Python UI</title>
   <style>
     :root {{
-      --bg: #edf5fb;
+      --bg: #ecf2f8;
+      --bg-2: #dfe9f4;
       --surface: #ffffff;
-      --surface-2: #f7fbff;
-      --text: #0b1b2a;
-      --muted: #5d7488;
-      --line: #d6e4ef;
-      --accent: #0b6b94;
-      --accent-2: #2aa16f;
-      --danger: #b74b28;
-      --bad: #b74b28;
-      --bad-soft: #fde8e3;
-      --good: #1d8f55;
-      --pending: #76818b;
-      --shadow: 0 14px 30px rgba(3, 105, 161, 0.09);
+      --surface-2: #f4f8fc;
+      --surface-3: #eef5fb;
+      --text: #13273a;
+      --muted: #5f768a;
+      --line: #d3e0ec;
+      --line-2: #c2d4e4;
+      --accent: #0f7fae;
+      --accent-strong: #0a5e87;
+      --accent-soft: #d8eef7;
+      --good: #1c8b58;
+      --pending: #687482;
+      --bad: #b33f27;
+      --bad-soft: #fbe9e4;
+      --warning: #99610b;
+      --warning-soft: #fff3de;
+      --sidebar-text: #e8f4ff;
+      --sidebar-muted: #b6d4e8;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --shadow-card: 0 18px 34px rgba(24, 64, 97, 0.1);
+      --shadow-soft: 0 8px 18px rgba(15, 66, 102, 0.08);
+    }}
+    body[data-theme="dark"] {{
+      --bg: #0f1720;
+      --bg-2: #0b1118;
+      --surface: #111d2a;
+      --surface-2: #162635;
+      --surface-3: #0f1d2b;
+      --text: #e5f0f8;
+      --muted: #9ab0c2;
+      --line: #23384c;
+      --line-2: #2d4760;
+      --accent: #52b7e8;
+      --accent-strong: #88d4f7;
+      --accent-soft: #193347;
+      --good: #66d39e;
+      --pending: #9aa9b6;
+      --bad: #f07f67;
+      --bad-soft: #3b2020;
+      --warning: #f0c06a;
+      --warning-soft: #3c3017;
+      --sidebar-text: #f2f8ff;
+      --sidebar-muted: #a9c7db;
+      --shadow-card: 0 18px 34px rgba(0, 0, 0, 0.35);
+      --shadow-soft: 0 8px 18px rgba(0, 0, 0, 0.28);
     }}
     * {{ box-sizing: border-box; }}
+    html, body {{ height: 100%; }}
     body {{
       margin: 0;
-      font-family: "Segoe UI", system-ui, sans-serif;
+      font-family: "Avenir Next", "Sofia Pro", "Trebuchet MS", "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(27, 146, 194, 0.12), transparent 28%),
-        linear-gradient(180deg, #f8fbfe 0%, var(--bg) 100%);
+        radial-gradient(1200px 420px at 0% -10%, rgba(28, 139, 178, 0.22), transparent 55%),
+        radial-gradient(900px 320px at 100% -8%, rgba(82, 167, 118, 0.18), transparent 55%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+      line-height: 1.35;
     }}
     .shell {{
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
-      padding: 18px;
+      grid-template-columns: 300px minmax(0, 1fr);
+      gap: 20px;
+      padding: 20px;
     }}
     .panel {{
       background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
     }}
     .sidebar {{
-      padding: 20px;
-      background: linear-gradient(180deg, #f9fcff 0%, #eef6fc 100%);
+      padding: 24px 20px;
       position: sticky;
-      top: 18px;
-      height: fit-content;
+      top: 20px;
+      height: calc(100vh - 40px);
+      overflow: auto;
+      background:
+        radial-gradient(420px 240px at 100% 0, rgba(126, 206, 245, 0.22), transparent 60%),
+        linear-gradient(180deg, #0f3f5d 0%, #0a2f46 100%);
+      border-color: rgba(159, 204, 231, 0.26);
     }}
     .sidebar h1 {{
       margin: 0 0 8px;
-      font-size: 24px;
-      letter-spacing: -0.02em;
+      color: #ffffff;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }}
     .sidebar p {{
       margin: 0 0 18px;
-      color: var(--muted);
-      line-height: 1.5;
+      color: var(--sidebar-muted);
+      line-height: 1.45;
+      font-size: 14px;
     }}
     .progress-list {{
       display: grid;
-      gap: 8px;
+      gap: 9px;
       margin-bottom: 20px;
     }}
     .progress-row {{
       display: flex;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(214,228,239,0.95);
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(196, 229, 248, 0.16);
+      color: var(--sidebar-text);
+      font-size: 13px;
     }}
     .state {{
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      font-size: 11px;
+      letter-spacing: 0.1em;
+      font-size: 10px;
+      font-weight: 700;
+      white-space: nowrap;
     }}
-    .state.done {{ color: var(--good); }}
-    .state.pending {{ color: var(--pending); }}
-    .state.in_progress {{ color: var(--accent); }}
+    .state.done {{ color: #84f3bd; }}
+    .state.pending {{ color: #d5e7f6; }}
+    .state.in_progress {{ color: #9fe6ff; }}
     .main {{
       display: grid;
-      gap: 18px;
+      gap: 20px;
       align-content: start;
+      min-width: 0;
     }}
     .hero {{
-      padding: 24px 26px;
-      background: linear-gradient(135deg, #0b3954 0%, #0d5e84 42%, #1583ab 100%);
+      padding: 26px 28px;
       color: white;
-      overflow: hidden;
       position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(460px 260px at 80% -12%, rgba(155, 230, 255, 0.24), transparent 62%),
+        linear-gradient(135deg, #0c4c72 0%, #0e6f98 48%, #0d8a76 100%);
     }}
     .hero::after {{
       content: "";
       position: absolute;
-      inset: auto -40px -60px auto;
+      right: -54px;
+      bottom: -74px;
       width: 260px;
       height: 260px;
-      background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.24), transparent 72%);
+      pointer-events: none;
     }}
     .hero h2 {{
-      margin: 0 0 10px;
-      font-size: 30px;
+      margin: 0 0 8px;
+      font-size: 34px;
+      line-height: 1.02;
       letter-spacing: -0.03em;
     }}
     .hero p {{
       margin: 0;
-      max-width: 880px;
-      line-height: 1.55;
-      color: rgba(255,255,255,0.84);
+      max-width: 900px;
+      color: rgba(236, 248, 255, 0.92);
+      line-height: 1.5;
+      font-size: 15px;
+    }}
+    .experience-controls {{
+      margin-top: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }}
+    .experience-toggle {{
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #f7fcff;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      backdrop-filter: blur(4px);
+    }}
+    .experience-toggle:hover {{
+      background: rgba(255, 255, 255, 0.24);
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow: none;
+      transform: translateY(0);
     }}
     .view-nav {{
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
       padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: var(--surface-3);
+      border-top-left-radius: var(--radius-lg);
+      border-top-right-radius: var(--radius-lg);
     }}
-    .nav-btn, button {{
-      font: inherit;
+    .quickbar-wrap {{
+      position: sticky;
+      top: 10px;
+      z-index: 12;
+      margin: 10px 14px 0;
+    }}
+    .quickbar {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px;
       border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 10px 12px;
-      background: #f9fcff;
+      border-radius: var(--radius-md);
+      background: color-mix(in srgb, var(--surface) 90%, #ffffff 10%);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+    }}
+    .quickbar-group {{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }}
+    .quickbar-label {{
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      margin-right: 2px;
+    }}
+    .quick-btn {{
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }}
+    .nav-btn,
+    button {{
+      font: inherit;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line-2);
+      background: #ffffff;
       color: var(--text);
       cursor: pointer;
+      padding: 10px 12px;
+      transition: 140ms ease;
+      transition-property: transform, box-shadow, border-color, background, color;
+    }}
+    .nav-btn:hover,
+    button:hover {{
+      transform: translateY(-1px);
+      border-color: #95bdd7;
+      box-shadow: var(--shadow-soft);
     }}
     .nav-btn.active {{
-      border-color: var(--accent-2);
-      background: linear-gradient(180deg, #e9fbf3 0%, #d9f4e8 100%);
-      box-shadow: inset 3px 0 0 var(--accent-2);
-      color: #0e6f49;
-      font-weight: 600;
+      border-color: #6ab5d8;
+      background: linear-gradient(180deg, #f0fbff 0%, #daf2fc 100%);
+      color: #0a5f84;
+      box-shadow: inset 3px 0 0 #2f9cca;
+      font-weight: 700;
+    }}
+    button.primary {{
+      border-color: #0f7fae;
+      background: linear-gradient(180deg, #188cc0 0%, #0f6d9b 100%);
+      color: #ffffff;
+    }}
+    button.primary:hover {{
+      border-color: #0a628b;
+      box-shadow: 0 10px 20px rgba(15, 127, 174, 0.28);
+    }}
+    button.secondary {{
+      background: #ffffff;
+      color: #13405a;
     }}
     .toolbar {{
       display: flex;
@@ -302,35 +448,31 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       gap: 8px;
       margin-bottom: 12px;
     }}
-    .toolbar button.primary {{
-      border-color: #0b78ae;
-      background: linear-gradient(180deg, #1a8ec7 0%, #0f6f9e 100%);
-      color: white;
-    }}
-    .toolbar button.secondary {{
-      background: white;
-    }}
     .stats {{
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
       gap: 12px;
     }}
     .stat-card {{
       padding: 16px 18px;
-      border-radius: 16px;
-      background: var(--surface);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fcff 100%);
       border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-soft);
     }}
     .stat-card strong {{
       display: block;
-      font-size: 28px;
-      margin-bottom: 6px;
-      letter-spacing: -0.03em;
+      font-size: 30px;
+      margin-bottom: 4px;
+      line-height: 1;
+      letter-spacing: -0.04em;
     }}
     .stat-card span {{
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 700;
     }}
     .view {{
       display: none;
@@ -338,24 +480,65 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .view.active {{
       display: block;
+      animation: fadeInUp 180ms ease;
+    }}
+    @keyframes fadeInUp {{
+      from {{ opacity: 0; transform: translateY(4px); }}
+      to {{ opacity: 1; transform: translateY(0); }}
     }}
     .grid {{
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 18px;
     }}
+    body[data-active-view="overview"] .view {{
+      --view-gap: 18px;
+    }}
+    body[data-active-view="inspector"] .view {{
+      --view-gap: 14px;
+    }}
+    body[data-active-view="packs"] .view {{
+      --view-gap: 14px;
+    }}
+    body[data-active-view="automation"] .view {{
+      --view-gap: 12px;
+    }}
+    body[data-active-view="sessions"] .view {{
+      --view-gap: 12px;
+    }}
+    .view .grid,
+    .view .split,
+    .view .split-board {{
+      gap: var(--view-gap, 18px);
+    }}
     .card {{
       padding: 18px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+      min-width: 0;
     }}
+    body.compact-ui .view {{ padding: 14px; }}
+    body.compact-ui .card {{ padding: 14px; }}
+    body.compact-ui .stats {{ gap: 8px; }}
+    body.compact-ui .stat-card {{ padding: 12px 14px; }}
+    body.compact-ui .stat-card strong {{ font-size: 24px; }}
+    body.compact-ui .toolbar {{ margin-bottom: 8px; gap: 6px; }}
+    body.compact-ui input,
+    body.compact-ui textarea,
+    body.compact-ui select {{ padding: 9px 10px; }}
     .card h3 {{
-      margin: 0 0 6px;
-      font-size: 18px;
-      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
     }}
     .card p {{
       margin: 0 0 14px;
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.45;
+      font-size: 14px;
     }}
     form {{
       display: grid;
@@ -365,26 +548,35 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     label {{
       display: grid;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
     }}
-    input {{
+    input,
+    textarea,
+    select {{
       width: 100%;
       padding: 11px 12px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
       background: var(--surface-2);
       color: var(--text);
       font: inherit;
+      min-width: 0;
+      outline: none;
+      transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }}
+    input:focus,
+    textarea:focus,
+    select:focus {{
+      border-color: #78b9d9;
+      box-shadow: 0 0 0 3px rgba(16, 133, 181, 0.16);
+      background: #ffffff;
     }}
     textarea {{
-      width: 100%;
       min-height: 120px;
-      padding: 11px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: var(--surface-2);
-      color: var(--text);
       font: 12px/1.45 ui-monospace, SFMono-Regular, Menlo, monospace;
       resize: vertical;
     }}
@@ -397,9 +589,9 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .info-list li {{
       display: grid;
-      gap: 3px;
+      gap: 4px;
       padding: 10px 12px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
       background: var(--surface-2);
     }}
@@ -415,21 +607,26 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: white;
+      background: #ffffff;
       font-size: 12px;
-      color: var(--text);
+      color: #143752;
+      font-weight: 600;
     }}
     pre {{
       margin: 0;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-      background: #071826;
+      padding: 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid #163246;
+      background: #071c2c;
       color: #d9eefc;
       overflow: auto;
       min-height: 150px;
       white-space: pre-wrap;
       word-break: break-word;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      line-height: 1.48;
+      font-variant-numeric: tabular-nums;
     }}
     .pair-list {{
       display: grid;
@@ -437,18 +634,19 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .pair-list.table-like {{
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: var(--radius-sm);
       overflow: hidden;
-      background: white;
+      background: #ffffff;
     }}
     .pair-row {{
       display: flex;
       justify-content: space-between;
       gap: 12px;
       padding: 10px 12px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
-      background: white;
+      background: #ffffff;
+      font-size: 13px;
     }}
     .pair-list.table-like .pair-row {{
       border: 0;
@@ -467,31 +665,31 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       gap: 6px;
       padding: 12px;
       border: 1px solid var(--line);
-      border-radius: 16px;
-      background: linear-gradient(180deg, #fbfdff 0%, #f3f9fd 100%);
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fcfeff 0%, #f2f8fd 100%);
       align-self: start;
     }}
     .board-cell {{
       min-height: 44px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
       display: grid;
       place-items: center;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.02em;
-      background: white;
+      background: #ffffff;
       color: var(--muted);
     }}
     .board-cell.node {{
-      background: linear-gradient(180deg, #e0f4fb 0%, #caecf8 100%);
-      color: var(--accent);
-      border-color: #a8d8ea;
+      background: linear-gradient(180deg, #e2f4ff 0%, #cfe9f8 100%);
+      color: var(--accent-strong);
+      border-color: #a7cae2;
     }}
     .board-cell.blocker {{
-      background: linear-gradient(180deg, #fde8e8 0%, #f8d5d5 100%);
+      background: linear-gradient(180deg, #fcebe7 0%, #f6d8cf 100%);
       color: var(--bad);
-      border-color: #f2b8b5;
+      border-color: #edc2b5;
     }}
     .board-cell.clickable {{
       cursor: pointer;
@@ -499,8 +697,8 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .board-cell.clickable:hover {{
       transform: translateY(-1px);
-      border-color: #82c2dd;
-      box-shadow: 0 8px 20px rgba(11, 107, 148, 0.12);
+      border-color: #7ab2d0;
+      box-shadow: 0 8px 20px rgba(18, 112, 156, 0.15);
     }}
     .board-cell.selected {{
       outline: 2px solid var(--accent);
@@ -514,7 +712,7 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     .split-board {{
       display: grid;
       gap: 18px;
-      grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(290px, 0.9fr);
       align-items: start;
     }}
     .variant-list {{
@@ -523,8 +721,8 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .variant-card {{
       border: 1px solid var(--line);
-      border-radius: 14px;
-      background: white;
+      border-radius: var(--radius-sm);
+      background: #ffffff;
       padding: 12px;
       display: grid;
       gap: 10px;
@@ -547,31 +745,65 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     }}
     .issue {{
       padding: 10px 12px;
-      border-radius: 12px;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--line);
-      background: white;
+      background: #ffffff;
       font-size: 13px;
     }}
     .issue.error {{
       background: var(--bad-soft);
-      border-color: #f1c0bb;
+      border-color: #f0beb4;
       color: var(--bad);
     }}
     .issue.warning {{
-      background: #fff7e8;
-      border-color: #f1d3a4;
-      color: #9a6700;
+      background: var(--warning-soft);
+      border-color: #efd5a2;
+      color: var(--warning);
     }}
     .table-wrap {{
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: var(--radius-sm);
       overflow: auto;
-      background: white;
+      background: #ffffff;
+    }}
+    table {{
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 640px;
+    }}
+    th, td {{
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.45;
+      font-variant-numeric: tabular-nums;
+      vertical-align: top;
+    }}
+    thead th {{
+      background: #f2f8fd;
+      color: #20435d;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }}
+    tbody tr:hover {{
+      background: #f8fcff;
     }}
     .split {{
       display: grid;
       grid-template-columns: 1.1fr 1fr;
       gap: 18px;
+      min-width: 0;
+    }}
+    body[data-active-view="automation"] .card p,
+    body[data-active-view="sessions"] .card p {{
+      font-size: 13px;
+      line-height: 1.4;
+    }}
+    body[data-active-view="automation"] .chip,
+    body[data-active-view="sessions"] .chip {{
+      font-size: 11px;
     }}
     .editor-grid {{
       display: grid;
@@ -581,9 +813,21 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
     .editor-grid .full {{
       grid-column: 1 / -1;
     }}
-    @media (max-width: 1080px) {{
+    code {{
+      background: #edf4fb;
+      border: 1px solid #d3e2ef;
+      border-radius: 8px;
+      padding: 2px 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: #15324a;
+    }}
+    @media (max-width: 1200px) {{
       .shell {{ grid-template-columns: 1fr; }}
-      .sidebar {{ position: static; }}
+      .sidebar {{
+        position: static;
+        height: auto;
+      }}
       .split {{ grid-template-columns: 1fr; }}
       .split-board {{ grid-template-columns: 1fr; }}
       .editor-grid {{ grid-template-columns: 1fr; }}
@@ -602,6 +846,10 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
       <section class="hero panel">
         <h2>Python UI Shell</h2>
         <p>This shell now focuses on the slices that are already ported in Python: interactive level inspection, pack QA, progression validation, and safe round-trip persistence.</p>
+        <div class="experience-controls">
+          <button type="button" id="theme-toggle" class="experience-toggle">Theme: Light</button>
+          <button type="button" id="density-toggle" class="experience-toggle">Density: Comfort</button>
+        </div>
       </section>
 
       <section class="stats">
@@ -620,6 +868,24 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
           <button class="nav-btn" data-view="packs">Pack QA + Progressions</button>
           <button class="nav-btn" data-view="automation">Procedural + Spreadsheet</button>
           <button class="nav-btn" data-view="sessions">Sessions</button>
+        </div>
+        <div class="quickbar-wrap">
+          <div class="quickbar">
+            <div class="quickbar-group">
+              <span class="quickbar-label">Jump</span>
+              <button type="button" class="quick-btn" data-quick-nav="inspector">Inspector</button>
+              <button type="button" class="quick-btn" data-quick-nav="packs">Packs</button>
+              <button type="button" class="quick-btn" data-quick-nav="automation">Automation</button>
+              <button type="button" class="quick-btn" data-quick-nav="sessions">Sessions</button>
+            </div>
+            <div class="quickbar-group">
+              <span class="quickbar-label">Quick Actions</span>
+              <button type="button" class="quick-btn" data-quick-action="inspect-level-validate">Validate level</button>
+              <button type="button" class="quick-btn" data-quick-action="progression-validate-btn">Validate progression</button>
+              <button type="button" class="quick-btn" data-quick-action="spreadsheet-status-btn">Spreadsheet status</button>
+              <button type="button" class="quick-btn" data-quick-action="inspect-state-btn">Inspect queue</button>
+            </div>
+          </div>
         </div>
 
         <section id="view-overview" class="view active">
@@ -927,11 +1193,68 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
   </div>
 
   <script>
+    const THEME_KEY = 'ftb_python_ui_theme';
+    const DENSITY_KEY = 'ftb_python_ui_density';
+
+    function setTheme(theme) {{
+      const next = theme === 'dark' ? 'dark' : 'light';
+      document.body.dataset.theme = next;
+      localStorage.setItem(THEME_KEY, next);
+      const btn = document.getElementById('theme-toggle');
+      if (btn) btn.textContent = `Theme: ${{next === 'dark' ? 'Dark' : 'Light'}}`;
+    }}
+
+    function setDensity(mode) {{
+      const next = mode === 'compact' ? 'compact' : 'comfort';
+      document.body.classList.toggle('compact-ui', next === 'compact');
+      localStorage.setItem(DENSITY_KEY, next);
+      const btn = document.getElementById('density-toggle');
+      if (btn) btn.textContent = `Density: ${{next === 'compact' ? 'Compact' : 'Comfort'}}`;
+    }}
+
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+    const savedDensity = localStorage.getItem(DENSITY_KEY) || 'comfort';
+    setTheme(savedTheme);
+    setDensity(savedDensity);
+
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {{
+      const current = document.body.dataset.theme === 'dark' ? 'dark' : 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }});
+
+    document.getElementById('density-toggle')?.addEventListener('click', () => {{
+      const compact = document.body.classList.contains('compact-ui');
+      setDensity(compact ? 'comfort' : 'compact');
+    }});
+
     const views = document.querySelectorAll('.view');
-    document.querySelectorAll('.nav-btn').forEach((button) => {{
+    const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+    function activateView(viewName) {{
+      const nextName = String(viewName || '').trim() || 'overview';
+      document.body.dataset.activeView = nextName;
+      navButtons.forEach((node) => node.classList.toggle('active', node.dataset.view === nextName));
+      views.forEach((view) => view.classList.toggle('active', view.id === `view-${{nextName}}`));
+    }}
+    navButtons.forEach((button) => {{
+      button.addEventListener('click', () => activateView(button.dataset.view));
+    }});
+    activateView('overview');
+
+    document.querySelectorAll('[data-quick-nav]').forEach((button) => {{
       button.addEventListener('click', () => {{
-        document.querySelectorAll('.nav-btn').forEach((node) => node.classList.toggle('active', node === button));
-        views.forEach((view) => view.classList.toggle('active', view.id === `view-${{button.dataset.view}}`));
+        activateView(button.dataset.quickNav);
+      }});
+    }});
+    document.querySelectorAll('[data-quick-action]').forEach((button) => {{
+      button.addEventListener('click', () => {{
+        const targetId = String(button.dataset.quickAction || '');
+        const target = targetId ? document.getElementById(targetId) : null;
+        if (!target) return;
+        if (targetId.startsWith('inspect-level')) activateView('inspector');
+        else if (targetId.startsWith('progression-')) activateView('packs');
+        else if (targetId.startsWith('spreadsheet-')) activateView('automation');
+        else if (targetId.startsWith('inspect-state')) activateView('sessions');
+        target.click();
       }});
     }});
 

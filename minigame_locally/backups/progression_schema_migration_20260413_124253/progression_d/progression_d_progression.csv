@@ -1,0 +1,12 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progression_4_1,Progression 4,0,tutorial_level.json,Workshop tutorial · progressionA,minigame_locally/levels/tutorial_level.json,1,6x6,3,3,8,0,EASY,OK,Yes,Tutorial slot
+progression_4_1,Progression 4,1,6.json,Imported via browser picker · 6.json,minigame_locally/levels/6.json,6,4x4,3,1,5,6,EASY,OK,Yes,
+progression_4_1,Progression 4,2,5.json,Imported via browser picker · 5.json,minigame_locally/levels/5.json,5,5x5,4,0,6,20,EASY,OK,Yes,
+progression_4_1,Progression 4,3,1.json,minigame_locally/levels/1.json,minigame_locally/levels/1.json,1,5x5,4,2,7,16,MEDIUM,OK,Yes,
+progression_4_1,Progression 4,4,progression_4_slot_4.json,minigame_locally/levels/progression_4_slot_4.json,minigame_locally/levels/progression_4_slot_4.json,4,7x6,6,0,7,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,5,2.json,minigame_locally/levels/2.json,minigame_locally/levels/2.json,2,6x6,5,3,6,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,6,baseprocedular_1.json,Imported via browser picker · baseprocedular_1.json,minigame_locally/levels/baseprocedular_1.json,1,7x7,6,4,11,20,MEDIUM,OK,No,
+progression_4_1,Progression 4,7,3.json,minigame_locally/levels/3.json,minigame_locally/levels/3.json,3,7x7,5,2,0,0,EASY,INVALID,Yes,
+progression_4_1,Progression 4,8,7.json,minigame_locally/levels/7.json,minigame_locally/levels/7.json,7,7x7,6,8,8,20,EASY,OK,Yes,
+progression_4_1,Progression 4,9,progression_4_slot_9.json,minigame_locally/levels/progression_4_slot_9.json,minigame_locally/levels/progression_4_slot_9.json,9,6x6,4,2,9,0,MEDIUM,INVALID,Yes,
+progression_4_1,Progression 4,10,progression_4_slot_10.json,minigame_locally/levels/progression_4_slot_10.json,minigame_locally/levels/progression_4_slot_10.json,10,7x7,7,3,7,20,HARD,OK,Yes,

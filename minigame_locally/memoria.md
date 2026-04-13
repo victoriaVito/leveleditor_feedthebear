@@ -572,3 +572,14 @@ Do not use it as the full historical audit log.
 - Date: 2026-04-08 | File path: scripts/reconnect_google_sheets_loopback.mjs | Action: updated | Reason: Made the Google OAuth loopback callback port configurable so spreadsheet auth can run even when 8765 is already used by the local UI.
 - Date: 2026-04-08 | File path: scripts/setup_oauth.sh | Action: updated | Reason: Documented how to refresh the Google Sheets token on an alternate localhost port when 8765 is busy.
 - Date: 2026-04-08 | File path: memoria.md | Action: updated | Reason: Registered the configurable OAuth loopback port fix after reproducing a callback bind failure on 8765.
+- Date: 2026-04-13 | File path: scripts/reconnect_google_sheets_loopback.mjs | Action: updated | Reason: Added support for overriding OAuth scopes via `GOOGLE_OAUTH_SCOPES` to allow full-Drive reauthorization when needed.
+- Date: 2026-04-13 | File path: package.json | Action: updated | Reason: Added `oauth:setup:drive-full` one-step command requesting `https://www.googleapis.com/auth/drive` + spreadsheets scope.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the new full-Drive OAuth setup path used to unblock Drive migration operations.
+- Date: 2026-04-13 | File path: python_toolkit/src/feed_the_bear_toolkit/ui/app.py | Action: updated | Reason: Applied a full UX/UI visual redesign of the Python UI shell (layout polish, typography, color system, controls, tables, cards, responsive behavior) while preserving existing functionality.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the Python UI redesign as a persistent project-level change.
+- Date: 2026-04-13 | File path: python_toolkit/src/feed_the_bear_toolkit/ui/app.py | Action: updated | Reason: Added premium UX layer with persistent Light/Dark theme toggle, Comfort/Compact density toggle, and additional high-fidelity UI refinements for daily workflow usability.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the premium UX pass for the Python UI shell.
+- Date: 2026-04-13 | File path: python_toolkit/src/feed_the_bear_toolkit/ui/app.py | Action: updated | Reason: Premium v3 UX pass: added sticky quick-action top bar, per-view layout density tokens, and improved data typography for tables/preformatted outputs to support long review sessions.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the premium v3 Python UI iteration.
+- Date: 2026-04-13 | File path: docs/PYTHON_UI_PREMIUM_MASTER_PLAN.md | Action: created | Reason: Added a mega-detailed premium UI master plan covering v4 scope, AI model routing, skill usage, sub-agent delegation, risks, KPIs, and execution phases.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Registered creation of the premium UI master plan so planning work stays traceable in the canonical memory index.

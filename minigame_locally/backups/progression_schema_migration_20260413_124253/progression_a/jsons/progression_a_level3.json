@@ -1,0 +1,267 @@
+{
+  "level": 7,
+  "board_size": 7,
+  "board_width": 7,
+  "board_height": 7,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "BLOCKED",
+      "NODE_D1",
+      "BLOCKED",
+      "NODE_D2",
+      "BLOCKED",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_E2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_E1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY"
+    ],
+    [
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "NODE_I1",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_I2"
+    ],
+    [
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        6,
+        0
+      ],
+      "end": [
+        2,
+        5
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "B",
+      "start": [
+        4,
+        5
+      ],
+      "end": [
+        1,
+        0
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "C",
+      "start": [
+        5,
+        0
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#FBBF24",
+      "fish_color_id": "fish_yellow",
+      "color_letter": "G"
+    },
+    {
+      "id": "D",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        1,
+        4
+      ],
+      "color": "#7DD3FC",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    },
+    {
+      "id": "E",
+      "start": [
+        4,
+        0
+      ],
+      "end": [
+        2,
+        1
+      ],
+      "color": "#10B981",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "I",
+      "start": [
+        5,
+        3
+      ],
+      "end": [
+        5,
+        6
+      ],
+      "color": "#F97316",
+      "fish_color_id": "fish_orange",
+      "color_letter": "I"
+    }
+  ],
+  "blockers": [
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      3,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      1,
+      5
+    ],
+    [
+      6,
+      6
+    ]
+  ],
+  "decal": false,
+  "moves": 8,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        6,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        4,
+        5
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        5,
+        0
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "D": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "E": [
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "I": [
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "progression1_level7_v2.json"
+  },
+  "id": "progression_a_level3"
+}

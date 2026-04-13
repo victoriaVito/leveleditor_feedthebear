@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feed the Bear — Level Report</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f6f8; color: #1a1a2e; padding: 24px; }
+  .header { background: linear-gradient(135deg, #0052CC 0%, #0065FF 100%); color: white; padding: 32px; border-radius: 12px; margin-bottom: 24px; }
+  .header h1 { font-size: 28px; margin-bottom: 8px; }
+  .header p { opacity: 0.85; font-size: 14px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card { background: white; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .stat-num { font-size: 32px; font-weight: 700; color: #0052CC; }
+  .stat-label { font-size: 13px; color: #666; margin-top: 4px; }
+  .controls { background: white; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .controls label { font-size: 13px; font-weight: 600; color: #444; }
+  select, input[type=text] { padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+  select { min-width: 180px; }
+  input[type=text] { min-width: 220px; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+  .badge-easy { background: #E3FCEF; color: #006644; }
+  .badge-medium { background: #FFFAE6; color: #7A5C00; }
+  .badge-hard { background: #FFEBE6; color: #BF2600; }
+  .section { margin-bottom: 32px; }
+  .section-title { font-size: 20px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #0052CC; color: #0052CC; display: flex; align-items: center; gap: 8px; }
+  .section-count { background: #0052CC; color: white; border-radius: 12px; padding: 2px 10px; font-size: 13px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+  .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); transition: transform 0.15s, box-shadow 0.15s; cursor: pointer; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .card-img { width: 100%; aspect-ratio: 4/3; background: #eee; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+  .card-img img { width: 100%; height: 100%; object-fit: contain; }
+  .card-img .placeholder { color: #aaa; font-size: 13px; text-align: center; padding: 12px; }
+  .card-body { padding: 12px 16px; }
+  .card-name { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .card-meta { font-size: 12px; color: #666; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .card-meta span { white-space: nowrap; }
+  .spelling-warn { background: #FFF3CD; border: 1px solid #FFD166; border-radius: 10px; padding: 16px 20px; margin-bottom: 24px; }
+  .spelling-warn h3 { color: #856404; margin-bottom: 8px; font-size: 15px; }
+  .spelling-warn ul { margin-left: 20px; font-size: 13px; }
+  .spelling-warn li { margin-bottom: 4px; }
+  .spelling-warn code { background: #ffe4c7; padding: 1px 5px; border-radius: 3px; }
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+  .modal-overlay.active { display: flex; }
+  .modal { background: white; border-radius: 12px; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; padding: 24px; position: relative; }
+  .modal-close { position: absolute; top: 12px; right: 16px; font-size: 24px; cursor: pointer; color: #666; background: none; border: none; }
+  .modal img { width: 100%; border-radius: 8px; margin-bottom: 16px; }
+  .modal h2 { font-size: 20px; margin-bottom: 12px; }
+  .modal table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .modal td { padding: 6px 0; border-bottom: 1px solid #eee; }
+  .modal td:first-child { font-weight: 600; color: #444; width: 140px; }
+  .rename-input { border: 1px dashed #0052CC; background: #f0f6ff; padding: 6px 10px; border-radius: 6px; font-size: 13px; width: 100%; margin-top: 8px; }
+  .export-btn { background: #0052CC; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 16px; }
+  .export-btn:hover { background: #0041a3; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Feed the Bear — Level Report</h1>
+  <p>131 niveles en total | 3 progresiones authored + 10 procedural | Generado: 2026-04-12</p>
+</div>
+
+<div class="stats">
+  <div class="stat-card"><div class="stat-num">131</div><div class="stat-label">Niveles totales</div></div>
+  <div class="stat-card"><div class="stat-num">31</div><div class="stat-label">Authored levels</div></div>
+  <div class="stat-card"><div class="stat-num">100</div><div class="stat-label">Procedural levels</div></div>
+  <div class="stat-card"><div class="stat-num">16</div><div class="stat-label">Easy</div></div>
+  <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Medium</div></div>
+  <div class="stat-card"><div class="stat-num">105</div><div class="stat-label">Hard</div></div>
+</div>
+
+<div class="spelling-warn">
+  <h3>Nombres con posible typo (12 archivos)</h3>
+  <ul>
+    <li><code>progresion1_level2.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion1_level6.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level1.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level2.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level3.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level4.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level5.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level6.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level7.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level8.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level9.json</code> — "progresion" → should be "progression"</li>
+    <li><code>progresion2_level10.json</code> — "progresion" → should be "progression"</li>
+  </ul>
+</div>
+
+<div class="controls">
+  <label>Filtrar:</label>
+  <select id="filterProg" onchange="applyFilters()">
+    <option value="all">Todas las progresiones</option>
+    <option value="Progression A">Progression A (11)</option>
+    <option value="Progression B">Progression B (10)</option>
+    <option value="Progression C">Progression C (10)</option>
+    <option value="Procedural 1">Procedural 1 (10)</option>
+    <option value="Procedural 2">Procedural 2 (10)</option>
+    <option value="Procedural 3">Procedural 3 (10)</option>
+    <option value="Procedural 4">Procedural 4 (10)</option>
+    <option value="Procedural 5">Procedural 5 (10)</option>
+    <option value="Procedural 6">Procedural 6 (10)</option>
+    <option value="Procedural 7">Procedural 7 (10)</option>
+    <option value="Procedural 8">Procedural 8 (10)</option>
+    <option value="Procedural 9">Procedural 9 (10)</option>
+    <option value="Procedural 10">Procedural 10 (10)</option>
+  </select>
+  <select id="filterDiff" onchange="applyFilters()">
+    <option value="all">Todas las dificultades</option>
+    <option value="Easy">Easy</option>
+    <option value="Medium">Medium</option>
+    <option value="Hard">Hard</option>
+  </select>
+  <input type="text" id="searchBox" placeholder="Buscar por nombre..." oninput="applyFilters()">
+</div>
+<div class="section" data-prog="Progression A">
+  <div class="section-title">Progression A <span class="section-count">11</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="progression1 level1" onclick="openModal(this)" data-file="progression1_level1.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level1.png" data-board="5x5" data-pairs="4" data-blockers="1" data-moves="6" data-score="1.064" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level1.png" alt="progression1 level1" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level1.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · progression1 level1</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>5x5</span> <span>progression1_level1.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="progresion1 level2" onclick="openModal(this)" data-file="progresion1_level2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion1_level2.png" data-board="5x5" data-pairs="3" data-blockers="0" data-moves="5" data-score="1.053" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion1_level2.png" alt="progresion1 level2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion1_level2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · progresion1 level2</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>5x5</span> <span>progresion1_level2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Medium" data-name="progression1 level3" onclick="openModal(this)" data-file="progression1_level3.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level3.png" data-board="4x4" data-pairs="3" data-blockers="1" data-moves="5" data-score="2.053" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level3.png" alt="progression1 level3" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level3.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · progression1 level3</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>4x4</span> <span>progression1_level3.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="progression1 level4" onclick="openModal(this)" data-file="progression1_level4.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level4.png" data-board="5x5" data-pairs="5" data-blockers="3" data-moves="7" data-score="1.075" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level4.png" alt="progression1 level4" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level4.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · progression1 level4</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>5x5</span> <span>progression1_level4.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="progression1 level5" onclick="openModal(this)" data-file="progression1_level5.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level5.png" data-board="4x4" data-pairs="3" data-blockers="0" data-moves="5" data-score="1.053" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level5.png" alt="progression1 level5" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level5.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · progression1 level5</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>4x4</span> <span>progression1_level5.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Medium" data-name="progresion1 level6" onclick="openModal(this)" data-file="progresion1_level6.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion1_level6.png" data-board="6x6" data-pairs="4" data-blockers="5" data-moves="6" data-score="2.065" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion1_level6.png" alt="progresion1 level6" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion1_level6.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · progresion1 level6</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>6x6</span> <span>progresion1_level6.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Hard" data-name="progression1 level7 v2" onclick="openModal(this)" data-file="progression1_level7_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level7_v2.png" data-board="7x7" data-pairs="6" data-blockers="6" data-moves="8" data-score="3.087" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level7_v2.png" alt="progression1 level7 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level7_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · progression1 level7 v2</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>progression1_level7_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="progression1 level8" onclick="openModal(this)" data-file="progression1_level8.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level8.png" data-board="6x6" data-pairs="3" data-blockers="6" data-moves="7" data-score="1.074" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level8.png" alt="progression1 level8" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level8.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · progression1 level8</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>6x6</span> <span>progression1_level8.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Medium" data-name="progression1 level9" onclick="openModal(this)" data-file="progression1_level9.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level9.png" data-board="5x5" data-pairs="4" data-blockers="2" data-moves="7" data-score="2.074" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level9.png" alt="progression1 level9" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level9.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · progression1 level9</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>5x5</span> <span>progression1_level9.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Hard" data-name="progression1 level10" onclick="openModal(this)" data-file="progression1_level10.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression1_level10.png" data-board="6x7" data-pairs="4" data-blockers="7" data-moves="6" data-score="3.065" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression1_level10.png" alt="progression1 level10" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression1_level10.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · progression1 level10</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>6x7</span> <span>progression1_level10.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression A" data-diff="Easy" data-name="tutorial" onclick="openModal(this)" data-file="tutorial_level.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/lvl_109_tutorial_level.png" data-board="6x6" data-pairs="3" data-blockers="3" data-moves="8" data-score="1.083" data-status="OK" data-pos="">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/lvl_109_tutorial_level.png" alt="tutorial" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>lvl_109_tutorial_level.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">tutorial</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>6x6</span> <span>tutorial_level.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Progression B">
+  <div class="section-title">Progression B <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Progression B" data-diff="Easy" data-name="progresion2 level1" onclick="openModal(this)" data-file="progresion2_level1.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level1.png" data-board="5x5" data-pairs="2" data-blockers="7" data-moves="5" data-score="1.053" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level1.png" alt="progresion2 level1" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level1.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · progresion2 level1</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>5x5</span> <span>progresion2_level1.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Easy" data-name="progresion2 level2" onclick="openModal(this)" data-file="progresion2_level2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level2.png" data-board="4x4" data-pairs="3" data-blockers="2" data-moves="6" data-score="1.063" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level2.png" alt="progresion2 level2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · progresion2 level2</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>4x4</span> <span>progresion2_level2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Medium" data-name="progresion2 level3" onclick="openModal(this)" data-file="progresion2_level3.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level3.png" data-board="6x6" data-pairs="4" data-blockers="6" data-moves="6" data-score="2.065" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level3.png" alt="progresion2 level3" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level3.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · progresion2 level3</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>6x6</span> <span>progresion2_level3.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Hard" data-name="progresion2 level4" onclick="openModal(this)" data-file="progresion2_level4.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level4.png" data-board="7x7" data-pairs="4" data-blockers="3" data-moves="6" data-score="3.064" data-status="INVALID" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level4.png" alt="progresion2 level4" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level4.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · progresion2 level4</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>progresion2_level4.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Easy" data-name="progresion2 level5" onclick="openModal(this)" data-file="progresion2_level5.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level5.png" data-board="7x7" data-pairs="4" data-blockers="10" data-moves="5" data-score="1.055" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level5.png" alt="progresion2 level5" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level5.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · progresion2 level5</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>7x7</span> <span>progresion2_level5.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Medium" data-name="progresion2 level6" onclick="openModal(this)" data-file="progresion2_level6.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level6.png" data-board="6x6" data-pairs="3" data-blockers="4" data-moves="5" data-score="2.053" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level6.png" alt="progresion2 level6" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level6.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · progresion2 level6</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>6x6</span> <span>progresion2_level6.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Hard" data-name="progresion2 level7" onclick="openModal(this)" data-file="progresion2_level7.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level7.png" data-board="8x9" data-pairs="8" data-blockers="6" data-moves="9" data-score="3.099" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level7.png" alt="progresion2 level7" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level7.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · progresion2 level7</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x9</span> <span>progresion2_level7.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Easy" data-name="progresion2 level8" onclick="openModal(this)" data-file="progresion2_level8.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level8.png" data-board="8x8" data-pairs="7" data-blockers="1" data-moves="0" data-score="1.007" data-status="INVALID" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level8.png" alt="progresion2 level8" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level8.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · progresion2 level8</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>8x8</span> <span>progresion2_level8.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Medium" data-name="progresion2 level9" onclick="openModal(this)" data-file="progresion2_level9.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level9.png" data-board="8x8" data-pairs="6" data-blockers="7" data-moves="7" data-score="2.077" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level9.png" alt="progresion2 level9" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level9.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · progresion2 level9</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>8x8</span> <span>progresion2_level9.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression B" data-diff="Hard" data-name="progresion2 level10" onclick="openModal(this)" data-file="progresion2_level10.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progresion2_level10.png" data-board="8x8" data-pairs="5" data-blockers="7" data-moves="6" data-score="3.066" data-status="INVALID" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progresion2_level10.png" alt="progresion2 level10" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progresion2_level10.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · progresion2 level10</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>progresion2_level10.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Progression C">
+  <div class="section-title">Progression C <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Progression C" data-diff="Easy" data-name="progression3 level1 v2" onclick="openModal(this)" data-file="progression3_level1_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression3_level1_v2.png" data-board="5x5" data-pairs="6" data-blockers="3" data-moves="8" data-score="1.086" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression3_level1_v2.png" alt="progression3 level1 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression3_level1_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · progression3 level1 v2</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>5x5</span> <span>progression3_level1_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Easy" data-name="progression 3 level 2 v2" onclick="openModal(this)" data-file="progression_3_level_2_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level_2_v2.png" data-board="6x6" data-pairs="6" data-blockers="10" data-moves="8" data-score="1.087" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level_2_v2.png" alt="progression 3 level 2 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level_2_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · progression 3 level 2 v2</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>6x6</span> <span>progression_3_level_2_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Medium" data-name="progression 3 level3" onclick="openModal(this)" data-file="progression_3_level3.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level3.png" data-board="8x7" data-pairs="3" data-blockers="9" data-moves="6" data-score="2.064" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level3.png" alt="progression 3 level3" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level3.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · progression 3 level3</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>8x7</span> <span>progression_3_level3.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Easy" data-name="progression 3 level4" onclick="openModal(this)" data-file="progression_3_level4.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level4.png" data-board="7x7" data-pairs="4" data-blockers="10" data-moves="7" data-score="1.075" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level4.png" alt="progression 3 level4" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level4.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · progression 3 level4</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>7x7</span> <span>progression_3_level4.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Medium" data-name="progression 3 level5" onclick="openModal(this)" data-file="progression_3_level5.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level5.png" data-board="6x6" data-pairs="4" data-blockers="4" data-moves="8" data-score="2.084" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level5.png" alt="progression 3 level5" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level5.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · progression 3 level5</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>6x6</span> <span>progression_3_level5.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Easy" data-name="progression 3 level6" onclick="openModal(this)" data-file="progression_3_level6.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level6.png" data-board="8x8" data-pairs="5" data-blockers="4" data-moves="9" data-score="1.095" data-status="INVALID" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level6.png" alt="progression 3 level6" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level6.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · progression 3 level6</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>8x8</span> <span>progression_3_level6.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Medium" data-name="progression 3 level7 v2" onclick="openModal(this)" data-file="progression_3_level7_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level7_v2.png" data-board="8x8" data-pairs="6" data-blockers="1" data-moves="6" data-score="2.066" data-status="INVALID" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level7_v2.png" alt="progression 3 level7 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level7_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · progression 3 level7 v2</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>8x8</span> <span>progression_3_level7_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Easy" data-name="progression 3 level 8 v2" onclick="openModal(this)" data-file="progression_3_level_8_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level_8_v2.png" data-board="8x9" data-pairs="6" data-blockers="11" data-moves="8" data-score="1.087" data-status="INVALID" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level_8_v2.png" alt="progression 3 level 8 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level_8_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · progression 3 level 8 v2</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>8x9</span> <span>progression_3_level_8_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Medium" data-name="progression 3 level9 v2" onclick="openModal(this)" data-file="progression_3_level9_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level9_v2.png" data-board="9x9" data-pairs="9" data-blockers="12" data-moves="6" data-score="2.07" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level9_v2.png" alt="progression 3 level9 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level9_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · progression 3 level9 v2</div>
+        <div class="card-meta"><span class="badge badge-medium">Medium</span> <span>9x9</span> <span>progression_3_level9_v2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Progression C" data-diff="Hard" data-name="progression 3 level10 v2" onclick="openModal(this)" data-file="progression_3_level10_v2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/progression_3_level10_v2.png" data-board="9x9" data-pairs="8" data-blockers="5" data-moves="9" data-score="3.099" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/progression_3_level10_v2.png" alt="progression 3 level10 v2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>progression_3_level10_v2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · progression 3 level10 v2</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>9x9</span> <span>progression_3_level10_v2.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 1">
+  <div class="section-title">Procedural 1 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Easy" data-name="slot2 1" onclick="openModal(this)" data-file="slot2_1.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/slot2_1.png" data-board="7x7" data-pairs="5" data-blockers="8" data-moves="7" data-score="1.076" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/slot2_1.png" alt="slot2 1" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>slot2_1.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · slot2 1</div>
+        <div class="card-meta"><span class="badge badge-easy">Easy</span> <span>7x7</span> <span>slot2_1.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="slot2 2" onclick="openModal(this)" data-file="slot2_2.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/slot2_2.png" data-board="8x8" data-pairs="6" data-blockers="8" data-moves="8" data-score="3.087" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/slot2_2.png" alt="slot2 2" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>slot2_2.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · slot2 2</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>slot2_2.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="slot2 3" onclick="openModal(this)" data-file="slot2_3.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/slot2_3.png" data-board="7x7" data-pairs="4" data-blockers="6" data-moves="9" data-score="3.095" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/slot2_3.png" alt="slot2 3" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>slot2_3.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · slot2 3</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>slot2_3.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="slot2 4" onclick="openModal(this)" data-file="slot2_4.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/slot2_4.png" data-board="7x7" data-pairs="5" data-blockers="8" data-moves="8" data-score="3.086" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/slot2_4.png" alt="slot2 4" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>slot2_4.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · slot2 4</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>slot2_4.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 005" onclick="openModal(this)" data-file="procedular_reference_large_005.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_005.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_005.png" alt="procedular reference large 005" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_005.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 005</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_005.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 006" onclick="openModal(this)" data-file="procedular_reference_large_006.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_006.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_006.png" alt="procedular reference large 006" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_006.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 006</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_006.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 007" onclick="openModal(this)" data-file="procedular_reference_large_007.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_007.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_007.png" alt="procedular reference large 007" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_007.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 007</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_007.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 008" onclick="openModal(this)" data-file="procedular_reference_large_008.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_008.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_008.png" alt="procedular reference large 008" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_008.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 008</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_008.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 009" onclick="openModal(this)" data-file="procedular_reference_large_009.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_009.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_009.png" alt="procedular reference large 009" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_009.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 009</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_009.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 1" data-diff="Hard" data-name="procedular reference large 010" onclick="openModal(this)" data-file="procedular_reference_large_010.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_010.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_010.png" alt="procedular reference large 010" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_010.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 010</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_010.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 2">
+  <div class="section-title">Procedural 2 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 011" onclick="openModal(this)" data-file="procedular_reference_large_011.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_011.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="3" data-score="3.034" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_011.png" alt="procedular reference large 011" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_011.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 011</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_011.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 012" onclick="openModal(this)" data-file="procedular_reference_large_012.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_012.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_012.png" alt="procedular reference large 012" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_012.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 012</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_012.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 013" onclick="openModal(this)" data-file="procedular_reference_large_013.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_013.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="23" data-score="3.234" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_013.png" alt="procedular reference large 013" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_013.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 013</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_013.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 014" onclick="openModal(this)" data-file="procedular_reference_large_014.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_014.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_014.png" alt="procedular reference large 014" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_014.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 014</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_014.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 015" onclick="openModal(this)" data-file="procedular_reference_large_015.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_015.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="26" data-score="3.265" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_015.png" alt="procedular reference large 015" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_015.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 015</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_015.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 016" onclick="openModal(this)" data-file="procedular_reference_large_016.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_016.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_016.png" alt="procedular reference large 016" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_016.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 016</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_016.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 017" onclick="openModal(this)" data-file="procedular_reference_large_017.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_017.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_017.png" alt="procedular reference large 017" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_017.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 017</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_017.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 018" onclick="openModal(this)" data-file="procedular_reference_large_018.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_018.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="24" data-score="3.245" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_018.png" alt="procedular reference large 018" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_018.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 018</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_018.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 019" onclick="openModal(this)" data-file="procedular_reference_large_019.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_019.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_019.png" alt="procedular reference large 019" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_019.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 019</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_019.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 2" data-diff="Hard" data-name="procedular reference large 020" onclick="openModal(this)" data-file="procedular_reference_large_020.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_020.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_020.png" alt="procedular reference large 020" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_020.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 020</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_020.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 3">
+  <div class="section-title">Procedural 3 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 021" onclick="openModal(this)" data-file="procedular_reference_large_021.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_021.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="19" data-score="3.195" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_021.png" alt="procedular reference large 021" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_021.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 021</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_021.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 022" onclick="openModal(this)" data-file="procedular_reference_large_022.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_022.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="3" data-score="3.034" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_022.png" alt="procedular reference large 022" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_022.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 022</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_022.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 023" onclick="openModal(this)" data-file="procedular_reference_large_023.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_023.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_023.png" alt="procedular reference large 023" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_023.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 023</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_023.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 024" onclick="openModal(this)" data-file="procedular_reference_large_024.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_024.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="30" data-score="3.305" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_024.png" alt="procedular reference large 024" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_024.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 024</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_024.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 025" onclick="openModal(this)" data-file="procedular_reference_large_025.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_025.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_025.png" alt="procedular reference large 025" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_025.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 025</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_025.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 026" onclick="openModal(this)" data-file="procedular_reference_large_026.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_026.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="19" data-score="3.194" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_026.png" alt="procedular reference large 026" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_026.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 026</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_026.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 027" onclick="openModal(this)" data-file="procedular_reference_large_027.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_027.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_027.png" alt="procedular reference large 027" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_027.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 027</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_027.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 028" onclick="openModal(this)" data-file="procedular_reference_large_028.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_028.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_028.png" alt="procedular reference large 028" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_028.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 028</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_028.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 029" onclick="openModal(this)" data-file="procedular_reference_large_029.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_029.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="17" data-score="3.174" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_029.png" alt="procedular reference large 029" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_029.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 029</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_029.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 3" data-diff="Hard" data-name="procedular reference large 030" onclick="openModal(this)" data-file="procedular_reference_large_030.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_030.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="20" data-score="3.205" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_030.png" alt="procedular reference large 030" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_030.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 030</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_030.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 4">
+  <div class="section-title">Procedural 4 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedural 2 level 1 new 20260322234743" onclick="openModal(this)" data-file="procedural_2_level_1_new_20260322234743.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedural_2_level_1_new_20260322234743.png" data-board="7x7" data-pairs="2" data-blockers="5" data-moves="15" data-score="3.152" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedural_2_level_1_new_20260322234743.png" alt="procedural 2 level 1 new 20260322234743" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedural_2_level_1_new_20260322234743.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedural 2 level 1 new 20260322234743</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedural_2_level_1_new_20260322234743.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 032" onclick="openModal(this)" data-file="procedular_reference_large_032.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_032.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="12" data-score="3.124" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_032.png" alt="procedular reference large 032" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_032.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 032</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_032.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 033" onclick="openModal(this)" data-file="procedular_reference_large_033.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_033.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="9" data-score="3.095" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_033.png" alt="procedular reference large 033" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_033.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 033</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_033.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 034" onclick="openModal(this)" data-file="procedular_reference_large_034.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_034.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_034.png" alt="procedular reference large 034" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_034.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 034</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_034.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 035" onclick="openModal(this)" data-file="procedular_reference_large_035.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_035.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="23" data-score="3.234" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_035.png" alt="procedular reference large 035" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_035.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 035</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_035.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 036" onclick="openModal(this)" data-file="procedular_reference_large_036.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_036.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="26" data-score="3.265" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_036.png" alt="procedular reference large 036" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_036.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 036</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_036.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 037" onclick="openModal(this)" data-file="procedular_reference_large_037.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_037.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="19" data-score="3.194" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_037.png" alt="procedular reference large 037" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_037.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 037</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_037.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 038" onclick="openModal(this)" data-file="procedular_reference_large_038.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_038.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_038.png" alt="procedular reference large 038" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_038.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 038</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_038.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 039" onclick="openModal(this)" data-file="procedular_reference_large_039.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_039.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_039.png" alt="procedular reference large 039" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_039.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 039</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_039.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 4" data-diff="Hard" data-name="procedular reference large 040" onclick="openModal(this)" data-file="procedular_reference_large_040.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_040.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="17" data-score="3.174" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_040.png" alt="procedular reference large 040" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_040.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 040</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_040.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 5">
+  <div class="section-title">Procedural 5 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 041" onclick="openModal(this)" data-file="procedular_reference_large_041.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_041.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_041.png" alt="procedular reference large 041" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_041.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 041</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_041.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 042" onclick="openModal(this)" data-file="procedular_reference_large_042.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_042.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_042.png" alt="procedular reference large 042" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_042.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 042</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_042.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 043" onclick="openModal(this)" data-file="procedular_reference_large_043.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_043.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="12" data-score="3.124" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_043.png" alt="procedular reference large 043" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_043.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 043</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_043.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 044" onclick="openModal(this)" data-file="procedular_reference_large_044.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_044.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="3" data-score="3.034" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_044.png" alt="procedular reference large 044" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_044.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 044</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_044.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 045" onclick="openModal(this)" data-file="procedular_reference_large_045.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_045.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_045.png" alt="procedular reference large 045" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_045.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 045</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_045.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 046" onclick="openModal(this)" data-file="procedular_reference_large_046.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_046.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="23" data-score="3.234" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_046.png" alt="procedular reference large 046" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_046.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 046</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_046.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 047" onclick="openModal(this)" data-file="procedular_reference_large_047.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_047.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_047.png" alt="procedular reference large 047" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_047.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 047</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_047.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 048" onclick="openModal(this)" data-file="procedular_reference_large_048.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_048.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="26" data-score="3.265" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_048.png" alt="procedular reference large 048" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_048.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 048</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_048.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 049" onclick="openModal(this)" data-file="procedular_reference_large_049.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_049.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_049.png" alt="procedular reference large 049" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_049.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 049</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_049.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 5" data-diff="Hard" data-name="procedular reference large 050" onclick="openModal(this)" data-file="procedular_reference_large_050.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_050.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_050.png" alt="procedular reference large 050" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_050.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 050</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_050.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 6">
+  <div class="section-title">Procedural 6 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 051" onclick="openModal(this)" data-file="procedular_reference_large_051.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_051.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="24" data-score="3.245" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_051.png" alt="procedular reference large 051" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_051.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 051</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_051.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 052" onclick="openModal(this)" data-file="procedular_reference_large_052.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_052.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_052.png" alt="procedular reference large 052" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_052.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 052</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_052.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 053" onclick="openModal(this)" data-file="procedular_reference_large_053.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_053.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_053.png" alt="procedular reference large 053" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_053.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 053</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_053.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 054" onclick="openModal(this)" data-file="procedular_reference_large_054.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_054.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="19" data-score="3.195" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_054.png" alt="procedular reference large 054" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_054.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 054</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_054.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 055" onclick="openModal(this)" data-file="procedular_reference_large_055.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_055.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="3" data-score="3.034" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_055.png" alt="procedular reference large 055" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_055.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 055</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_055.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 056" onclick="openModal(this)" data-file="procedular_reference_large_056.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_056.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_056.png" alt="procedular reference large 056" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_056.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 056</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_056.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 057" onclick="openModal(this)" data-file="procedular_reference_large_057.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_057.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="30" data-score="3.305" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_057.png" alt="procedular reference large 057" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_057.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 057</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_057.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 058" onclick="openModal(this)" data-file="procedular_reference_large_058.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_058.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_058.png" alt="procedular reference large 058" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_058.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 058</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_058.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 059" onclick="openModal(this)" data-file="procedular_reference_large_059.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_059.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="19" data-score="3.194" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_059.png" alt="procedular reference large 059" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_059.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 059</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_059.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 6" data-diff="Hard" data-name="procedular reference large 060" onclick="openModal(this)" data-file="procedular_reference_large_060.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_060.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_060.png" alt="procedular reference large 060" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_060.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 060</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_060.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 7">
+  <div class="section-title">Procedural 7 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 061" onclick="openModal(this)" data-file="procedular_reference_large_061.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_061.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_061.png" alt="procedular reference large 061" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_061.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 061</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_061.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 062" onclick="openModal(this)" data-file="procedular_reference_large_062.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_062.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="17" data-score="3.174" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_062.png" alt="procedular reference large 062" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_062.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 062</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_062.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 063" onclick="openModal(this)" data-file="procedular_reference_large_063.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_063.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="20" data-score="3.205" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_063.png" alt="procedular reference large 063" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_063.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 063</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_063.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 064" onclick="openModal(this)" data-file="procedular_reference_large_064.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_064.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_064.png" alt="procedular reference large 064" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_064.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 064</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_064.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 065" onclick="openModal(this)" data-file="procedular_reference_large_065.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_065.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="12" data-score="3.124" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_065.png" alt="procedular reference large 065" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_065.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 065</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_065.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 066" onclick="openModal(this)" data-file="procedular_reference_large_066.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_066.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="9" data-score="3.095" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_066.png" alt="procedular reference large 066" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_066.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 066</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_066.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 067" onclick="openModal(this)" data-file="procedular_reference_large_067.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_067.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_067.png" alt="procedular reference large 067" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_067.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 067</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_067.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 068" onclick="openModal(this)" data-file="procedular_reference_large_068.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_068.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="23" data-score="3.234" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_068.png" alt="procedular reference large 068" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_068.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 068</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_068.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 069" onclick="openModal(this)" data-file="procedular_reference_large_069.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_069.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="26" data-score="3.265" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_069.png" alt="procedular reference large 069" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_069.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 069</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_069.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 7" data-diff="Hard" data-name="procedular reference large 070" onclick="openModal(this)" data-file="procedular_reference_large_070.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_070.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="19" data-score="3.194" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_070.png" alt="procedular reference large 070" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_070.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 070</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_070.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 8">
+  <div class="section-title">Procedural 8 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 071" onclick="openModal(this)" data-file="procedular_reference_large_071.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_071.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_071.png" alt="procedular reference large 071" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_071.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 071</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_071.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 072" onclick="openModal(this)" data-file="procedular_reference_large_072.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_072.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_072.png" alt="procedular reference large 072" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_072.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 072</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_072.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 073" onclick="openModal(this)" data-file="procedular_reference_large_073.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_073.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="17" data-score="3.174" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_073.png" alt="procedular reference large 073" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_073.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 073</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_073.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 074" onclick="openModal(this)" data-file="procedular_reference_large_074.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_074.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_074.png" alt="procedular reference large 074" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_074.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 074</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_074.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 075" onclick="openModal(this)" data-file="procedular_reference_large_075.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_075.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_075.png" alt="procedular reference large 075" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_075.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 075</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_075.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 076" onclick="openModal(this)" data-file="procedular_reference_large_076.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_076.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="12" data-score="3.124" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_076.png" alt="procedular reference large 076" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_076.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 076</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_076.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 078" onclick="openModal(this)" data-file="procedular_reference_large_078.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_078.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_078.png" alt="procedular reference large 078" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_078.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 078</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_078.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 079" onclick="openModal(this)" data-file="procedular_reference_large_079.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_079.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="23" data-score="3.234" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_079.png" alt="procedular reference large 079" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_079.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 079</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_079.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 080" onclick="openModal(this)" data-file="procedular_reference_large_080.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_080.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_080.png" alt="procedular reference large 080" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_080.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 080</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_080.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 8" data-diff="Hard" data-name="procedular reference large 081" onclick="openModal(this)" data-file="procedular_reference_large_081.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_081.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="26" data-score="3.265" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_081.png" alt="procedular reference large 081" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_081.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 081</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_081.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 9">
+  <div class="section-title">Procedural 9 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 082" onclick="openModal(this)" data-file="procedular_reference_large_082.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_082.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_082.png" alt="procedular reference large 082" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_082.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 082</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_082.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 083" onclick="openModal(this)" data-file="procedular_reference_large_083.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_083.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_083.png" alt="procedular reference large 083" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_083.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 083</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_083.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 084" onclick="openModal(this)" data-file="procedular_reference_large_084.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_084.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="24" data-score="3.245" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_084.png" alt="procedular reference large 084" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_084.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 084</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_084.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 085" onclick="openModal(this)" data-file="procedular_reference_large_085.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_085.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="14" data-score="3.144" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_085.png" alt="procedular reference large 085" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_085.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 085</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_085.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 086" onclick="openModal(this)" data-file="procedular_reference_large_086.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_086.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_086.png" alt="procedular reference large 086" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_086.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 086</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_086.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 087" onclick="openModal(this)" data-file="procedular_reference_large_087.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_087.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="19" data-score="3.195" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_087.png" alt="procedular reference large 087" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_087.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 087</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_087.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 088" onclick="openModal(this)" data-file="procedular_reference_large_088.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_088.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="3" data-score="3.034" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_088.png" alt="procedular reference large 088" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_088.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 088</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_088.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 089" onclick="openModal(this)" data-file="procedular_reference_large_089.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_089.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_089.png" alt="procedular reference large 089" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_089.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 089</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_089.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 090" onclick="openModal(this)" data-file="procedular_reference_large_090.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_090.png" data-board="8x8" data-pairs="4" data-blockers="11" data-moves="30" data-score="3.305" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_090.png" alt="procedular reference large 090" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_090.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 090</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_090.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 9" data-diff="Hard" data-name="procedular reference large 091" onclick="openModal(this)" data-file="procedular_reference_large_091.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_091.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="20" data-score="3.204" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_091.png" alt="procedular reference large 091" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_091.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 091</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_091.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section" data-prog="Procedural 10">
+  <div class="section-title">Procedural 10 <span class="section-count">10</span></div>
+  <div class="grid">
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 092" onclick="openModal(this)" data-file="procedular_reference_large_092.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_092.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="19" data-score="3.194" data-status="OK" data-pos="1">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_092.png" alt="procedular reference large 092" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_092.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">1 · procedular reference large 092</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_092.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 093" onclick="openModal(this)" data-file="procedular_reference_large_093.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_093.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="19" data-score="3.195" data-status="OK" data-pos="2">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_093.png" alt="procedular reference large 093" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_093.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">2 · procedular reference large 093</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_093.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 094" onclick="openModal(this)" data-file="procedular_reference_large_094.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_094.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="3">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_094.png" alt="procedular reference large 094" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_094.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">3 · procedular reference large 094</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_094.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 095" onclick="openModal(this)" data-file="procedular_reference_large_095.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_095.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="17" data-score="3.174" data-status="OK" data-pos="4">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_095.png" alt="procedular reference large 095" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_095.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">4 · procedular reference large 095</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_095.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 096" onclick="openModal(this)" data-file="procedular_reference_large_096.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_096.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="20" data-score="3.205" data-status="OK" data-pos="5">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_096.png" alt="procedular reference large 096" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_096.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">5 · procedular reference large 096</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_096.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 097" onclick="openModal(this)" data-file="procedular_reference_large_097.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_097.png" data-board="7x7" data-pairs="3" data-blockers="9" data-moves="13" data-score="3.134" data-status="OK" data-pos="6">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_097.png" alt="procedular reference large 097" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_097.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">6 · procedular reference large 097</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_097.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 098" onclick="openModal(this)" data-file="procedular_reference_large_098.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_098.png" data-board="8x8" data-pairs="3" data-blockers="11" data-moves="12" data-score="3.124" data-status="OK" data-pos="7">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_098.png" alt="procedular reference large 098" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_098.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">7 · procedular reference large 098</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_098.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 099" onclick="openModal(this)" data-file="procedular_reference_large_099.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_099.png" data-board="7x7" data-pairs="4" data-blockers="9" data-moves="9" data-score="3.095" data-status="OK" data-pos="8">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_099.png" alt="procedular reference large 099" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_099.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">8 · procedular reference large 099</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_099.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 101" onclick="openModal(this)" data-file="procedular_reference_large_101.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_101.png" data-board="8x8" data-pairs="3" data-blockers="0" data-moves="12" data-score="3.123" data-status="OK" data-pos="9">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_101.png" alt="procedular reference large 101" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_101.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">9 · procedular reference large 101</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>8x8</span> <span>procedular_reference_large_101.json</span></div>
+      </div>
+    </div>
+    <div class="card level-card" data-prog="Procedural 10" data-diff="Hard" data-name="procedular reference large 102" onclick="openModal(this)" data-file="procedular_reference_large_102.json" data-screenshot="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_102.png" data-board="7x7" data-pairs="3" data-blockers="0" data-moves="13" data-score="3.133" data-status="OK" data-pos="10">
+      <div class="card-img">
+        <img src="https://kingfluence.com/download/attachments/990479168/procedular_reference_large_102.png" alt="procedular reference large 102" loading="lazy" onerror="this.parentElement.innerHTML='<div class=placeholder>Screenshot no disponible<br><small>procedular_reference_large_102.png</small></div>'">
+      </div>
+      <div class="card-body">
+        <div class="card-name">10 · procedular reference large 102</div>
+        <div class="card-meta"><span class="badge badge-hard">Hard</span> <span>7x7</span> <span>procedular_reference_large_102.json</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <img id="modalImg" src="" alt="">
+    <h2 id="modalTitle"></h2>
+    <table>
+      <tr><td>Archivo</td><td id="modalFile"></td></tr>
+      <tr><td>Progresion</td><td id="modalProg"></td></tr>
+      <tr><td>Posicion</td><td id="modalPos"></td></tr>
+      <tr><td>Dificultad</td><td id="modalDiff"></td></tr>
+      <tr><td>Score</td><td id="modalScore"></td></tr>
+      <tr><td>Board</td><td id="modalBoard"></td></tr>
+      <tr><td>Pares</td><td id="modalPairs"></td></tr>
+      <tr><td>Blockers</td><td id="modalBlockers"></td></tr>
+      <tr><td>Moves</td><td id="modalMoves"></td></tr>
+      <tr><td>Status</td><td id="modalStatus"></td></tr>
+    </table>
+    <div style="margin-top:16px">
+      <label style="font-weight:600;font-size:13px;color:#444">Renombrar este nivel:</label>
+      <input type="text" class="rename-input" id="renameInput" placeholder="Escribe nuevo nombre...">
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;margin-top:32px">
+  <button class="export-btn" onclick="exportRenames()">Exportar nombres cambiados (CSV)</button>
+</div>
+
+<script>
+const renames = {};
+
+function applyFilters() {
+  const prog = document.getElementById('filterProg').value;
+  const diff = document.getElementById('filterDiff').value;
+  const search = document.getElementById('searchBox').value.toLowerCase();
+  
+  document.querySelectorAll('.section').forEach(sec => {
+    const secProg = sec.getAttribute('data-prog');
+    if (prog !== 'all' && secProg !== prog) { sec.classList.add('hidden'); return; }
+    sec.classList.remove('hidden');
+    let visible = 0;
+    sec.querySelectorAll('.level-card').forEach(card => {
+      const cardDiff = card.getAttribute('data-diff');
+      const cardName = card.getAttribute('data-name');
+      const show = (diff === 'all' || cardDiff === diff) && (!search || cardName.includes(search));
+      card.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+    sec.querySelector('.section-count').textContent = visible;
+  });
+}
+
+function openModal(card) {
+  const file = card.getAttribute('data-file');
+  document.getElementById('modalImg').src = card.getAttribute('data-screenshot');
+  document.getElementById('modalTitle').textContent = card.querySelector('.card-name').textContent;
+  document.getElementById('modalFile').textContent = file;
+  document.getElementById('modalProg').textContent = card.getAttribute('data-prog');
+  document.getElementById('modalPos').textContent = card.getAttribute('data-pos') || '—';
+  document.getElementById('modalDiff').textContent = card.getAttribute('data-diff');
+  document.getElementById('modalScore').textContent = card.getAttribute('data-score');
+  document.getElementById('modalBoard').textContent = card.getAttribute('data-board');
+  document.getElementById('modalPairs').textContent = card.getAttribute('data-pairs');
+  document.getElementById('modalBlockers').textContent = card.getAttribute('data-blockers');
+  document.getElementById('modalMoves').textContent = card.getAttribute('data-moves');
+  document.getElementById('modalStatus').textContent = card.getAttribute('data-status');
+  document.getElementById('renameInput').value = renames[file] || '';
+  document.getElementById('renameInput').setAttribute('data-file', file);
+  document.getElementById('modalOverlay').classList.add('active');
+}
+
+function closeModal() {
+  const input = document.getElementById('renameInput');
+  const file = input.getAttribute('data-file');
+  if (input.value.trim()) renames[file] = input.value.trim();
+  else delete renames[file];
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+
+function exportRenames() {
+  const entries = Object.entries(renames);
+  if (!entries.length) { alert('No has renombrado ningun nivel todavia.'); return; }
+  let csv = 'Archivo,Nombre actual,Nuevo nombre\n';
+  entries.forEach(([file, newName]) => {
+    const card = document.querySelector('[data-file="'+file+'"]');
+    const oldName = card ? card.querySelector('.card-name').textContent : file;
+    csv += '"'+file+'","'+oldName+'","'+newName+'"\n';
+  });
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'level_renames.csv';
+  a.click();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+
+</body>
+</html>

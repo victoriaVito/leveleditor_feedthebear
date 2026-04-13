@@ -1,0 +1,12 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progressionB,Progression B,0,tutorial_level.json,Workshop tutorial · progressionA,minigame_locally/levels/tutorial_level.json,1,6x6,3,3,8,0,EASY,OK,Yes,Tutorial slot
+progressionB,Progression B,1,progresion2_level1.json,Imported via browser picker · progresion2_level1.json,minigame_locally/levels/progresion2_level1.json,1,5x5,2,7,5,1,EASY,OK,Yes,
+progressionB,Progression B,2,progresion2_level2.json,Imported via browser picker · progresion2_level2.json,minigame_locally/levels/progresion2_level2.json,2,4x4,3,2,6,13,EASY,OK,Yes,
+progressionB,Progression B,3,progresion2_level3.json,Imported via browser picker · progresion2_level3.json,minigame_locally/levels/progresion2_level3.json,3,6x6,4,6,6,0,MEDIUM,INVALID,Yes,
+progressionB,Progression B,4,progresion2_level4.json,Imported via browser picker · progresion2_level4.json,minigame_locally/levels/progresion2_level4.json,4,7x7,4,3,6,0,HARD,INVALID,Yes,
+progressionB,Progression B,5,progresion2_level5.json,Imported via browser picker · progresion2_level5.json,minigame_locally/levels/progresion2_level5.json,5,7x7,4,10,5,0,EASY,INVALID,Yes,
+progressionB,Progression B,6,progresion2_level6.json,Imported via browser picker · progresion2_level6.json,minigame_locally/levels/progresion2_level6.json,6,6x6,3,4,5,20,MEDIUM,OK,Yes,
+progressionB,Progression B,7,progresion2_level7.json,Imported via browser picker · progresion2_level7.json,minigame_locally/levels/progresion2_level7.json,7,8x9,8,6,9,0,HARD,INVALID,Yes,
+progressionB,Progression B,8,progresion2_level8.json,Imported via browser picker · progresion2_level8.json,minigame_locally/levels/progresion2_level8.json,8,8x8,7,1,0,0,EASY,INVALID,Yes,
+progressionB,Progression B,9,progresion2_level9.json,Imported via browser picker · progresion2_level9.json,minigame_locally/levels/progresion2_level9.json,9,8x8,6,7,7,0,MEDIUM,INVALID,Yes,
+progressionB,Progression B,10,progresion2_level10.json,Imported via browser picker · progresion2_level10.json,minigame_locally/levels/progresion2_level10.json,10,8x8,5,7,6,0,HARD,INVALID,Yes,

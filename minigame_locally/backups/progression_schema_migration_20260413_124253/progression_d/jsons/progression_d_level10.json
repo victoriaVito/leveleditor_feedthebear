@@ -1,0 +1,283 @@
+{
+  "level": 10,
+  "board_size": 7,
+  "board_width": 7,
+  "board_height": 7,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2",
+      "NODE_B1",
+      "NODE_D2",
+      "NODE_F1",
+      "NODE_E1"
+    ],
+    [
+      "EMPTY",
+      "NODE_A1",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "NODE_B2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_C1",
+      "NODE_A2",
+      "NODE_D1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_G1",
+      "NODE_G2",
+      "NODE_E2",
+      "NODE_F2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        1
+      ],
+      "end": [
+        4,
+        1
+      ],
+      "color": "#DC2626",
+      "fish_color_id": "fish_red",
+      "color_letter": "A"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        3,
+        3
+      ],
+      "color": "#0F766E",
+      "fish_color_id": "fish_red_striped",
+      "color_letter": "B"
+    },
+    {
+      "id": "C",
+      "start": [
+        4,
+        0
+      ],
+      "end": [
+        0,
+        2
+      ],
+      "color": "#2563EB",
+      "fish_color_id": "fish_blue",
+      "color_letter": "C"
+    },
+    {
+      "id": "D",
+      "start": [
+        4,
+        2
+      ],
+      "end": [
+        0,
+        4
+      ],
+      "color": "#D97706",
+      "fish_color_id": "fish_blue_striped",
+      "color_letter": "D"
+    },
+    {
+      "id": "E",
+      "start": [
+        0,
+        6
+      ],
+      "end": [
+        5,
+        2
+      ],
+      "color": "#059669",
+      "fish_color_id": "fish_green",
+      "color_letter": "E"
+    },
+    {
+      "id": "F",
+      "start": [
+        0,
+        5
+      ],
+      "end": [
+        5,
+        3
+      ],
+      "color": "#7C3AED",
+      "fish_color_id": "fish_green_striped",
+      "color_letter": "F"
+    },
+    {
+      "id": "G",
+      "start": [
+        5,
+        0
+      ],
+      "end": [
+        5,
+        1
+      ],
+      "color": "#0891B2",
+      "fish_color_id": "fish_yellow",
+      "color_letter": "G"
+    }
+  ],
+  "blockers": [
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      2
+    ]
+  ],
+  "decal": false,
+  "moves": 7,
+  "solution_count": 20,
+  "target_density": "LOW",
+  "difficulty": "HARD",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "C": [
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "D": [
+      [
+        4,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "E": [
+      [
+        0,
+        6
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "F": [
+      [
+        0,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "G": [
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "position": {
+    "progression": "progression_4_1",
+    "slot": 10
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "HARD",
+    "source_name": "progression_4_slot_10.json"
+  },
+  "id": "progression_d_level10"
+}
