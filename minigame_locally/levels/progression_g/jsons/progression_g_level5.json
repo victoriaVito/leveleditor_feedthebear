@@ -1,0 +1,135 @@
+{
+  "id": "g_5",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 13,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 3,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 1
+    },
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "C": [
+      [
+        2,
+        4
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "D": [
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "E": [
+      [
+        1,
+        3
+      ],
+      [
+        3,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "g_5.json",
+    "source_level": "procedural_medium_5x5_006.json",
+    "curated_from": "procedural_medium_5x5_006.json",
+    "curated_for_progression": "progression_g",
+    "curated_slot": 5,
+    "curve_summary": "Steady ramp: grows board size and pair count first, then increases blocker pressure.",
+    "curated_at": "2026-04-02T17:00:36.876Z"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

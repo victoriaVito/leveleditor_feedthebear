@@ -10,43 +10,43 @@
     },
     {
       "slot": 1,
-      "level_file": "levels/progression_i/i_1.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level1.json"
     },
     {
       "slot": 2,
-      "level_file": "levels/progression_i/i_2.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level2.json"
     },
     {
       "slot": 3,
-      "level_file": "levels/progression_i/i_3.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level3.json"
     },
     {
       "slot": 4,
-      "level_file": "levels/progression_i/i_4.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level4.json"
     },
     {
       "slot": 5,
-      "level_file": "levels/progression_i/i_5.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level5.json"
     },
     {
       "slot": 6,
-      "level_file": "levels/progression_i/i_6.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level6.json"
     },
     {
       "slot": 7,
-      "level_file": "levels/progression_i/i_7.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level7.json"
     },
     {
       "slot": 8,
-      "level_file": "levels/progression_i/i_8.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level8.json"
     },
     {
       "slot": 9,
-      "level_file": "levels/progression_i/i_9.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level9.json"
     },
     {
       "slot": 10,
-      "level_file": "levels/progression_i/i_10.json"
+      "level_file": "levels/progression_i/jsons/progression_i_level10.json"
     }
   ]
 }

@@ -1,0 +1,46 @@
+{
+  "id": "i_8",
+  "difficultyTier": 8,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 19,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 5
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 4
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    }
+  ],
+  "solutionCount": 21,
+  "targetDensity": "HIGH"
+}

@@ -1,0 +1,119 @@
+{
+  "id": "i_1",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 11,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 3
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 0,
+      "y": 2
+    }
+  ],
+  "solutionCount": 5,
+  "targetDensity": "MEDIUM-HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "C": [
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_041",
+    "canonical_file": "lvl_041_image32_level_editor.json",
+    "canonical_slug": "image32_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.426Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image32_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image32_level_editor.json",
+      "levels/image32_level_editor.json",
+      "levels/standalone/image32_level_editor.json",
+      "niveles_workshop/jsons/image32_level_editor.json"
+    ],
+    "source_name": "i_1.json",
+    "source_level": "lvl_041_image32_level_editor.json",
+    "curated_from": "lvl_041_image32_level_editor.json",
+    "curated_for_progression": "progression_i",
+    "curated_slot": 1,
+    "curve_summary": "Late-game curve: larger boards, more interacting pairs, and harder endgame compression.",
+    "manual_difficulty": "MEDIUM",
+    "curated_at": "2026-04-02T17:00:36.912Z"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}
