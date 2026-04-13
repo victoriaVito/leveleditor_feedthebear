@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import "dotenv/config";
 import fs from "node:fs";
 import { execFile } from "node:child_process";
 import path from "node:path";
@@ -7,6 +8,7 @@ import { syncGoogleSheetsTabs } from "../google_sheets_api.mjs";
 
 const execFileAsync = promisify(execFile);
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const PYTHON = process.env.PYTHON || "python3";
 const DEFAULT_WORKBOOK_PATH = path.join(rootDir, "output", "spreadsheet", "Levels_feed_the_bear_after_feedback_sync.xlsx");
 const DEFAULT_PAYLOAD_PATH = path.join(rootDir, "output", "spreadsheet", "Levels_feed_the_bear_after_feedback_sync_payload.json");
 const DEFAULT_SPREADSHEET_ID = "1MIHkR4uePd7y8nSu1YGwiN2AGpvj-u8bRqzY-OXo86c";
@@ -99,7 +101,7 @@ function parseArgs(argv) {
 }
 
 async function regenerateCanonicalArtifacts({ workbookPath, payloadPath }) {
-  await execFileAsync("python3", [
+  await execFileAsync(PYTHON, [
     path.join(rootDir, "scripts", "sync_levels_spreadsheet.py"),
     "--from-bundles",
     "--output",

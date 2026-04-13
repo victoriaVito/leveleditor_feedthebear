@@ -47,7 +47,7 @@
       "Bash(pkill -f \"Google Chrome\")",
       "Bash(pkill -9 -f \"Google Chrome\")",
       "Bash(pip3 install:*)",
-      "Bash(__NEW_LINE_a2c3114d953fef29__ python3:*)",
+      "Bash(python3:*)",
       "mcp__claude_ai_Canva__generate-design",
       "Bash(uv sync:*)",
       "Bash(uv run:*)",
@@ -55,7 +55,21 @@
       "mcp__claude_ai_Notion__notion-update-page",
       "Bash(npx @anthropic-ai/claude-code skills add https://github.com/twostraws/swiftui-agent-skill --skill swiftui-pro)",
       "Bash(npx @anthropic-ai/claude-code skills add https://github.com/twostraws/swiftui-agent-skill)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(/opt/homebrew/bin/python3.12 -c ':*)",
+      "Bash(/opt/homebrew/bin/python3.12 -m pip install -e .)",
+      "Bash(PYTHON=/usr/local/bin/python3.13 npm run sync:sheets:local)",
+      "Bash(/usr/local/bin/python3.13 scripts/sync_levels_spreadsheet.py --from-bundles --output /tmp/test_regen.xlsx --payload-output /tmp/test_regen.json)",
+      "mcp__pylon__terminal_list_sessions",
+      "mcp__pylon__terminal_run",
+      "Bash(bash /tmp/migrate_ghi.sh)",
+      "Bash(/usr/local/bin/python3.13 python_toolkit/run_cli.py validate-levels-under levels/progression_g/jsons)",
+      "Bash(/usr/local/bin/python3.13 /tmp/migrate_ghi_schema.py)",
+      "Bash(/usr/local/bin/python3.13 python_toolkit/run_cli.py validate-levels-under levels/progression_h/jsons)",
+      "Bash(/usr/local/bin/python3.13 python_toolkit/run_cli.py validate-levels-under levels/progression_i/jsons)",
+      "Bash(git add:*)",
+      "Bash(git commit -m 'feat\\(levels\\): migrate progressions A-F to canonical JSON schema:*)",
+      "Bash(git commit -m 'feat\\(config\\): reduce pair colors to 7 canonical \\(A-G\\), remove striped IDs:*)"
     ]
   }
 }

@@ -10,11 +10,21 @@ const execFileAsync = promisify(execFile);
 const rootDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const credentialsPath = path.join(rootDir, ".local/google_oauth_client.json");
 const tokenPath = path.join(rootDir, ".local/google_sheets_token.json");
-const scope = [
+const DEFAULT_SCOPES = [
   "https://www.googleapis.com/auth/spreadsheets",
   "https://www.googleapis.com/auth/drive.file",
   "https://www.googleapis.com/auth/drive.readonly"
-].join(" ");
+];
+
+function parseScopeInput(input) {
+  return String(input || "")
+    .split(/[,\s]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+const envScopes = parseScopeInput(process.env.GOOGLE_OAUTH_SCOPES);
+const scope = (envScopes.length ? envScopes : DEFAULT_SCOPES).join(" ");
 
 function parseOAuthClient(credentials) {
   const block = credentials.installed || credentials.web || credentials;

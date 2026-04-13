@@ -23,6 +23,7 @@
     "colors:update": "node scripts/update_level_colors.mjs",
     "levels:convert": "node scripts/convert_to_developer_format.mjs",
     "oauth:setup": "node scripts/reconnect_google_sheets_loopback.mjs",
+    "oauth:setup:drive-full": "GOOGLE_OAUTH_SCOPES='https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/spreadsheets' node scripts/reconnect_google_sheets_loopback.mjs",
     "gas:env": "bash scripts/clasp_env.sh",
     "gas:login": "bash scripts/clasp_login_no_localhost.sh",
     "gas:set-project": "bash scripts/clasp_set_project.sh",
