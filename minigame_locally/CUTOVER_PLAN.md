@@ -58,6 +58,61 @@ git log --oneline pre-cutover-backup..parity/step-4-9
 - [ ] Documentation links updated
 - [ ] No web toolkit calls in main workflows
 
+## Post-Cutover Resolution Plan (Main Branch)
+
+### Objective
+Close all post-cutover checklist items safely on `main`, with explicit rollback readiness and a clear stability gate before tagging `cutover-complete`.
+
+### Scope
+- In scope: merge validation, test/UI verification, instructions and docs updates, web-toolkit regression scan, release tag.
+- Out of scope: new feature work, non-cutover refactors, web-toolkit enhancements.
+
+### Execution Steps
+1. **Pre-merge guard (complexity: low)**
+   - Confirm target branch is `main`, working tree clean, and rollback refs exist (`pre-cutover-backup`, `rollback/pre-cutover-main`).
+   - Success signal: merge can proceed with no pending local drift.
+2. **Merge and conflict handling (complexity: medium)**
+   - Merge cutover PR into `main` and resolve conflicts without changing behavior.
+   - Success signal: merge commit created, no unresolved conflict markers.
+3. **Regression gate: tests and UI (complexity: medium)**
+   - Run `python3 -m unittest discover -s python_toolkit/tests -p 'test_*.py' -v`.
+   - Start UI with `python3 python_toolkit/start_desktop.py` and confirm it opens and responds.
+   - Success signal: tests remain at or above `59/62`; UI launches and basic interactions work.
+4. **Operational docs alignment (complexity: low)**
+   - Update custom instructions to keep Python as PRIMARY and web toolkit as FALLBACK ONLY.
+   - Update documentation links that still point users to web-first workflows.
+   - Success signal: no stale web-primary instructions remain in canonical docs.
+5. **Web-toolkit dependency gate (complexity: medium)**
+   - Scan main workflows for unintended web toolkit calls/imports.
+   - Success signal: critical workflow paths remain Python-only unless explicitly marked fallback.
+6. **Stability window and release tag (complexity: low)**
+   - Observe one short stability window (recommended: 24-48h without critical incidents).
+   - Create tag after stability: `git tag cutover-complete && git push origin cutover-complete`.
+   - Success signal: tag exists on stable `main` commit.
+
+### Dependencies
+- Merge rights to `main`.
+- Test environment with Python toolkit dependencies available.
+- Access to custom-instructions source (`.claude/instructions.md`) and canonical docs.
+
+### Risks and Mitigation
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
+| Hidden merge conflict changes behavior | Medium | High | Run full test gate and spot-check manager/editor/sessions flows immediately after merge. |
+| Tests dip below baseline (`59/62`) | Medium | High | Treat as cutover blocker; investigate before continuing to docs/tag steps. |
+| UI starts but is not responsive | Medium | Medium | Require interaction check, not launch-only check; rollback if critical path fails. |
+| Stale web-toolkit references remain in docs/instructions | Medium | Medium | Run targeted grep audit and patch canonical files before sign-off. |
+| Premature release tag | Low | Medium | Tag only after stability window and explicit go/no-go confirmation. |
+
+### Success Criteria
+- [ ] Merge on `main` completed without unresolved conflicts.
+- [ ] Test suite remains `59+/62`.
+- [ ] Python desktop UI starts and responds.
+- [ ] Custom instructions explicitly mark Python PRIMARY.
+- [ ] Documentation links route to Python toolkit flows.
+- [ ] No unintended web toolkit calls in main workflows.
+- [ ] `cutover-complete` tag created on stable commit.
+
 ## Rollback Conditions
 
 **Rollback if:**

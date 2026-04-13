@@ -2,6 +2,118 @@
 
 This document is the canonical implementation plan for the Google Sheets control panel layer that will sit above the existing local-first spreadsheet sync.
 
+## Confluence-ready executive summary
+
+- The spreadsheet strategy is local-first: canonical ownership stays in repo files (`levels/`, `progressions/`, `bundles/`).
+- Google Sheets is an operational mirror for review and planning, not the authoring source of truth.
+- The canonical sync flow is: rebuild workbook/payload from local canonical state, then push to the live sheet.
+- The primary command is `npm run sync:sheets:local`; `sync:sheets:push` is push-only and lower-level.
+- When Google API returns transient backend faults (for example `Internal error encountered`), recover with `python3 scripts/sync_levels_spreadsheet.py --from-bundles` then `npm run sync:sheets:push`.
+- Generated tabs and system-owned fields stay protected; only explicit editorial surfaces are manually editable.
+- Key staging surfaces are `All Progressions` review fields, `Mix Planner`, and `Level Renames`.
+- Spreadsheet-staged edits never become canonical automatically; they require named local actions (for example apply renames, materialize mixes).
+- The Apps Script sidebar is the UX/control layer and should reuse local toolkit endpoints instead of creating a second ownership path.
+- The MVP architecture is hybrid: Apps Script for panel UX + local toolkit server for canonical repo actions.
+- Success criteria: spreadsheet remains operational and clear, while canonical data integrity stays in the local repository workflow.
+
+## Confluence-ready visual block
+
+**Status**
+- Strategy: `Active`
+- Ownership model: `Local-first canonical repo + Google Sheets mirror`
+- Recommended command: `npm run sync:sheets:local`
+
+**Expand: Source of truth (copy block)**
+- Canonical: checked-in files in `levels/`, `progressions/`, `bundles/`
+- Operational state: toolkit save flows, manager state, playtest artifacts
+- Reporting mirrors: local workbook + live Google Sheet
+- Staging surfaces: `All Progressions` review fields, `Mix Planner`, `Level Renames`
+- Rule: staged spreadsheet values do not become canonical until a named local action is executed
+
+**Expand: Operating model (copy block)**
+- Rebuild workbook and payload from canonical local data
+- Push payload to Google Sheets
+- Keep generated/system-owned columns protected
+- Allow edits only in explicit editorial surfaces
+- Execute staged actions via local endpoints/scripts (renames, materialization, validation, backup)
+
+**Operational Table**
+
+| Area | What users can edit | How it becomes canonical |
+|---|---|---|
+| `All Progressions` | Review/editorial fields only | Through named local workflows and sync |
+| `Mix Planner` | Proposal/staging rows | `materialize-mixes` action + canonical sync |
+| `Level Renames` | Target names and staging fields | `apply-level-renames` action + canonical sync |
+| Generated tabs | No manual authoring | Rebuilt from canonical local sources |
+
+## Confluence storage format (XML macros)
+
+```xml
+<ac:structured-macro ac:name="status">
+  <ac:parameter ac:name="title">Spreadsheet Strategy</ac:parameter>
+  <ac:parameter ac:name="colour">Green</ac:parameter>
+  <ac:parameter ac:name="subtle">false</ac:parameter>
+</ac:structured-macro>
+<p><strong>Ownership model:</strong> Local-first canonical repo + Google Sheets mirror</p>
+<p><strong>Recommended command:</strong> <code>npm run sync:sheets:local</code></p>
+
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Source of truth</ac:parameter>
+  <ac:rich-text-body>
+    <ul>
+      <li>Canonical: checked-in files in <code>levels/</code>, <code>progressions/</code>, <code>bundles/</code></li>
+      <li>Operational state: toolkit save flows, manager state, playtest artifacts</li>
+      <li>Reporting mirrors: local workbook + live Google Sheet</li>
+      <li>Staging surfaces: <code>All Progressions</code>, <code>Mix Planner</code>, <code>Level Renames</code></li>
+      <li>Rule: staged spreadsheet values are not canonical until a named local action runs</li>
+    </ul>
+  </ac:rich-text-body>
+</ac:structured-macro>
+
+<ac:structured-macro ac:name="expand">
+  <ac:parameter ac:name="title">Operating model</ac:parameter>
+  <ac:rich-text-body>
+    <ul>
+      <li>Rebuild workbook and payload from canonical local data</li>
+      <li>Push payload to Google Sheets</li>
+      <li>Keep generated/system-owned columns protected</li>
+      <li>Allow edits only in explicit editorial surfaces</li>
+      <li>Run named local actions for renames, materialization, validation, and backups</li>
+    </ul>
+  </ac:rich-text-body>
+</ac:structured-macro>
+
+<table>
+  <tbody>
+    <tr>
+      <th>Area</th>
+      <th>What users can edit</th>
+      <th>How it becomes canonical</th>
+    </tr>
+    <tr>
+      <td><code>All Progressions</code></td>
+      <td>Review/editorial fields only</td>
+      <td>Through named local workflows and sync</td>
+    </tr>
+    <tr>
+      <td><code>Mix Planner</code></td>
+      <td>Proposal/staging rows</td>
+      <td><code>materialize-mixes</code> action + canonical sync</td>
+    </tr>
+    <tr>
+      <td><code>Level Renames</code></td>
+      <td>Target names and staging fields</td>
+      <td><code>apply-level-renames</code> action + canonical sync</td>
+    </tr>
+    <tr>
+      <td>Generated tabs</td>
+      <td>No manual authoring</td>
+      <td>Rebuilt from canonical local sources</td>
+    </tr>
+  </tbody>
+</table>
+```
+
 ## Why This Exists
 
 The current spreadsheet is already useful as a review and planning surface, but it still behaves like a passive report in too many places.

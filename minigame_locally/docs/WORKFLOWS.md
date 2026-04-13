@@ -79,6 +79,21 @@ This guide turns the repo's real scripts, server actions, and toolkit flows into
 
    - This is the lower-level push-only entrypoint behind `npm run sync:sheets:push`.
 
+6. If `sync:sheets:local` fails with a transient Google API backend error (for example `Internal error encountered`), use this recovery sequence:
+   - Regenerate local workbook/payload first:
+
+   ```bash
+   python3 scripts/sync_levels_spreadsheet.py --from-bundles
+   ```
+
+   - Then push the existing payload:
+
+   ```bash
+   npm run sync:sheets:push
+   ```
+
+   - Expected result: spreadsheet updates without re-running the full canonical wrapper flow.
+
 ## C. I want to generate a procedural pack
 
 1. Run the canonical procedural pipeline from the repo root.

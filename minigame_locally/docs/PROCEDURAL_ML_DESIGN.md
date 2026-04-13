@@ -30,8 +30,8 @@ This document describes what is already true in the current system, what still n
 
 ### 3.1 Fish color system as the piece palette
 
-- `config/fish_colors.json` defines 14 fish identities.
-- The 14 entries correspond to 7 species, each with 2 visual variants: solid and striped.
+- `config/fish_colors.json` defines 7 canonical fish identities.
+- The 7 entries correspond to 7 species, with striped variants removed from the canonical palette.
 - They are mapped to letters `A` through `N`.
 - The generator assigns the first `N` fish in sequence depending on how many pairs the level needs.
 

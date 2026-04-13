@@ -92,7 +92,7 @@ A complete original-progression bundle currently includes:
 
 The CSVs expose the reviewer-facing summary columns used by the reporting flow, including `slot`, `file`, `saved_path`, `board`, `pairs`, `blockers`, `moves`, `difficulty`, and `status`.
 
-The screenshot folder keeps the same file stem as the JSON, so `progression1_level1.json` maps to `progression1_level1.png`.
+The screenshot folder keeps the same file stem as the JSON, so `progression_a_level1.json` maps to `progression_a_level1.png`.
 
 The live-ops materialization script also writes an extra manifest:
 

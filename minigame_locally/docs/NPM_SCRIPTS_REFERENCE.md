@@ -4,7 +4,7 @@ This file is the canonical reference for the current `npm` commands in this proj
 
 ## Environment
 
-- Project root: `/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally`
+- Project root: this repository root (`minigame_locally`)
 - Node: `>=18`
 - Main command runner: `npm run <script>`
 
@@ -12,7 +12,7 @@ This file is the canonical reference for the current `npm` commands in this proj
 
 ### `npm run pipeline:procedural`
 
-Runs [scripts/run_procedural_pipeline.py](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/run_procedural_pipeline.py).
+Runs [scripts/run_procedural_pipeline.py](scripts/run_procedural_pipeline.py).
 
 Purpose:
 
@@ -38,7 +38,7 @@ python3 scripts/run_procedural_pipeline.py [--sync-sheets]
 
 ### `npm run sync:sheets:local`
 
-Runs [scripts/sync_google_sheets_payload.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_google_sheets_payload.mjs).
+Runs [scripts/sync_google_sheets_payload.mjs](scripts/sync_google_sheets_payload.mjs).
 
 Purpose:
 
@@ -61,9 +61,16 @@ Direct canonical usage:
 node scripts/sync_google_sheets_payload.mjs --canonical [--workbook PATH] [--payload PATH] [--spreadsheet-id ID]
 ```
 
+Recovery for transient Google API backend errors:
+
+```bash
+python3 scripts/sync_levels_spreadsheet.py --from-bundles
+npm run sync:sheets:push
+```
+
 ### `npm run sync:sheets:push`
 
-Runs [scripts/sync_google_sheets_payload.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_google_sheets_payload.mjs).
+Runs [scripts/sync_google_sheets_payload.mjs](scripts/sync_google_sheets_payload.mjs).
 
 Purpose:
 
@@ -78,7 +85,7 @@ node scripts/sync_google_sheets_payload.mjs [payloadPath] [spreadsheetId]
 
 ### `npm run coordination:route`
 
-Runs [scripts/paraclau_router.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/paraclau_router.mjs).
+Runs [scripts/paraclau_router.mjs](scripts/paraclau_router.mjs).
 
 Purpose:
 
@@ -99,7 +106,7 @@ Important rule:
 
 ### `npm run apply:sheet-renames`
 
-Runs [scripts/apply_sheet_level_renames.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/apply_sheet_level_renames.mjs).
+Runs [scripts/apply_sheet_level_renames.mjs](scripts/apply_sheet_level_renames.mjs).
 
 Purpose:
 
@@ -129,7 +136,7 @@ node scripts/apply_sheet_level_renames.mjs [spreadsheetId] [sheetName]
 
 ### `npm run materialize:mixes`
 
-Runs [scripts/materialize_approved_mixes.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/materialize_approved_mixes.mjs).
+Runs [scripts/materialize_approved_mixes.mjs](scripts/materialize_approved_mixes.mjs).
 
 Purpose:
 
@@ -154,7 +161,7 @@ node scripts/materialize_approved_mixes.mjs [spreadsheetId] [sheetName] [destina
 
 ### `npm run sync:drive-sheets`
 
-Runs [scripts/sync_drive_folder_image_sheets.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_drive_folder_image_sheets.mjs).
+Runs [scripts/sync_drive_folder_image_sheets.mjs](scripts/sync_drive_folder_image_sheets.mjs).
 
 Purpose:
 
@@ -177,7 +184,7 @@ node scripts/sync_drive_folder_image_sheets.mjs [spreadsheetId] [rootFolderName]
 
 ### `npm run sync:apis`
 
-Runs [scripts/sync_apis_parallel.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_apis_parallel.mjs).
+Runs [scripts/sync_apis_parallel.mjs](scripts/sync_apis_parallel.mjs).
 
 Purpose:
 
@@ -197,7 +204,7 @@ Notes:
 
 ### `npm run sync:all`
 
-Runs [scripts/sync_spreadsheet_with_ai.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/sync_spreadsheet_with_ai.mjs).
+Runs [scripts/sync_spreadsheet_with_ai.mjs](scripts/sync_spreadsheet_with_ai.mjs).
 
 Purpose:
 
@@ -211,7 +218,7 @@ Recommendation:
 
 ### `npm run colors:update`
 
-Runs [scripts/update_level_colors.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/update_level_colors.mjs).
+Runs [scripts/update_level_colors.mjs](scripts/update_level_colors.mjs).
 
 Purpose:
 
@@ -228,7 +235,7 @@ node scripts/update_level_colors.mjs [fileOrDirectory...]
 
 ### `npm run levels:convert`
 
-Runs [scripts/convert_to_developer_format.mjs](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/convert_to_developer_format.mjs).
+Runs [scripts/convert_to_developer_format.mjs](scripts/convert_to_developer_format.mjs).
 
 Purpose:
 
@@ -243,7 +250,7 @@ node scripts/convert_to_developer_format.mjs [fileOrDirectory...]
 
 ### `npm run oauth:setup`
 
-Runs [scripts/setup_oauth.sh](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/scripts/setup_oauth.sh).
+Runs [scripts/setup_oauth.sh](scripts/setup_oauth.sh).
 
 Purpose:
 
@@ -363,4 +370,4 @@ For maintenance:
 - Google Drive is used for naming and grouping support, not as the canonical screenshot source
 - Spreadsheet rename staging is allowed, but the actual rename is only committed when `apply:sheet-renames` or the toolkit apply action is run
 - `Apply Status`, `Materialized`, and `Output Folder` are system-managed sheet fields and should not be edited manually
-- If this file and [package.json](/Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/package.json) ever disagree, `package.json` is the executable source of truth
+- If this file and [package.json](package.json) ever disagree, `package.json` is the executable source of truth

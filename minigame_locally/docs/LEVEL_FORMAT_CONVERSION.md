@@ -83,19 +83,12 @@ The `type` field uses simplified names without the "fish_" prefix:
 
 ```text
 "red"              (was fish_red)
-"red_striped"      (was fish_red_striped)
 "blue"             (was fish_blue)
-"blue_striped"     (was fish_blue_striped)
 "green"            (was fish_green)
-"green_striped"    (was fish_green_striped)
 "yellow"           (was fish_yellow)
-"yellow_striped"   (was fish_yellow_striped)
 "orange"           (was fish_orange)
-"orange_striped"   (was fish_orange_striped)
 "purple"           (was fish_purple)
-"purple_striped"   (was fish_purple_striped)
 "cyan"             (was fish_cyan)
-"cyan_striped"     (was fish_cyan_striped)
 ```
 
 ## Files Converted

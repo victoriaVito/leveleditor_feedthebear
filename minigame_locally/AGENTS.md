@@ -19,6 +19,9 @@
 
 ## Conventions
 - Level naming: `<type>_<progression|description>_level<n>[_v<version>].json`
+- Canonical active progression naming: `levels/progression_<letter>/jsons/progression_<letter>_level<n>[_needs_review].json` with matching `id`.
+- Pair colors are canonical and unique per level: `red`, `blue`, `green`, `yellow`, `orange`, `purple`, `cyan` (no `*_striped`, no repeated color in the same level).
+- Max pairs per level: `7`.
 - Screenshots: Match level filename exactly, .json → .png
 - Procedural learning: Tag rejections with specific reasons
 - Reference: [docs/LEVEL_JSON_SCHEMA.md](docs/LEVEL_JSON_SCHEMA.md), [PROCEDURAL_ML_DESIGN.md](PROCEDURAL_ML_DESIGN.md)

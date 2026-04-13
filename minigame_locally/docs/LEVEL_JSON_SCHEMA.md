@@ -10,7 +10,7 @@ The toolkit can also read legacy/import-time aliases such as `board_width`, `boa
 
 | Field | Type | Required | Description | Example |
 | --- | --- | --- | --- | --- |
-| `id` | string | Yes | Canonical file stem without `.json`. Used as the stable level identifier. | `"progression1_level3"` |
+| `id` | string | Yes | Canonical file stem without `.json`. Used as the stable level identifier. | `"progression_a_level3"` |
 | `difficultyTier` | integer `1..10` | Yes | Numeric tier used by the toolkit and manager sorting. | `4` |
 | `gridSize` | object | Yes | Board dimensions in developer format. | `{ "cols": 7, "rows": 7 }` |
 | `gridSize.cols` | integer `4..7` | Yes | Board width in cells. | `7` |
@@ -18,7 +18,7 @@ The toolkit can also read legacy/import-time aliases such as `board_width`, `boa
 | `moves` | integer `>= 0` | Yes | Move budget or move recommendation stored with the level. | `14` |
 | `solutionCount` | integer `>= 0` | Yes | Count of valid solutions used for density checks. | `4` |
 | `targetDensity` | string | Yes | Difficulty density label derived from solution count. | `"LOW-MEDIUM"` |
-| `goldenPath` | object | Yes | Per-pair solved path map. Keys are pair letters (`A`..`I`); values are arrays of `[row, col]` cells. | `{ "A": [[2,3],[3,3]] }` |
+| `goldenPath` | object | Yes | Per-pair solved path map. Keys are pair letters (`A`..`G`); values are arrays of `[row, col]` cells. | `{ "A": [[2,3],[3,3]] }` |
 | `decal` | boolean | No | Marks levels that require a full-board cover-style solution. Present in authored and procedural packs, omitted by some image-sourced levels. | `false` |
 | `description` | string | No | Freeform note preserved by the serializer if present. [VERIFY: not observed in the checked-in samples.] | `"Tutorial remix"` |
 
@@ -27,7 +27,7 @@ The toolkit can also read legacy/import-time aliases such as `board_width`, `boa
 | Field | Type | Required | Description | Example |
 | --- | --- | --- | --- | --- |
 | `pairs` | array | Yes | Ordered list of pair endpoints. Pair order defines the `goldenPath` keys. | `[...]` |
-| `pairs[].type` | string enum | Yes | Canonical fish type without the `fish_` prefix. | `"blue_striped"` |
+| `pairs[].type` | string enum | Yes | Canonical fish type without the `fish_` prefix. | `"blue"` |
 | `pairs[].a` | object | Yes | First endpoint, stored as zero-based `{ x, y }` coordinates. `x` is column, `y` is row. | `{ "x": 3, "y": 0 }` |
 | `pairs[].b` | object | Yes | Second endpoint, stored as zero-based `{ x, y }` coordinates. | `{ "x": 2, "y": 3 }` |
 | `pairs[].a.x` / `pairs[].b.x` | integer `0..6` | Yes | Column coordinate. Must fit inside `gridSize.cols`. | `3` |
@@ -35,7 +35,7 @@ The toolkit can also read legacy/import-time aliases such as `board_width`, `boa
 
 Canonical `pairs[].type` values:
 
-`red`, `red_striped`, `blue`, `blue_striped`, `green`, `green_striped`, `yellow`, `yellow_striped`, `orange`, `orange_striped`, `purple`, `purple_striped`, `cyan`, `cyan_striped`
+`red`, `blue`, `green`, `yellow`, `orange`, `purple`, `cyan`
 
 ### Blockers
 
@@ -241,19 +241,12 @@ Canonical `pairs[].type` values:
           "type": "string",
           "enum": [
             "red",
-            "red_striped",
             "blue",
-            "blue_striped",
             "green",
-            "green_striped",
             "yellow",
-            "yellow_striped",
             "orange",
-            "orange_striped",
             "purple",
-            "purple_striped",
-            "cyan",
-            "cyan_striped"
+            "cyan"
           ]
         },
         "a": { "$ref": "#/definitions/cell" },
@@ -304,16 +297,19 @@ These aliases exist so the toolkit can import old files and keep internal play/s
 ## 4. Validation Rules Beyond Types
 
 1. `gridSize.cols` must be between `4` and `7`, and `gridSize.rows` must be between `4` and `8`. The largest allowed board is `7x8`.
-2. `pairs` must contain at least `2` pairs and at most `9` pairs.
-3. Each pair endpoint must fit inside the grid bounds and the two endpoints of one pair must not overlap.
-4. No pair endpoint may overlap another pair endpoint or a blocker.
-5. `blockers` may be omitted when empty, but if present each blocker must fit inside the grid bounds and not overlap a pair endpoint.
-6. `goldenPath` keys must match the pair order. In practice the keys are `A`..`I` and each path is a list of `[row, col]` cells.
-7. `goldenPath` paths should contain at least the start and end cells for each pair.
-8. `solutionCount` should be consistent with `validation.solvable` and `validation.density_match`.
-9. If `decal` is `true`, `validation.decal_required` should also be `true`, and `validation.decal_pass` should be a boolean result rather than `null`.
-10. `meta.failed_checks` should stay an array even when it is empty.
-11. `validation.path_coverage` and `validation.full_path_area` are generator-derived extras and should be treated as optional, not guaranteed.
+2. `pairs` must contain at least `2` pairs and at most `7` pairs.
+3. `pairs[].type` must be one of the canonical seven colors: `red`, `blue`, `green`, `yellow`, `orange`, `purple`, `cyan`.
+4. `pairs[].type` values must be unique inside the same level (no repeated color in one level).
+5. Each pair endpoint must fit inside the grid bounds and the two endpoints of one pair must not overlap.
+6. No pair endpoint may overlap another pair endpoint or a blocker.
+7. `blockers` may be omitted when empty, but if present each blocker must fit inside the grid bounds and not overlap a pair endpoint.
+8. `goldenPath` keys must match the pair order. In practice the keys are `A`..`G` and each path is a list of `[row, col]` cells.
+9. `goldenPath` paths should contain at least the start and end cells for each pair.
+10. `solutionCount` should be consistent with `validation.solvable` and `validation.density_match`.
+11. If `decal` is `true`, `validation.decal_required` should also be `true`, and `validation.decal_pass` should be a boolean result rather than `null`.
+12. `meta.failed_checks` should stay an array even when it is empty.
+13. `validation.path_coverage` and `validation.full_path_area` are generator-derived extras and should be treated as optional, not guaranteed.
+14. Canonical active progression files should follow `progression_<letter>_level<n>[_needs_review].json`, and level `id` should match the file stem.
 
 ## 5. Examples
 
@@ -370,7 +366,7 @@ These aliases exist so the toolkit can import old files and keep internal play/s
   "moves": 14,
   "pairs": [
     {
-      "type": "green_striped",
+      "type": "green",
       "a": { "x": 3, "y": 2 },
       "b": { "x": 0, "y": 3 }
     },
@@ -380,7 +376,7 @@ These aliases exist so the toolkit can import old files and keep internal play/s
       "b": { "x": 6, "y": 1 }
     },
     {
-      "type": "yellow_striped",
+      "type": "yellow",
       "a": { "x": 1, "y": 0 },
       "b": { "x": 0, "y": 2 }
     }

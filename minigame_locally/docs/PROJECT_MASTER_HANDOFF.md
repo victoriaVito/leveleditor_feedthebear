@@ -639,7 +639,7 @@ New structure:
    Then Live Ops Mixes: what they are (recombinations of original families for event/rotation content), how they differ from originals (editorial product, not unique authored content), the materialization flow (Mix Planner sheet → approval → `npm run materialize:mixes` → bundle output in `bundles/live_ops_mixes/`).
    Explain that mixes can rotate order, recombine across families, or create event-ready sets without net-new level production.
 
-6. **The visual language** — 14-fish palette (7 species × 2 variants: solid + striped), mapped A through N. Why it matters: stable visual categories for players and reviewers, coherent family identity across progressions. Reference `config/fish_colors.json` and `FISH_COLORS_SYSTEM.md`.
+6. **The visual language** — 7 canonical fish colors (striped variants removed), mapped A through G. Why it matters: stable visual categories for players and reviewers, coherent family identity across progressions. Reference `config/fish_colors.json` and `FISH_COLORS_SYSTEM.md`.
 
 7. **Procedural generation** — Written for a designer who will use the system, not for an engineer who will build it. Cover:
    - Philosophy: "The generator proposes, the designer disposes." It accelerates content exploration while keeping human review central.

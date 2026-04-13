@@ -46,26 +46,26 @@ Real examples from `levels/`:
 
 | File | Shape | What it teaches |
 |---|---|---|
-| `../levels/progression1_level3.json` | `4x4`, `3` pairs, `1` blocker, `solutionCount: 2`, solvable | Compact pressure. A tiny board can still feel deliberate when one blocker meaningfully changes route order. |
-| `../levels/progression1_level4.json` | `5x5`, `5` pairs, `3` blockers, `solutionCount: 20`, solvable | Readable pressure. The board is busy, but the player can still parse the lanes and work through them. |
-| `../levels/progression3_level1_v2.json` | `5x5`, `6` pairs, `3` blockers, `solutionCount: 2`, solvable | Curve caution. It shows how a Tier 1 slot can already feel dense if pair pressure arrives too early. |
-| `../levels/progresion2_level7.json` | `8x9`, `8` pairs, `6` blockers, `solutionCount: 0`, unsolvable | Negative example. It is useful because it shows overload and broken validation, not because it is a board to emulate. |
+| `../levels/progression_a/jsons/progression_a_level3.json` | `4x4`, `3` pairs, `1` blocker, `solutionCount: 2`, solvable | Compact pressure. A tiny board can still feel deliberate when one blocker meaningfully changes route order. [VERIFY: re-check metrics after latest schema migration.] |
+| `../levels/progression_a/jsons/progression_a_level4.json` | `5x5`, `5` pairs, `3` blockers, `solutionCount: 20`, solvable | Readable pressure. The board is busy, but the player can still parse the lanes and work through them. [VERIFY: re-check metrics after latest schema migration.] |
+| `../levels/progression_c/jsons/progression_c_level1.json` | `5x5`, `6` pairs, `3` blockers, `solutionCount: 2`, solvable | Curve caution. It shows how a Tier 1 slot can already feel dense if pair pressure arrives too early. [VERIFY: re-check metrics after latest schema migration.] |
+| `../levels/progression_b/jsons/progression_b_level7.json` | `8x9`, `8` pairs, `6` blockers, `solutionCount: 0`, unsolvable | Negative example. It is useful because it shows overload and broken validation, not because it is a board to emulate. [VERIFY: re-check metrics after latest schema migration.] |
 
-### Why `progression1_level3` works
+### Why `progression_a_level3` works
 
-`progression1_level3` is a good example of compact tension. The board is only `4x4`, but the single blocker sits where it actually matters, so the player has to notice ordering instead of drawing the first path they see.
+`progression_a_level3` is a good example of compact tension. The board is only `4x4`, but the single blocker sits where it actually matters, so the player has to notice ordering instead of drawing the first path they see.
 
-### Why `progression1_level4` works
+### Why `progression_a_level4` works
 
-`progression1_level4` is useful because it looks busier than it really is. The board stays readable and valid, but the high solution count reminds you that visual load alone does not guarantee real tension.
+`progression_a_level4` is useful because it looks busier than it really is. The board stays readable and valid, but the high solution count reminds you that visual load alone does not guarantee real tension.
 
-### Why `progression3_level1_v2` needs caution
+### Why `progression_c_level1` needs caution
 
-`progression3_level1_v2` is solvable, but it is dense for a first slot. That makes it a useful teaching example for curve design: a board can be valid and still feel too loaded for where it sits in a progression. [VERIFY: confirm whether `progression3_level1_v2.json` is still intended to open Progression C in the current editorial curve.]
+`progression_c_level1` is solvable, but it is dense for a first slot. That makes it a useful teaching example for curve design: a board can be valid and still feel too loaded for where it sits in a progression. [VERIFY: confirm whether `progression_c_level1.json` is still intended to open Progression C in the current editorial curve.]
 
-### Why `progresion2_level7` is still useful to study
+### Why `progression_b_level7` is still useful to study
 
-`progresion2_level7` is the kind of board a designer should reject quickly. It is unsolvable, overloaded, and a good reminder that more pairs plus more blockers does not automatically produce better tension.
+`progression_b_level7` is the kind of board a designer should reject quickly. It is unsolvable, overloaded, and a good reminder that more pairs plus more blockers does not automatically produce better tension.
 
 ## 3. How To Think About Difficulty
 
@@ -191,5 +191,5 @@ If any answer is weak, the level probably needs another pass.
 
 ## Pending [VERIFY] Flags
 
-- [VERIFY: confirm whether `progression3_level1_v2.json` is still intended to open Progression C in the current editorial curve.]
+- [VERIFY: confirm whether `progression_c_level1.json` is still intended to open Progression C in the current editorial curve.]
 - [VERIFY: confirm whether the tutorial file should be used as a shipped reference or treated only as a special-case import artifact.]
