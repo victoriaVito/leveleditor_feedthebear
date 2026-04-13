@@ -7,24 +7,36 @@ dotenv.config();
  * Parallel API Synchronization Manager
  *
  * Available models registry. Each entry includes:
- *   - status: 'active' (works now) | 'no_credits' (key valid, needs billing) | 'no_key' (needs key)
+ *   - status: 'active' (callable now) | 'no_credits' (manually disabled) | 'no_key' (needs key)
  *   - provider: gemini | openai | claude
+ *
+ * Status behavior:
+ *   - By default, any model with a configured API key is marked as `active`.
+ *   - Set AI_DISABLE_PAID_MODELS=1 to force OpenAI/Claude to `no_credits`.
  *
  * Select a model by setting MODEL env var or passing it to syncAPIsInParallel().
  * Default: gemini-2.5-flash
  */
 
+const DISABLE_PAID_MODELS = process.env.AI_DISABLE_PAID_MODELS === '1';
+const hasKey = (value) => typeof value === 'string' && value.trim().length > 0;
+const statusFor = (provider, apiKey) => {
+  if (!hasKey(apiKey)) return 'no_key';
+  if (DISABLE_PAID_MODELS && (provider === 'openai' || provider === 'claude')) return 'no_credits';
+  return 'active';
+};
+
 const MODELS = {
   // ── GEMINI (Google) ── covered by current API key ──
   'gemini-2.5-flash': {
     provider: 'gemini',
-    status: 'active',
+    status: statusFor('gemini', process.env.GOOGLE_API_KEY),
     label: 'Gemini 2.5 Flash (free)',
     apiKey: process.env.GOOGLE_API_KEY,
   },
   'gemini-flash-latest': {
     provider: 'gemini',
-    status: 'active',
+    status: statusFor('gemini', process.env.GOOGLE_API_KEY),
     label: 'Gemini Flash Latest (free)',
     apiKey: process.env.GOOGLE_API_KEY,
   },
@@ -32,13 +44,13 @@ const MODELS = {
   // ── GEMINI (quota exhausted on free tier) ──
   'gemini-2.5-pro': {
     provider: 'gemini',
-    status: 'no_credits',
+    status: statusFor('gemini', process.env.GOOGLE_API_KEY),
     label: 'Gemini 2.5 Pro (needs billing)',
     apiKey: process.env.GOOGLE_API_KEY,
   },
   'gemini-2.0-flash': {
     provider: 'gemini',
-    status: 'no_credits',
+    status: statusFor('gemini', process.env.GOOGLE_API_KEY),
     label: 'Gemini 2.0 Flash (needs billing)',
     apiKey: process.env.GOOGLE_API_KEY,
   },
@@ -46,13 +58,13 @@ const MODELS = {
   // ── OPENAI ── keys valid, needs API credits ──
   'gpt-4o-mini': {
     provider: 'openai',
-    status: 'no_credits',
+    status: statusFor('openai', process.env.OPENAI_API_KEY),
     label: 'GPT-4o Mini (needs API credits)',
     apiKey: process.env.OPENAI_API_KEY,
   },
   'gpt-4o': {
     provider: 'openai',
-    status: 'no_credits',
+    status: statusFor('openai', process.env.OPENAI_API_KEY),
     label: 'GPT-4o (needs API credits)',
     apiKey: process.env.OPENAI_API_KEY,
   },
@@ -60,13 +72,13 @@ const MODELS = {
   // ── CLAUDE ── key valid, needs API credits ──
   'claude-sonnet-4-5-20250929': {
     provider: 'claude',
-    status: 'no_credits',
+    status: statusFor('claude', process.env.ANTHROPIC_API_KEY),
     label: 'Claude Sonnet 4.5 (needs API credits)',
     apiKey: process.env.ANTHROPIC_API_KEY,
   },
   'claude-haiku-3-5-20241022': {
     provider: 'claude',
-    status: 'no_credits',
+    status: statusFor('claude', process.env.ANTHROPIC_API_KEY),
     label: 'Claude Haiku 3.5 (needs API credits)',
     apiKey: process.env.ANTHROPIC_API_KEY,
   },
