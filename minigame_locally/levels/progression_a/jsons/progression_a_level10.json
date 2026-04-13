@@ -73,7 +73,8 @@
       ],
       "color": "#0EA5E9",
       "fish_color_id": "fish_blue",
-      "color_letter": "C"
+      "color_letter": "C",
+      "type": "red"
     },
     {
       "id": "B",
@@ -87,7 +88,8 @@
       ],
       "color": "#10B981",
       "fish_color_id": "fish_green",
-      "color_letter": "E"
+      "color_letter": "E",
+      "type": "blue"
     },
     {
       "id": "C",
@@ -101,7 +103,8 @@
       ],
       "color": "#FBBF24",
       "fish_color_id": "fish_yellow",
-      "color_letter": "G"
+      "color_letter": "G",
+      "type": "green"
     },
     {
       "id": "D",
@@ -115,7 +118,8 @@
       ],
       "color": "#D8B4FE",
       "fish_color_id": "fish_purple_striped",
-      "color_letter": "L"
+      "color_letter": "L",
+      "type": "yellow"
     }
   ],
   "blockers": [

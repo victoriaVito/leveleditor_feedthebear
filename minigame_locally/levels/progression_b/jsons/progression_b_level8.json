@@ -2,10 +2,10 @@
   "id": "progression_b_level8",
   "difficultyTier": 3,
   "gridSize": {
-    "cols": 8,
+    "cols": 7,
     "rows": 8
   },
-  "moves": 0,
+  "moves": 7,
   "pairs": [
     {
       "type": "blue",
@@ -58,7 +58,7 @@
         "y": 1
       },
       "b": {
-        "x": 7,
+        "x": 6,
         "y": 5
       }
     },

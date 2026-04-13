@@ -74,7 +74,7 @@ class ProgressionDomainTests(unittest.TestCase):
             "tutorial_level_file": "levels/tutorial_level.json",
             "slots": [
                 {"slot": 0, "status": "reserved", "label": "TUTORIAL"},
-                {"slot": 1, "level_file": "levels/missing_level.json"},
+                {"slot": 1, "level_file": "levels/progression_x_level1.json"},
             ],
         }
         with tempfile.TemporaryDirectory() as tmp_dir:

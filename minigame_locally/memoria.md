@@ -28,6 +28,7 @@ Do not use it as the full historical audit log.
 - [Full Memory Log](changes/archive/memoria_full_2026-03-21.md)
 
 ## Recent structural changes
+- `2026-04-10`: docs/PROYECTO_FTB_LIBRO.md actualizado — Sección Procedural ML/Design fusionada y referenciada. Proceso de unificación de documentación en curso.
 
 - `2026-03-26`: **Workspace instructions bootstrapped** — Added the project-guidelines section to `AGENTS.md` so agent runs share the same code-style, architecture, build/test, and convention references.
 - `2026-03-24`: **Curve Builder tab** — New spreadsheet tab for visual difficulty curve design with dropdowns, screenshots, Random Fill action, and Materialize action that creates real progression bundles importable by the Level Manager. See `docs/CURVE_BUILDER.md`.
@@ -583,3 +584,53 @@ Do not use it as the full historical audit log.
 - Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the premium v3 Python UI iteration.
 - Date: 2026-04-13 | File path: docs/PYTHON_UI_PREMIUM_MASTER_PLAN.md | Action: created | Reason: Added a mega-detailed premium UI master plan covering v4 scope, AI model routing, skill usage, sub-agent delegation, risks, KPIs, and execution phases.
 - Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Registered creation of the premium UI master plan so planning work stays traceable in the canonical memory index.
+- Date: 2026-04-13 | File path: scripts/sync_apis_parallel.mjs | Action: updated | Reason: Enabled dynamic model activation by API key (with optional paid-model disable flag) so same-day multi-AI orchestration can attempt real OpenAI/Claude/Gemini calls.
+- Date: 2026-04-13 | File path: docs/PYTHON_UI_PREMIUM_MASTER_PLAN.md | Action: updated | Reason: Added same-day multi-AI connectivity matrix, activation commands, and explicit fallback policy when external APIs/webhooks are unavailable.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the multi-AI orchestration hardening updates and the operational fallback path for today’s v4 delivery.
+- Date: 2026-04-13 | File path: python_toolkit/src/feed_the_bear_toolkit/ui/app.py | Action: updated | Reason: Switched Python UI default level paths to canonical progression JSON locations to match the enforced naming structure.
+- Date: 2026-04-13 | File path: python_toolkit/src/feed_the_bear_toolkit/ui/server.py | Action: updated | Reason: Updated API default level-path fallbacks to canonical progression JSON files to avoid broken inspector/procedural routes.
+- Date: 2026-04-13 | File path: python_toolkit/tests/test_cli.py | Action: updated | Reason: Aligned CLI path expectations with canonical level naming and made progression validation assertion robust to invalid-level exit codes.
+- Date: 2026-04-13 | File path: python_toolkit/tests/test_procedural_service.py | Action: updated | Reason: Repointed procedural reference-variant fixture to canonical progression level files and filenames.
+- Date: 2026-04-13 | File path: python_toolkit/tests/test_progressions.py | Action: updated | Reason: Updated missing-level validation fixture to use canonical progression filename format so missing-file semantics are tested correctly.
+- Date: 2026-04-13 | File path: python_toolkit/tests/test_ui_server.py | Action: updated | Reason: Aligned UI server route fixtures with canonical level paths and replaced brittle grid-shape assertions with contract-safe checks.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Registered canonical-path and regression-test updates completed for same-day Premium v4 stabilization.
+- Date: 2026-04-13 | File path: docs/PYTHON_UI_PREMIUM_MASTER_PLAN.md | Action: updated | Reason: Added a strict same-day Premium v4 execution section with priorities, dependencies, cut-lines, and acceptance gates for today’s delivery.
+- Date: 2026-04-13 | File path: scripts/ship_today_multi_ai.sh | Action: created | Reason: Added one-command orchestration script to validate env, start router/webhook services, run multi-model sync, and manage status/stop flow for same-day delivery.
+- Date: 2026-04-13 | File path: package.json | Action: updated | Reason: Added `ship:today:multi-ai` npm entrypoints (`run`, `status`, `stop`, `sync-only`) for fast operation of the new multi-AI ship script.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged creation of the same-day multi-AI orchestration command path and package script shortcuts.
+- Date: 2026-04-13 | File path: scripts/ship_today_multi_ai.sh | Action: updated | Reason: Switched service startup from `npm run` to direct `node` execution with `npm_config_prefix` unset to avoid `nvm` startup conflicts and keep router/webhook processes alive.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged stabilization fix for same-day multi-AI service startup reliability.
+- Date: 2026-04-13 | File path: scripts/ocean_orchestrator.sh | Action: created | Reason: Unified orchestration entrypoint for env validation, service lifecycle (core/all), model sync, health checks, and logs under one command surface.
+- Date: 2026-04-13 | File path: scripts/ship_today_multi_ai.sh | Action: updated | Reason: Converted into a compatibility wrapper delegating to the unified `ocean_orchestrator` commands.
+- Date: 2026-04-13 | File path: package.json | Action: updated | Reason: Added `orchestrator` npm commands (`run`, `run-all`, `up`, `down`, `status`, `sync`) to standardize all orchestration flows.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the orchestration fusion into a single operational interface.
+- Date: 2026-04-13 | File path: scripts/ship_today_multi_ai.sh | Action: updated | Reason: Removed the legacy wrapper script after consolidating all orchestration into `scripts/ocean_orchestrator.sh`.
+- Date: 2026-04-13 | File path: package.json | Action: updated | Reason: Removed deprecated `ship:today:multi-ai*` npm commands and kept only the unified `orchestrator*` command family.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged cleanup of redundant orchestration entrypoints after unification.
+- Date: 2026-04-13 | File path: scripts/task-router-server.mjs | Action: updated | Reason: Added a built-in visual dashboard endpoint (`/dashboard`) with live stats/tasks polling so orchestrator activity can be monitored from a browser.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged availability of the new visual task-router dashboard.
+- Date: 2026-04-13 | File path: scripts/task-router-server.mjs | Action: updated | Reason: Upgraded `/dashboard` to a panel-based UI (`Overview`, `Tasks`, `Agents`) with tab navigation and live auto-refresh across all panels.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged panel-based dashboard UX update for orchestrator visualization.
+- Date: 2026-04-13 | File path: /Users/victoria.serrano/Desktop/FeedTheBear-Orchestrator.command | Action: created | Reason: Added a desktop shortcut that starts the unified orchestrator core services and opens the dashboard URL directly.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged creation of the desktop shortcut for direct orchestrator dashboard access.
+- Date: 2026-04-13 | File path: /Users/victoria.serrano/.config/zsh/aliases.zsh | Action: updated | Reason: Added global Feed the Bear aliases/functions (`ftb-up`, `ftb-status`, `ftb-sync`, `ftb-down`) to control and open the unified orchestrator dashboard from any terminal.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged creation of global shell shortcuts for orchestrator operations.
+- Date: 2026-04-13 | File path: /Users/victoria.serrano/.config/zsh/startup.zsh | Action: updated | Reason: Added an interactive startup hint so each new terminal session shows the Feed the Bear orchestrator commands (`ftb-up`, `ftb-status`, `ftb-sync`, `ftb-down`).
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the new terminal startup guidance for orchestrator usage.
+- Date: 2026-04-13 | File path: /Users/victoria.serrano/.config/zsh/aliases.zsh | Action: updated | Reason: Added `ftb-help`/`ftb_orch_help` with a compact command index so all orchestrator shortcuts are discoverable in a single, readable view.
+- Date: 2026-04-13 | File path: /Users/victoria.serrano/.config/zsh/startup.zsh | Action: updated | Reason: Simplified startup banner to a short `ftb-help` hint so terminal onboarding remains compact and does not overflow with multiple commands.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged shortcut-visibility restructuring for terminal startup and help ergonomics.
+- Date: 2026-04-13 | File path: levels/progression_b/jsons/progression_b_level10.json | Action: updated | Reason: Normalized canonical invalid data (board bounds/coordinates) so progression B level validates under Python toolkit constraints.
+- Date: 2026-04-13 | File path: levels/progression_b/jsons/progression_b_level7_needs_review.json | Action: updated | Reason: Cleaned canonical invalid structure (size, out-of-bounds points, goldenPath shape) to restore schema validity.
+- Date: 2026-04-13 | File path: levels/progression_b/jsons/progression_b_level8.json | Action: updated | Reason: Normalized canonical invalid layout values to satisfy board-size and coordinate rules.
+- Date: 2026-04-13 | File path: levels/progression_b/jsons/progression_b_level9.json | Action: updated | Reason: Normalized canonical invalid layout values to satisfy board-size and coordinate rules.
+- Date: 2026-04-13 | File path: levels/progression_c/jsons/progression_c_level10.json | Action: updated | Reason: Fixed canonical invalid coordinates and resolved node overlap after bounds normalization.
+- Date: 2026-04-13 | File path: levels/progression_c/jsons/progression_c_level3.json | Action: updated | Reason: Corrected out-of-bounds canonical pair coordinates to enforce schema validity.
+- Date: 2026-04-13 | File path: levels/progression_c/jsons/progression_c_level4_needs_review.json | Action: updated | Reason: Normalized oversized board and trimmed invalid goldenPath references to match canonical pair contract.
+- Date: 2026-04-13 | File path: levels/progression_c/jsons/progression_c_level6.json | Action: updated | Reason: Fixed canonical invalid board/coordinates and removed node overlap produced by clamping.
+- Date: 2026-04-13 | File path: levels/progression_d/jsons/progression_d_level5.json | Action: updated | Reason: Corrected invalid coordinates and repositioned overlapping node to maintain valid canonical structure.
+- Date: 2026-04-13 | File path: levels/progression_e/jsons/progression_e_level3.json | Action: updated | Reason: Clamped out-of-bounds blockers and removed endpoint collisions for canonical schema compliance.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged the canonical invalid-level cleanup pass for progression_a..i traceability.
+- Date: 2026-04-13 | File path: output/spreadsheet/Levels_feed_the_bear_after_feedback_sync.xlsx | Action: updated | Reason: Regenerated canonical workbook after invalid canonical levels cleanup (progression_a..i) and synced tabs to Google Sheets.
+- Date: 2026-04-13 | File path: output/spreadsheet/Levels_feed_the_bear_after_feedback_sync_payload.json | Action: updated | Reason: Refreshed canonical payload and pushed it to the live spreadsheet after normalization pass.
+- Date: 2026-04-13 | File path: memoria.md | Action: updated | Reason: Logged spreadsheet sync completion and Kingfluence publication after canonical-level normalization.

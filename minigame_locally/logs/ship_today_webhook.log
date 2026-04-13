@@ -1,0 +1,25 @@
+nvm is not compatible with the "npm_config_prefix" environment variable: currently set to "/opt/homebrew"
+Run `unset npm_config_prefix` to unset it.
+nvm is not compatible with the "npm_config_prefix" environment variable: currently set to "/opt/homebrew"
+Run `unset npm_config_prefix` to unset it.
+
+╔═════════════════════════════════════════════════════╗
+║  Zapier Webhook Receiver - Active                  ║
+║                                                     ║
+║  Listening on: http://localhost:3000              ║
+║  Endpoint:     /webhook/zapier (POST)               ║
+║  Health:       /health (GET)                        ║
+║  Status:       /task-status/{id} (GET)              ║
+║                                                     ║
+║  Set in Zapier:                                     ║
+║  http://localhost:3000/webhook/zapier  ║
+╚═════════════════════════════════════════════════════╝
+    
+Supported events:
+  - paraclau_file_changed
+  - task_received
+  - learning_batch_ready
+  - doc_changed
+  - handoff_request
+
+Logs: /Users/victoria.serrano/Library/CloudStorage/SynologyDrive-back1/misScripts/minigame_locally/logs/

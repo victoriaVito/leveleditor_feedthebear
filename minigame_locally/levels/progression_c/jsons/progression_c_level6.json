@@ -2,7 +2,7 @@
   "id": "progression_c_level6",
   "difficultyTier": 6,
   "gridSize": {
-    "cols": 8,
+    "cols": 7,
     "rows": 7
   },
   "moves": 6,
@@ -11,7 +11,7 @@
       "type": "blue",
       "a": {
         "x": 5,
-        "y": 7
+        "y": 6
       },
       "b": {
         "x": 0,
@@ -21,7 +21,7 @@
     {
       "type": "green",
       "a": {
-        "x": 5,
+        "x": 4,
         "y": 6
       },
       "b": {
@@ -36,8 +36,8 @@
         "y": 1
       },
       "b": {
-        "x": 4,
-        "y": 7
+        "x": 3,
+        "y": 6
       }
     },
     {

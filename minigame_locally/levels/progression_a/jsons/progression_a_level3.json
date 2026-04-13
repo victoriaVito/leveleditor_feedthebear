@@ -42,7 +42,8 @@
       ],
       "color": "#0EA5E9",
       "fish_color_id": "fish_blue",
-      "color_letter": "C"
+      "color_letter": "C",
+      "type": "red"
     },
     {
       "id": "B",
@@ -56,7 +57,8 @@
       ],
       "color": "#10B981",
       "fish_color_id": "fish_green",
-      "color_letter": "E"
+      "color_letter": "E",
+      "type": "blue"
     },
     {
       "id": "C",
@@ -70,7 +72,8 @@
       ],
       "color": "#0EA5E9",
       "fish_color_id": "fish_blue",
-      "color_letter": "C"
+      "color_letter": "C",
+      "type": "green"
     }
   ],
   "blockers": [

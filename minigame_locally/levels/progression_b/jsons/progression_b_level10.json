@@ -2,7 +2,7 @@
   "id": "progression_b_level10",
   "difficultyTier": 9,
   "gridSize": {
-    "cols": 8,
+    "cols": 7,
     "rows": 8
   },
   "moves": 6,
@@ -25,7 +25,7 @@
         "y": 4
       },
       "b": {
-        "x": 7,
+        "x": 6,
         "y": 0
       }
     },

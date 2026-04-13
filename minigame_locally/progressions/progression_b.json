@@ -1,7 +1,7 @@
 {
   "name": "progression_b",
   "locked": true,
-  "tutorial_level_file": "levels/tutorial_level.json",
+  "tutorial_level_file": "levels/progression_a/jsons/tutorial_level.json",
   "slots": [
     {
       "slot": 0,
@@ -10,43 +10,43 @@
     },
     {
       "slot": 1,
-      "level_file": "levels/progression_b/b_1.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level1.json"
     },
     {
       "slot": 2,
-      "level_file": "levels/progression_b/b_2.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level2.json"
     },
     {
       "slot": 3,
-      "level_file": "levels/progression_b/b_3.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level3.json"
     },
     {
       "slot": 4,
-      "level_file": "levels/progression_b/b_4.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level4.json"
     },
     {
       "slot": 5,
-      "level_file": "levels/progression_b/b_5.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level5.json"
     },
     {
       "slot": 6,
-      "level_file": "levels/progression_b/b_6.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level6.json"
     },
     {
       "slot": 7,
-      "level_file": "levels/progression_b/b_7.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level7.json"
     },
     {
       "slot": 8,
-      "level_file": "levels/progression_b/b_8.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level8.json"
     },
     {
       "slot": 9,
-      "level_file": "levels/progression_b/b_9.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level9.json"
     },
     {
       "slot": 10,
-      "level_file": "levels/progression_b/b_10.json"
+      "level_file": "levels/progression_b/jsons/progression_b_level10.json"
     }
   ]
 }

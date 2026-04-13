@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3.10 -c ':*)",
+      "Bash(python3.10)",
+      "Bash(python3.10 scripts/normalize_level_types.py)",
+      "Bash(python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_a.json)",
+      "Bash(python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_b.json)",
+      "mcp__pylon__terminal_read_output",
+      "Bash(/opt/homebrew/bin/python3.10 scripts/fix_progression_paths.py)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_c.json)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_b.json)",
+      "Bash(/opt/homebrew/bin/python3.10 -m json.tool)",
+      "Bash(git checkout:*)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_g.json)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-level levels/progression_g/jsons/progression_g_level1.json)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_g.json --verbose)",
+      "Bash(/opt/homebrew/bin/python3.10 python_toolkit/run_cli.py validate-progression progressions/progression_a.json)",
+      "Bash(/opt/homebrew/bin/python3.10 -c ':*)",
+      "Bash(/opt/homebrew/bin/python3.10 scripts/fix_progression_g_level_ids.py)",
+      "Bash(git commit -m 'Phase 2B Slice 1: Level JSON Normalization - Fix path references and level IDs:*)"
+    ]
+  }
+}

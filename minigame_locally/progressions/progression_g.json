@@ -1,7 +1,7 @@
 {
   "name": "progression_g",
   "locked": true,
-  "tutorial_level_file": "levels/tutorial_level.json",
+  "tutorial_level_file": "levels/progression_a/jsons/tutorial_level.json",
   "slots": [
     {
       "slot": 0,

@@ -3,6 +3,36 @@ Date: April 13, 2026
 Status: Planned
 Owner: Feed the Bear Toolkit Team
 
+## 0. Same-day execution plan for Premium v4 (April 13, 2026)
+This section overrides the broad roadmap when the goal is to ship Premium v4 today.
+
+| # | Priority | Task | Depends on | Cut-line | Acceptance gate |
+|---|---|---|---|---|---|
+| 1 | P0 | Lock v4 ship scope: list only must-ship UX improvements, blocked flows, and delivery artifacts. | None | Cut any nice-to-have feature, animation, or structural refactor not required for today’s handoff. | One written ship list exists and every remaining task maps to it. |
+| 2 | P0 | Audit current `python_toolkit/src/feed_the_bear_toolkit/ui/app.py` against the ship scope and open a blocker list. | 1 | Defer all issues that do not break core daily-use flows or visible premium quality. | Blocker list is explicit, prioritized, and limited to same-day-fixable items. |
+| 3 | P0 | Fix ship-blocking UX/function issues in one focused implementation pass. | 2 | If a fix expands beyond local UI code or needs backend redesign, downgrade it to post-v4. | Main flows work without breakage and no unresolved P0 blocker remains. |
+| 4 | P0 | Run local smoke verification on core operator flows: open app, navigate views, key actions, theme/density persistence, critical data displays. | 3 | Skip exhaustive edge-case sweeps today; capture only failures that affect release confidence. | All core flows pass once end-to-end with no release-blocking defect. |
+| 5 | P1 | Apply a final visible-polish pass only to the screens that will be shown or used immediately after delivery. | 4 | Stop once UI feels coherent and premium; do not start broad redesign loops. | Target screens have no obvious spacing, hierarchy, truncation, or contrast issue. |
+| 6 | P1 | Update operator-facing documentation in place for Premium v4 behavior, controls, and known limits. | 4 | Do not write long strategy docs today; document only what operators need to use or trust v4. | Canonical docs reflect shipped behavior and call out any accepted limitations. |
+| 7 | P0 | Re-run regression/smoke check after docs-aligned final state. | 5, 6 | If a late polish or doc-driven tweak breaks flow, revert the tweak instead of reopening scope. | Final build state matches documented behavior and still passes core checks. |
+| 8 | P0 | Prepare delivery bundle: final status note, changed-file summary, known limitations, and explicit go/no-go. | 7 | Do not hold release for secondary improvements once go criteria are met. | Delivery package is ready and a reviewer can understand what shipped, what did not, and why. |
+
+### 0.1 Multi-AI execution today (connectivity and fallback)
+1. Codex: available in-session and primary implementation path.
+2. Gemini API: configured but may fail temporarily under high demand.
+3. OpenAI API: configured but blocked when account quota is exhausted.
+4. Claude API: configured but blocked when key is invalid/expired.
+5. Copilot lane: requires webhook bridge configuration (`ZAPIER_COPILOT_WEBHOOK` and related router vars).
+
+### 0.2 Commands to activate external orchestration
+1. `npm install`
+2. `npm run validate:env:full`
+3. `npm run start:task-router`
+4. `npm run start:zapier-webhook`
+5. `node scripts/sync_apis_parallel.mjs`
+
+If steps 2-5 are not green, continue same-day shipping with Codex + sub-agents and do not block v4 on external API availability.
+
 ## 1. Why this plan exists
 This plan defines how to evolve the Python UI from a functional shell into a premium daily-use product.
 

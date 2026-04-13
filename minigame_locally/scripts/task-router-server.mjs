@@ -158,6 +158,341 @@ app.get('/health', (req, res) => {
 });
 
 /**
+ * Simple visual dashboard
+ */
+app.get('/dashboard', (req, res) => {
+  res.type('html').send(`<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Task Router Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #121922;
+      --panel-2: #0f151d;
+      --text: #e8edf3;
+      --muted: #93a1b2;
+      --ok: #2ecc71;
+      --warn: #f1c40f;
+      --err: #e74c3c;
+      --accent: #4da3ff;
+      --border: #223144;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "SF Pro Text", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, #1a2432 0%, var(--bg) 60%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 24px;
+    }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .top h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0.2px;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .value {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .err { color: var(--err); }
+    .section-title {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: #c9d5e2;
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 8px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      color: #dbe8f5;
+    }
+    .s-pending { background: #27313f; }
+    .s-completed { background: #1c3a2c; border-color: #2e6b4c; }
+    .s-failed { background: #3b2020; border-color: #7c3434; }
+    .agent-codex { color: #9fd1ff; }
+    .agent-claude { color: #f8c8ff; }
+    .agent-copilot { color: #b3ffd9; }
+    .muted { color: var(--muted); }
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .tab-btn.active {
+      background: #244567;
+      border-color: #3b6ea2;
+    }
+    .panel { display: none; }
+    .panel.active { display: block; }
+    button {
+      border: 1px solid var(--border);
+      background: #172231;
+      color: #dbe8f5;
+      border-radius: 8px;
+      padding: 7px 10px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    button:hover { background: #1f2d41; }
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <h1>Task Router Dashboard</h1>
+      <div class="meta">
+        <span id="health">Health: ...</span> ·
+        <span id="updated">Updated: -</span>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="refresh">Refresh now</button>
+      <button id="toggle">Pause auto-refresh</button>
+    </div>
+
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-panel="overview">Overview</button>
+      <button type="button" class="tab-btn" data-panel="tasks">Tasks</button>
+      <button type="button" class="tab-btn" data-panel="agents">Agents</button>
+    </div>
+
+    <section id="panel-overview" class="panel active">
+      <div class="grid">
+        <div class="card"><div class="label">Total Tasks</div><div class="value" id="total">0</div></div>
+        <div class="card"><div class="label">Pending</div><div class="value warn" id="pending">0</div></div>
+        <div class="card"><div class="label">Completed</div><div class="value ok" id="completed">0</div></div>
+        <div class="card"><div class="label">Failed</div><div class="value err" id="failed">0</div></div>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <h2 class="section-title">By Agent</h2>
+          <table>
+            <thead><tr><th>Agent</th><th>Tasks</th></tr></thead>
+            <tbody id="by-agent"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="section-title">Recent Tasks</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Title</th><th>Status</th><th>Agent</th><th>Created</th>
+              </tr>
+            </thead>
+            <tbody id="tasks"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-tasks" class="panel">
+      <div class="card">
+        <h2 class="section-title">All Tasks (latest first)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th><th>Title</th><th>Status</th><th>Agent</th><th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="tasks-all"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-agents" class="panel">
+      <div class="split">
+        <div class="card">
+          <h2 class="section-title">By Agent</h2>
+          <table>
+            <thead><tr><th>Agent</th><th>Tasks</th></tr></thead>
+            <tbody id="by-agent-full"></tbody>
+          </table>
+        </div>
+        <div class="card">
+          <h2 class="section-title">By Status</h2>
+          <table>
+            <thead><tr><th>Status</th><th>Tasks</th></tr></thead>
+            <tbody id="by-status"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    let paused = false;
+    let timer = null;
+
+    function pill(status) {
+      const cls = status === 'completed' ? 's-completed' : (status === 'failed' ? 's-failed' : 's-pending');
+      return '<span class="pill ' + cls + '">' + status + '</span>';
+    }
+
+    function fmt(ts) {
+      try { return new Date(ts).toLocaleTimeString(); } catch (_) { return '-'; }
+    }
+
+    async function loadData() {
+      try {
+        const [healthRes, statsRes, tasksRes] = await Promise.all([
+          fetch('/health'),
+          fetch('/stats'),
+          fetch('/tasks'),
+        ]);
+        const health = await healthRes.json();
+        const stats = await statsRes.json();
+        const tasksPayload = await tasksRes.json();
+
+        document.getElementById('health').textContent = 'Health: ' + (health.status || 'unknown');
+        document.getElementById('updated').textContent = 'Updated: ' + new Date().toLocaleTimeString();
+        document.getElementById('total').textContent = String(stats.total_tasks || 0);
+        document.getElementById('pending').textContent = String((stats.by_status && stats.by_status.pending) || 0);
+        document.getElementById('completed').textContent = String((stats.by_status && stats.by_status.completed) || 0);
+        document.getElementById('failed').textContent = String((stats.by_status && stats.by_status.failed) || 0);
+
+        const byAgent = stats.by_agent || {};
+        const agentRows = ['claude', 'codex', 'copilot'].map(a =>
+          '<tr><td class=\"agent-' + a + '\">' + a + '</td><td>' + (byAgent[a] || 0) + '</td></tr>'
+        ).join('');
+        document.getElementById('by-agent').innerHTML = agentRows || '<tr><td colspan=\"2\" class=\"muted\">No data</td></tr>';
+        document.getElementById('by-agent-full').innerHTML = agentRows || '<tr><td colspan=\"2\" class=\"muted\">No data</td></tr>';
+
+        const byStatus = stats.by_status || {};
+        document.getElementById('by-status').innerHTML = ['pending','in_progress','completed','failed']
+          .map(s => '<tr><td>' + s + '</td><td>' + (byStatus[s] || 0) + '</td></tr>')
+          .join('');
+
+        const tasks = (tasksPayload.tasks || []).slice(0, 20);
+        document.getElementById('tasks').innerHTML = tasks.length
+          ? tasks.map(t => (
+              '<tr>' +
+              '<td><code>' + t.id + '</code></td>' +
+              '<td>' + (t.title || '') + '</td>' +
+              '<td>' + pill(t.status || 'pending') + '</td>' +
+              '<td class=\"agent-' + (t.routed_to || '') + '\">' + (t.routed_to || '-') + '</td>' +
+              '<td>' + fmt(t.created_at) + '</td>' +
+              '</tr>'
+            )).join('')
+          : '<tr><td colspan=\"5\" class=\"muted\">No tasks yet</td></tr>';
+
+        const tasksAll = tasksPayload.tasks || [];
+        document.getElementById('tasks-all').innerHTML = tasksAll.length
+          ? tasksAll.map(t => (
+              '<tr>' +
+              '<td><code>' + t.id + '</code></td>' +
+              '<td>' + (t.title || '') + '</td>' +
+              '<td>' + pill(t.status || 'pending') + '</td>' +
+              '<td class=\"agent-' + (t.routed_to || '') + '\">' + (t.routed_to || '-') + '</td>' +
+              '<td>' + fmt(t.created_at) + '</td>' +
+              '</tr>'
+            )).join('')
+          : '<tr><td colspan=\"5\" class=\"muted\">No tasks yet</td></tr>';
+      } catch (err) {
+        document.getElementById('health').textContent = 'Health: error';
+      }
+    }
+
+    function startTimer() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(() => { if (!paused) loadData(); }, 3000);
+    }
+
+    document.getElementById('refresh').addEventListener('click', loadData);
+    document.getElementById('toggle').addEventListener('click', (e) => {
+      paused = !paused;
+      e.target.textContent = paused ? 'Resume auto-refresh' : 'Pause auto-refresh';
+    });
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const panel = btn.getAttribute('data-panel');
+        document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('.panel').forEach((p) => p.classList.remove('active'));
+        const target = document.getElementById('panel-' + panel);
+        if (target) target.classList.add('active');
+      });
+    });
+
+    loadData();
+    startTimer();
+  </script>
+</body>
+</html>`);
+});
+
+/**
  * Submit new task
  */
 app.post('/task', async (req, res) => {

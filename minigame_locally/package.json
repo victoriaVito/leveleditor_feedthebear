@@ -50,7 +50,15 @@
     "format": "prettier --write '**/*.{js,mjs,json,md}'",
     "audit:supply-chain": "node scripts/audit-supply-chain.mjs",
     "audit:supply-chain:ci": "node scripts/audit-supply-chain.mjs --ci",
-    "preinstall": "node scripts/audit-supply-chain.mjs --skip-npm-audit 2>/dev/null || true"
+    "preinstall": "node scripts/audit-supply-chain.mjs --skip-npm-audit 2>/dev/null || true",
+    "orchestrator": "bash scripts/ocean_orchestrator.sh run",
+    "orchestrator:all": "bash scripts/ocean_orchestrator.sh run-all",
+    "orchestrator:up": "bash scripts/ocean_orchestrator.sh up",
+    "orchestrator:up:all": "bash scripts/ocean_orchestrator.sh up-all",
+    "orchestrator:status": "bash scripts/ocean_orchestrator.sh status",
+    "orchestrator:down": "bash scripts/ocean_orchestrator.sh down",
+    "orchestrator:down:all": "bash scripts/ocean_orchestrator.sh down-all",
+    "orchestrator:sync": "bash scripts/ocean_orchestrator.sh sync"
   },
   "keywords": [
     "google-sheets",
