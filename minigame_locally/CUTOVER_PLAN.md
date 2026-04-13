@@ -17,27 +17,22 @@
 - [x] Step 8: Hardening & test suite ✅
 - [ ] Step 9a: Create rollback branch from main
 
-### Phase 2: Deployment (On Main)
-- [ ] PR: `parity/step-4-9` → main (review-only, no changes yet)
-- [ ] Backup: Tag main as `pre-cutover-backup`
-- [ ] Deployment checklist:
-  - [ ] Update custom instructions to mark Python as PRIMARY
-  - [ ] Update web toolkit to FALLBACK-ONLY status in docs
-  - [ ] Update README to route users to Python shell
-  - [ ] Create rollback branch: `rollback/pre-cutover-main`
+### Phase 2: Semantic Commit Organization
 
-### Phase 3: Rollback Procedures
-**If issues arise:**
-```bash
-# Fast rollback to pre-cutover state
-git checkout rollback/pre-cutover-main
-git push -f origin main
+- [x] Commit 1: Schema migration (66 A-F files)
+- [x] Commit 2: File reorganization (150 A-F files)
+- [x] Commit 3: G/H/I migration (30 G/H/I files + manifests)
+- [x] Commit 4: Config and domain model (fish_colors.json, models.py)
+- [x] Commit 5: Documentation updates (AGENTS.md, CUTOVER_PLAN.md, docs/)
+- [x] Commit 6: Toolkit and VSCode config updates
+- [x] Commit 7: Cleanup and procedural artifact removal
 
-# Investigate issue
-git log --oneline pre-cutover-backup..parity/step-4-9
+### Phase 3: Branch Divergence Resolution
 
-# Fix, test, resubmit
-```
+- [x] git fetch origin
+- [x] Rebase local commits onto origin/main
+- [x] Resolve rebase conflicts (submodule, memoria.md, SPREADSHEET_CONTROL_PANEL.md)
+- [x] Final commit applied successfully
 
 ## Verification Checklist
 
