@@ -1,0 +1,188 @@
+{
+  "id": "progression_b_level9",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 8,
+    "rows": 8
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 7,
+        "y": 1
+      },
+      "b": {
+        "x": 7,
+        "y": 6
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 0,
+        "y": 7
+      },
+      "b": {
+        "x": 7,
+        "y": 7
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 0
+    },
+    {
+      "x": 7,
+      "y": 2
+    },
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 5
+    },
+    {
+      "x": 4,
+      "y": 7
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "B": [
+      [
+        7,
+        1
+      ],
+      [
+        7,
+        6
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    "D": [
+      [
+        0,
+        7
+      ],
+      [
+        7,
+        7
+      ]
+    ],
+    "E": [
+      [
+        4,
+        4
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "G": [
+      [
+        0,
+        1
+      ],
+      [
+        4,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "progresion2_level9.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

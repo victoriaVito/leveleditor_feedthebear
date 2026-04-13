@@ -1,0 +1,151 @@
+{
+  "id": "progression_f_level4",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 5,
+        "y": 5
+      },
+      "b": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 5,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 2,
+        "y": 4
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 4,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 4
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        5,
+        5
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        5,
+        1
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "C": [
+      [
+        2,
+        4
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "D": [
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "E": [
+      [
+        2,
+        1
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "6_4.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

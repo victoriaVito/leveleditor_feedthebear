@@ -1,0 +1,192 @@
+{
+  "id": "progression_d_level8",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 1,
+        "y": 6
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 6
+      },
+      "b": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 6,
+        "y": 1
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 2,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 4
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 1
+    },
+    {
+      "x": 5,
+      "y": 1
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 6
+    },
+    {
+      "x": 0,
+      "y": 3
+    },
+    {
+      "x": 6,
+      "y": 3
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        6
+      ]
+    ],
+    "C": [
+      [
+        2,
+        6
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    "D": [
+      [
+        6,
+        1
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "E": [
+      [
+        2,
+        2
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "F": [
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "7.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

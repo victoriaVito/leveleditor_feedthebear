@@ -1,0 +1,147 @@
+{
+  "id": "progression_e_level5",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 4,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 3,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 1
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 3
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "B": [
+      [
+        4,
+        1
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "C": [
+      [
+        3,
+        5
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "D": [
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "E": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "progression_5_slot_5.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

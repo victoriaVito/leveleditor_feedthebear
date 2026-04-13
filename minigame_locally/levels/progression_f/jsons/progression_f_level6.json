@@ -1,0 +1,176 @@
+{
+  "id": "progression_f_level6",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 5,
+        "y": 6
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 3
+      },
+      "b": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 1,
+        "y": 6
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 6,
+        "y": 6
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 5,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 6
+    }
+  ],
+  "solutionCount": 18,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "B": [
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "C": [
+      [
+        5,
+        6
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "D": [
+      [
+        4,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "E": [
+      [
+        1,
+        6
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "F": [
+      [
+        5,
+        0
+      ],
+      [
+        6,
+        6
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "6_7.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

@@ -1,0 +1,184 @@
+{
+  "id": "progression_a_level3",
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 6,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 4,
+        "y": 5
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 1
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 5,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 6
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 3,
+      "y": 3
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 6,
+      "y": 6
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        6,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        4,
+        5
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        5,
+        0
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "D": [
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "E": [
+      [
+        4,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "I": [
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        6
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "progression1_level7_v2.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

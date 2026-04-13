@@ -1,0 +1,108 @@
+{
+  "id": "progression_f_level11",
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 1
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 3
+    },
+    {
+      "x": 0,
+      "y": 2
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "tutorial_level.json",
+    "failed_checks": [],
+    "type": "tutorial"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

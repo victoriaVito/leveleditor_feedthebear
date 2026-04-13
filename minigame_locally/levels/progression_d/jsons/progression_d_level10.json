@@ -1,0 +1,193 @@
+{
+  "id": "progression_d_level10",
+  "difficultyTier": 9,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "orange",
+      "a": {
+        "x": 0,
+        "y": 6
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 0,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 3
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 2
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "C": [
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "D": [
+      [
+        4,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "E": [
+      [
+        0,
+        6
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "F": [
+      [
+        0,
+        5
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "G": [
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "HARD",
+    "source_name": "progression_4_slot_10.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

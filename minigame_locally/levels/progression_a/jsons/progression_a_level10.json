@@ -1,0 +1,145 @@
+{
+  "id": "progression_a_level10",
+  "difficultyTier": 9,
+  "gridSize": {
+    "cols": 6,
+    "rows": 7
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 6,
+        "y": 5
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "purple",
+      "a": {
+        "x": 0,
+        "y": 5
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 6,
+      "y": 1
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "solutionCount": 6,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "B": [
+      [
+        6,
+        5
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "C": [
+      [
+        2,
+        3
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    "D": [
+      [
+        0,
+        5
+      ],
+      [
+        3,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "progression1_level10.json",
+    "failed_checks": [],
+    "manual_difficulty": "HARD"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}
