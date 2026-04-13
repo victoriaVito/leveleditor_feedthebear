@@ -30,14 +30,12 @@ from feed_the_bear_toolkit.services.config import find_project_root, resolve_rep
 DEFAULT_LEARNING_PATH = ".local/toolkit_state/learning_state.json"
 FALLBACK_PAIR_TYPES = (
     "red",
-    "red_striped",
     "blue",
-    "blue_striped",
     "green",
-    "green_striped",
     "yellow",
-    "yellow_striped",
     "orange",
+    "purple",
+    "cyan",
 )
 
 

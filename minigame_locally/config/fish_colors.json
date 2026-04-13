@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "description": "Fish color system for minigame with 14 distinct fish species",
+  "version": "3.0.0",
+  "description": "Fish color system for minigame with 7 canonical colors (striped variants removed)",
   "colors": [
     {
       "id": "fish_red",
@@ -13,18 +13,8 @@
       "type": "solid"
     },
     {
-      "id": "fish_red_striped",
-      "letter": "B",
-      "name": "Red Striped Fish",
-      "hex": "#FCA5A5",
-      "rgb": [252, 165, 165],
-      "variant": "striped",
-      "species": "red",
-      "type": "striped"
-    },
-    {
       "id": "fish_blue",
-      "letter": "C",
+      "letter": "B",
       "name": "Blue Fish",
       "hex": "#0EA5E9",
       "rgb": [14, 165, 233],
@@ -33,18 +23,8 @@
       "type": "solid"
     },
     {
-      "id": "fish_blue_striped",
-      "letter": "D",
-      "name": "Blue Striped Fish",
-      "hex": "#7DD3FC",
-      "rgb": [125, 211, 252],
-      "variant": "striped",
-      "species": "blue",
-      "type": "striped"
-    },
-    {
       "id": "fish_green",
-      "letter": "E",
+      "letter": "C",
       "name": "Green Fish",
       "hex": "#10B981",
       "rgb": [16, 185, 129],
@@ -53,18 +33,8 @@
       "type": "solid"
     },
     {
-      "id": "fish_green_striped",
-      "letter": "F",
-      "name": "Green Striped Fish",
-      "hex": "#A7F3D0",
-      "rgb": [167, 243, 208],
-      "variant": "striped",
-      "species": "green",
-      "type": "striped"
-    },
-    {
       "id": "fish_yellow",
-      "letter": "G",
+      "letter": "D",
       "name": "Yellow Fish",
       "hex": "#FBBF24",
       "rgb": [251, 191, 36],
@@ -73,18 +43,8 @@
       "type": "solid"
     },
     {
-      "id": "fish_yellow_striped",
-      "letter": "H",
-      "name": "Yellow Striped Fish",
-      "hex": "#FEE2A3",
-      "rgb": [254, 226, 163],
-      "variant": "striped",
-      "species": "yellow",
-      "type": "striped"
-    },
-    {
       "id": "fish_orange",
-      "letter": "I",
+      "letter": "E",
       "name": "Orange Fish",
       "hex": "#F97316",
       "rgb": [249, 115, 22],
@@ -93,18 +53,8 @@
       "type": "solid"
     },
     {
-      "id": "fish_orange_striped",
-      "letter": "J",
-      "name": "Orange Striped Fish",
-      "hex": "#FDBA74",
-      "rgb": [253, 186, 116],
-      "variant": "striped",
-      "species": "orange",
-      "type": "striped"
-    },
-    {
       "id": "fish_purple",
-      "letter": "K",
+      "letter": "F",
       "name": "Purple Fish",
       "hex": "#A855F7",
       "rgb": [168, 85, 247],
@@ -113,80 +63,55 @@
       "type": "solid"
     },
     {
-      "id": "fish_purple_striped",
-      "letter": "L",
-      "name": "Purple Striped Fish",
-      "hex": "#D8B4FE",
-      "rgb": [216, 180, 254],
-      "variant": "striped",
-      "species": "purple",
-      "type": "striped"
-    },
-    {
       "id": "fish_cyan",
-      "letter": "M",
+      "letter": "G",
       "name": "Cyan Fish",
       "hex": "#0891B2",
       "rgb": [8, 145, 178],
       "variant": "solid",
       "species": "cyan",
       "type": "solid"
-    },
-    {
-      "id": "fish_cyan_striped",
-      "letter": "N",
-      "name": "Cyan Striped Fish",
-      "hex": "#67E8F9",
-      "rgb": [103, 232, 249],
-      "variant": "striped",
-      "species": "cyan",
-      "type": "striped"
     }
   ],
   "letterMap": {
     "A": "fish_red",
-    "B": "fish_red_striped",
-    "C": "fish_blue",
-    "D": "fish_blue_striped",
-    "E": "fish_green",
-    "F": "fish_green_striped",
-    "G": "fish_yellow",
-    "H": "fish_yellow_striped",
-    "I": "fish_orange",
-    "J": "fish_orange_striped",
-    "K": "fish_purple",
-    "L": "fish_purple_striped",
-    "M": "fish_cyan",
-    "N": "fish_cyan_striped"
+    "B": "fish_blue",
+    "C": "fish_green",
+    "D": "fish_yellow",
+    "E": "fish_orange",
+    "F": "fish_purple",
+    "G": "fish_cyan"
   },
   "legacyColorMap": {
     "#3B82F6": "fish_blue",
-    "#0284C7": "fish_blue_striped",
+    "#0284C7": "fish_blue",
+    "#0EA5E9": "fish_blue",
     "#10B981": "fish_green",
-    "#84CC16": "fish_green_striped",
+    "#84CC16": "fish_green",
+    "#A7F3D0": "fish_green",
     "#F59E0B": "fish_yellow",
+    "#FBBF24": "fish_yellow",
+    "#FEE2A3": "fish_yellow",
     "#14B8A6": "fish_cyan",
-    "#F97316": "fish_orange",
-    "#EC4899": "fish_purple_striped",
-    "#8B5CF6": "fish_purple",
     "#06B6D4": "fish_cyan",
     "#0891B2": "fish_cyan",
-    "#0369A1": "fish_cyan_striped"
+    "#0369A1": "fish_cyan",
+    "#F97316": "fish_orange",
+    "#FDBA74": "fish_orange",
+    "#EC4899": "fish_purple",
+    "#A855F7": "fish_purple",
+    "#8B5CF6": "fish_purple",
+    "#D8B4FE": "fish_purple",
+    "#EF4444": "fish_red",
+    "#FCA5A5": "fish_red"
   },
   "colorMap": {
     "#EF4444": "fish_red",
-    "#FCA5A5": "fish_red_striped",
     "#0EA5E9": "fish_blue",
-    "#7DD3FC": "fish_blue_striped",
     "#10B981": "fish_green",
-    "#A7F3D0": "fish_green_striped",
     "#FBBF24": "fish_yellow",
-    "#FEE2A3": "fish_yellow_striped",
     "#F97316": "fish_orange",
-    "#FDBA74": "fish_orange_striped",
     "#A855F7": "fish_purple",
-    "#D8B4FE": "fish_purple_striped",
-    "#0891B2": "fish_cyan",
-    "#67E8F9": "fish_cyan_striped"
+    "#0891B2": "fish_cyan"
   }
 }

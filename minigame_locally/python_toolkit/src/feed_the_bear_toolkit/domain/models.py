@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 
-PAIR_IDS = ("A", "B", "C", "D", "E", "F", "G", "H", "I")
+PAIR_IDS = ("A", "B", "C", "D", "E", "F", "G")
 MIN_BOARD_SIZE = 4
 MAX_BOARD_WIDTH = 7
 MAX_BOARD_HEIGHT = 8

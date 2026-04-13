@@ -11,6 +11,8 @@ from feed_the_bear_toolkit.domain.models import (
     ValidationResult,
 )
 
+CANONICAL_PAIR_TYPES = ("red", "blue", "green", "yellow", "orange", "purple", "cyan")
+
 
 def is_supported_board_size(width: int | None, height: int | None) -> bool:
     if width is None or height is None:
@@ -123,10 +125,21 @@ def validate_level_structure(level: Level) -> ValidationResult:
         errors.append(f"pairs count must be 2..{len(PAIR_IDS)}")
 
     used: set[str] = set()
+    used_types: set[str] = set()
     width = level.cols or 0
     height = level.rows or 0
 
     for pair in level.pairs:
+        pair_type = str(pair.type or "").strip().lower()
+        if pair_type not in CANONICAL_PAIR_TYPES:
+            errors.append(
+                f"pair {pair.id} has invalid type {pair.type!r}; expected one of {CANONICAL_PAIR_TYPES}"
+            )
+        elif pair_type in used_types:
+            errors.append(f"duplicate pair color in level: {pair_type!r}")
+        else:
+            used_types.add(pair_type)
+
         for cell in (pair.start, pair.end):
             if cell.x < 0 or cell.y < 0 or cell.x >= width or cell.y >= height:
                 errors.append(f"pair {pair.id} out of bounds")

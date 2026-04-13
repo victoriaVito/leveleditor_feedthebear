@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -9,6 +10,10 @@ from feed_the_bear_toolkit.domain.levels import load_level_file
 from feed_the_bear_toolkit.domain.validation import validate_level_structure
 from feed_the_bear_toolkit.services.config import find_project_root, resolve_repo_path
 from feed_the_bear_toolkit.services.repo_io import save_text_file
+
+PROGRESSION_LEVEL_NAME_RE = re.compile(
+    r"^progression_([a-z])_level([0-9]+)(?:_needs_review)?\.json$"
+)
 
 
 @dataclass(slots=True, frozen=True)
@@ -260,6 +265,24 @@ def validate_progression_levels(
     for slot in progression.slots:
         if not slot.level_file:
             continue
+        file_name = Path(slot.level_file).name
+        match = PROGRESSION_LEVEL_NAME_RE.match(file_name)
+        if match is None:
+            entries.append(
+                ProgressionLevelCheck(
+                    slot=slot.slot,
+                    level_file=slot.level_file,
+                    exists=True,
+                    valid=False,
+                    error_count=1,
+                    warning_count=0,
+                    load_error=(
+                        "invalid level filename; expected "
+                        "progression_<letter>_level<n>[_needs_review].json"
+                    ),
+                )
+            )
+            continue
         level_path = Path(slot.level_file)
         target = level_path if level_path.is_absolute() else (project_root / level_path).resolve()
         if not target.exists():
@@ -278,15 +301,19 @@ def validate_progression_levels(
         try:
             level = load_level_file(target)
             result = validate_level_structure(level)
+            id_matches_file = (level.id or "").strip() == Path(slot.level_file).stem
+            valid = bool(result.valid and id_matches_file)
+            error_count = len(result.errors) + (0 if id_matches_file else 1)
+            load_error = None if id_matches_file else "level id must match filename stem"
             entries.append(
                 ProgressionLevelCheck(
                     slot=slot.slot,
                     level_file=slot.level_file,
                     exists=True,
-                    valid=result.valid,
-                    error_count=len(result.errors),
+                    valid=valid,
+                    error_count=error_count,
                     warning_count=len(result.warnings),
-                    load_error=None,
+                    load_error=load_error,
                 )
             )
         except Exception as err:  # pragma: no cover - defensive path
