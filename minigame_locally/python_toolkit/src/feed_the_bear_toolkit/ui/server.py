@@ -64,6 +64,7 @@ from feed_the_bear_toolkit.ui.app import (
     app_status,
     build_app_snapshot,
     build_status_snapshot,
+    get_editor_history,
     render_app_html,
 )
 
@@ -395,6 +396,94 @@ def _load_variant_into_editor(payload: dict[str, Any], root: Path) -> dict[str, 
     }
 
 
+def _editor_undo(payload: dict[str, Any]) -> dict[str, Any]:
+    """Undo the last editor action."""
+    history = get_editor_history()
+    if not history.can_undo():
+        return {
+            "success": False,
+            "message": "Nothing to undo",
+            "can_undo": False,
+            "can_redo": history.can_redo(),
+        }
+
+    previous_state = history.undo()
+    if previous_state is None:
+        return {
+            "success": False,
+            "message": "Failed to undo",
+            "can_undo": False,
+            "can_redo": history.can_redo(),
+        }
+
+    return {
+        "success": True,
+        "action": previous_state.action,
+        "timestamp": previous_state.timestamp,
+        "level": _jsonify(serialize_level_to_canonical_dict(previous_state.board, previous_state.board.id)),
+        "can_undo": history.can_undo(),
+        "can_redo": history.can_redo(),
+    }
+
+
+def _editor_redo(payload: dict[str, Any]) -> dict[str, Any]:
+    """Redo the last undone editor action."""
+    history = get_editor_history()
+    if not history.can_redo():
+        return {
+            "success": False,
+            "message": "Nothing to redo",
+            "can_undo": history.can_undo(),
+            "can_redo": False,
+        }
+
+    next_state = history.redo()
+    if next_state is None:
+        return {
+            "success": False,
+            "message": "Failed to redo",
+            "can_undo": history.can_undo(),
+            "can_redo": False,
+        }
+
+    return {
+        "success": True,
+        "action": next_state.action,
+        "timestamp": next_state.timestamp,
+        "level": _jsonify(serialize_level_to_canonical_dict(next_state.board, next_state.board.id)),
+        "can_undo": history.can_undo(),
+        "can_redo": history.can_redo(),
+    }
+
+
+def _editor_record_action(payload: dict[str, Any]) -> dict[str, Any]:
+    """Record a new action in the editor history."""
+    # Parse the level data from payload
+    level_data = payload.get("level")
+    action_name = str(payload.get("action", "edit")).strip()
+
+    if not level_data:
+        raise ValueError("Missing level data in payload")
+    if not action_name:
+        raise ValueError("Missing action name")
+
+    # Parse the level from the provided data
+    level = parse_level_dict(level_data)
+
+    # Record the action
+    history = get_editor_history()
+    history.record_action(level, action_name)
+
+    return {
+        "success": True,
+        "action": action_name,
+        "timestamp": _timestamp_now(),
+        "can_undo": history.can_undo(),
+        "can_redo": history.can_redo(),
+        "history_size": len(history.past),
+    }
+
+
 def dispatch_request(
     method: str,
     path: str,
@@ -670,6 +759,17 @@ def dispatch_request(
         if method == "POST" and path == "/api/load-variant-into-editor":
             context = _load_variant_into_editor(payload, project_root)
             return HTTPStatus.OK, {"ok": True, **context}
+        if method == "POST" and path == "/api/editor-undo":
+            result = _editor_undo(payload)
+            status = HTTPStatus.OK if result.get("success") else HTTPStatus.BAD_REQUEST
+            return status, {"ok": result.get("success", False), **result}
+        if method == "POST" and path == "/api/editor-redo":
+            result = _editor_redo(payload)
+            status = HTTPStatus.OK if result.get("success") else HTTPStatus.BAD_REQUEST
+            return status, {"ok": result.get("success", False), **result}
+        if method == "POST" and path == "/api/editor-record-action":
+            result = _editor_record_action(payload)
+            return HTTPStatus.OK, {"ok": True, **result}
         return HTTPStatus.NOT_FOUND, {"ok": False, "error": f"Unknown route: {path}"}
     except Exception as err:
         return HTTPStatus.BAD_REQUEST, {"ok": False, "error": str(err)}

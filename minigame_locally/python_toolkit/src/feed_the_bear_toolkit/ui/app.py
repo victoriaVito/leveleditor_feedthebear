@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import html
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from feed_the_bear_toolkit.domain.levels import Level
 from feed_the_bear_toolkit.domain.procedural import normalize_learning_buckets
 from feed_the_bear_toolkit.domain.progressions import (
     default_progression_paths,
@@ -15,9 +17,120 @@ from feed_the_bear_toolkit.domain.sessions import (
     default_session_paths,
     load_play_session_file,
     load_play_sessions_state,
+    _timestamp_now,
 )
 from feed_the_bear_toolkit.services.config import canonical_repo_paths, find_project_root
 from feed_the_bear_toolkit.services.spreadsheet import inspect_spreadsheet_status
+
+
+# ==================== EDITOR HISTORY (Phase 2B Slice 3) ====================
+
+
+@dataclass(frozen=True)
+class EditorState:
+    """Snapshot of board state at a point in time."""
+    board: Level
+    timestamp: str
+    action: str  # e.g., "add_pair_a", "remove_blocker", "load_variant_123"
+
+
+class EditorHistory:
+    """Undo/redo manager with configurable history limit."""
+
+    def __init__(self, max_history: int = 50):
+        """Initialize editor history.
+
+        Args:
+            max_history: Maximum number of past states to keep (default 50)
+        """
+        self.past: list[EditorState] = []
+        self.present: EditorState | None = None
+        self.future: list[EditorState] = []
+        self.max_history = max_history
+
+    def record_action(self, level: Level, action: str) -> None:
+        """Record a new editor action (auto-creates snapshot).
+
+        Args:
+            level: The Level object representing the new state
+            action: Description of the action performed
+        """
+        state = EditorState(
+            board=level,
+            timestamp=_timestamp_now(),
+            action=action
+        )
+        if self.present:
+            self.past.append(self.present)
+            # Always trim to max_history after append
+            if self.max_history > 0:
+                self.past = self.past[-self.max_history:]
+            else:
+                self.past.clear()
+        self.present = state
+        # Clear future when new action recorded (standard undo/redo semantics)
+        self.future.clear()
+
+    def undo(self) -> EditorState | None:
+        """Move back one step in history.
+
+        Returns:
+            Previous EditorState if available, None otherwise
+        """
+        if not self.past:
+            return None
+        if self.present:
+            self.future.append(self.present)
+        self.present = self.past.pop()
+        return self.present
+
+    def redo(self) -> EditorState | None:
+        """Move forward one step in history.
+
+        Returns:
+            Next EditorState if available, None otherwise
+        """
+        if not self.future:
+            return None
+        if self.present:
+            self.past.append(self.present)
+        self.present = self.future.pop()
+        return self.present
+
+    def can_undo(self) -> bool:
+        """Check if undo is available."""
+        return len(self.past) > 0
+
+    def can_redo(self) -> bool:
+        """Check if redo is available."""
+        return len(self.future) > 0
+
+    def clear(self) -> None:
+        """Clear all history (useful for reset)."""
+        self.past.clear()
+        self.present = None
+        self.future.clear()
+
+
+# Global editor history instance (thread-local in production)
+_editor_history: EditorHistory | None = None
+
+
+def get_editor_history() -> EditorHistory:
+    """Get or initialize the global editor history instance."""
+    global _editor_history
+    if _editor_history is None:
+        _editor_history = EditorHistory()
+    return _editor_history
+
+
+def reset_editor_history() -> None:
+    """Reset the global editor history."""
+    global _editor_history
+    _editor_history = EditorHistory()
+
+
+# ============================================================================
 
 
 PROGRESS_STEPS = (
@@ -923,6 +1036,17 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
                 </div>
               </form>
               <div id="level-summary-stats" class="stats"></div>
+              <fieldset class="layer-controls">
+                <legend>Board Display</legend>
+                <label>
+                  <input type="checkbox" id="toggle-blockers" checked>
+                  Show blockers
+                </label>
+                <label>
+                  <input type="checkbox" id="toggle-grid" checked>
+                  Show grid
+                </label>
+              </fieldset>
               <div class="board-shell">
                 <div class="board-legend" id="level-board-legend"></div>
                 <div id="level-board" class="board-grid"></div>
@@ -1553,7 +1677,7 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         ];
         if (item.total_rank !== undefined) meta.push(`rank ${{Number(item.total_rank).toFixed(3)}}`);
         return `
-          <article class="variant-card">
+          <article class="variant-card" draggable="true" data-draggable-variant="${{sourceKind}}" data-variant-index="${{index}}" data-variant-source="${{item.source || 'unknown'}}" data-variant-file="${{item.file || ''}}">
             <div class="variant-head">
               <strong>${{item.name || `${{sourceKind}}_${{index + 1}}`}}</strong>
               <div class="variant-meta">
@@ -2016,6 +2140,131 @@ def render_app_html(snapshot: dict[str, Any]) -> str:
         }}
       }}
     }});
+
+    // Keyboard shortcuts for undo/redo
+    document.addEventListener('keydown', (event) => {{
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const modifier = isMac ? event.metaKey : event.ctrlKey;
+
+      if (modifier && event.key === 'z' && !event.shiftKey) {{
+        // Ctrl+Z (or Cmd+Z) for undo
+        event.preventDefault();
+        requestJson('/api/editor-undo', {{ method: 'POST', headers: {{ 'Content-Type': 'application/json' }} }})
+          .then((result) => {{
+            if (result.success) {{
+              console.log('Undo successful:', result.action);
+              // Update UI to reflect the undone state
+              document.getElementById('editor-undo-btn')?.classList.toggle('disabled', !result.can_undo);
+              document.getElementById('editor-redo-btn')?.classList.toggle('disabled', !result.can_redo);
+            }}
+          }})
+          .catch((error) => {{
+            console.error('Undo failed:', error.message);
+          }});
+      }} else if (modifier && event.key === 'z' && event.shiftKey) {{
+        // Ctrl+Shift+Z (or Cmd+Shift+Z) for redo
+        event.preventDefault();
+        requestJson('/api/editor-redo', {{ method: 'POST', headers: {{ 'Content-Type': 'application/json' }} }})
+          .then((result) => {{
+            if (result.success) {{
+              console.log('Redo successful:', result.action);
+              // Update UI to reflect the redone state
+              document.getElementById('editor-undo-btn')?.classList.toggle('disabled', !result.can_undo);
+              document.getElementById('editor-redo-btn')?.classList.toggle('disabled', !result.can_redo);
+            }}
+          }})
+          .catch((error) => {{
+            console.error('Redo failed:', error.message);
+          }});
+      }}
+    }});
+
+    // Drag-and-drop for variant loading
+    document.addEventListener('dragstart', (event) => {{
+      const variantCard = event.target.closest('[data-draggable-variant]');
+      if (!variantCard) return;
+
+      const sourceKind = variantCard.dataset.draggableVariant;
+      const index = Number(variantCard.dataset.variantIndex || 0);
+      const source = variantCard.dataset.variantSource || 'unknown';
+      const file = variantCard.dataset.variantFile || '';
+
+      event.dataTransfer.effectAllowed = 'copy';
+      event.dataTransfer.setData('application/json', JSON.stringify({{
+        sourceKind,
+        index,
+        source,
+        file,
+      }}));
+
+      // Visual feedback during drag
+      variantCard.classList.add('dragging');
+    }});
+
+    document.addEventListener('dragend', (event) => {{
+      const variantCard = event.target.closest('[data-draggable-variant]');
+      if (variantCard) {{
+        variantCard.classList.remove('dragging');
+      }}
+    }});
+
+    // Drop zone for level editor
+    const editorArea = document.getElementById('level-editor-form');
+    if (editorArea) {{
+      editorArea.addEventListener('dragover', (event) => {{
+        event.preventDefault();
+        event.dataTransfer.dropEffect = 'copy';
+        editorArea.classList.add('drag-over');
+      }});
+
+      editorArea.addEventListener('dragleave', (event) => {{
+        if (event.target === editorArea) {{
+          editorArea.classList.remove('drag-over');
+        }}
+      }});
+
+      editorArea.addEventListener('drop', (event) => {{
+        event.preventDefault();
+        editorArea.classList.remove('drag-over');
+
+        try {{
+          const data = JSON.parse(event.dataTransfer.getData('application/json'));
+          const pool = variantPool(data.sourceKind);
+          const entry = pool[data.index];
+
+          if (!entry) {{
+            console.error('Variant not found:', data);
+            return;
+          }}
+
+          // Load the variant into the editor
+          console.log('Loading variant:', entry.name, 'from', data.source);
+
+          // Update editor state from the variant
+          editorState.level = cloneLevelForEditor(entry.level || {{}});
+          syncFormFromEditorState();
+
+          // Optionally record this action in the undo history
+          if (editorState.level) {{
+            requestJson('/api/editor-record-action', {{
+              method: 'POST',
+              headers: {{ 'Content-Type': 'application/json' }},
+              body: JSON.stringify({{
+                level: editorState.level,
+                action: `Loaded variant ${{entry.name || data.sourceKind + '_' + data.index}}`,
+              }})
+            }}).catch((error) => {{
+              console.warn('Failed to record action in history:', error.message);
+            }});
+          }}
+
+          // Activate the editor view
+          activateView('editor');
+        }} catch (error) {{
+          console.error('Failed to load dragged variant:', error.message);
+        }}
+      }});
+    }}
 
     function showError(error) {{
       const text = String(error);
