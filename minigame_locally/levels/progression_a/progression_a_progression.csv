@@ -1,0 +1,12 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progressionA,Progression A,0,tutorial_level.json,Workshop tutorial · progressionA,minigame_locally/levels/tutorial_level.json,1,6x6,3,3,8,0,EASY,OK,Yes,Tutorial slot
+progressionA,Progression A,1,progresion1_level2.json,Imported via browser picker · progresion1_level2.json,minigame_locally/levels/progresion1_level2.json,1,5x5,3,0,5,20,EASY,OK,Yes,
+progressionA,Progression A,2,progression1_level3.json,Imported via browser picker · progression1_level3.json,minigame_locally/levels/progression1_level3.json,1,4x4,3,1,5,2,EASY,OK,Yes,
+progressionA,Progression A,3,progression1_level1.json,Imported via browser picker · progression1_level1.json,minigame_locally/levels/progression1_level1.json,1,5x5,4,1,6,0,MEDIUM,INVALID,Yes,
+progressionA,Progression A,4,progression1_level5.json,Imported via browser picker · progression1_level5.json,minigame_locally/levels/progression1_level5.json,1,4x4,3,0,5,20,EASY,OK,Yes,
+progressionA,Progression A,5,progression1_level4.json,Imported via browser picker · progression1_level4.json,minigame_locally/levels/progression1_level4.json,1,5x5,5,3,7,20,EASY,OK,Yes,
+progressionA,Progression A,6,progresion1_level6.json,minigame_locally/levels/progresion1_level6.json,minigame_locally/levels/progresion1_level6.json,6,6x6,4,5,6,14,MEDIUM,OK,Yes,
+progressionA,Progression A,7,progression1_level7_v2.json,minigame_locally/levels/progression1_level7_v2.json,minigame_locally/levels/progression1_level7_v2.json,7,7x7,6,6,8,0,EASY,INVALID,Yes,
+progressionA,Progression A,8,progression1_level8.json,Imported via browser picker · progression1_level8.json,minigame_locally/levels/progression1_level8.json,1,6x6,3,6,7,0,MEDIUM,INVALID,Yes,
+progressionA,Progression A,9,progression1_level9.json,Imported via browser picker · progression1_level9.json,minigame_locally/levels/progression1_level9.json,1,5x5,4,2,7,20,MEDIUM,OK,Yes,
+progressionA,Progression A,10,progression1_level10.json,Imported via browser picker · progression1_level10.json,minigame_locally/levels/progression1_level10.json,1,6x7,4,7,6,6,HARD,OK,Yes,

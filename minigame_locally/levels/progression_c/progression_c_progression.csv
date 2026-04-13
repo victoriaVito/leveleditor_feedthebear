@@ -1,0 +1,12 @@
+progression_key,progression_label,slot,file,path,saved_path,level,board,pairs,blockers,moves,solutions,difficulty,status,changed,notes
+progressionC,Progression C,0,tutorial_level.json,Workshop tutorial · progressionA,minigame_locally/levels/tutorial_level.json,1,6x6,3,3,8,0,EASY,OK,Yes,Tutorial slot
+progressionC,Progression C,1,progression3_level1_v2.json,minigame_locally/levels/progression3_level1_v2.json,minigame_locally/levels/progression3_level1_v2.json,1,5x5,6,3,8,2,EASY,OK,Yes,
+progressionC,Progression C,2,progression_3_level_2_v2.json,minigame_locally/levels/progression_3_level_2_v2.json,minigame_locally/levels/progression_3_level_2_v2.json,2,6x6,6,10,8,1,EASY,OK,Yes,
+progressionC,Progression C,3,progression_3_level3.json,minigame_locally/levels/progression_3_level3.json,minigame_locally/levels/progression_3_level3.json,3,8x7,4,8,6,0,MEDIUM,INVALID,Yes,
+progressionC,Progression C,4,progression_3_level4.json,minigame_locally/levels/progression_3_level4.json,minigame_locally/levels/progression_3_level4.json,4,7x7,4,10,7,20,EASY,OK,Yes,
+progressionC,Progression C,5,progression_3_level5.json,minigame_locally/levels/progression_3_level5.json,minigame_locally/levels/progression_3_level5.json,5,6x6,4,4,8,0,EASY,INVALID,Yes,
+progressionC,Progression C,6,progression_3_level6.json,minigame_locally/levels/progression_3_level6.json,minigame_locally/levels/progression_3_level6.json,6,7x7,5,3,9,0,EASY,INVALID,Yes,
+progressionC,Progression C,7,progression_3_level7_v2.json,minigame_locally/levels/progression_3_level7_v2.json,minigame_locally/levels/progression_3_level7_v2.json,7,6x5,4,1,6,0,EASY,INVALID,Yes,
+progressionC,Progression C,8,progression_3_level8.json,minigame_locally/levels/progression_3_level8.json,minigame_locally/levels/progression_3_level8.json,8,6x5,4,5,8,8,EASY,OK,Yes,
+progressionC,Progression C,9,progression_3_level9_v2.json,minigame_locally/levels/progression_3_level9_v2.json,minigame_locally/levels/progression_3_level9_v2.json,9,9x9,9,12,6,0,MEDIUM,INVALID,Yes,
+progressionC,Progression C,10,progression_3_level10_v2.json,minigame_locally/levels/progression_3_level10_v2.json,minigame_locally/levels/progression_3_level10_v2.json,10,7x7,5,8,9,20,HARD,OK,Yes,
