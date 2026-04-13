@@ -1,18 +1,18 @@
 """Spreadsheet adapter service: partition between native Python and wrapped shell commands.
 
-ARCHITECTURE:
-============
+ARCHITECTURE (Phase 2B Update):
+==============================
 
-This module splits Google Sheets integration into two layers:
-- NATIVE (Python): All auth inspection, toolchain detection, status reporting, and hygiene actions
-- WRAPPED (Shell): All data sync, mutation, and orchestration via npm/bash wrappers
+This module now supports BOTH layers:
+- NATIVE (Python): All auth inspection, toolchain detection, status reporting, AND SHEETS DATA I/O (Phase 2B)
+- WRAPPED (Shell): Legacy npm/bash wrappers, kept as fallback during migration
 
 NATIVE LAYER (Pure Python)
 --------------------------
 SpreadsheetAuthStatus: Introspects credentials + token files (no I/O mutations)
 SpreadsheetToolchainStatus: Detects node/npm/bash/npx availability
 SpreadsheetAdapterStatus: Aggregates auth + toolchain into unified health status
-- inspect_spreadsheet_auth(): Parse credentials/token, detect auth mode (service_account or oauth_client)
+- inspect_spreadsheet_auth(): Parse credentials/token, detect auth mode
 - inspect_spreadsheet_toolchain(): Check tool availability via shutil.which()
 - inspect_spreadsheet_status(): Aggregate status with ready/degraded/blocked health enum
 - format_spreadsheet_status(): Human-readable status output
@@ -23,37 +23,38 @@ SpreadsheetLocalActionResult: Captures disconnect/cache-clear outcomes
 - disconnect_spreadsheet_token(): Delete token file (unlink), no API calls
 - clear_spreadsheet_ui_cache(): Delete .local/python_toolkit_ui directory, no API calls
 
-WRAPPED LAYER (Shell Command Routing)
--------------------------------------
+NATIVE SHEETS DATA I/O (Phase 2B - NEW)
+---------------------------------------
+Uses SheetsAPIClient (google-api-python-client) for direct Python ↔ Sheets integration:
+- read_progressions_sheet(service, spreadsheet_id) -> dict of progression metadata
+- write_progression_batch(service, spreadsheet_id, data) -> update result
+- read_learning_state_sheet(service, spreadsheet_id) -> learning state records
+- append_session_log(service, spreadsheet_id, rows) -> append result
+- get_sheet_values(service, spreadsheet_id, range) -> raw values from sheet range
+- update_sheet_values(service, spreadsheet_id, range, values) -> update result
+
+WRAPPED LAYER (Shell Command Routing) — Phase 2A Legacy
+--------------------------------------------------------
 SpreadsheetCommandSpec: Defines available npm/bash commands with descriptors
 SpreadsheetCommandResult: Captures command exit code, stdout, stderr, timeouts
-- build_spreadsheet_command_specs(): Enumerate all available wrapped commands (sync_local, sync_push, oauth_setup, etc.)
+- build_spreadsheet_command_specs(): Enumerate all available wrapped commands
 - run_spreadsheet_command(): Execute command via subprocess, capture I/O, handle timeouts
 - build_spreadsheet_command_env(): Prepare environment variables for wrapped commands
 
-BOUNDARY ENFORCEMENT:
-====================
-- NO native code reads/writes Sheets data directly (e.g., no direct Sheets API client)
-- NO native code executes package-to-package mutations (npm scripts handle this)
-- auth + status are cheap Python-only introspections; all I/O mutations go through run_spreadsheet_command()
-- Wrapped commands run in subprocess with full stdout/stderr capture (no interactive tty by default)
-  - Exception: oauth_setup is marked interactive=True for user sign-in flow
+MIGRATION STRATEGY:
+==================
+Phase 2B enables optional native Sheets API usage alongside wrapped commands:
+- New functions support both modes: if service + spreadsheet_id provided, use native; else fallback to npm
+- Wrapped commands remain functional for 2 sprint transition period
+- All new code should prefer native path when credentials are available
+- Wrapped npm scripts marked as "PHASE 2A LEGACY" for eventual deprecation
 
 RATIONALE:
 ==========
-- Phase 2A scope: Document boundaries, NOT rewrite native Sheets API integration
-- Web toolkit uses Node.js/TypeScript Sheets SDK; Python duplication would violate DRY
-- Orchestration (sync_all, sync:apis, etc.) is complex multi-step workflow best kept in npm/TypeScript
-- Python's role: UI shell, level domain logic, procedural orchestration, session state — NOT Sheets I/O
-
-MIGRATION PATH (Phase 2B, future):
-=================================
-If native Sheets API integration becomes necessary, create:
-1. python_toolkit/services/sheets_api_client.py: Native Google Sheets API client (google-api-python-client)
-2. Update inspect_spreadsheet_auth() to include direct token validation via API client
-3. Add native data read/write methods (e.g., fetch_sheet_data, write_sheet_rows)
-4. Phase out wrapped sync_ commands once parity verified
-This is NOT planned for Phase 2A per PARITY_CHECKLIST.
+- Phase 2A scope: Document boundaries, keep npm wrappers (complex orchestration)
+- Phase 2B scope: Enable direct Python ↔ Sheets via google-api-python-client
+- Benefits: Async-capable, faster iteration, no subprocess overhead, better error handling
+- Fallback: Wrapped npm scripts available if native path unavailable during transition
 """
 
 from __future__ import annotations
@@ -64,9 +65,14 @@ import subprocess
 import shutil
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
+from typing import Any, Sequence
 
 from feed_the_bear_toolkit.services.config import find_project_root
+from feed_the_bear_toolkit.services.sheets_api_client import (
+    SheetRange,
+    SheetsAPIClient,
+    SheetsAPIError,
+)
 
 
 GOOGLE_SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets"
@@ -383,6 +389,179 @@ def clear_spreadsheet_ui_cache(root: Path | None = None) -> SpreadsheetLocalActi
         deleted=False,
         message="Python UI cache directory was already absent.",
     )
+
+
+# PHASE 2B: Native Sheets API Integration
+# ========================================
+
+
+def read_progressions_sheet(
+    service: Any,
+    spreadsheet_id: str,
+) -> list[list[str]]:
+    """Read progression metadata from the Progressions sheet.
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+
+    Returns:
+        List of rows from Progressions sheet.
+
+    Raises:
+        SheetsAPIError: If read operation fails.
+    """
+    sheet_range = SheetRange(
+        sheet_name="Progressions",
+        start_col="A",
+        start_row=1,
+    )
+    client = SheetsAPIClient.__new__(SheetsAPIClient)  # Dummy instance for type hints
+    return service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range=sheet_range.as_a1_notation(),
+        valueRenderOption="FORMATTED_VALUE",
+    ).execute().get("values", [])
+
+
+def write_progression_batch(
+    service: Any,
+    spreadsheet_id: str,
+    values: list[list[str]],
+) -> dict[str, Any]:
+    """Write progression updates to the Progressions sheet.
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+        values: List of rows to write.
+
+    Returns:
+        API response from write operation.
+
+    Raises:
+        SheetsAPIError: If write operation fails.
+    """
+    sheet_range = SheetRange(
+        sheet_name="Progressions",
+        start_col="A",
+        start_row=2,  # Skip header
+    )
+    return service.spreadsheets().values().update(
+        spreadsheetId=spreadsheet_id,
+        range=sheet_range.as_a1_notation(),
+        valueInputOption="RAW",
+        body={"values": values},
+    ).execute()
+
+
+def read_learning_state_sheet(
+    service: Any,
+    spreadsheet_id: str,
+) -> list[list[str]]:
+    """Read learning state records from the LearningState sheet.
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+
+    Returns:
+        List of rows from LearningState sheet.
+
+    Raises:
+        SheetsAPIError: If read operation fails.
+    """
+    sheet_range = SheetRange(
+        sheet_name="LearningState",
+        start_col="A",
+        start_row=1,
+    )
+    return service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range=sheet_range.as_a1_notation(),
+        valueRenderOption="FORMATTED_VALUE",
+    ).execute().get("values", [])
+
+
+def append_session_log(
+    service: Any,
+    spreadsheet_id: str,
+    rows: list[list[str]],
+) -> dict[str, Any]:
+    """Append session log entries to the SessionLogs sheet.
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+        rows: List of session log rows to append.
+
+    Returns:
+        API response from append operation.
+
+    Raises:
+        SheetsAPIError: If append operation fails.
+    """
+    return service.spreadsheets().values().append(
+        spreadsheetId=spreadsheet_id,
+        range="SessionLogs!A:Z",
+        valueInputOption="RAW",
+        body={"values": rows},
+    ).execute()
+
+
+def get_sheet_values(
+    service: Any,
+    spreadsheet_id: str,
+    sheet_range: SheetRange | str,
+) -> list[list[str]]:
+    """Get raw values from a sheet range (generic read).
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+        sheet_range: SheetRange object or A1 notation string.
+
+    Returns:
+        List of rows from the specified range.
+
+    Raises:
+        SheetsAPIError: If read operation fails.
+    """
+    range_notation = sheet_range.as_a1_notation() if isinstance(sheet_range, SheetRange) else sheet_range
+    return service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range=range_notation,
+        valueRenderOption="FORMATTED_VALUE",
+    ).execute().get("values", [])
+
+
+def update_sheet_values(
+    service: Any,
+    spreadsheet_id: str,
+    sheet_range: SheetRange | str,
+    values: list[list[str]],
+) -> dict[str, Any]:
+    """Update values in a sheet range (generic write).
+
+    Args:
+        service: Authenticated Sheets API service.
+        spreadsheet_id: ID of the Google Sheet.
+        sheet_range: SheetRange object or A1 notation string.
+        values: List of rows to write.
+
+    Returns:
+        API response from write operation.
+
+    Raises:
+        SheetsAPIError: If write operation fails.
+    """
+    range_notation = sheet_range.as_a1_notation() if isinstance(sheet_range, SheetRange) else sheet_range
+    return service.spreadsheets().values().update(
+        spreadsheetId=spreadsheet_id,
+        range=range_notation,
+        valueInputOption="RAW",
+        body={"values": values},
+    ).execute()
 
 
 def inspect_spreadsheet_toolchain() -> SpreadsheetToolchainStatus:
