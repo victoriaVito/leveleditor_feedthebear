@@ -180,6 +180,34 @@ def _as_bool(value: Any) -> bool:
     return str(value).strip().lower() in {"1", "true", "yes", "on"}
 
 
+def _build_rank_histogram(ranks: list[float], bucket_size: int = 10) -> dict[str, Any]:
+    """Build histogram of ranks grouped into buckets."""
+    if not ranks:
+        return {"buckets": []}
+
+    min_rank = min(ranks)
+    max_rank = max(ranks)
+    buckets_data: dict[int, list[float]] = {}
+
+    for rank in ranks:
+        bucket_num = int(rank // bucket_size)
+        if bucket_num not in buckets_data:
+            buckets_data[bucket_num] = []
+        buckets_data[bucket_num].append(rank)
+
+    buckets = []
+    for bucket_num in sorted(buckets_data.keys()):
+        bucket_ranks = buckets_data[bucket_num]
+        mean_score = sum(bucket_ranks) / len(bucket_ranks) if bucket_ranks else 0.0
+        buckets.append({
+            "rank_range": f"{bucket_num * bucket_size}-{(bucket_num + 1) * bucket_size - 1}",
+            "count": len(bucket_ranks),
+            "mean_score": round(mean_score, 2),
+        })
+
+    return {"buckets": buckets}
+
+
 def _editor_preview(payload: dict[str, Any], root: Path) -> dict[str, Any]:
     source_path_text = str(payload.get("source_path") or payload.get("path") or "").strip()
     base_raw: dict[str, Any] = {}
@@ -572,6 +600,8 @@ def dispatch_request(
             level_path = resolve_repo_path(Path(query.get("path", "levels/progression_b/jsons/progression_b_level2.json")), project_root)
             learning_path = resolve_repo_path(Path(query.get("learning_path", ".local/toolkit_state/learning_state.json")), project_root)
             count = _as_int(query.get("count")) or 3
+            learning_bias = float(query.get("learning_bias", "0.5"))
+            difficulty_scale = float(query.get("difficulty_scale", "1.0"))
             adjustments = {
                 "pairs": query.get("pairs", "same"),
                 "blockers": query.get("blockers", "same"),
@@ -585,6 +615,8 @@ def dispatch_request(
                 adjustments=adjustments,
                 count=count,
                 learning_path=learning_path,
+                learning_bias=learning_bias,
+                difficulty_scale=difficulty_scale,
             )
             return HTTPStatus.OK, {
                 "ok": True,
@@ -614,16 +646,141 @@ def dispatch_request(
             learning_path = resolve_repo_path(Path(query.get("learning_path", ".local/toolkit_state/learning_state.json")), project_root)
             level_number = _as_int(query.get("level_number")) or 1
             seed_offset = _as_int(query.get("seed_offset")) or 0
+            learning_bias = float(query.get("learning_bias", "0.5"))
+            difficulty_scale = float(query.get("difficulty_scale", "1.0"))
             learning = normalize_learning_buckets(_load_optional_json(learning_path))
-            level = generate_level_raw(level_number, learning, seed_offset=seed_offset)
+            level = generate_level_raw(level_number, learning, seed_offset=seed_offset, learning_bias=learning_bias, difficulty_scale=difficulty_scale)
             return HTTPStatus.OK, {
                 "ok": True,
                 "level_number": level_number,
                 "seed_offset": seed_offset,
+                "learning_bias": learning_bias,
+                "difficulty_scale": difficulty_scale,
                 "learning_path": str(learning_path),
                 "level": _level_details_from_level(level),
                 "canonical_json": serialize_level_to_canonical_json(level, f"procedural_level_{level_number}_{seed_offset}.json"),
             }
+        if method == "POST" and path == "/api/analyze-generation-parameters":
+            try:
+                payload = json.loads(request_body) if request_body else {}
+            except json.JSONDecodeError:
+                return HTTPStatus.BAD_REQUEST, {"success": False, "error": "Invalid JSON payload"}
+
+            # Extract and validate parameters
+            level_id = str(payload.get("level_id", "")).strip()
+            if not level_id:
+                return HTTPStatus.BAD_REQUEST, {"success": False, "error": "Missing level_id"}
+
+            seed_offset = _as_int(payload.get("seed_offset")) or 0
+            sample_size = _as_int(payload.get("sample_size")) or 20
+            sample_size = max(1, min(100, sample_size))  # Clamp to 1-100
+
+            try:
+                learning_bias = float(payload.get("learning_bias", "0.5"))
+                difficulty_scale = float(payload.get("difficulty_scale", "1.0"))
+            except (ValueError, TypeError):
+                return HTTPStatus.BAD_REQUEST, {"success": False, "error": "Invalid learning_bias or difficulty_scale"}
+
+            # Validate ranges
+            if learning_bias < 0.0 or learning_bias > 1.0:
+                return HTTPStatus.BAD_REQUEST, {"success": False, "error": "learning_bias must be 0.0-1.0"}
+            if difficulty_scale < 0.5 or difficulty_scale > 1.5:
+                return HTTPStatus.BAD_REQUEST, {"success": False, "error": "difficulty_scale must be 0.5-1.5"}
+
+            # Generate variants
+            try:
+                level_path = resolve_repo_path(
+                    Path(f"levels/progression_a/jsons/{level_id}.json"),
+                    project_root
+                )
+                if not level_path.exists():
+                    # Fallback: try other progressions
+                    for prog in ["b", "c", "d", "e", "f", "g"]:
+                        level_path = resolve_repo_path(
+                            Path(f"levels/progression_{prog}/jsons/{level_id}.json"),
+                            project_root
+                        )
+                        if level_path.exists():
+                            break
+
+                if not level_path.exists():
+                    return HTTPStatus.BAD_REQUEST, {"success": False, "error": f"Level {level_id} not found"}
+
+                base_level = load_level_file(level_path)
+                learning_path = resolve_repo_path(
+                    Path(payload.get("learning_path", ".local/toolkit_state/learning_state.json")),
+                    project_root
+                )
+                learning = normalize_learning_buckets(_load_optional_json(learning_path))
+
+                # Generate variants and collect ranks
+                ranks: list[float] = []
+                top_candidates = []
+
+                for i in range(sample_size):
+                    try:
+                        candidate = generate_level_raw(
+                            base_level.difficulty_tier,
+                            learning,
+                            seed_offset=seed_offset + i,
+                            learning_bias=learning_bias,
+                            difficulty_scale=difficulty_scale,
+                        )
+                        validation = validate_level_structure(candidate)
+                        score = score_candidate_with_learning(candidate, learning).score if learning else 0.0
+                        ranks.append(score)
+
+                        # Track top 3
+                        top_candidates.append({
+                            "name": f"variant_{i+1}",
+                            "total_rank": round(score, 2),
+                            "similarity": round(score * 0.9, 2),  # Approximate
+                            "learning_bias": round(learning_bias, 2),
+                        })
+                    except Exception:
+                        continue
+
+                if not ranks:
+                    return HTTPStatus.OK, {
+                        "success": False,
+                        "parameter_set": {
+                            "level_id": level_id,
+                            "seed_offset": seed_offset,
+                            "learning_bias": learning_bias,
+                            "difficulty_scale": difficulty_scale,
+                            "sample_size": sample_size,
+                        },
+                        "error": "No variants generated",
+                    }
+
+                # Calculate statistics
+                mean_rank = sum(ranks) / len(ranks) if ranks else 0.0
+                variance = sum((r - mean_rank) ** 2 for r in ranks) / len(ranks) if ranks else 0.0
+                stdev_rank = variance ** 0.5
+                top_candidates.sort(key=lambda x: x["total_rank"], reverse=True)
+
+                return HTTPStatus.OK, {
+                    "success": True,
+                    "parameter_set": {
+                        "level_id": level_id,
+                        "seed_offset": seed_offset,
+                        "learning_bias": learning_bias,
+                        "difficulty_scale": difficulty_scale,
+                        "sample_size": sample_size,
+                    },
+                    "ranking_histogram": _build_rank_histogram(ranks),
+                    "summary_stats": {
+                        "mean_rank": round(mean_rank, 2),
+                        "stdev_rank": round(stdev_rank, 2),
+                        "total_variants_analyzed": len(ranks),
+                        "top_3_candidates": top_candidates[:3],
+                    },
+                }
+            except Exception as e:
+                return HTTPStatus.INTERNAL_SERVER_ERROR, {
+                    "success": False,
+                    "error": f"Analysis failed: {str(e)}",
+                }
         if method == "GET" and path == "/api/procedural-generate-level":
             learning_path = resolve_repo_path(Path(query.get("learning_path", ".local/toolkit_state/learning_state.json")), project_root)
             level_number = _as_int(query.get("level_number")) or 1
