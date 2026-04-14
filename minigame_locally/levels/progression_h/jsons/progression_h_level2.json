@@ -1,5 +1,5 @@
 {
-  "id": "h_2",
+  "id": "progression_h_level2",
   "difficultyTier": 4,
   "gridSize": {
     "cols": 4,
@@ -79,7 +79,7 @@
       "levels/standalone/image22_level_editor.json",
       "niveles_workshop/jsons/image22_level_editor.json"
     ],
-    "source_name": "h_2.json",
+    "source_name": "progression_h_level2.json",
     "source_level": "lvl_031_image22_level_editor.json",
     "curated_from": "lvl_031_image22_level_editor.json",
     "curated_for_progression": "progression_h",

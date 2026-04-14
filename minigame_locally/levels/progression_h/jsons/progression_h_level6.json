@@ -1,5 +1,5 @@
 {
-  "id": "h_6",
+  "id": "progression_h_level6",
   "difficultyTier": 6,
   "gridSize": {
     "cols": 6,
@@ -53,5 +53,9 @@
     }
   ],
   "solutionCount": 31,
-  "targetDensity": "MEDIUM"
+  "targetDensity": "MEDIUM",
+  "meta": {
+    "canonical_id": "progression_h_level6",
+    "canonical_file": "progression_h_level6.json"
+  }
 }

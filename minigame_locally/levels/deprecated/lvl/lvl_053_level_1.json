@@ -1,0 +1,79 @@
+{
+  "id": "lvl_053_level_1",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 4,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        1
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_053",
+    "canonical_file": "lvl_053_level_1.json",
+    "canonical_slug": "level_1",
+    "canonicalized_at": "2026-03-12T09:14:58.428Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/level_1.json",
+      "level_toolkit_web/workshop_jsons_game_unique/level_1.json",
+      "levels/level_1.json",
+      "levels/standalone/level_1.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

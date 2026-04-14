@@ -1,5 +1,5 @@
 {
-  "id": "h_8",
+  "id": "progression_h_level8",
   "difficultyTier": 8,
   "gridSize": {
     "cols": 7,
@@ -218,7 +218,7 @@
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
-    "source_name": "h_8.json",
+    "source_name": "progression_h_level8.json",
     "generated_by": "scripts/generate_medium_levels_by_size.mjs",
     "generated_at": "2026-03-27T20:01:08.440Z",
     "source_level": "procedural_medium_7x7_006.json",
@@ -227,7 +227,9 @@
     "curated_slot": 8,
     "curve_summary": "Blocker-led curve: earlier lane pressure, tighter corridors, one deliberate mid-curve spike.",
     "manual_difficulty": "HARD",
-    "curated_at": "2026-04-02T17:00:36.907Z"
+    "curated_at": "2026-04-02T17:00:36.907Z",
+    "canonical_id": "progression_h_level8",
+    "canonical_file": "progression_h_level8.json"
   },
   "validation": {
     "solvable": true,

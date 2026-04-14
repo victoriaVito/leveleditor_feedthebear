@@ -1,0 +1,141 @@
+{
+  "id": "lvl_054_level_10",
+  "difficultyTier": 10,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 0,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 1,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 3,
+        "y": 4
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 0
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "LOW-MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        4
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        3
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 7,
+    "failed_checks": [],
+    "canonical_id": "lvl_054",
+    "canonical_file": "lvl_054_level_10.json",
+    "canonical_slug": "level_10",
+    "canonicalized_at": "2026-03-12T09:14:58.429Z",
+    "previous_files": [
+      "level_toolkit_py/out/progression/level_10.json",
+      "level_toolkit_py/out/progression_bundle/level_10.json",
+      "levels/level_10.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

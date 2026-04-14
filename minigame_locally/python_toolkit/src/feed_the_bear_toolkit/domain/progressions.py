@@ -12,8 +12,9 @@ from feed_the_bear_toolkit.services.config import find_project_root, resolve_rep
 from feed_the_bear_toolkit.services.repo_io import save_text_file
 
 PROGRESSION_LEVEL_NAME_RE = re.compile(
-    r"^progression_([a-z])_level([0-9]+)(?:_needs_review)?\.json$"
+    r"^progression_([a-z])_level([0-9]+)(?:(_needs_review))?\.json$"
 )
+PROGRESSION_NAME_RE = re.compile(r"^progression_([a-z])$")
 
 
 @dataclass(slots=True, frozen=True)
@@ -75,6 +76,40 @@ class ProgressionValidationSummary:
     invalid_levels: int
     missing_levels: int
     entries: list[ProgressionLevelCheck] = field(default_factory=list)
+
+
+def progression_letter_to_number(letter: str) -> int:
+    value = (letter or "").strip().lower()
+    if len(value) != 1 or not ("a" <= value <= "z"):
+        raise ValueError("progression letter must be a single character from a to z")
+    return ord(value) - ord("a") + 1
+
+
+def progression_number_to_letter(number: int) -> str:
+    if not isinstance(number, int) or number < 1 or number > 26:
+        raise ValueError("progression number must be between 1 and 26")
+    return chr(ord("a") + number - 1)
+
+
+def parse_progression_level_file_name(level_file: str) -> tuple[str, int, bool] | None:
+    file_name = Path(level_file).name
+    match = PROGRESSION_LEVEL_NAME_RE.match(file_name)
+    if match is None:
+        return None
+    letter = match.group(1)
+    level_number = int(match.group(2))
+    needs_review = bool(match.group(3))
+    return letter, level_number, needs_review
+
+
+def expected_slot_from_level_file(level_file: str) -> int | None:
+    parsed = parse_progression_level_file_name(level_file)
+    if parsed is None:
+        return None
+    _letter, level_number, needs_review = parsed
+    if needs_review:
+        return None
+    return level_number
 
 
 def _as_int(value: Any) -> int | None:
@@ -266,8 +301,8 @@ def validate_progression_levels(
         if not slot.level_file:
             continue
         file_name = Path(slot.level_file).name
-        match = PROGRESSION_LEVEL_NAME_RE.match(file_name)
-        if match is None:
+        parsed_file = parse_progression_level_file_name(file_name)
+        if parsed_file is None:
             entries.append(
                 ProgressionLevelCheck(
                     slot=slot.slot,
@@ -279,6 +314,42 @@ def validate_progression_levels(
                     load_error=(
                         "invalid level filename; expected "
                         "progression_<letter>_level<n>[_needs_review].json"
+                    ),
+                )
+            )
+            continue
+        file_letter, expected_slot_number, needs_review = parsed_file
+        progression_name_match = PROGRESSION_NAME_RE.match((progression.name or "").strip())
+        if progression_name_match is not None:
+            expected_letter = progression_name_match.group(1)
+            if file_letter != expected_letter:
+                entries.append(
+                    ProgressionLevelCheck(
+                        slot=slot.slot,
+                        level_file=slot.level_file,
+                        exists=True,
+                        valid=False,
+                        error_count=1,
+                        warning_count=0,
+                        load_error=(
+                            f"level file letter mismatch: progression '{expected_letter}' "
+                            f"requires files named progression_{expected_letter}_level<n>.json"
+                        ),
+                    )
+                )
+                continue
+        if not needs_review and slot.slot != expected_slot_number:
+            entries.append(
+                ProgressionLevelCheck(
+                    slot=slot.slot,
+                    level_file=slot.level_file,
+                    exists=True,
+                    valid=False,
+                    error_count=1,
+                    warning_count=0,
+                    load_error=(
+                        f"validated level slot mismatch: slot {slot.slot} must use "
+                        f"progression_{file_letter}_level{slot.slot}.json"
                     ),
                 )
             )

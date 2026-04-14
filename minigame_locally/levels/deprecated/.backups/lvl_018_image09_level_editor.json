@@ -1,0 +1,82 @@
+{
+  "id": "lvl_018_image09_level_editor",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 10,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 0
+    },
+    {
+      "x": 2,
+      "y": 1
+    }
+  ],
+  "solutionCount": 1,
+  "targetDensity": "SINGLE",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "B": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_018",
+    "canonical_file": "lvl_018_image09_level_editor.json",
+    "canonical_slug": "image09_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.422Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image09_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image09_level_editor.json",
+      "levels/image09_level_editor.json",
+      "levels/standalone/image09_level_editor.json",
+      "niveles_workshop/jsons/image09_level_editor.json"
+    ]
+  }
+}

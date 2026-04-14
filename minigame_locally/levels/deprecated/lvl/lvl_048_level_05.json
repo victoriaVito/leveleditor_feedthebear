@@ -1,0 +1,129 @@
+{
+  "id": "lvl_048_level_05",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 0,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 0
+    }
+  ],
+  "solutionCount": 2,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "B": [
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "C": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 9,
+    "failed_checks": [],
+    "canonical_id": "lvl_048",
+    "canonical_file": "lvl_048_level_05.json",
+    "canonical_slug": "level_05",
+    "canonicalized_at": "2026-03-12T09:14:58.427Z",
+    "previous_files": [
+      "level_toolkit_py/out/progression/level_05.json",
+      "level_toolkit_py/out/progression_bundle/level_05.json",
+      "levels/level_05.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

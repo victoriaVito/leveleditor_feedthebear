@@ -1,5 +1,5 @@
 {
-  "id": "i_8",
+  "id": "progression_i_level8",
   "difficultyTier": 8,
   "gridSize": {
     "cols": 7,
@@ -42,5 +42,9 @@
     }
   ],
   "solutionCount": 21,
-  "targetDensity": "HIGH"
+  "targetDensity": "HIGH",
+  "meta": {
+    "canonical_id": "progression_i_level8",
+    "canonical_file": "progression_i_level8.json"
+  }
 }

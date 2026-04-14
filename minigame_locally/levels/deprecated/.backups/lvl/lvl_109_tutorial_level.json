@@ -1,0 +1,170 @@
+{
+  "level": 1,
+  "board_size": 6,
+  "board_width": 6,
+  "board_height": 6,
+  "grid": [
+    [
+      "NODE_A1",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2"
+    ],
+    [
+      "EMPTY",
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        2,
+        5
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        3,
+        0
+      ],
+      "end": [
+        4,
+        5
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        5,
+        1
+      ],
+      "end": [
+        5,
+        5
+      ],
+      "color": "#0891B2"
+    }
+  ],
+  "blockers": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      0,
+      2
+    ]
+  ],
+  "moves": 8,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "tutorial_level.json",
+    "canonical_id": "lvl_109",
+    "canonical_file": "lvl_109_tutorial_level.json",
+    "canonical_slug": "tutorial_level",
+    "canonicalized_at": "2026-03-12T09:14:58.438Z",
+    "previous_files": [
+      "bundles/progression_a/jsons/tutorial_level.json",
+      "bundles/progression_b/jsons/tutorial_level.json",
+      "bundles/progression_c/jsons/tutorial_level.json",
+      "level_toolkit_web/workshop_jsons/tutorial_level.json",
+      "levels/standalone/tutorial_level copia.json",
+      "levels/tutorial_level.json"
+    ]
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "level": 10,
+  "board_size": 6,
+  "board_width": 6,
+  "board_height": 6,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY",
+      "NODE_D2"
+    ],
+    [
+      "EMPTY",
+      "BLOCKED",
+      "NODE_E2",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2"
+    ],
+    [
+      "EMPTY",
+      "NODE_C2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1",
+      "NODE_D1"
+    ],
+    [
+      "NODE_A1",
+      "EMPTY",
+      "NODE_E1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        4,
+        0
+      ],
+      "end": [
+        0,
+        3
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        3,
+        4
+      ],
+      "end": [
+        1,
+        5
+      ],
+      "color": "#10B981"
+    },
+    {
+      "id": "C",
+      "start": [
+        5,
+        3
+      ],
+      "end": [
+        2,
+        1
+      ],
+      "color": "#F59E0B"
+    },
+    {
+      "id": "D",
+      "start": [
+        3,
+        5
+      ],
+      "end": [
+        0,
+        5
+      ],
+      "color": "#EC4899"
+    },
+    {
+      "id": "E",
+      "start": [
+        4,
+        2
+      ],
+      "end": [
+        1,
+        2
+      ],
+      "color": "#8B5CF6"
+    }
+  ],
+  "blockers": [
+    [
+      5,
+      0
+    ],
+    [
+      1,
+      1
+    ]
+  ],
+  "decal": true,
+  "moves": 7,
+  "solution_count": 0,
+  "target_density": "MEDIUM",
+  "difficulty": "MEDIUM",
+  "golden_path": {
+    "A": [
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        3,
+        4
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        3
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "D": [
+      [
+        3,
+        5
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "E": [
+      [
+        4,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": true,
+    "decal_pass": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "x2.json"
+  }
+}

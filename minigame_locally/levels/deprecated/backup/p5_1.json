@@ -1,0 +1,159 @@
+{
+  "id": "p5_1",
+  "difficultyTier": 6,
+  "gridSize": {
+    "cols": 5,
+    "rows": 7
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 6
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 5
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 6
+      },
+      "b": {
+        "x": 3,
+        "y": 6
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 5
+    }
+  ],
+  "solutionCount": 3,
+  "targetDensity": "MEDIUM-HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        1
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        6,
+        4
+      ]
+    ],
+    "C": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "D": [
+      [
+        5,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "E": [
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "p5_1.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

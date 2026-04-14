@@ -1,0 +1,121 @@
+{
+  "level": 6,
+  "board_size": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1"
+    ],
+    [
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ],
+    [
+      "NODE_B2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        1
+      ],
+      "end": [
+        2,
+        2
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "B"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        3,
+        0
+      ],
+      "color": "#0284C7"
+    }
+  ],
+  "blockers": [],
+  "moves": 8,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        3,
+        0
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "source_name": "new_level6_a.json",
+    "cloned_from": "levels/standalone/from_images/image06_level_editor.json",
+    "cloned_from_progression": "progressionA_afterTewak",
+    "cloned_slot": 6,
+    "display_slot": 6,
+    "canonical_id": "lvl_058",
+    "canonical_file": "lvl_058_new_level6_a.json",
+    "canonical_slug": "new_level6_a",
+    "canonicalized_at": "2026-03-12T09:14:58.429Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image06_level_editor.json",
+      "level_toolkit_web/workshop_jsons/new_level6_a.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image06_level_editor.json",
+      "levels/new_level6_a.json",
+      "levels/standalone/image06_level_editor.json",
+      "niveles_workshop/jsons/image06_level_editor.json"
+    ]
+  },
+  "color_manifest": {
+    "#0EA5E9": {
+      "fish_color_id": "fish_blue",
+      "pairs": [
+        "A"
+      ]
+    }
+  }
+}

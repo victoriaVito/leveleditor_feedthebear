@@ -1,0 +1,171 @@
+{
+  "id": "slot2_4",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "green_striped",
+      "a": {
+        "x": 2,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 3,
+        "y": 6
+      },
+      "b": {
+        "x": 6,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow_striped",
+      "a": {
+        "x": 5,
+        "y": 3
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 5,
+        "y": 0
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 5
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 5,
+      "y": 2
+    },
+    {
+      "x": 5,
+      "y": 4
+    },
+    {
+      "x": 5,
+      "y": 1
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 3,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 1
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    "B": [
+      [
+        6,
+        3
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "C": [
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "D": [
+      [
+        2,
+        1
+      ],
+      [
+        0,
+        5
+      ]
+    ],
+    "G": [
+      [
+        5,
+        4
+      ],
+      [
+        4,
+        0
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "slot2_4.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

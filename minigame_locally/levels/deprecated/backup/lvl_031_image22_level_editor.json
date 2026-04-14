@@ -1,0 +1,91 @@
+{
+  "id": "lvl_031_image22_level_editor",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 10,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 0
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 3
+    }
+  ],
+  "solutionCount": 5,
+  "targetDensity": "MEDIUM-HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_031",
+    "canonical_file": "lvl_031_image22_level_editor.json",
+    "canonical_slug": "image22_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.425Z",
+    "previous_files": [
+      "bundles/progression_c/jsons/image22_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image22_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image22_level_editor.json",
+      "levels/image22_level_editor.json",
+      "levels/standalone/image22_level_editor.json",
+      "niveles_workshop/jsons/image22_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

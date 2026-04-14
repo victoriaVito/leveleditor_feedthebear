@@ -1,0 +1,143 @@
+{
+  "id": "p_10_a",
+  "difficultyTier": 10,
+  "gridSize": {
+    "cols": 6,
+    "rows": 7
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 6
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 0,
+        "y": 6
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 1,
+      "y": 6
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 5,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 2,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 3
+    }
+  ],
+  "solutionCount": 6,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        4,
+        1
+      ]
+    ],
+    "B": [
+      [
+        6,
+        5
+      ],
+      [
+        1,
+        4
+      ]
+    ],
+    "C": [
+      [
+        2,
+        3
+      ],
+      [
+        6,
+        0
+      ]
+    ],
+    "D": [
+      [
+        0,
+        5
+      ],
+      [
+        3,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "HARD",
+    "source_name": "p_10_a.json"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

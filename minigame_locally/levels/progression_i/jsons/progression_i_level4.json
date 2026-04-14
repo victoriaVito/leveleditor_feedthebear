@@ -1,5 +1,5 @@
 {
-  "id": "i_4",
+  "id": "progression_i_level4",
   "difficultyTier": 7,
   "gridSize": {
     "cols": 6,
@@ -122,13 +122,15 @@
     "generation_attempts": 1,
     "failed_checks": [],
     "manual_difficulty": "HARD",
-    "source_name": "i_4.json",
+    "source_name": "progression_i_level4.json",
     "source_level": "progression_3_level8.json",
     "curated_from": "progression_3_level8.json",
     "curated_for_progression": "progression_i",
     "curated_slot": 4,
     "curve_summary": "Late-game curve: larger boards, more interacting pairs, and harder endgame compression.",
-    "curated_at": "2026-04-02T17:00:36.916Z"
+    "curated_at": "2026-04-02T17:00:36.916Z",
+    "canonical_id": "progression_i_level4",
+    "canonical_file": "progression_i_level4.json"
   },
   "validation": {
     "solvable": true,

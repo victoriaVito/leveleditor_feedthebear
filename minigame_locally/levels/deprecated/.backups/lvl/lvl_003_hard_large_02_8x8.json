@@ -1,0 +1,221 @@
+{
+  "level": 2,
+  "board_size": 8,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_C2",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        2,
+        3
+      ],
+      "end": [
+        3,
+        6
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        6,
+        3
+      ],
+      "end": [
+        6,
+        7
+      ],
+      "color": "#0284C7"
+    },
+    {
+      "id": "C",
+      "start": [
+        4,
+        1
+      ],
+      "end": [
+        1,
+        0
+      ],
+      "color": "#0891B2"
+    }
+  ],
+  "blockers": [],
+  "moves": 12,
+  "solution_count": 0,
+  "target_density": "LOW",
+  "difficulty": "HARD",
+  "golden_path": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "B": [
+      [
+        6,
+        3
+      ],
+      [
+        6,
+        4
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        6,
+        6
+      ],
+      [
+        6,
+        7
+      ]
+    ],
+    "C": [
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "generated_for_large_board_pack": true,
+    "not_supported_in_current_web_editor": true,
+    "canonical_id": "lvl_003",
+    "canonical_file": "lvl_003_hard_large_02_8x8.json",
+    "canonical_slug": "hard_large_02_8x8",
+    "canonicalized_at": "2026-03-12T09:14:58.420Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/hard_large_02_8x8.json",
+      "level_toolkit_web/workshop_jsons_game_unique/hard_large_02_8x8.json",
+      "levels/hard_large_02_8x8.json",
+      "levels/standalone/hard_large_02_8x8.json"
+    ]
+  }
+}

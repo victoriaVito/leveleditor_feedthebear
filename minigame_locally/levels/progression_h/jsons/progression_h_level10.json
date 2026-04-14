@@ -1,5 +1,5 @@
 {
-  "id": "h_10",
+  "id": "progression_h_level10",
   "difficultyTier": 9,
   "gridSize": {
     "cols": 7,
@@ -179,7 +179,7 @@
       "meaningless_blockers": 7,
       "too_hard": 1
     },
-    "source_name": "h_10.json",
+    "source_name": "progression_h_level10.json",
     "source_level": "procedular_reference_large_001.json",
     "curated_from": "procedular_reference_large_001.json",
     "curated_for_progression": "progression_h",

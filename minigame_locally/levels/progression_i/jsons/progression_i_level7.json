@@ -1,5 +1,5 @@
 {
-  "id": "i_7",
+  "id": "progression_i_level7",
   "difficultyTier": 7,
   "gridSize": {
     "cols": 7,
@@ -53,5 +53,9 @@
     }
   ],
   "solutionCount": 45,
-  "targetDensity": "HIGH"
+  "targetDensity": "HIGH",
+  "meta": {
+    "canonical_id": "progression_i_level7",
+    "canonical_file": "progression_i_level7.json"
+  }
 }

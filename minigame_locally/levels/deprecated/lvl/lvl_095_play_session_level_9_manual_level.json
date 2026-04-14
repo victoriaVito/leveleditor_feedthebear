@@ -1,0 +1,127 @@
+{
+  "id": "lvl_095_play_session_level_9_manual_level",
+  "difficultyTier": 9,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 5,
+        "y": 4
+      },
+      "b": {
+        "x": 4,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 4
+      },
+      "b": {
+        "x": 4,
+        "y": 2
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 2
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 1
+    },
+    {
+      "x": 5,
+      "y": 5
+    },
+    {
+      "x": 4,
+      "y": 3
+    },
+    {
+      "x": 4,
+      "y": 4
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "B": [
+      [
+        4,
+        2
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "C": [
+      [
+        3,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "canonical_id": "lvl_095",
+    "canonical_file": "lvl_095_play_session_level_9_manual_level.json",
+    "canonical_slug": "play_session_level_9_manual_level",
+    "canonicalized_at": "2026-03-12T09:14:58.435Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/play_session_level_9_manual_level.json",
+      "level_toolkit_web/workshop_jsons_game_unique/play_session_level_9_manual_level.json",
+      "levels/play_session_level_9_manual_level.json",
+      "levels/standalone/play_session_level_9_manual_level.json"
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "id": "progression1_level9",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 7,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 4
+      },
+      "b": {
+        "x": 2,
+        "y": 1
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 1,
+        "y": 1
+      },
+      "b": {
+        "x": 4,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 4,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 2
+      }
+    },
+    {
+      "type": "purple_striped",
+      "a": {
+        "x": 4,
+        "y": 1
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 2,
+      "y": 2
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        4,
+        0
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "B": [
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        4
+      ]
+    ],
+    "C": [
+      [
+        0,
+        4
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "D": [
+      [
+        1,
+        4
+      ],
+      [
+        3,
+        3
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "progression1_level9.json",
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM"
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

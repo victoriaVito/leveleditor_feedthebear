@@ -6,6 +6,22 @@ The toolkit can also read legacy/import-time aliases such as `board_width`, `boa
 
 ## 1. Field Reference
 
+### Progression Naming Rule (Validated Levels)
+
+For levels assigned to progression slots and marked as validated (that is, not using `_needs_review`):
+
+- Canonical filename must be `progression_<letter>_level<n>.json`
+- Canonical `id` must match the filename stem exactly: `progression_<letter>_level<n>`
+- Slot index must match `<n>` (for example, `slot: 7` must point to `progression_x_level7.json`)
+- Progression letter must match the progression namespace (`progression_b` only uses `progression_b_level<n>.json`)
+
+Conversion helpers used by toolkit rules:
+
+- `a -> 1`, `b -> 2`, ..., `i -> 9` (letter to ordinal)
+- `1 -> a`, `2 -> b`, ..., `9 -> i` (ordinal to letter)
+
+`_needs_review` files are treated as non-validated candidates and are excluded from strict slot-equals-level enforcement until promoted to validated canonical naming.
+
 ### Grid Structure
 
 | Field | Type | Required | Description | Example |
@@ -309,7 +325,10 @@ These aliases exist so the toolkit can import old files and keep internal play/s
 11. If `decal` is `true`, `validation.decal_required` should also be `true`, and `validation.decal_pass` should be a boolean result rather than `null`.
 12. `meta.failed_checks` should stay an array even when it is empty.
 13. `validation.path_coverage` and `validation.full_path_area` are generator-derived extras and should be treated as optional, not guaranteed.
-14. Canonical active progression files should follow `progression_<letter>_level<n>[_needs_review].json`, and level `id` should match the file stem.
+14. Canonical active progression files should follow `progression_<letter>_level<n>.json` once validated, and level `id` must match the file stem.
+15. For validated progression slots, slot number and filename level number must match (slot `n` -> `progression_<letter>_level<n>.json`).
+16. `_needs_review` files are transitional candidates only and must not be used as validated slot files.
+17. Legacy or historical level folders should live under `levels/deprecated/` and are not part of the canonical progression validation set.
 
 ## 5. Examples
 

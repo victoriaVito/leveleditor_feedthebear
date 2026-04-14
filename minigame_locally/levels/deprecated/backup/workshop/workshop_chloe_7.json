@@ -1,0 +1,117 @@
+{
+  "id": "workshop_chloe_7",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 5
+  },
+  "moves": 6,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 2,
+        "y": 4
+      }
+    },
+    {
+      "type": "purple_striped",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 4,
+        "y": 1
+      }
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "C": [
+      [
+        0,
+        5
+      ],
+      [
+        4,
+        2
+      ]
+    ],
+    "D": [
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        4
+      ]
+    ]
+  },
+  "meta": {
+    "source_name": "workshop_chloe_7.json",
+    "failed_checks": [],
+    "workshop_creator": "chloe",
+    "workshop_index": 7,
+    "workshop_source_file": "levels/progression_c_slot_7.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

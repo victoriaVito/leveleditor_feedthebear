@@ -4,6 +4,13 @@ This file is the canonical index of the project's documentation set. It lists th
 
 For a single resumable project context across chat threads, start with `docs/PROJECT_MASTER_HANDOFF.md`.
 
+## Canonical Level Layout (2026-04-14)
+
+- Active progression levels are canonical under `levels/progression_<letter>/jsons/` and `levels/progression_<letter>/screenshots/`.
+- Validated slot naming is strict: `progression_<letter>_level<n>.json` with matching `id`.
+- Validated slot mapping is strict: slot `n` must reference `progression_<letter>_level<n>.json`.
+- Legacy/historical level trees were moved under `levels/deprecated/` and are excluded from canonical progression validation.
+
 ## External Design Source
 
 - [Notion — Level Design](https://www.notion.so/Level-Design-3195f99a540280d8a972d22c54e12728): Internal design reference with the project's north star ("Lo logré yo"), quality layers (validation → playtest → design quality), difficulty model, progression decisions, and procedural generation philosophy. This page is the authoritative voice for design intent.
@@ -13,6 +20,7 @@ For a single resumable project context across chat threads, start with `docs/PRO
 | File | Purpose |
 |---|---|
 | `docs/README.md` | This index of the documentation system and the current housekeeping checklist. |
+| `docs/PROJECT_CONTEXT_COMPRESSED.md` | Quick-start compressed context for fast onboarding and low-friction cross-thread resume. |
 | `FEED_THE_BEAR_GDD.md` | Canonical high-level game design and source-of-truth model for Original Progressions, Live Ops Mixes, tooling layers, and workflow principles. |
 | `docs/LEVEL_DESIGN.md` | Canonical practical level-design guide with vocabulary, real board examples, difficulty heuristics, common mistakes, workflow steps, and review checklist. |
 | `docs/TOOLKIT_ARCHITECTURE.md` | Architecture map of the monolithic web toolkit, including module boundaries, state objects, and server integration points. |
@@ -60,7 +68,7 @@ For a single resumable project context across chat threads, start with `docs/PRO
 | `docs/agents/CODEX_PORTABLE_WRAPPER.md` | Thin Codex-specific wrapper that reuses the cross-model portable core without forking project rules. |
 | `docs/agents/COPILOT_PORTABLE_WRAPPER.md` | Thin GitHub Copilot-specific wrapper that reuses the cross-model portable core without forking project rules. |
 | `docs/agents/GEMINI_PORTABLE_WRAPPER.md` | Thin Gemini-specific wrapper that reuses the cross-model portable core without forking project rules. |
-| `archive/COPILOT_DOC_COMPLETION_2026-03-24.md` | Coordination prompt used for the 2026-03-24 documentation completion pass (archived). |
+
 
 ## Zapier Integration Docs
 
@@ -87,7 +95,7 @@ All Zapier-related documentation lives in `docs/zapier/`.
 | `changes/procedural.md` | Procedural generation and learning changes. |
 | `changes/documentation.md` | Documentation-specific changes and consolidation outcomes. |
 | `changes/coordination.md` | Coordination and cross-agent process changes. |
-| `changes/archive/memoria_full_2026-03-21.md` | Archived full memory log from before the short-index model. |
+
 
 ## Historical And Archive Docs
 

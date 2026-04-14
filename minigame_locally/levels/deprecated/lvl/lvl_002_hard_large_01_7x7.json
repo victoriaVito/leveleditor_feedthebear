@@ -1,0 +1,152 @@
+{
+  "id": "lvl_002_hard_large_01_7x7",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 7,
+    "rows": 7
+  },
+  "moves": 14,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 2
+      },
+      "b": {
+        "x": 6,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 6
+      },
+      "b": {
+        "x": 0,
+        "y": 1
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 5,
+        "y": 0
+      },
+      "b": {
+        "x": 6,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 6,
+      "y": 5
+    }
+  ],
+  "solutionCount": 4,
+  "targetDensity": "LOW-MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "B": [
+      [
+        6,
+        2
+      ],
+      [
+        6,
+        1
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        5,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ]
+    ],
+    "C": [
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "generated_for_large_board_pack": true,
+    "not_supported_in_current_web_editor": true,
+    "canonical_id": "lvl_002",
+    "canonical_file": "lvl_002_hard_large_01_7x7.json",
+    "canonical_slug": "hard_large_01_7x7",
+    "canonicalized_at": "2026-03-12T09:14:58.419Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/hard_large_01_7x7.json",
+      "level_toolkit_web/workshop_jsons_game_unique/hard_large_01_7x7.json",
+      "levels/hard_large_01_7x7.json",
+      "levels/standalone/hard_large_01_7x7.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

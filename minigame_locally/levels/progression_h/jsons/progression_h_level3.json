@@ -1,5 +1,5 @@
 {
-  "id": "h_3",
+  "id": "progression_h_level3",
   "difficultyTier": 5,
   "gridSize": {
     "cols": 5,
@@ -121,7 +121,7 @@
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
-    "source_name": "h_3.json",
+    "source_name": "progression_h_level3.json",
     "generated_by": "scripts/generate_medium_levels_by_size.mjs",
     "generated_at": "2026-03-27T20:00:15.816Z",
     "source_level": "procedural_medium_5x5_008.json",
@@ -130,7 +130,9 @@
     "curated_slot": 3,
     "curve_summary": "Blocker-led curve: earlier lane pressure, tighter corridors, one deliberate mid-curve spike.",
     "manual_difficulty": "MEDIUM",
-    "curated_at": "2026-04-02T17:00:36.902Z"
+    "curated_at": "2026-04-02T17:00:36.902Z",
+    "canonical_id": "progression_h_level3",
+    "canonical_file": "progression_h_level3.json"
   },
   "validation": {
     "solvable": true,

@@ -1,0 +1,149 @@
+{
+  "id": "lvl_050_level_07",
+  "difficultyTier": 7,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 0,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 2
+      },
+      "b": {
+        "x": 3,
+        "y": 1
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 1,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 4,
+      "y": 4
+    },
+    {
+      "x": 0,
+      "y": 0
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "solutionCount": 2,
+  "targetDensity": "LOW",
+  "goldenPath": {
+    "A": [
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "B": [
+      [
+        3,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "C": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 21,
+    "failed_checks": [],
+    "canonical_id": "lvl_050",
+    "canonical_file": "lvl_050_level_07.json",
+    "canonical_slug": "level_07",
+    "canonicalized_at": "2026-03-12T09:14:58.428Z",
+    "previous_files": [
+      "level_toolkit_py/out/progression/level_07.json",
+      "level_toolkit_py/out/progression_bundle/level_07.json",
+      "levels/level_07.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

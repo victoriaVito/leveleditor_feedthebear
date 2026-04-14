@@ -1,0 +1,120 @@
+{
+  "level": 2,
+  "board_size": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY",
+      "NODE_A2"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY"
+    ],
+    [
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        0,
+        3
+      ],
+      "color": "#0EA5E9",
+      "fish_color_id": "fish_blue",
+      "color_letter": "B"
+    },
+    {
+      "id": "B",
+      "start": [
+        2,
+        0
+      ],
+      "end": [
+        0,
+        1
+      ],
+      "color": "#0284C7"
+    }
+  ],
+  "blockers": [],
+  "moves": 5,
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        2
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        2,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_107",
+    "canonical_file": "lvl_107_susanne_level_4_manager_ok.json",
+    "canonical_slug": "susanne_level_4_manager_ok",
+    "canonicalized_at": "2026-03-12T09:14:58.437Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/new_level4_a.json",
+      "level_toolkit_web/workshop_jsons/new_level5_a.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_3_manager_ok.json",
+      "level_toolkit_web/workshop_jsons/susanne_level_4_manager_ok.json",
+      "level_toolkit_web/workshop_jsons_game_unique/susanne_level_3_manager_ok.json",
+      "levels/new_level4_a.json",
+      "levels/new_level5_a.json",
+      "levels/standalone/susanne_level_3_manager_ok.json",
+      "levels/standalone/susanne_level_4_manager_ok.json",
+      "levels/susanne_level_4_manager_ok.json"
+    ]
+  },
+  "color_manifest": {
+    "#0EA5E9": {
+      "fish_color_id": "fish_blue",
+      "pairs": [
+        "A"
+      ]
+    }
+  }
+}

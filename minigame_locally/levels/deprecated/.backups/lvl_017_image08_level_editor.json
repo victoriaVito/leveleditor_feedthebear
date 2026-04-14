@@ -1,0 +1,74 @@
+{
+  "id": "lvl_017_image08_level_editor",
+  "difficultyTier": 4,
+  "gridSize": {
+    "cols": 4,
+    "rows": 4
+  },
+  "moves": 4,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 3
+      }
+    },
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 1
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_017",
+    "canonical_file": "lvl_017_image08_level_editor.json",
+    "canonical_slug": "image08_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.422Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image08_level_editor.json",
+      "level_toolkit_web/workshop_jsons/new_level2_a.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image08_level_editor.json",
+      "levels/image08_level_editor.json",
+      "levels/new_level2_a.json",
+      "levels/standalone/image08_level_editor.json",
+      "niveles_workshop/jsons/image08_level_editor.json"
+    ]
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "id": "lvl_027_image18_level_editor",
+  "difficultyTier": 8,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 15,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 3
+      },
+      "b": {
+        "x": 4,
+        "y": 3
+      }
+    },
+    {
+      "type": "red_striped",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 4,
+        "y": 0
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 4,
+        "y": 2
+      },
+      "b": {
+        "x": 1,
+        "y": 3
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 1,
+        "y": 4
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 3
+    }
+  ],
+  "solutionCount": 9,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        3,
+        2
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "B": [
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        4
+      ]
+    ],
+    "C": [
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        1
+      ]
+    ],
+    "D": [
+      [
+        0,
+        1
+      ],
+      [
+        4,
+        1
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_027",
+    "canonical_file": "lvl_027_image18_level_editor.json",
+    "canonical_slug": "image18_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.424Z",
+    "previous_files": [
+      "level_toolkit_web/workshop_jsons/image18_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image18_level_editor.json",
+      "levels/image18_level_editor.json",
+      "levels/standalone/image18_level_editor.json",
+      "niveles_workshop/jsons/image18_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

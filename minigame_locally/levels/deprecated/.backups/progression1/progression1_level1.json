@@ -1,0 +1,162 @@
+{
+  "level": 2,
+  "board_size": 5,
+  "board_width": 5,
+  "board_height": 5,
+  "grid": [
+    [
+      "NODE_B2",
+      "NODE_A2",
+      "BLOCKED",
+      "NODE_A1",
+      "NODE_B1"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY",
+      "NODE_C2"
+    ],
+    [
+      "NODE_C1",
+      "NODE_D1",
+      "EMPTY",
+      "EMPTY",
+      "NODE_D2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        0,
+        1
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        4
+      ],
+      "end": [
+        0,
+        0
+      ],
+      "color": "#10B981"
+    },
+    {
+      "id": "C",
+      "start": [
+        4,
+        0
+      ],
+      "end": [
+        3,
+        4
+      ],
+      "color": "#F59E0B"
+    },
+    {
+      "id": "D",
+      "start": [
+        4,
+        1
+      ],
+      "end": [
+        4,
+        4
+      ],
+      "color": "#EC4899"
+    }
+  ],
+  "blockers": [
+    [
+      0,
+      2
+    ]
+  ],
+  "decal": false,
+  "moves": 6,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "B": [
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "C": [
+      [
+        4,
+        0
+      ],
+      [
+        3,
+        4
+      ]
+    ],
+    "D": [
+      [
+        4,
+        1
+      ],
+      [
+        4,
+        4
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "progression1_level2.json"
+  }
+}

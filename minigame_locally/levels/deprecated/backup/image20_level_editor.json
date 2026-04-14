@@ -1,0 +1,34 @@
+{
+  "id": "image20_level_editor",
+  "difficultyTier": 1,
+  "gridSize": { "cols": 5, "rows": 5 },
+  "moves": 0,
+  "pairs": [
+    { "type": "blue", "a": {"x": 0, "y": 1}, "b": {"x": 2, "y": 0} },
+    { "type": "green", "a": {"x": 4, "y": 0}, "b": {"x": 0, "y": 3} },
+    { "type": "orange", "a": {"x": 1, "y": 4}, "b": {"x": 3, "y": 1} }
+  ],
+  "blockers": [
+    {"x": 1, "y": 1}
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "meta": {
+    "source_name": "image20_level_editor.png",
+    "reconstructed_from_image": true,
+    "reconstruction_date": "2026-03-26",
+    "failed_checks": [],
+    "manual_difficulty": "EASY"
+  },
+  "validation": {
+    "solvable": null,
+    "density_match": null,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": null,
+    "no_isolated_pairs": null,
+    "no_late_dead_ends": null,
+    "curve_integrity": null
+  },
+  "decal": false
+}

@@ -1,0 +1,145 @@
+{
+  "level": 2,
+  "board_size": 4,
+  "board_width": 4,
+  "board_height": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "NODE_B1"
+    ],
+    [
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        2,
+        1
+      ],
+      "end": [
+        0,
+        2
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        1,
+        3
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#10B981"
+    }
+  ],
+  "blockers": [
+    [
+      1,
+      2
+    ]
+  ],
+  "decal": false,
+  "moves": 10,
+  "solution_count": 14,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "B": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        3,
+        2
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "generated_from_reference": "lvl_016_image07_level_editor.json",
+    "reference_intent": {
+      "pairs": "more",
+      "blockers": "more",
+      "board": "bigger"
+    },
+    "manual_difficulty": "EASY",
+    "relaxed_reference_generation": false
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "lvl_013_image03_level_editor",
+  "difficultyTier": 3,
+  "gridSize": {
+    "cols": 5,
+    "rows": 5
+  },
+  "moves": 16,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 4
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 1,
+        "y": 0
+      },
+      "b": {
+        "x": 3,
+        "y": 3
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 1,
+        "y": 2
+      },
+      "b": {
+        "x": 2,
+        "y": 2
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 2,
+      "y": 0
+    },
+    {
+      "x": 3,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    }
+  ],
+  "solutionCount": 20,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "C": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_013",
+    "canonical_file": "lvl_013_image03_level_editor.json",
+    "canonical_slug": "image03_level_editor",
+    "canonicalized_at": "2026-03-12T09:14:58.421Z",
+    "previous_files": [
+      "bundles/progression_c/jsons/image03_level_editor.json",
+      "level_toolkit_web/workshop_jsons/image03_level_editor.json",
+      "level_toolkit_web/workshop_jsons_game_unique/image03_level_editor.json",
+      "levels/image03_level_editor.json",
+      "levels/standalone/image03_level_editor.json",
+      "niveles_workshop/jsons/image03_level_editor.json"
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

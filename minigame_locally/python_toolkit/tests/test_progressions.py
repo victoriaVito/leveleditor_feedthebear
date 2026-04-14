@@ -12,9 +12,13 @@ if str(SRC_DIR) not in sys.path:
 
 from feed_the_bear_toolkit.domain.progressions import (
     default_progression_paths,
+    expected_slot_from_level_file,
     load_live_progressions,
     load_manager_metadata,
     load_progression_file,
+    parse_progression_level_file_name,
+    progression_letter_to_number,
+    progression_number_to_letter,
     save_live_progressions,
     save_manager_metadata,
     save_progression_file,
@@ -87,6 +91,58 @@ class ProgressionDomainTests(unittest.TestCase):
         self.assertEqual(summary.checked_levels, 1)
         self.assertEqual(summary.missing_levels, 1)
         self.assertEqual(summary.invalid_levels, 0)
+
+    def test_progression_letter_number_conversion(self) -> None:
+        self.assertEqual(progression_letter_to_number("a"), 1)
+        self.assertEqual(progression_letter_to_number("i"), 9)
+        self.assertEqual(progression_number_to_letter(1), "a")
+        self.assertEqual(progression_number_to_letter(9), "i")
+
+    def test_parse_progression_level_file_name(self) -> None:
+        parsed = parse_progression_level_file_name("levels/progression_b/jsons/progression_b_level2.json")
+        self.assertEqual(parsed, ("b", 2, False))
+        parsed_review = parse_progression_level_file_name("progression_c_level7_needs_review.json")
+        self.assertEqual(parsed_review, ("c", 7, True))
+        self.assertIsNone(parse_progression_level_file_name("legacy_c_7.json"))
+
+    def test_expected_slot_from_level_file(self) -> None:
+        self.assertEqual(expected_slot_from_level_file("levels/progression_b/jsons/progression_b_level2.json"), 2)
+        self.assertIsNone(expected_slot_from_level_file("progression_b_level2_needs_review.json"))
+
+    def test_validate_progression_levels_detects_slot_mismatch_for_validated_name(self) -> None:
+        sample = {
+            "name": "progression_b",
+            "locked": False,
+            "tutorial_level_file": "levels/tutorial_level.json",
+            "slots": [
+                {"slot": 0, "status": "reserved", "label": "TUTORIAL"},
+                {"slot": 5, "level_file": "levels/progression_b/jsons/progression_b_level2.json"},
+            ],
+        }
+        progression = load_progression_file(find_project_root() / "progressions/progression_g.json")
+        progression.name = sample["name"]
+        progression.locked = sample["locked"]
+        progression.tutorial_level_file = sample["tutorial_level_file"]
+        progression.slots = [
+            progression.slots[0],
+            type(progression.slots[0])(slot=5, level_file="levels/progression_b/jsons/progression_b_level2.json"),
+        ]
+        summary = validate_progression_levels(progression, find_project_root())
+        self.assertEqual(summary.checked_levels, 1)
+        self.assertEqual(summary.invalid_levels, 1)
+        self.assertIn("validated level slot mismatch", summary.entries[0].load_error or "")
+
+    def test_validate_progression_levels_detects_progression_letter_mismatch(self) -> None:
+        progression = load_progression_file(find_project_root() / "progressions/progression_g.json")
+        progression.name = "progression_c"
+        progression.slots = [
+            progression.slots[0],
+            type(progression.slots[0])(slot=2, level_file="levels/progression_b/jsons/progression_b_level2.json"),
+        ]
+        summary = validate_progression_levels(progression, find_project_root())
+        self.assertEqual(summary.checked_levels, 1)
+        self.assertEqual(summary.invalid_levels, 1)
+        self.assertIn("level file letter mismatch", summary.entries[0].load_error or "")
 
     def test_progression_round_trip_save(self) -> None:
         progression = load_progression_file(find_project_root() / "progressions/progression_g.json")

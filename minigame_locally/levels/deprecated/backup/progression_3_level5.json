@@ -1,0 +1,134 @@
+{
+  "id": "progression_3_level5",
+  "difficultyTier": 5,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "blue",
+      "a": {
+        "x": 2,
+        "y": 0
+      },
+      "b": {
+        "x": 0,
+        "y": 2
+      }
+    },
+    {
+      "type": "green",
+      "a": {
+        "x": 3,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "blue",
+      "a": {
+        "x": 0,
+        "y": 5
+      },
+      "b": {
+        "x": 2,
+        "y": 5
+      }
+    },
+    {
+      "type": "blue_striped",
+      "a": {
+        "x": 3,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 1,
+      "y": 5
+    },
+    {
+      "x": 1,
+      "y": 4
+    },
+    {
+      "x": 4,
+      "y": 5
+    },
+    {
+      "x": 4,
+      "y": 4
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "MEDIUM",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        0
+      ],
+      [
+        5,
+        2
+      ]
+    ],
+    "D": [
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "MEDIUM",
+    "source_name": "progression_3_level5.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "decal": false
+}

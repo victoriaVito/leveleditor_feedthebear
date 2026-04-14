@@ -1,0 +1,114 @@
+{
+  "level": 1,
+  "board_size": 4,
+  "grid": [
+    [
+      "EMPTY",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_A1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_B2",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A2",
+      "EMPTY"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        1,
+        1
+      ],
+      "end": [
+        3,
+        2
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        1
+      ],
+      "end": [
+        2,
+        1
+      ],
+      "color": "#0284C7"
+    }
+  ],
+  "blockers": [],
+  "solution_count": 20,
+  "target_density": "HIGH",
+  "golden_path": {
+    "A": [
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "B": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": true,
+    "density_match": true,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "canonical_id": "lvl_044",
+    "canonical_file": "lvl_044_level_01.json",
+    "canonical_slug": "level_01",
+    "canonicalized_at": "2026-03-12T09:14:58.427Z",
+    "previous_files": [
+      "level_toolkit_py/out/progression/level_01.json",
+      "level_toolkit_py/out/progression_bundle/level_01.json",
+      "levels/level_01.json"
+    ]
+  }
+}

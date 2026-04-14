@@ -1,0 +1,106 @@
+{
+  "id": "new_level1_a",
+  "difficultyTier": 1,
+  "gridSize": {
+    "cols": 6,
+    "rows": 6
+  },
+  "moves": 8,
+  "pairs": [
+    {
+      "type": "red",
+      "a": {
+        "x": 0,
+        "y": 0
+      },
+      "b": {
+        "x": 5,
+        "y": 2
+      }
+    },
+    {
+      "type": "cyan",
+      "a": {
+        "x": 0,
+        "y": 3
+      },
+      "b": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    {
+      "type": "yellow",
+      "a": {
+        "x": 1,
+        "y": 5
+      },
+      "b": {
+        "x": 5,
+        "y": 5
+      }
+    }
+  ],
+  "blockers": [
+    {
+      "x": 0,
+      "y": 1
+    },
+    {
+      "x": 3,
+      "y": 2
+    },
+    {
+      "x": 2,
+      "y": 0
+    }
+  ],
+  "solutionCount": 0,
+  "targetDensity": "HIGH",
+  "goldenPath": {
+    "A": [
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        5
+      ]
+    ],
+    "B": [
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        5,
+        1
+      ],
+      [
+        5,
+        5
+      ]
+    ]
+  },
+  "meta": {
+    "generation_attempts": 1,
+    "failed_checks": [],
+    "manual_difficulty": "EASY",
+    "source_name": "new_level1_a.json"
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  }
+}

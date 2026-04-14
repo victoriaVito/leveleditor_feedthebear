@@ -1,5 +1,5 @@
 {
-  "id": "i_3",
+  "id": "progression_i_level3",
   "difficultyTier": 6,
   "gridSize": {
     "cols": 6,
@@ -155,7 +155,7 @@
   "meta": {
     "generation_attempts": 1,
     "failed_checks": [],
-    "source_name": "i_3.json",
+    "source_name": "progression_i_level3.json",
     "generated_by": "scripts/generate_medium_levels_by_size.mjs",
     "generated_at": "2026-03-27T20:00:16.518Z",
     "source_level": "procedural_medium_6x6_008.json",
@@ -164,7 +164,9 @@
     "curated_slot": 3,
     "curve_summary": "Late-game curve: larger boards, more interacting pairs, and harder endgame compression.",
     "manual_difficulty": "MEDIUM",
-    "curated_at": "2026-04-02T17:00:36.915Z"
+    "curated_at": "2026-04-02T17:00:36.915Z",
+    "canonical_id": "progression_i_level3",
+    "canonical_file": "progression_i_level3.json"
   },
   "validation": {
     "solvable": true,

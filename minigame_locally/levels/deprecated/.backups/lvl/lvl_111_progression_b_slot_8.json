@@ -1,0 +1,169 @@
+{
+  "level": 1,
+  "board_width": 6,
+  "board_height": 5,
+  "grid": [
+    [
+      "EMPTY",
+      "EMPTY",
+      "NODE_A1",
+      "NODE_B1",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "NODE_D1",
+      "NODE_C1",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "EMPTY",
+      "EMPTY",
+      "BLOCKED",
+      "EMPTY",
+      "EMPTY",
+      "EMPTY"
+    ],
+    [
+      "NODE_A2",
+      "EMPTY",
+      "NODE_D2",
+      "NODE_C2",
+      "EMPTY",
+      "NODE_B2"
+    ]
+  ],
+  "pairs": [
+    {
+      "id": "A",
+      "start": [
+        0,
+        2
+      ],
+      "end": [
+        4,
+        0
+      ],
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "B",
+      "start": [
+        0,
+        3
+      ],
+      "end": [
+        4,
+        5
+      ],
+      "color": "#10B981"
+    },
+    {
+      "id": "C",
+      "start": [
+        1,
+        2
+      ],
+      "end": [
+        4,
+        3
+      ],
+      "color": "#F59E0B"
+    },
+    {
+      "id": "D",
+      "start": [
+        1,
+        1
+      ],
+      "end": [
+        4,
+        2
+      ],
+      "color": "#EC4899"
+    }
+  ],
+  "blockers": [
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      2
+    ]
+  ],
+  "decal": false,
+  "moves": 6,
+  "solution_count": 0,
+  "target_density": "HIGH",
+  "difficulty": "EASY",
+  "golden_path": {
+    "A": [
+      [
+        0,
+        2
+      ],
+      [
+        4,
+        0
+      ]
+    ],
+    "B": [
+      [
+        0,
+        3
+      ],
+      [
+        4,
+        5
+      ]
+    ],
+    "C": [
+      [
+        1,
+        2
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "D": [
+      [
+        1,
+        1
+      ],
+      [
+        4,
+        2
+      ]
+    ]
+  },
+  "validation": {
+    "solvable": false,
+    "density_match": false,
+    "decal_required": false,
+    "decal_pass": null,
+    "early_mistake_detection": true,
+    "no_isolated_pairs": true,
+    "no_late_dead_ends": true,
+    "curve_integrity": true
+  },
+  "meta": {
+    "imported_from_legacy": true,
+    "source_name": "progressionB_level6_hard",
+    "failed_checks": []
+  }
+}
